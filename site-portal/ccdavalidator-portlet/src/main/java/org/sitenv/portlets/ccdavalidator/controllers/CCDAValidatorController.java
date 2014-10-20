@@ -18,6 +18,7 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.BasicResponseHandler;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 import org.sitenv.common.utilities.controller.BaseController;
 import org.sitenv.common.statistics.manager.StatisticsManager;
@@ -243,8 +244,16 @@ public class CCDAValidatorController extends BaseController {
 		response.setRenderParameter("javax.portlet.action", "uploadCCDAReconciled");
 		MultipartFile file = request.getFile("file");
 		
-		fileJson = new JSONArray();
+		try {
+			fileJson = new JSONArray("[]");
+			JSONResponseBody = new JSONObject("{}");
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
+		
+		/*
 		
 		try {
 
@@ -315,6 +324,7 @@ public class CCDAValidatorController extends BaseController {
 			statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true);
 			throw new RuntimeException(e);
 		}
+		*/
 	}
 	
 	
@@ -349,7 +359,6 @@ public class CCDAValidatorController extends BaseController {
 				
 				
 				// handle the data
-				
 				ccda_type_value = request.getParameter("ccda_type_val");
 				
 				//System.out.println(ccda_type_value);

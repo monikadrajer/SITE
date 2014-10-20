@@ -1085,8 +1085,10 @@ function errorHandler (request, status, error) {
 }
 
 
-function CCDAMultiFileValidation(formSelector)
+function CCDAMultiFileValidationReconciled()
 {
+	
+	var formSelector = "#CCDAReconciledValidationForm";
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	
 	
@@ -1112,23 +1114,14 @@ function CCDAMultiFileValidation(formSelector)
         type: 'POST',
         
         success: function(data){
+        	
+        	alert("This has been a call to ")
+        	
         	var results = JSON.parse(data);
-        	if(results.IsSuccess)
-        	{
-        		try{
-        			alert("Upload Successful");
-        		}
-        		catch(exp)
-        		{
-        			alert('javascript crashed, please report this issue:'+ err.message);
-        		}
-        		$.unblockUI();
-        	}
-        	else
-        	{
-        		alert(results.Message);
-        		$.unblockUI();
-        	}
+        	
+        	alert(results);
+        	$.unblockUI();
+        	
         },
         error: errorHandler,
         // Form data
@@ -1142,10 +1135,73 @@ function CCDAMultiFileValidation(formSelector)
 
 
 
+function CCDAMultiFileValidationReference()
+{
+	
+	var formSelector = "#CCDAReferenceValidationForm";
+	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+	
+	
+	$.blockUI({
+		css: { 
+	        border: 'none', 
+	        padding: '15px', 
+	        backgroundColor: '#000', 
+	        '-webkit-border-radius': '10px', 
+	        '-moz-border-radius': '10px', 
+	        opacity: .5, 
+	        color: '#fff' 
+    	},
+    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+		          '<div class="lbl">Validating...</div></div>'
+		
+	});
+	
+	var formData = $(formSelector).serializefiles();
+	var serviceUrl = $(formSelector).attr("action");
+	$.ajax({
+        url: serviceUrl,
+        type: 'POST',
+        
+        success: function(data){
+        	
+        	alert("This has been a call to ")
+        	
+        	var results = JSON.parse(data);
+        	
+        	alert(results);
+        	$.unblockUI();
+        	
+        },
+        error: errorHandler,
+        // Form data
+        data: formData,
+        //Options to tell JQuery not to process data or worry about content-type
+        cache: false,
+        contentType: false,
+        processData: false
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
 $(function() {
 	
 	$('#CCDAReconciledFormSubmit').bind('click', function(e, data) {
-		CCDAMultiFileValidation("#CCDAReconciledValidationForm");
+		CCDAMultiFileValidationReconciled();
+	});
+	
+	
+	$('#CCDAReferenceFormSubmit').bind('click', function(e, data) {
+		CCDAMultiFileValidationReference();
 	});
 	
 });

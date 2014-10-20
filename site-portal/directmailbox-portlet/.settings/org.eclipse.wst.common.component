@@ -14,4 +14,3 @@
         <property name="context-root" value="site-portal-directmailbox-portlet"/>
     </wb-module>
 </project-modules>
-
