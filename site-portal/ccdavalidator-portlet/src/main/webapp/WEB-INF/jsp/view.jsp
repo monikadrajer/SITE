@@ -277,7 +277,7 @@
 											<label for="CCDAReconciledCEHRTFileupload">Select a CEHRT Generated C-CDA File to Validate:</label><br/>
 											<span class="btn btn-success fileinput-button" id="CCDAReconciledCEHRTFileupload-btn"> <i
 													class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a C-CDA File...</span>
-													<input id="CCDAReconciledCEHRTFileupload" type="file" name="CEHRTfile"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
+													<input id="CCDAReconciledCEHRTFileupload" type="file" name="CEHRTFile"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
 											</span>
 											<div id="CCDACEHRTReconciledFiles"></div>
 											
@@ -289,7 +289,7 @@
 											<label for="CCDAReconciledReconciliationFileupload">Select a Reconciliation Input C-CDA File to Validate:</label><br/>
 											<span class="btn btn-success fileinput-button" id="CCDAReconciledReconciliationFileupload-btn"> <i
 													class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a C-CDA File...</span>
-													<input id="CCDAReconciledReconciliationFileupload" type="file" name="Reconciliationfile"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
+													<input id="CCDAReconciledReconciliationFileupload" type="file" name="ReconciliationFile"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
 											</span>
 											<div id="CCDAReconciliationReconciledFiles"></div>
 											
@@ -369,7 +369,7 @@
 											<label for="CCDAReferenceCEHRTFileupload">Select a CEHRT Generated C-CDA File to Validate:</label><br/>
 											<span class="btn btn-success fileinput-button" id="CCDAReferenceCEHRTFileupload-btn"> <i
 													class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a C-CDA File...</span>
-													<input id="CCDAReferenceCEHRTFileupload" type="file" name="CEHRTfile"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
+													<input id="CCDAReferenceCEHRTFileupload" type="file" name="CEHRTFile"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
 											</span>
 											<div id="CCDACEHRTReferenceFiles"></div>
 											

@@ -243,12 +243,14 @@ public class CCDAValidatorController extends BaseController {
 		
 		response.setRenderParameter("javax.portlet.action", "uploadCCDAReconciled");
 		MultipartFile file = request.getFile("file");
+		MultipartFile CEHRTFile = request.getFile("CEHRTFile");
+		MultipartFile reconciliationFile = request.getFile("ReconciliationFile");
+		
 		
 		try {
 			fileJson = new JSONArray("[]");
 			JSONResponseBody = new JSONObject("{}");
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -345,7 +347,18 @@ public class CCDAValidatorController extends BaseController {
 		
 		response.setRenderParameter("javax.portlet.action", "uploadCCDAReference");
 		MultipartFile file = request.getFile("file");
+		MultipartFile CEHRTFile = request.getFile("CEHRTFile");
 		
+		
+		try {
+			fileJson = new JSONArray("[]");
+			JSONResponseBody = new JSONObject("{}");
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		
+		/*
 		fileJson = new JSONArray();
 		
 		
@@ -418,6 +431,7 @@ public class CCDAValidatorController extends BaseController {
 			statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true);
 			throw new RuntimeException(e);
 		}
+		*/
 	}
 	
 	
