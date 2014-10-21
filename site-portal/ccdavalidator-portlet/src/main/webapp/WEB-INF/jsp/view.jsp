@@ -268,6 +268,8 @@
 													<input id="CCDAReconciledFileupload" type="file" name="file"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
 											</span>
 											<div id="CCDAReconciledFiles"></div>
+											<br />
+											<br />
 											
 										</div>
 									</div>
@@ -280,6 +282,8 @@
 													<input id="CCDAReconciledCEHRTFileupload" type="file" name="CEHRTFile"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
 											</span>
 											<div id="CCDACEHRTReconciledFiles"></div>
+											<br />
+											<br />
 											
 										</div>
 									</div>			
@@ -359,6 +363,8 @@
 													<input id="CCDAReferenceFileupload" type="file" name="file"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
 											</span>
 											<div id="CCDAReferenceFiles"></div>
+											<br />
+											<br />
 											
 										</div>
 									</div>

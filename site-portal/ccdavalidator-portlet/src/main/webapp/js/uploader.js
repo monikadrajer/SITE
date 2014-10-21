@@ -1115,11 +1115,9 @@ function CCDAMultiFileValidationReconciled()
         
         success: function(data){
         	
-        	alert("This has been a call to ")
+        	alert("This has been a call to the Reconciled validator");
         	
         	var results = JSON.parse(data);
-        	
-        	alert(results);
         	$.unblockUI();
         	
         },
@@ -1165,11 +1163,8 @@ function CCDAMultiFileValidationReference()
         
         success: function(data){
         	
-        	alert("This has been a call to ")
-        	
+        	alert("This has been a call to the Reference validator");
         	var results = JSON.parse(data);
-        	
-        	alert(results);
         	$.unblockUI();
         	
         },
@@ -1199,15 +1194,42 @@ $(function() {
 		CCDAMultiFileValidationReconciled();
 	});
 	
+	$('#CCDAReconciledCEHRTFileupload').bind("change", function(){
+		
+		$('#CCDACEHRTReconciledFiles').empty();
+		var filePath = $('#CCDAReconciledCEHRTFileupload').val();
+		fileName = filePath.replace(/^.*[\\\/]/, '');
+		
+		context = $('<div/>').appendTo('#CCDACEHRTReconciledFiles');
+		var node = $('<p/>').append($('<span/>').text(fileName));
+		node.appendTo(context);
 	
-	$('#CCDAReferenceFormSubmit').bind('click', function(e, data) {
-		CCDAMultiFileValidationReference();
 	});
 	
 });
 
 
 
+$(function() {
+	
+	$('#CCDAReferenceFormSubmit').bind('click', function(e, data) {
+		CCDAMultiFileValidationReference();
+	});
+
+	
+	$('#CCDAReconciledCEHRTFileupload').bind("change", function(){
+		
+		$('#CCDACEHRTReconciledFiles').empty();
+		var filePath = $('#CCDAReconciledCEHRTFileupload').val();
+		fileName = filePath.replace(/^.*[\\\/]/, '');
+		
+		context = $('<div/>').appendTo('#CCDACEHRTReconciledFiles');
+		var node = $('<p/>').append($('<span/>').text(fileName));
+		node.appendTo(context);
+	
+	});
+	
+});
 
 
 
