@@ -661,7 +661,7 @@ $(function() {
 			{
 				$('#CCDA2ValidationForm .formError').show(0);
 				
-				$('#CCDA2ValidationForm .fileuploadformError').prependTo('#ccdauploaderrorlock');
+				$('#CCDA2ValidationForm .fileuploadformError').prependTo('#CCDA2uploaderrorlock');
 			}
 			
 			
@@ -992,7 +992,7 @@ $(function() {
 			{
 				$('#CCDASuperValidationForm .formError').hide(0);
 				//switch back to tab1.
-				$( "#ValidationResult [href='#tabs-1']").trigger( "click" );
+				$("#ValidationResult [href='#tabs-1']").trigger( "click" );
 				
 				BlockPortletUI();
 				
@@ -1006,14 +1006,13 @@ $(function() {
 				
 				data.submit();
 				
-
 				window.lastFilesUploaded = data.files;
 			}
 			else
 			{
 				$('#CCDASuperValidationForm .formError').show(0);
 				
-				$('#CCDASuperValidationForm .fileuploadformError').prependTo('#ccdauploaderrorlock');
+				$('#CCDASuperValidationForm .fileuploadformError').prependTo('#CCDASuperUploaderrorlock');
 			}
 			
 			
@@ -1136,56 +1135,64 @@ function CCDAMultiFileValidationReconciled()
 function CCDAMultiFileValidationReference()
 {
 	
+	
 	var formSelector = "#CCDAReferenceValidationForm";
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	
 	
-	$.blockUI({
-		css: { 
-	        border: 'none', 
-	        padding: '15px', 
-	        backgroundColor: '#000', 
-	        '-webkit-border-radius': '10px', 
-	        '-moz-border-radius': '10px', 
-	        opacity: .5, 
-	        color: '#fff' 
-    	},
-    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
-		          '<div class="lbl">Validating...</div></div>'
-		
-	});
+	var jform = $(formSelector);
+	jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
+	//jform.validationEngine('hideAll');
 	
-	var formData = $(formSelector).serializefiles();
-	var serviceUrl = $(formSelector).attr("action");
-	$.ajax({
-        url: serviceUrl,
-        type: 'POST',
-        
-        success: function(data){
-        	
-        	alert("This has been a call to the Reference validator");
-        	var results = JSON.parse(data);
-        	$.unblockUI();
-        	
-        },
-        error: errorHandler,
-        // Form data
-        data: formData,
-        //Options to tell JQuery not to process data or worry about content-type
-        cache: false,
-        contentType: false,
-        processData: false
-    });
+	if(jform.validationEngine('validate'))
+	{
+		$('#CCDAReferenceValidationForm .formError').hide(0);
+		
+		$.blockUI({
+			css: { 
+		        border: 'none', 
+		        padding: '15px', 
+		        backgroundColor: '#000', 
+		        '-webkit-border-radius': '10px', 
+		        '-moz-border-radius': '10px', 
+		        opacity: .5, 
+		        color: '#fff' 
+	    	},
+	    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+			          '<div class="lbl">Validating...</div></div>'
+			
+		});
+		
+		var formData = $(formSelector).serializefiles();
+		var serviceUrl = $(formSelector).attr("action");
+		$.ajax({
+	        url: serviceUrl,
+	        type: 'POST',
+	        
+	        success: function(data){
+	        	
+	        	alert("This has been a call to the Reference validator");
+	        	var results = JSON.parse(data);
+	        	$.unblockUI();
+	        	
+	        },
+	        error: errorHandler,
+	        // Form data
+	        data: formData,
+	        //Options to tell JQuery not to process data or worry about content-type
+	        cache: false,
+	        contentType: false,
+	        processData: false
+	    });
+	}
+	else
+	{
+		$('#CCDAReferenceValidationForm .formError').show(0);
+			
+		$('#CCDAReferenceValidationForm .fileuploadformError').prependTo('#CCDAReferenceUploaderrorlock');
+	}
 }
-
-
-
-
-
-
-
-
-
+	
 
 
 $(function() {
@@ -1217,13 +1224,13 @@ $(function() {
 	});
 
 	
-	$('#CCDAReconciledCEHRTFileupload').bind("change", function(){
+	$('#CCDAReferenceCEHRTFileupload').bind("change", function(){
 		
-		$('#CCDACEHRTReconciledFiles').empty();
-		var filePath = $('#CCDAReconciledCEHRTFileupload').val();
+		$('#CCDACEHRTReferenceFiles').empty();
+		var filePath = $('#CCDAReferenceCEHRTFileupload').val();
 		fileName = filePath.replace(/^.*[\\\/]/, '');
 		
-		context = $('<div/>').appendTo('#CCDACEHRTReconciledFiles');
+		context = $('<div/>').appendTo('#CCDACEHRTReferenceFiles');
 		var node = $('<p/>').append($('<span/>').text(fileName));
 		node.appendTo(context);
 	

@@ -22,6 +22,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.sitenv.common.utilities.controller.BaseController;
 import org.sitenv.common.statistics.manager.StatisticsManager;
+import org.sitenv.portlets.ccdavalidator.JSONResponseBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,8 +37,12 @@ import org.springframework.web.portlet.multipart.MultipartActionRequest;
 @RequestMapping("VIEW")
 public class CCDAValidatorController extends BaseController {
 
-	private JSONArray fileJson;
-	private JSONObject JSONResponseBody;
+	//private JSONArray fileJson;
+	//private JSONObject JSONResponseBody;
+	
+	@Autowired
+	private JSONResponseBean responseJSON;
+	
 	
 	@Autowired
 	private StatisticsManager statisticsManager;
@@ -58,8 +63,8 @@ public class CCDAValidatorController extends BaseController {
 		MultipartFile file = request.getFile("file");
 		
 		System.out.println("1.1");
-		fileJson = new JSONArray();
-		
+		responseJSON.setFileJson(new JSONArray());
+		JSONArray fileJson = responseJSON.getFileJson();
 		
 		try {
 
@@ -119,7 +124,7 @@ public class CCDAValidatorController extends BaseController {
 					hasWarnings = report.getBoolean("hasWarnings");
 					hasInfo = report.getBoolean("hasInfo");
 					
-					JSONResponseBody = jsonbody;
+					responseJSON.setJSONResponseBody(jsonbody);
 					
 					statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false);
 					
@@ -153,8 +158,9 @@ public class CCDAValidatorController extends BaseController {
 		response.setRenderParameter("javax.portlet.action", "uploadCCDA2.0");
 		MultipartFile file = request.getFile("file");
 		
-		fileJson = new JSONArray();
-		
+		//fileJson = new JSONArray();
+		responseJSON.setFileJson(new JSONArray());
+		JSONArray fileJson = responseJSON.getFileJson();
 		
 		try {
 
@@ -216,7 +222,7 @@ public class CCDAValidatorController extends BaseController {
 					hasWarnings = report.getBoolean("hasWarnings");
 					hasInfo = report.getBoolean("hasInfo");
 					
-					JSONResponseBody = jsonbody;
+					responseJSON.setJSONResponseBody(jsonbody);
 					
 					statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false);
 				}				
@@ -248,8 +254,8 @@ public class CCDAValidatorController extends BaseController {
 		
 		
 		try {
-			fileJson = new JSONArray("[]");
-			JSONResponseBody = new JSONObject("{}");
+			responseJSON.setFileJson(new JSONArray("[]"));
+			responseJSON.setJSONResponseBody(new JSONObject("{}"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -351,8 +357,8 @@ public class CCDAValidatorController extends BaseController {
 		
 		
 		try {
-			fileJson = new JSONArray("[]");
-			JSONResponseBody = new JSONObject("{}");
+			responseJSON.setFileJson(new JSONArray("[]"));
+			responseJSON.setJSONResponseBody(new JSONObject("{}"));
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
@@ -453,8 +459,8 @@ public class CCDAValidatorController extends BaseController {
 		response.setRenderParameter("javax.portlet.action", "uploadCCDASuper");
 		MultipartFile file = request.getFile("file");
 		
-		fileJson = new JSONArray();
-		
+		responseJSON.setFileJson(new JSONArray());
+		JSONArray fileJson = responseJSON.getFileJson();
 		
 		try {
 
@@ -516,7 +522,7 @@ public class CCDAValidatorController extends BaseController {
 					hasWarnings = report.getBoolean("hasWarnings");
 					hasInfo = report.getBoolean("hasInfo");
 					
-					JSONResponseBody = jsonbody;
+					responseJSON.setJSONResponseBody(jsonbody);
 					
 					statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false);
 				}				
@@ -534,9 +540,11 @@ public class CCDAValidatorController extends BaseController {
 			throws IOException {
 		Map map = new HashMap();
 		
-		map.put("files", fileJson);
+		map.put("files", responseJSON.getFileJson());
+		map.put("body", responseJSON.getJSONResponseBody());
 		
-		map.put("body", JSONResponseBody);
+		//map.put("files", fileJson);
+		//map.put("body", JSONResponseBody);
 		
 		return new ModelAndView("cCDAValidatorJsonView", map);
 	}
@@ -547,9 +555,8 @@ public class CCDAValidatorController extends BaseController {
 			throws IOException {
 		Map map = new HashMap();
 		
-		map.put("files", fileJson);
-		
-		map.put("body", JSONResponseBody);
+		map.put("files", responseJSON.getFileJson());
+		map.put("body", responseJSON.getJSONResponseBody());
 		
 		return new ModelAndView("cCDAValidatorJsonView", map);
 	}
@@ -560,9 +567,8 @@ public class CCDAValidatorController extends BaseController {
 			throws IOException {
 		Map map = new HashMap();
 		
-		map.put("files", fileJson);
-		
-		map.put("body", JSONResponseBody);
+		map.put("files", responseJSON.getFileJson());
+		map.put("body", responseJSON.getJSONResponseBody());
 		
 		return new ModelAndView("cCDAValidatorJsonView", map);
 	}
@@ -573,9 +579,8 @@ public class CCDAValidatorController extends BaseController {
 			throws IOException {
 		Map map = new HashMap();
 		
-		map.put("files", fileJson);
-		
-		map.put("body", JSONResponseBody);
+		map.put("files", responseJSON.getFileJson());
+		map.put("body", responseJSON.getJSONResponseBody());
 		
 		return new ModelAndView("cCDAValidatorJsonView", map);
 	}
@@ -586,9 +591,8 @@ public class CCDAValidatorController extends BaseController {
 			throws IOException {
 		Map map = new HashMap();
 		
-		map.put("files", fileJson);
-		
-		map.put("body", JSONResponseBody);
+		map.put("files", responseJSON.getFileJson());
+		map.put("body", responseJSON.getJSONResponseBody());
 		
 		return new ModelAndView("cCDAValidatorJsonView", map);
 	}
