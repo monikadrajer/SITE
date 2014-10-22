@@ -22,8 +22,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.sitenv.common.utilities.controller.BaseController;
 import org.sitenv.common.statistics.manager.StatisticsManager;
-import org.sitenv.portlets.ccdavalidator.JSONResponseBean;
+import org.sitenv.portlets.ccdavalidator.JSONResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,7 +42,7 @@ public class CCDAValidatorController extends BaseController {
 	//private JSONObject JSONResponseBody;
 	
 	@Autowired
-	private JSONResponseBean responseJSON;
+	private JSONResponse responseJSON;
 	
 	
 	@Autowired
@@ -64,7 +65,6 @@ public class CCDAValidatorController extends BaseController {
 		
 		System.out.println("1.1");
 		responseJSON.setFileJson(new JSONArray());
-		JSONArray fileJson = responseJSON.getFileJson();
 		
 		try {
 
@@ -72,13 +72,10 @@ public class CCDAValidatorController extends BaseController {
 				jsono.put("name", file.getOriginalFilename());
 				jsono.put("size", file.getSize());
 				
-				fileJson.put(jsono);
-				
-				// handle the data
+				responseJSON.getFileJson().put(jsono);
 				
 				ccda_type_value = request.getParameter("ccda_type_val");
 				
-				//System.out.println(ccda_type_value);
 				
 				if(ccda_type_value == null)
 				{
@@ -102,6 +99,7 @@ public class CCDAValidatorController extends BaseController {
 				post.setEntity(entity);
 				
 				HttpResponse relayResponse = client.execute(post);
+				
 				//create the handler
 				ResponseHandler<String> handler = new BasicResponseHandler();
 				
@@ -127,7 +125,6 @@ public class CCDAValidatorController extends BaseController {
 					responseJSON.setJSONResponseBody(jsonbody);
 					
 					statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false);
-					
 					
 				}				
 				
@@ -160,7 +157,6 @@ public class CCDAValidatorController extends BaseController {
 		
 		//fileJson = new JSONArray();
 		responseJSON.setFileJson(new JSONArray());
-		JSONArray fileJson = responseJSON.getFileJson();
 		
 		try {
 
@@ -168,7 +164,7 @@ public class CCDAValidatorController extends BaseController {
 				jsono.put("name", file.getOriginalFilename());
 				jsono.put("size", file.getSize());
 				
-				fileJson.put(jsono);
+				responseJSON.getFileJson().put(jsono);
 				
 				// handle the data
 				
@@ -460,7 +456,6 @@ public class CCDAValidatorController extends BaseController {
 		MultipartFile file = request.getFile("file");
 		
 		responseJSON.setFileJson(new JSONArray());
-		JSONArray fileJson = responseJSON.getFileJson();
 		
 		try {
 
@@ -468,7 +463,7 @@ public class CCDAValidatorController extends BaseController {
 				jsono.put("name", file.getOriginalFilename());
 				jsono.put("size", file.getSize());
 				
-				fileJson.put(jsono);
+				responseJSON.getFileJson().put(jsono);
 				
 				// handle the data
 				
@@ -542,7 +537,8 @@ public class CCDAValidatorController extends BaseController {
 		
 		map.put("files", responseJSON.getFileJson());
 		map.put("body", responseJSON.getJSONResponseBody());
-		
+		System.out.println("processCCDA1_1");
+		System.out.println(responseJSON.getJSONResponseBody().toString());
 		//map.put("files", fileJson);
 		//map.put("body", JSONResponseBody);
 		
