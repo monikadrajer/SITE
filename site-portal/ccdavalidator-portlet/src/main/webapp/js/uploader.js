@@ -1084,7 +1084,7 @@ function errorHandler (request, status, error) {
 }
 
 
-function CCDAMultiFileValidationReconciled()
+function CCDAMultiFileValidationReconciledSubmit()
 {
 	
 	var formSelector = "#CCDAReconciledValidationForm";
@@ -1132,7 +1132,7 @@ function CCDAMultiFileValidationReconciled()
 
 
 
-function CCDAMultiFileValidationReference()
+function CCDAMultiFileValidationReferenceSubmit()
 {
 	
 	
@@ -1198,8 +1198,25 @@ function CCDAMultiFileValidationReference()
 $(function() {
 	
 	$('#CCDAReconciledFormSubmit').bind('click', function(e, data) {
-		CCDAMultiFileValidationReconciled();
+		CCDAMultiFileValidationReconciledSubmit();
 	});
+	
+	
+	
+	$('#CCDAReconciledFileupload').bind("change", function(){
+		
+		$('#CCDAReconciledFiles').empty();
+		var filePath = $('#CCDAReconciledFileupload').val();
+		fileName = filePath.replace(/^.*[\\\/]/, '');
+		
+		context = $('<div/>').appendTo('#CCDAReconciledFiles');
+		var node = $('<p/>').append($('<span/>').text(fileName));
+		node.appendTo(context);
+	
+	});
+	
+	
+	
 	
 	$('#CCDAReconciledCEHRTFileupload').bind("change", function(){
 		
@@ -1213,6 +1230,21 @@ $(function() {
 	
 	});
 	
+	
+	$('#CCDAReconciledReconciliationFileupload').bind("change", function(){
+		
+		$('#CCDAReconciliationReconciledFiles').empty();
+		var filePath = $('#CCDAReconciledReconciliationFileupload').val();
+		fileName = filePath.replace(/^.*[\\\/]/, '');
+		
+		context = $('<div/>').appendTo('#CCDAReconciliationReconciledFiles');
+		var node = $('<p/>').append($('<span/>').text(fileName));
+		node.appendTo(context);
+	
+	});
+	
+	
+	
 });
 
 
@@ -1220,9 +1252,23 @@ $(function() {
 $(function() {
 	
 	$('#CCDAReferenceFormSubmit').bind('click', function(e, data) {
-		CCDAMultiFileValidationReference();
+		CCDAMultiFileValidationReferenceSubmit();
 	});
 
+	
+	$('#CCDAReferenceFileupload').bind("change", function(){
+		
+		$('#CCDAReferenceFiles').empty();
+		var filePath = $('#CCDAReferenceFileupload').val();
+		fileName = filePath.replace(/^.*[\\\/]/, '');
+		
+		context = $('<div/>').appendTo('#CCDAReferenceFiles');
+		var node = $('<p/>').append($('<span/>').text(fileName));
+		node.appendTo(context);
+	
+	});
+	
+	
 	
 	$('#CCDAReferenceCEHRTFileupload').bind("change", function(){
 		
