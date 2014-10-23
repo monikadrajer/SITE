@@ -202,15 +202,21 @@
 	            },
 	            "maxCCDAFileSize":{
 	            	"func": function(field, rules, i, options) {
-	            		
-	            		var uploadedFile = field[0].files[0];
-	            		
-	            		if (uploadedFile && field.val() && uploadedFile.size > (3*1024*1024)) {
-	            			return false;
-	                    }
-	                    else {
+	            		if ((bowser.msie && bower.version <= 9)) { 
+	                        
 	                        return true;
-	                    }	            		
+	                       } else {
+			                        
+			            		
+			            		var uploadedFile = field[0].files[0];
+			            		
+			            		if (uploadedFile && field.val() && uploadedFile.size > (3*1024*1024)) {
+			            			return false;
+			                    }
+			                    else {
+			                        return true;
+			                    }	
+	                       }
 	            		//var uploadedFile = $('#fileupload')[0].files[0];
 	            		
 	            		//if (uploadedFile && $('#fileupload').val() && uploadedFile.size > (3*1024*1024)) {

@@ -1254,7 +1254,6 @@ $(function() {
 	$('#CCDAReferenceFormSubmit').bind('click', function(e, data) {
 		CCDAMultiFileValidationReferenceSubmit();
 	});
-
 	
 	$('#CCDAReferenceFileupload').bind("change", function(){
 		
