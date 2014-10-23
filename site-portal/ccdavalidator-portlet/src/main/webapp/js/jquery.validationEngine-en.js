@@ -202,7 +202,7 @@
 	            },
 	            "maxCCDAFileSize":{
 	            	"func": function(field, rules, i, options) {
-	            		if ((bowser.msie && bower.version <= 9)) { 
+	            		if ((bowser.msie && bower.version <= 9)) {
 	                        
 	                        return true;
 	                       } else {
@@ -215,7 +215,7 @@
 			                    }
 			                    else {
 			                        return true;
-			                    }	
+			                    }
 	                       }
 	            		//var uploadedFile = $('#fileupload')[0].files[0];
 	            		
