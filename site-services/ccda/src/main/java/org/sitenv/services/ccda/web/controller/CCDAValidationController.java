@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 @RestController
-@RequestMapping(value="/CCDA/", produces=MediaType.TEXT_XML_VALUE)
+@RequestMapping(value="", produces=MediaType.TEXT_XML_VALUE)
 public class CCDAValidationController 
 {	
 

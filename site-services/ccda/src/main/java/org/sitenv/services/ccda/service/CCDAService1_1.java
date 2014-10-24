@@ -65,7 +65,7 @@ public class CCDAService1_1 extends BaseCCDAService {
         typeValMap = Collections.unmodifiableMap(tpMap);
     }
 	
-
+    
 	public CCDAService1_1() throws IOException {}
 	
 	
