@@ -38,8 +38,6 @@ import org.springframework.web.portlet.multipart.MultipartActionRequest;
 @RequestMapping("VIEW")
 public class CCDAValidatorController extends BaseController {
 
-	//private JSONArray fileJson;
-	//private JSONObject JSONResponseBody;
 	
 	@Autowired
 	private JSONResponse responseJSON;
@@ -85,7 +83,7 @@ public class CCDAValidatorController extends BaseController {
 				HttpClient client = new DefaultHttpClient();
 				
 				String ccdaURL = this.props.getProperty("CCDAValidationServiceURL");
-				
+				ccdaURL += "/v1.1/";
 				
 				HttpPost post = new HttpPost(ccdaURL);
 

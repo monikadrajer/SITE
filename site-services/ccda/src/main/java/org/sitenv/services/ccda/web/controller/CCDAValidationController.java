@@ -17,16 +17,16 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping(value="", produces=MediaType.TEXT_XML_VALUE)
 public class CCDAValidationController 
-{	
+{
 
 	@Autowired
 	@Resource(name="CCDA1_1")
 	private CCDAService ccda1_1service;
-
+	
 	// Constructor
 	public CCDAValidationController(){}
 	
-	@RequestMapping(value="/CCDAv1_1/", headers = "content-type=multipart/*", method= RequestMethod.POST, produces="application/json; charset=utf-8")
+	@RequestMapping(value="/v1.1/", headers = "content-type=multipart/*", method= RequestMethod.POST, produces="application/json; charset=utf-8")
 	public String validate(@RequestParam(value="type_val", required=false) String type_val, @RequestParam(value="file", required=false) MultipartFile file)  
 	{
 		ValidationData data = new ValidationDataImpl();
