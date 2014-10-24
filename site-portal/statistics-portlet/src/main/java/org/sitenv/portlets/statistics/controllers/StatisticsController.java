@@ -10,9 +10,10 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 import org.apache.log4j.Logger;
-import org.sitenv.common.utilities.controller.BaseController;
+import org.sitenv.common.statistics.dto.DirectLogCounts;
 import org.sitenv.common.statistics.dto.GoogleAnalyticsData;
 import org.sitenv.common.statistics.manager.StatisticsManager;
+import org.sitenv.common.utilities.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,6 +84,37 @@ public class StatisticsController extends BaseController {
 		{
 			modelAndView.setViewName("direct");
 		}
+		else if (page.equals("direct-counts"))
+		{
+			Long directReceiveSeed = Long.parseLong(props.getProperty("directReceiveStatisticsSeed"));
+			Long directSendSeed = Long.parseLong(props.getProperty("directSendStatisticsSeed"));
+			
+			DirectLogCounts sendData = statisticsManager.getDirectSendLogCount();
+			Long directSendCount = sendData.getTotalDirectMessageCount() + directSendSeed;
+			
+			modelAndView.addObject("directSendCountData", directSendCount);
+						
+			
+			Long directReceiveCount = statisticsManager.getSuccessfulDirectReceiveCount(null);
+			directReceiveCount += directReceiveSeed;
+						
+			modelAndView.addObject("directReceiveCountData", directReceiveCount);
+		
+			modelAndView.setViewName("directCounts");
+		}
+		else if (page.equals("ccda-log-counts"))
+		{
+
+			Long ccdaSeed = Long.parseLong(props.getProperty("ccdaValidationStatisticsSeed"));
+			Long ccdaCount = statisticsManager.getTotalCcdaValidationCount(null);
+			
+			ccdaCount += ccdaSeed;
+			
+			modelAndView.addObject("ccdaLogCountData", ccdaCount);
+			
+			modelAndView.setViewName("ccdaLogCounts");
+		}
+		
 		else if (page.equals("aggregate-stats"))
 		{
 			String p12CertPath = this.props.getProperty("googleAnalyticsp12CertPath");
@@ -360,6 +392,7 @@ GoogleAnalyticsData gaData = null;
 			modelAndView.setViewName("view");
 		}
 		} catch (Exception e) {
+			logger.error("statistics unavailable", e);
 			modelAndView.setViewName("unavailable");
 		}
 		

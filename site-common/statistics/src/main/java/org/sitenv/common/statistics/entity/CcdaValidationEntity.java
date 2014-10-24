@@ -161,7 +161,6 @@ public String getValidationType() {
 public void setValidationType(String validationType) {
 	this.validationType = validationType;
 }
-	
 
 
 }

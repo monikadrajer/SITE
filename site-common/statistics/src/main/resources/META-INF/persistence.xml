@@ -8,6 +8,7 @@
 	<persistence-unit name="statistics" transaction-type="RESOURCE_LOCAL">
 	<provider>org.hibernate.ejb.HibernatePersistence</provider>
 		<class>org.sitenv.common.statistics.entity.CcdaValidationEntity</class>
+		<class>org.sitenv.common.statistics.entity.CcdaServiceCallEntity</class>
 		<class>org.sitenv.common.statistics.entity.DateItemEntity</class>
 		<class>org.sitenv.common.statistics.entity.SmartCcdaValidationEntity</class>
 		<class>org.sitenv.common.statistics.entity.CcdaDownloadEntity</class>
@@ -22,6 +23,8 @@
 		<class>org.sitenv.common.statistics.entity.PdtiWeeklyCountsEntity</class>
 		<class>org.sitenv.common.statistics.entity.DirectWeeklyCountsEntity</class>
 		<class>org.sitenv.common.statistics.entity.AggregateWeeklyCountsEntity</class>
+		<class>org.sitenv.common.statistics.entity.DcdtHostingVerificationEntity</class>
+		<class>org.sitenv.common.statistics.entity.DirectLogCountsEntity</class>
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />

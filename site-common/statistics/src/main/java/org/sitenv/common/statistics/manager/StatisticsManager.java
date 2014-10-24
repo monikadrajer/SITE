@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.sitenv.common.statistics.dto.AggregateWeeklyCounts;
 import org.sitenv.common.statistics.dto.CcdaWeeklyCounts;
+import org.sitenv.common.statistics.dto.DirectLogCounts;
 import org.sitenv.common.statistics.dto.DirectWeeklyCounts;
 import org.sitenv.common.statistics.dto.GoogleAnalyticsData;
 import org.sitenv.common.statistics.dto.PdtiTestCase;
@@ -20,6 +21,8 @@ public interface StatisticsManager {
 	public void addSmartCcdaValidation(Boolean hasHttpError);
 	public void addCcdaDownload();
 	public void addReferenceCcdaDownload(String fileName);
+	
+	public void addCcdaServiceCall(String testType, Boolean hasErrors, Boolean hasWarnings, Boolean hasInfo, Boolean hasHttpError, String validator);
 	
 	
 	public Long getSuccessfulCcdaValidationCount(Integer numOfDays);
@@ -64,6 +67,8 @@ public interface StatisticsManager {
 	public Long getTotalPdtiTestCount(Integer numOfDays);
 	public Long getHttpErrorPdtiTestCount(Integer numOfDays);
 	
+
+	public void addDcdtHostingVerification(String testcase, String directAddress, String response);
 	
 	public List<AggregateWeeklyCounts> getAggregateWeeklyCounts(Integer numOfWeeks);
 	
@@ -71,5 +76,11 @@ public interface StatisticsManager {
 	public Long getJiraIssuesResolvedCount(Integer numOfDays);
 	
 	public GoogleAnalyticsData getGoogleAnalyticsData(String p12CertPath);
+	
+	public DirectLogCounts getDirectSendLogCount();
+	
+	public DirectLogCounts getDirectReceiveLogCount();
+	
+	public Long getCcdaLogCounts();
 	
 }

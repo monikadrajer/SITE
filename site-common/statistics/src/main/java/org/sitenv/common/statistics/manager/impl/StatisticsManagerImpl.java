@@ -4,12 +4,15 @@ package org.sitenv.common.statistics.manager.impl;
 import java.util.List;
 
 import org.sitenv.common.statistics.dao.AggregateDAO;
+import org.sitenv.common.statistics.dao.CcdaServiceDAO;
 import org.sitenv.common.statistics.dao.CcdaValidationDAO;
+import org.sitenv.common.statistics.dao.DcdtHostingVerificationDAO;
 import org.sitenv.common.statistics.dao.DirectTransmissionDAO;
 import org.sitenv.common.statistics.dao.PdtiTestDAO;
 import org.sitenv.common.statistics.dao.QrdaValidationDAO;
 import org.sitenv.common.statistics.dto.AggregateWeeklyCounts;
 import org.sitenv.common.statistics.dto.CcdaWeeklyCounts;
+import org.sitenv.common.statistics.dto.DirectLogCounts;
 import org.sitenv.common.statistics.dto.DirectWeeklyCounts;
 import org.sitenv.common.statistics.dto.GoogleAnalyticsData;
 import org.sitenv.common.statistics.dto.PdtiTestCase;
@@ -33,6 +36,9 @@ public class StatisticsManagerImpl implements StatisticsManager {
 	private CcdaValidationDAO ccdaValidationDAO;
 	
 	@Autowired
+	private CcdaServiceDAO ccdaServiceDAO;
+	
+	@Autowired
 	private QrdaValidationDAO qrdaValidationDAO;
 	
 	@Autowired
@@ -44,14 +50,33 @@ public class StatisticsManagerImpl implements StatisticsManager {
 	@Autowired
 	private AggregateDAO aggregateDAO;
 	
-	//TODO: Add Validator Type
+	
+	@Autowired
+	private DcdtHostingVerificationDAO dcdtHostingVerificationDAO;
+
+
+	@Transactional
+	public void addDcdtHostingVerification(String testcase, String directAddress, String response) 
+	{
+		dcdtHostingVerificationDAO.createDcdtHostingVerification(testcase, directAddress, response);
+	}
+	
+	
 	@Transactional
 	public void addCcdaValidation(String testType, Boolean hasErrors, Boolean hasWarnings,
 			Boolean hasInfo, Boolean hasHttpError) {
 		
 		ccdaValidationDAO.createCcdaValidation(testType, hasErrors, hasWarnings, hasInfo, hasHttpError);
-		
 	}
+	
+	
+	@Transactional
+	public void addCcdaServiceCall(String testType, Boolean hasErrors, Boolean hasWarnings, Boolean hasInfo, 
+			Boolean hasHttpError, String validator){
+		
+		ccdaServiceDAO.createCcdaServiceCall(testType, hasErrors, hasWarnings, hasInfo, hasHttpError, validator);
+	}
+	
 
 	@Transactional
 	public Long getSuccessfulCcdaValidationCount(Integer numOfDays) {
@@ -242,6 +267,17 @@ public class StatisticsManagerImpl implements StatisticsManager {
 	}
 	
 	@Transactional
+	public DirectLogCounts getDirectReceiveLogCount() {
+		return directTransmissionDAO.getDirectReceiveLogCount();
+	}
+	
+	@Transactional
+	public DirectLogCounts getDirectSendLogCount() {
+		return directTransmissionDAO.getDirectSendLogCount();
+	}
+	
+	
+	@Transactional
 	public List<CcdaWeeklyCounts> getCcdaWeeklyCounts(Integer numOfWeeks) {
 		return ccdaValidationDAO.getCcdaWeeklyCounts(numOfWeeks);
 	}
@@ -318,6 +354,12 @@ public class StatisticsManagerImpl implements StatisticsManager {
 
 	public void setAggregateDAO(AggregateDAO aggregateDAO) {
 		this.aggregateDAO = aggregateDAO;
+	}
+
+	@Transactional
+	public Long getCcdaLogCounts() {
+		return this.ccdaValidationDAO.getCcdaLogCounts();
+		
 	}
 	
 	

@@ -31,4 +31,6 @@ public interface CcdaValidationDAO {
 	public Long getSmartCcdaCount(Boolean hasHttpError, Integer numOfDays);
 	
 	public List<CcdaWeeklyCounts> getCcdaWeeklyCounts(Integer numOfWeeks);
+
+	public Long getCcdaLogCounts();
 }
