@@ -21,7 +21,7 @@ public class CCDAValidationController
 
 	@Autowired
 	@Resource(name="CCDA1_1")
-	private CCDAService service;
+	private CCDAService ccda1_1service;
 
 	// Constructor
 	public CCDAValidationController(){}
@@ -32,7 +32,7 @@ public class CCDAValidationController
 		ValidationData data = new ValidationDataImpl();
 		data.addParameter("type_val", type_val);
 		data.addFile("file", file);
-		return service.validate(data);
+		return ccda1_1service.validate(data);
 	}
 	
 }

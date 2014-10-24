@@ -12,15 +12,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.activation.DataHandler;
-import javax.ws.rs.Consumes;
-//import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 
-import org.apache.cxf.jaxrs.ext.multipart.Attachment;
-import org.apache.cxf.jaxrs.ext.multipart.MultipartBody;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
@@ -39,6 +32,7 @@ import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.sitenv.services.ccda.data.ValidationData;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -46,7 +40,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 
-
+@Service(value="CCDA1_1")
 public class CCDAService1_1 extends BaseCCDAService {
 	
 	Logger logger = LogManager.getLogger(CCDAService1_1.class.getName());
