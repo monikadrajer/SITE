@@ -101,12 +101,7 @@ public class CCDAService1_1 extends BaseCCDAService {
 			mu2_ccda_type_value = mapped_type_val;
 		}
 		
-		//Attachment file = body.getAttachment("file");
 		MultipartFile file = validationData.getFile("file");
-		
-		/////////////// Compare from here
-		
-		DataHandler fileHandler = file.getDataHandler();
 		
 		try {
 			if (this.props == null)
@@ -128,8 +123,8 @@ public class CCDAService1_1 extends BaseCCDAService {
 			MultipartEntity entity = new MultipartEntity();
 			
 			// set the file content
-			entity.addPart("file", new InputStreamBody(fileHandler.getInputStream(), 
-					fileHandler.getName()));
+			entity.addPart("file", new InputStreamBody(file.getInputStream(), 
+					file.getName()));
 			
 			// set the CCDA type
 			entity.addPart("ccda_type",new StringBody(mu2_ccda_type_value));
@@ -171,7 +166,9 @@ public class CCDAService1_1 extends BaseCCDAService {
 	}
 	
 	
-	private JSONObject handleCCDAResponse(HttpResponse relayResponse, String mu2_ccda_type_value) throws ClientProtocolException, IOException, JSONException{
+	private JSONObject handleCCDAResponse(HttpResponse relayResponse, 
+			String mu2_ccda_type_value) throws ClientProtocolException, 
+			IOException, JSONException{
 		
 		ResponseHandler<String> handler = new BasicResponseHandler();
 		
