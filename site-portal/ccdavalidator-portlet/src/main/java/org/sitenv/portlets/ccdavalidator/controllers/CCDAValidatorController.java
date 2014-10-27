@@ -42,7 +42,6 @@ public class CCDAValidatorController extends BaseController {
 	@Autowired
 	private JSONResponse responseJSON;
 	
-	
 	@Autowired
 	private StatisticsManager statisticsManager;
 
@@ -83,7 +82,7 @@ public class CCDAValidatorController extends BaseController {
 				HttpClient client = new DefaultHttpClient();
 				
 				String ccdaURL = this.props.getProperty("CCDAValidationServiceURL");
-				ccdaURL += "/v1.1/";
+				ccdaURL += "/r1.1/";
 				
 				HttpPost post = new HttpPost(ccdaURL);
 
@@ -140,7 +139,6 @@ public class CCDAValidatorController extends BaseController {
 	@ActionMapping(params = "javax.portlet.action=uploadCCDA2.0")
 	public void responseCCDA2_0(MultipartActionRequest request, ActionResponse response) throws IOException {
 		
-		String ccda_type_value = null;
 		
 		if (this.props == null)
 		{
@@ -148,12 +146,10 @@ public class CCDAValidatorController extends BaseController {
 		}
 		
 		System.out.println("2.0"); 
-		//handle the files:
 		
 		response.setRenderParameter("javax.portlet.action", "uploadCCDA2.0");
 		MultipartFile file = request.getFile("file");
 		
-		//fileJson = new JSONArray();
 		responseJSON.setFileJson(new JSONArray());
 		
 		try {
@@ -164,31 +160,20 @@ public class CCDAValidatorController extends BaseController {
 				
 				responseJSON.getFileJson().put(jsono);
 				
-				// handle the data
 				
-				ccda_type_value = request.getParameter("ccda_type_val");
-				
-				//System.out.println(ccda_type_value);
-				
-				if(ccda_type_value == null)
-				{
-					ccda_type_value = "";
-				}
 				
 				HttpClient client = new DefaultHttpClient();
 				
 				String ccdaURL = this.props.getProperty("CCDAValidationServiceURL");
-				
+				ccdaURL += "/r2.0/";
 				
 				HttpPost post = new HttpPost(ccdaURL);
 				
 				MultipartEntity entity = new MultipartEntity();
 				// set the file content
 				entity.addPart("file", new InputStreamBody(file.getInputStream() , file.getOriginalFilename()));
+				
 				// set the CCDA type
-				
-				entity.addPart("type_val",new StringBody(ccda_type_value));
-				
 				post.setEntity(entity);
 				
 				HttpResponse relayResponse = client.execute(post);
@@ -201,7 +186,7 @@ public class CCDAValidatorController extends BaseController {
 				if(code!=200) 
 				{
 					//do the error handling.
-					statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true);
+					statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, true);
 				}
 				else
 				{
@@ -218,11 +203,11 @@ public class CCDAValidatorController extends BaseController {
 					
 					responseJSON.setJSONResponseBody(jsonbody);
 					
-					statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false);
+					statisticsManager.addCcdaValidation("NonSpecificCCDAR2", hasErrors, hasWarnings, hasInfo, false);
 				}				
 				
 		} catch (Exception e) {
-			statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true);
+			statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, true);
 			throw new RuntimeException(e);
 		}
 	}
@@ -434,7 +419,6 @@ public class CCDAValidatorController extends BaseController {
 		*/
 	}
 	
-	
 
 	@ActionMapping(params = "javax.portlet.action=uploadCCDASuper")
 	public void responseCCDASuper(MultipartActionRequest request, ActionResponse response) throws IOException {
@@ -446,13 +430,12 @@ public class CCDAValidatorController extends BaseController {
 			this.loadProperties();
 		}
 		
-		System.out.println("Super");
-		
 		// handle the files:
 		
-		response.setRenderParameter("javax.portlet.action", "uploadCCDASuper");
+		response.setRenderParameter("javax.portlet.action", "uploadCCDA1.1");
 		MultipartFile file = request.getFile("file");
 		
+		System.out.println("Super");
 		responseJSON.setFileJson(new JSONArray());
 		
 		try {
@@ -463,11 +446,8 @@ public class CCDAValidatorController extends BaseController {
 				
 				responseJSON.getFileJson().put(jsono);
 				
-				// handle the data
-				
 				ccda_type_value = request.getParameter("ccda_type_val");
 				
-				//System.out.println(ccda_type_value);
 				
 				if(ccda_type_value == null)
 				{
@@ -477,10 +457,10 @@ public class CCDAValidatorController extends BaseController {
 				HttpClient client = new DefaultHttpClient();
 				
 				String ccdaURL = this.props.getProperty("CCDAValidationServiceURL");
-				
+				ccdaURL += "/r1.1/";
 				
 				HttpPost post = new HttpPost(ccdaURL);
-				
+
 				MultipartEntity entity = new MultipartEntity();
 				// set the file content
 				entity.addPart("file", new InputStreamBody(file.getInputStream() , file.getOriginalFilename()));
@@ -491,13 +471,13 @@ public class CCDAValidatorController extends BaseController {
 				post.setEntity(entity);
 				
 				HttpResponse relayResponse = client.execute(post);
+				
 				//create the handler
 				ResponseHandler<String> handler = new BasicResponseHandler();
 				
 				int code = relayResponse.getStatusLine().getStatusCode();
 				
-				
-				if(code!=200)
+				if(code!=200) 
 				{
 					//do the error handling.
 					statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true);
@@ -507,7 +487,6 @@ public class CCDAValidatorController extends BaseController {
 					boolean hasErrors = true, hasWarnings = true, hasInfo = true;
 					
 					String json = handler.handleResponse(relayResponse);
-					
 					JSONObject jsonbody = new JSONObject(json);
 					
 					JSONObject report = jsonbody.getJSONObject("report");
@@ -518,12 +497,16 @@ public class CCDAValidatorController extends BaseController {
 					responseJSON.setJSONResponseBody(jsonbody);
 					
 					statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false);
+					
 				}				
 				
+
 		} catch (Exception e) {
 			statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true);
+			System.out.println(e.getMessage());
 			throw new RuntimeException(e);
-		}
+		} 
+		
 	}
 	
 	

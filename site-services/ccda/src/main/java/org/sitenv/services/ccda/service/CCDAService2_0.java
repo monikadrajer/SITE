@@ -3,11 +3,7 @@ package org.sitenv.services.ccda.service;
 
 
 import java.io.IOException;
-import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
 
 
 import org.apache.http.HttpResponse;
@@ -35,39 +31,18 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 
-
-@Service(value="CCDA1_1")
-public class CCDAService1_1 extends BaseCCDAService {
+@Service(value="CCDA2_0")
+public class CCDAService2_0 extends BaseCCDAService {
 	
-	Logger logger = LogManager.getLogger(CCDAService1_1.class.getName());
-	
-    private static final Map<String, String> typeValMap;
-    static {
-        Map<String, String> tpMap = new HashMap<String, String>();
-        
-        tpMap.put("ClinicalOfficeVisitSummary", "ClinicalOfficeVisitSummary");
-        tpMap.put("TransitionsOfCareAmbulatorySummaryb2", "TransitionsOfCareAmbulatorySummary");
-        tpMap.put("TransitionsOfCareAmbulatorySummaryb7", "TransitionsOfCareAmbulatorySummary");
-        tpMap.put("TransitionsOfCareAmbulatorySummaryb1", "TransitionsOfCareAmbulatorySummary");
-        tpMap.put("TransitionsOfCareAmbulatorySummary", "TransitionsOfCareAmbulatorySummary");
-        tpMap.put("TransitionsOfCareInpatientSummaryb2", "TransitionsOfCareInpatientSummary");
-        tpMap.put("TransitionsOfCareInpatientSummaryb7", "TransitionsOfCareInpatientSummary");
-        tpMap.put("TransitionsOfCareInpatientSummaryb1", "TransitionsOfCareInpatientSummary");
-        tpMap.put("TransitionsOfCareInpatientSummary", "TransitionsOfCareInpatientSummary");
-        tpMap.put("VDTAmbulatorySummary", "VDTAmbulatorySummary");
-        tpMap.put("VDTInpatientSummary", "VDTInpatientSummary");
-        tpMap.put("NonSpecificCCDA", "NonSpecificCCDA");
-        
-        typeValMap = Collections.unmodifiableMap(tpMap);
-    }
-	
+	Logger logger = LogManager.getLogger(CCDAService2_0.class.getName());	
     
-	public CCDAService1_1() throws IOException {}
+	
+	public CCDAService2_0() throws IOException {}
 	
 	
 	@Override
 	public String getValidatorID() {
-		return "1.1";
+		return "2.0";
 	}
 	
 	@Override
@@ -75,21 +50,8 @@ public class CCDAService1_1 extends BaseCCDAService {
 
 		Date requestStart = new Date();
 		JSONObject json = null;
-		String mu2_ccda_type_value = null;
-		mu2_ccda_type_value = validationData.getParameter("type_val");
-		
-		if(mu2_ccda_type_value == null){
-			mu2_ccda_type_value = "";
-		} else {
-			
-			String mapped_type_val = "";
-			
-			if (typeValMap.containsKey(mu2_ccda_type_value)){
-				mapped_type_val = typeValMap.get(mu2_ccda_type_value);
-			}
-			
-			mu2_ccda_type_value = mapped_type_val;
-		}
+		String ccda_type_value = null;
+		ccda_type_value = validationData.getParameter("type_val");
 		
 		MultipartFile file = validationData.getFile("file");
 		
@@ -99,16 +61,12 @@ public class CCDAService1_1 extends BaseCCDAService {
 				this.loadProperties();
 			}
 			
-			String mu2CcdaURL = null;
+			String ccdaURL = null;
 			
-			if (mu2_ccda_type_value.equals("NonSpecificCCDA")) {
-				mu2CcdaURL = this.props.getProperty("NonSpecificCCDAValidationServiceURL");
-			} else {
-				mu2CcdaURL = this.props.getProperty("CCDAValidationServiceURL");
-			}
+			ccdaURL = this.props.getProperty("CCDAv2ValidationServiceURL");
 			
 			HttpClient client = new DefaultHttpClient();
-			HttpPost post = new HttpPost(mu2CcdaURL);
+			HttpPost post = new HttpPost(ccdaURL);
 			
 			MultipartEntity entity = new MultipartEntity();
 			
@@ -117,7 +75,7 @@ public class CCDAService1_1 extends BaseCCDAService {
 					file.getName()));
 			
 			// set the CCDA type
-			entity.addPart("ccda_type",new StringBody(mu2_ccda_type_value));
+			entity.addPart("ccda_type",new StringBody(ccda_type_value));
 			entity.addPart("return_json_param", new StringBody("true"));
 			
 			//Change this to "false" in production:
@@ -125,12 +83,12 @@ public class CCDAService1_1 extends BaseCCDAService {
 			
 			post.setEntity(entity);
 			HttpResponse relayResponse = client.execute(post);
-			json = handleCCDAResponse(relayResponse, mu2_ccda_type_value);
+			json = handleCCDAResponse(relayResponse, ccda_type_value);
 			
 	    } catch (Exception e) {
 	    	
 	    	
-	    	recordStatistics(mu2_ccda_type_value, false, false, false, true);
+	    	recordStatistics(ccda_type_value, false, false, false, true);
 	    	logger.error("Error while accessing CCDA service: ",  e);
 	    	try {
 				json = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
