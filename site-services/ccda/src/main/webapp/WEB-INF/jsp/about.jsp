@@ -58,10 +58,10 @@
 					<td><b>C-CDA Validator</b></td><td><b>Version code</b></td>
 				</tr>
 				<tr>
-					<td>C-CDA Version 1.1</td><td>v1.1</td>
+					<td>C-CDA Version 1.1</td><td>r1.1</td>
 				</tr>
 				<!--<tr>
-					<td>C-CDA Version 2.0</td><td>v2.0</td>
+					<td>C-CDA Version 2.0</td><td>r2.0</td>
 				</tr>
 				<tr>
 					<td>Reconciled C-CDA</td><td>Reconciled</td>
@@ -193,7 +193,7 @@
   			<br><h3>Example Usage</h3>
   			<p>
   				The following example will validate the file "myfile.xml", with validation type "TransitionsOfCareInpatientSummary":</p>
-  			<p >curl -D- -X POST -F &quot;file=@myfile.xml&quot; -F &quot;type_val=TransitionsOfCareInpatientSummary&quot; <%= request.getRequestURL().toString().replace("About", "v1.1/") %></p>
+  			<p >curl -D- -X POST -F &quot;file=@myfile.xml&quot; -F &quot;type_val=TransitionsOfCareInpatientSummary&quot; <%= request.getRequestURL().toString().replace("About", "r1.1/") %></p>
   			
   			</div>
   			
