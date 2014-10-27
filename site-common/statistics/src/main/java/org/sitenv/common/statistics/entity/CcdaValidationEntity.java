@@ -28,6 +28,7 @@ private Long id;
 @Temporal(TemporalType.TIMESTAMP)
 private Date timestamp;
 
+
 @Column(name="validation_errors")
 private Boolean errors;
 
@@ -42,6 +43,10 @@ private Boolean httpError;
 
 @Column(name="validation_type")
 private String validationType;
+
+@Column(name="validator")
+private String validator;
+
 
 
 @Override
@@ -160,6 +165,14 @@ public String getValidationType() {
 
 public void setValidationType(String validationType) {
 	this.validationType = validationType;
+}
+
+public String getValidator(){
+	return validator;
+}
+
+public void setValidator(String validator){
+	this.validator = validator;
 }
 
 

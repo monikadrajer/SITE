@@ -105,7 +105,7 @@ public class CCDAValidatorController extends BaseController {
 				if(code!=200) 
 				{
 					//do the error handling.
-					statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true);
+					statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true, "r1.1");
 				}
 				else
 				{
@@ -121,13 +121,13 @@ public class CCDAValidatorController extends BaseController {
 					
 					responseJSON.setJSONResponseBody(jsonbody);
 					
-					statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false);
+					statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false, "r1.1");
 					
 				}				
 				
 
 		} catch (Exception e) {
-			statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true);
+			statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true, "r1.1");
 			System.out.println(e.getMessage());
 			throw new RuntimeException(e);
 		} 
@@ -186,7 +186,7 @@ public class CCDAValidatorController extends BaseController {
 				if(code!=200) 
 				{
 					//do the error handling.
-					statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, true);
+					statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, true, "r2.0");
 				}
 				else
 				{
@@ -203,11 +203,11 @@ public class CCDAValidatorController extends BaseController {
 					
 					responseJSON.setJSONResponseBody(jsonbody);
 					
-					statisticsManager.addCcdaValidation("NonSpecificCCDAR2", hasErrors, hasWarnings, hasInfo, false);
+					statisticsManager.addCcdaValidation("NonSpecificCCDAR2", hasErrors, hasWarnings, hasInfo, false, "r2.0");
 				}				
 				
 		} catch (Exception e) {
-			statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, true);
+			statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, true, "r2.0");
 			throw new RuntimeException(e);
 		}
 	}
@@ -480,7 +480,7 @@ public class CCDAValidatorController extends BaseController {
 				if(code!=200) 
 				{
 					//do the error handling.
-					statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true);
+					statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true, "Super");
 				}
 				else
 				{
@@ -496,13 +496,13 @@ public class CCDAValidatorController extends BaseController {
 					
 					responseJSON.setJSONResponseBody(jsonbody);
 					
-					statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false);
+					statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false, "Super");
 					
 				}				
 				
 
 		} catch (Exception e) {
-			statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true);
+			statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true, "Super");
 			System.out.println(e.getMessage());
 			throw new RuntimeException(e);
 		} 

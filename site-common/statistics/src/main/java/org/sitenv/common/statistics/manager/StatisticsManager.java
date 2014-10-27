@@ -17,7 +17,7 @@ public interface StatisticsManager {
 	public static final Integer QRDA_CATEGORY_III = new Integer(3);
 	
 	//TODO: Add Validator Type
-	public void addCcdaValidation(String testType, Boolean hasErrors, Boolean hasWarnings, Boolean hasInfo, Boolean hasHttpError);
+	public void addCcdaValidation(String testType, Boolean hasErrors, Boolean hasWarnings, Boolean hasInfo, Boolean hasHttpError, String validator);
 	public void addSmartCcdaValidation(Boolean hasHttpError);
 	public void addCcdaDownload();
 	public void addReferenceCcdaDownload(String fileName);

@@ -64,9 +64,9 @@ public class StatisticsManagerImpl implements StatisticsManager {
 	
 	@Transactional
 	public void addCcdaValidation(String testType, Boolean hasErrors, Boolean hasWarnings,
-			Boolean hasInfo, Boolean hasHttpError) {
+			Boolean hasInfo, Boolean hasHttpError, String validator) {
 		
-		ccdaValidationDAO.createCcdaValidation(testType, hasErrors, hasWarnings, hasInfo, hasHttpError);
+		ccdaValidationDAO.createCcdaValidation(testType, hasErrors, hasWarnings, hasInfo, hasHttpError, validator);
 	}
 	
 	

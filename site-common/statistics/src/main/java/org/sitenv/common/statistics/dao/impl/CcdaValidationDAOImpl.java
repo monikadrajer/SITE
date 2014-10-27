@@ -21,7 +21,7 @@ public class CcdaValidationDAOImpl extends BaseDAOImpl implements CcdaValidation
 
 	
 	public void createCcdaValidation(String testType, Boolean hasErrors, Boolean hasWarnings,
-			Boolean hasInfo, Boolean hasHttpError) {
+			Boolean hasInfo, Boolean hasHttpError, String validator) {
 		CcdaValidationEntity entity = new CcdaValidationEntity();
 		
 		entity.setErrors(hasErrors);
@@ -29,6 +29,7 @@ public class CcdaValidationDAOImpl extends BaseDAOImpl implements CcdaValidation
 		entity.setInfo(hasInfo);
 		entity.setHttpError(hasHttpError);
 		entity.setValidationType(testType);
+		entity.setValidator(validator);
 		
 		entityManager.persist(entity);
 	}
