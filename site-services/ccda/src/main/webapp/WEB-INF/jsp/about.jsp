@@ -60,10 +60,10 @@
 				<tr>
 					<td>C-CDA Version 1.1</td><td>r1.1</td>
 				</tr>
-				<!--<tr>
+				<tr>
 					<td>C-CDA Version 2.0</td><td>r2.0</td>
 				</tr>
-				<tr>
+				<!--<tr>
 					<td>Reconciled C-CDA</td><td>Reconciled</td>
 				</tr>
 				<tr>
@@ -79,7 +79,7 @@
   			<br>
   			<br>
   			<br>
-  			<h2>C-CDAVersion 1.1 Validator</h2>
+  			<h2>C-CDA Release 1.1 Validator</h2>
   			
   			<h3>Parameters</h3>
   			
@@ -280,8 +280,111 @@ Example JSON output:
 </pre>
 </code>
 
-</div>	
 </div>
+
+
+<h2>C-CDA Release 2.0 Validator</h2>
+  			
+  			<h3>Parameters</h3>
+  			
+			<p>file = The name of the multipart/form-data parameter that contains attachments must be &quot;file&quot;</p>
+  			
+  			<div>
+  			
+  			<br><h3>Example Usage</h3>
+  			<p>
+  				The following example will validate the file "myfile.xml", with validation type "TransitionsOfCareInpatientSummary":</p>
+  			<p >curl -D- -X POST -F &quot;file=@myfile.xml&quot;  <%= request.getRequestURL().toString().replace("About", "r2.0/") %></p>
+  			
+  			</div>
+  			
+  			
+  			
+  			<h3><br><br>Validation Response</h3>
+  			<div>
+Example JSON output:
+<code>
+<pre>
+{
+   "performance":{
+      "processingTime":"13.014",
+      "dateTimeOfRequest":"Fri Aug 22 14:13:03 EDT 2014"
+   },
+   "report":{
+      "docTypeSelected":"Clinical Office Visit Summary",
+      "uploadedFileName":"CCDA_Ambulatory.xml",
+      "validationResults2":"The file has encountered 1 error(s). The file has encountered 3 warning(s). The file has encountered 1 info message(s).",
+      "validationResults1":"Failed Validation",
+      "hasErrors":"true",
+      "errorCount":1,
+      "hasWarnings":"true",
+      "warningCount":3,
+      "hasInfo":"true",
+      "infoCount":1
+      
+   },
+   "errors":[
+      {
+         "message":"Mu2consol Clinical Office Visit Summary SHALL contain exactly one [1..1] component Contains exactly one [1..1] Consol Instructions Section (templateId: 2.16.840.1.113883.10.20.22.2.45)",
+         "source":"MU2 Certification related (cda.mu2consol)",
+         "path":"/ClinicalDocument",
+         "lineNumber":"23"
+      }
+   ],
+   "warnings":[
+      {
+         "message":"Consol US Realm Header SHALL contain at least one [1..*] recordTarget (CONF:5266) each SHALL contain exactly one [1..1] patientRole, where  (CONF:5268) patient Role SHALL contain exactly one [1..1] patient, where  (CONF:5283) each SHOULD contain zero or more [0..*] languageCommunication, where  (CONF:5406) languageCommunication SHOULD contain zero or one [0..1] proficiencyLevelCode, which SHALL be selected from ValueSet LanguageAbilityProficiency 2.16.840.1.113883.1.11.12199 STATIC (CONF:9965)",
+         "source":"C-CDA Validation related (cda.consol)",
+         "path":"/ClinicalDocument/recordTarget/patientRole/patient/languageCommunication",
+         "lineNumber":"129"
+      },
+      {
+         "message":"Consol Provider Organization SHALL contain at least one [1..*] addr with @xsi:type=\"USRealmAddress\" (CONF:5422) addr SHOULD contain zero or one [0..1] @use (CONF:7290), which SHALL be selected from ValueSet PostalAddressUse 2.16.840.1.113883.1.11.10637 STATIC",
+         "source":"C-CDA Validation related (cda.consol)",
+         "path":"/ClinicalDocument/recordTarget/patientRole/providerOrganization/addr",
+         "lineNumber":"140"
+      },
+      {
+         "message":"Consol US Realm Header SHALL contain at least one [1..*] recordTarget (CONF:5266) each SHALL contain exactly one [1..1] patientRole, where  (CONF:5268) each MAY contain zero or one [0..1] providerOrganization, where  (CONF:5416) providerOrganization The id SHOULD include zero or one [0..1] id where id/@root =\"2.16.840.1.113883.4.6\" National Provider Identifier (CONF:9996) (CONF:9996)",
+         "source":"C-CDA Validation related (cda.consol)",
+         "path":"/ClinicalDocument/recordTarget/patientRole/providerOrganization",
+         "lineNumber":"136"
+      }
+   ],
+   "info":[
+      {
+         "message":"Consol US Realm Header MAY contain zero or one [0..1] setId (CONF:5261)",
+         "source":"C-CDA Validation related (cda.consol)",
+         "path":"/ClinicalDocument",
+         "lineNumber":"23"
+      },
+      {
+         "message":"Consol US Realm Header MAY contain zero or one [0..1] versionNumber (CONF:5264)",
+         "source":"C-CDA Validation related (cda.consol)",
+         "path":"/ClinicalDocument",
+         "lineNumber":"23"
+      },
+      {
+         "message":"Consol US Realm Header MAY contain zero or more [0..*] inFulfillmentOf (CONF:9952)",
+         "source":"C-CDA Validation related (cda.consol)",
+         "path":"/ClinicalDocument",
+         "lineNumber":"23"
+      },
+      {
+         "message":"Consol US Realm Header MAY contain zero or more [0..*] authorization (CONF:16792)",
+         "source":"C-CDA Validation related (cda.consol)",
+         "path":"/ClinicalDocument",
+         "lineNumber":"23"
+      }
+   ]
+}
+
+
+
+
+</div>
+
+
 
 		
 	</div>
