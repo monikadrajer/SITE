@@ -306,7 +306,7 @@ $(function() {
 			{
 				$('#CCDA1ValidationForm .formError').show(0);
 				
-				$('#CCDA1ValidationForm .fileuploadformError').prependTo('#ccdauploaderrorlock');
+				$('#CCDA1ValidationForm .CCDA1fileuploadformError').prependTo('#ccdauploaderrorlock');
 			}
 			
 			
@@ -660,7 +660,7 @@ $(function() {
 			{
 				$('#CCDA2ValidationForm .formError').show(0);
 				
-				$('#CCDA2ValidationForm .fileuploadformError').prependTo('#CCDA2uploaderrorlock');
+				$('#CCDA2ValidationForm .CCDA2fileuploadformError').prependTo('#CCDA2uploaderrorlock');
 			}
 			
 			
@@ -1011,7 +1011,7 @@ $(function() {
 			{
 				$('#CCDASuperValidationForm .formError').show(0);
 				
-				$('#CCDASuperValidationForm .fileuploadformError').prependTo('#CCDASuperUploaderrorlock');
+				$('#CCDASuperValidationForm .CCDASuperFileuploadformError').prependTo('#CCDASuperUploaderrorlock');
 			}
 			
 			
@@ -1090,43 +1090,74 @@ function CCDAMultiFileValidationReconciledSubmit()
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	
 	
-	$.blockUI({
-		css: { 
-	        border: 'none', 
-	        padding: '15px', 
-	        backgroundColor: '#000', 
-	        '-webkit-border-radius': '10px', 
-	        '-moz-border-radius': '10px', 
-	        opacity: .5, 
-	        color: '#fff' 
-    	},
-    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
-		          '<div class="lbl">Validating...</div></div>'
-		
-	});
+	var jform = $(formSelector);
+	jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
+	//jform.validationEngine('hideAll');
 	
-	var formData = $(formSelector).serializefiles();
-	var serviceUrl = $(formSelector).attr("action");
-	$.ajax({
-        url: serviceUrl,
-        type: 'POST',
-        
-        success: function(data){
-        	
-        	alert("This has been a call to the Reconciled validator");
-        	
-        	var results = JSON.parse(data);
-        	$.unblockUI();
-        	
-        },
-        error: errorHandler,
-        // Form data
-        data: formData,
-        //Options to tell JQuery not to process data or worry about content-type
-        cache: false,
-        contentType: false,
-        processData: false
-    });
+	if(jform.validationEngine('validate'))
+	{
+		$('#CCDAReconciledValidationForm .formError').hide(0);
+	
+		$.blockUI({
+			css: {
+		        border: 'none', 
+		        padding: '15px', 
+		        backgroundColor: '#000', 
+		        '-webkit-border-radius': '10px', 
+		        '-moz-border-radius': '10px', 
+		        opacity: .5, 
+		        color: '#fff' 
+	    	},
+	    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+			          '<div class="lbl">Validating...</div></div>'
+			
+		});
+		
+		var formData = $(formSelector).serializefiles();
+		var serviceUrl = $(formSelector).attr("action");
+		$.ajax({
+	        url: serviceUrl,
+	        type: 'POST',
+	        
+	        success: function(data){
+	        	
+	        	alert("This has been a call to the Reconciled validator");
+	        	
+	        	var results = JSON.parse(data);
+	        	$.unblockUI();
+	        	
+	        },
+	        error: errorHandler,
+	        // Form data
+	        data: formData,
+	        //Options to tell JQuery not to process data or worry about content-type
+	        cache: false,
+	        contentType: false,
+	        processData: false
+	    });
+		
+	} else {
+		
+		nErrors = $('#CCDAReconciledValidationForm .formError').size();
+		
+		for (i = 0; i < nErrors; i++){
+			$('#CCDAReconciledValidationForm .formError').show(i);
+		}
+		
+		
+		if ($('#CCDAReconciledValidationForm .CCDAReconciledFileuploadformError').size() > 0){
+			$('#CCDAReconciledValidationForm .CCDAReconciledFileuploadformError').prependTo('#CCDAReconciledUploaderrorlock');
+		}
+		if ($('#CCDAReconciledValidationForm .CCDAReconciledCEHRTFileuploadformError').size() > 0){
+			$('#CCDAReconciledValidationForm .CCDAReconciledCEHRTFileuploadformError').prependTo('#CCDAReconciledCEHRTUploadErrorLock');
+		}
+		if ($('#CCDAReconciledValidationForm .CCDAReconciledReconciliationFileuploadformError').size() > 0){
+			$('#CCDAReconciledValidationForm .CCDAReconciledReconciliationFileuploadformError').prependTo('#CCDAReconciledReconciliationUploadErrorLock');
+		}
+		
+		
+	}
+		
 }
 
 
@@ -1148,7 +1179,7 @@ function CCDAMultiFileValidationReferenceSubmit()
 		$('#CCDAReferenceValidationForm .formError').hide(0);
 		
 		$.blockUI({
-			css: { 
+			css: {
 		        border: 'none', 
 		        padding: '15px', 
 		        backgroundColor: '#000', 
@@ -1186,12 +1217,24 @@ function CCDAMultiFileValidationReferenceSubmit()
 	}
 	else
 	{
-		$('#CCDAReferenceValidationForm .formError').show(0);
-			
-		$('#CCDAReferenceValidationForm .fileuploadformError').prependTo('#CCDAReferenceUploaderrorlock');
+		
+		nErrors = $('#CCDAReferenceValidationForm .formError').size();
+		
+		for (i = 0; i < nErrors; i++){
+			$('#CCDAReferenceValidationForm .formError').show(i);
+		}
+		
+		
+		if ($('#CCDAReferenceValidationForm .CCDAReferenceFileuploadformError').size() > 0){
+			$('#CCDAReferenceValidationForm .CCDAReferenceFileuploadformError').prependTo('#CCDAReferenceUploaderrorlock');
+		}
+		if ($('#CCDAReferenceValidationForm .CCDAReferenceCEHRTFileuploadformError').size() > 0){
+			$('#CCDAReferenceValidationForm .CCDAReferenceCEHRTFileuploadformError').prependTo('#CCDAReferenceCEHRTUploaderrorlock');
+		}
+		
 	}
 }
-	
+
 
 
 $(function() {

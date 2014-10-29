@@ -255,7 +255,9 @@
 											
 										</div>
 									</div>
+								</div>
 									
+								<div id="CCDAReconciledCEHRTUploadErrorLock" style="position: relative;">
 									<div class="row">
 										<div class="col-md-12">
 											<label for="CCDAReconciledCEHRTFileupload">Select a CEHRT Generated C-CDA File to Validate:</label><br/>
@@ -269,7 +271,8 @@
 											
 										</div>
 									</div>			
-									
+								</div>
+								<div id="CCDAReconciledReconciliationUploadErrorLock" style="position: relative;">
 									<div class="row">
 										<div class="col-md-12">
 											<label for="CCDAReconciledReconciliationFileupload">Select a Reconciliation Input C-CDA File to Validate:</label><br/>
@@ -336,7 +339,6 @@
 								<br/><br/>
 								<noscript><input type="hidden" name="redirect" value="true" /></noscript>
 								<div id="CCDAReferenceUploaderrorlock" style="position: relative;">
-								
 									<div class="row">
 										<div class="col-md-12">
 											<label for="CCDAReferenceFileupload">Select an input file used for generating C-CDA:</label><br/>
@@ -351,6 +353,8 @@
 										</div>
 									</div>
 									
+								</div>
+								<div id="CCDAReferenceCEHRTUploaderrorlock" style="position: relative;">
 									
 									<div class="row">
 										<div class="col-md-12">
