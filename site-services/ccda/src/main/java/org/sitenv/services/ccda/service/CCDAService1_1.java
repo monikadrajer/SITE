@@ -3,6 +3,7 @@ package org.sitenv.services.ccda.service;
 
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,7 +11,10 @@ import java.util.Map;
 
 
 
+
+
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -127,8 +131,25 @@ public class CCDAService1_1 extends BaseCCDAService {
 			HttpResponse relayResponse = client.execute(post);
 			json = handleCCDAResponse(relayResponse, mu2_ccda_type_value);
 			
-	    } catch (Exception e) {
+	    } catch (JSONException e) {
 	    	
+	    	recordStatistics(mu2_ccda_type_value, false, false, false, true);
+	    	logger.error("Error while accessing CCDA service: ",  e);
+	    	try {
+				json = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
+			} catch (JSONException e1) {
+				logger.error("Error while creating error JSON output: ",  e1);
+			}
+	    }  catch (UnsupportedEncodingException e) {
+	    	
+	    	recordStatistics(mu2_ccda_type_value, false, false, false, true);
+	    	logger.error("Error while accessing CCDA service: ",  e);
+	    	try {
+				json = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
+			} catch (JSONException e1) {
+				logger.error("Error while creating error JSON output: ",  e1);
+			}
+	    } catch (IOException e) {
 	    	
 	    	recordStatistics(mu2_ccda_type_value, false, false, false, true);
 	    	logger.error("Error while accessing CCDA service: ",  e);
@@ -167,7 +188,7 @@ public class CCDAService1_1 extends BaseCCDAService {
 		JSONObject jsonbody = null;
 		String errorMessage = null;
 		
-		if(code!=200)
+		if(code != HttpStatus.SC_OK)
 		{
 			
 			//do the error handling.

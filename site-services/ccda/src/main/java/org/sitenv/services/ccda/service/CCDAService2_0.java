@@ -3,10 +3,14 @@ package org.sitenv.services.ccda.service;
 
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.Date;
 
 
+
+
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
@@ -85,8 +89,25 @@ public class CCDAService2_0 extends BaseCCDAService {
 			HttpResponse relayResponse = client.execute(post);
 			json = handleCCDAResponse(relayResponse, ccda_type_value);
 			
-	    } catch (Exception e) {
+	    } catch (JSONException e) {
 	    	
+	    	recordStatistics(ccda_type_value, false, false, false, true);
+	    	logger.error("Error while accessing CCDA service: ",  e);
+	    	try {
+				json = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
+			} catch (JSONException e1) {
+				logger.error("Error while creating error JSON output: ",  e1);
+			}
+	    }  catch (UnsupportedEncodingException e) {
+	    	
+	    	recordStatistics(ccda_type_value, false, false, false, true);
+	    	logger.error("Error while accessing CCDA service: ",  e);
+	    	try {
+				json = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
+			} catch (JSONException e1) {
+				logger.error("Error while creating error JSON output: ",  e1);
+			}
+	    } catch (IOException e) {
 	    	
 	    	recordStatistics(ccda_type_value, false, false, false, true);
 	    	logger.error("Error while accessing CCDA service: ",  e);
@@ -125,7 +146,8 @@ public class CCDAService2_0 extends BaseCCDAService {
 		JSONObject jsonbody = null;
 		String errorMessage = null;
 		
-		if(code!=200)
+		
+		if(code != HttpStatus.SC_OK)
 		{
 			
 			//do the error handling.

@@ -54,16 +54,16 @@ public abstract class BaseCCDAService implements CCDAService {
 	}
 	
 	
-	//protected StatisticsManager getStatisticsManager() {
-	//	return statisticsManager;
-	//}
+	protected StatisticsManager getStatisticsManager() {
+		return statisticsManager;
+	}
 
-	//protected void setStatisticsManager(StatisticsManager statisticsManager) {
-	//	this.statisticsManager = statisticsManager;
-	//}
+	protected void setStatisticsManager(StatisticsManager statisticsManager) {
+		this.statisticsManager = statisticsManager;
+	}
     
 	public void recordStatistics(String testType, Boolean hasErrors, Boolean hasWarnings, Boolean hasInfo, Boolean hasHttpError){
-	//	getStatisticsManager().addCcdaServiceCall(testType, hasErrors, hasWarnings, hasInfo, hasHttpError, getValidatorID());
+		getStatisticsManager().addCcdaServiceCall(testType, hasErrors, hasWarnings, hasInfo, hasHttpError, getValidatorID());
 	}
 
 }
