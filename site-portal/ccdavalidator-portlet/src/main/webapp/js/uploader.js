@@ -1162,6 +1162,134 @@ function CCDAMultiFileValidationReconciledSubmit()
 
 
 
+
+function getDoc(frame) {
+    var doc = null;
+
+    // IE8 cascading access check
+    try {
+        if (frame.contentWindow) {
+            doc = frame.contentWindow.document;
+        }
+    } catch(err) {
+    }
+
+    if (doc) { // successful getting content
+        return doc;
+    }
+
+    try { // simply checking may throw in ie8 under ssl or mismatched protocol
+        doc = frame.contentDocument ? frame.contentDocument : frame.document;
+    } catch(err) {
+        // last attempt
+        doc = frame.document;
+    }
+    return doc;
+}
+
+
+
+function CCDAMultiFileValidationReconciledSubmitIFrame()
+{
+	
+	var formSelector = "#CCDAReconciledValidationForm";
+	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+	
+	
+	var jform = $(formSelector);
+	jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
+	//jform.validationEngine('hideAll');
+	
+	if(jform.validationEngine('validate'))
+	{
+		$('#CCDAReconciledValidationForm .formError').hide(0);
+	
+		$.blockUI({
+			css: {
+		        border: 'none', 
+		        padding: '15px', 
+		        backgroundColor: '#000', 
+		        '-webkit-border-radius': '10px', 
+		        '-moz-border-radius': '10px', 
+		        opacity: .5, 
+		        color: '#fff' 
+	    	},
+	    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+			          '<div class="lbl">Validating...</div></div>'
+			
+		});
+		
+		//var formData = $(formSelector).serializefiles();
+		
+		var serviceUrl = $(formSelector).attr("action");
+	 
+	    //generate a random id
+	    var  iframeId = 'unique' + (new Date().getTime());
+	 
+	    //create an empty iframe
+	    var iframe = $('<iframe src="javascript:false;" name="'+iframeId+'" id="'+iframeId+'" />');
+	    
+	    
+	    //hide it
+	    iframe.hide();
+	 
+	    //set form target to iframe
+	    jform.attr('target',iframeId);
+	    
+	    //Add iframe to body
+	    iframe.appendTo('body');
+	    
+	    iframe.load(function(e)
+	    {
+	        var doc = getDoc(iframe[0]); //get iframe Document
+	        var node = doc.body ? doc.body : doc.documentElement;
+	        //var node = docRoot.innerHTML;
+	        var data = (node.innerText || node.textContent);
+	        alert(data);
+	        var results = JSON.parse(data);
+	        alert(results);
+	        
+	        //var results = JSON.parse(data);
+	        $.unblockUI();
+	        alert("This has been a call to the Reconciled validator");
+	        
+	    });
+		
+	    jform.submit();
+	    
+	} else {
+		
+		nErrors = $('#CCDAReconciledValidationForm .formError').size();
+		
+		for (i = 0; i < nErrors; i++){
+			$('#CCDAReconciledValidationForm .formError').show(i);
+		}
+		
+		
+		if ($('#CCDAReconciledValidationForm .CCDAReconciledFileuploadformError').size() > 0){
+			$('#CCDAReconciledValidationForm .CCDAReconciledFileuploadformError').prependTo('#CCDAReconciledUploaderrorlock');
+		}
+		if ($('#CCDAReconciledValidationForm .CCDAReconciledCEHRTFileuploadformError').size() > 0){
+			$('#CCDAReconciledValidationForm .CCDAReconciledCEHRTFileuploadformError').prependTo('#CCDAReconciledCEHRTUploadErrorLock');
+		}
+		if ($('#CCDAReconciledValidationForm .CCDAReconciledReconciliationFileuploadformError').size() > 0){
+			$('#CCDAReconciledValidationForm .CCDAReconciledReconciliationFileuploadformError').prependTo('#CCDAReconciledReconciliationUploadErrorLock');
+		}
+		
+		
+	}
+		
+}
+
+
+
+
+
+
+
+
+
+
 function CCDAMultiFileValidationReferenceSubmit()
 {
 	
@@ -1240,7 +1368,9 @@ function CCDAMultiFileValidationReferenceSubmit()
 $(function() {
 	
 	$('#CCDAReconciledFormSubmit').bind('click', function(e, data) {
-		CCDAMultiFileValidationReconciledSubmit();
+		//CCDAMultiFileValidationReconciledSubmit();
+		CCDAMultiFileValidationReconciledSubmitIFrame();
+		
 	});
 	
 	

@@ -498,7 +498,7 @@ public class CCDAValidatorController extends BaseController {
 					
 					statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false, "Super");
 					
-				}				
+				}
 				
 
 		} catch (Exception e) {
@@ -518,10 +518,6 @@ public class CCDAValidatorController extends BaseController {
 		
 		map.put("files", responseJSON.getFileJson());
 		map.put("body", responseJSON.getJSONResponseBody());
-		System.out.println("processCCDA1_1");
-		System.out.println(responseJSON.getJSONResponseBody().toString());
-		//map.put("files", fileJson);
-		//map.put("body", JSONResponseBody);
 		
 		return new ModelAndView("cCDAValidatorJsonView", map);
 	}
