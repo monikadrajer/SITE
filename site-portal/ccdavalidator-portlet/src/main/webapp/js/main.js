@@ -23,7 +23,7 @@ function fileSelected()
 
 function BlockPortletUI()
 {
-	window.validationpanel = $('#CCDAValidationForm').closest('div[class="well"]');
+	window.validationpanel = $('#CCDAvalidator');
 	
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	
@@ -102,7 +102,25 @@ function smartCCDAValidation()
 {
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	
-	$.blockUI({ 
+	var selector = null;
+	
+	//TODO: Make one of these for each C-CDA Validator 
+	if ($('#collapseCCDA1_1').hasClass('in')){
+		selector = '#CCDA1ValidationForm';
+	} else if ($('#collapseCCDA2_0').hasClass('in')){
+		selector = '#CCDA2ValidationForm';
+	} else if ($('#collapseReconciledValidator').hasClass('in')){
+		selector = '#CCDAReconciledValidationForm';
+	} else if ($('#collapseReferenceValidator').hasClass('in')){
+		selector = '#CCDAReferenceValidationForm';
+	} else if ($('#collapseSuperValidator').hasClass('in')){
+		selector = '#CCDASuperValidationForm';
+	} else {
+		
+	}
+	
+	
+	$.blockUI({
 		css: { 
 	        border: 'none', 
 	        padding: '15px', 
@@ -117,8 +135,8 @@ function smartCCDAValidation()
 		
 	});
 	
-	var formData = $('#CCDAValidationForm').serializefiles();
-	var serviceUrl = $('#CCDAValidationForm').attr("relay");
+	var formData = $(selector).serializefiles();
+	var serviceUrl = $(selector).attr("relay");
 	$.ajax({
         url: serviceUrl,
         type: 'POST',
@@ -194,9 +212,21 @@ function smartCCDAValidation()
     });
 }
 
+
+function incorpRequired(field, rules, i, options){
+	if($('#incorpfilepath').val()== '')
+	{
+		return "Please select a C-CDA sample";
+	}
+}
+
+
 $(function(){
 	
 	
+	$('#smartCCDAValidationBtn').bind('click', function(e, data) {
+		smartCCDAValidation();
+	});
 	
 	$('#reportSaveAsQuestion button').button();
 	
@@ -233,7 +263,7 @@ $(function(){
 				$.unblockUI(); 
             },
             failCallback: function (responseHtml, url) {
-            	alert("Sever error:" + responseHtml);
+            	alert("Server error:" + responseHtml);
             	$.unblockUI(); 
             },
 	        httpMethod: "POST",
@@ -243,7 +273,7 @@ $(function(){
 	});
 	
 	//ccdavalidator_callAjax();
-	
+	/*
 	$("#ccdavalidate_btn").click(function(e){
 	    
 		//switch back to tab1.
@@ -281,6 +311,185 @@ $(function(){
 	    });
 	    return false;
 	});
+	*/
+	
+	$("#ccdafiletreepanel").jstree({
+		 "json_data" : {
+			      "ajax" : {
+				      "url" : sampleCCDATreeURL,
+				      "type" : "post",
+				      /*"data" : function (n) {
+				    	 return { id : n.attr ? n.attr("id") : 0 };
+				      }*/
+				  }
+	      },
+	      
+	      "types" : {
+	    	  "valid_children" : [ "all" ],
+	    	  "type_attr" : "ref",
+	    	  "types" : {
+	    		  "root" : {
+		    	      "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/root.png"
+		    	      },
+		    	      "valid_children" : [ "file","folder" ],
+		    	      "max_depth" : 2,
+		    	      "hover_node" : false,
+		    	      "select_node" : function (e) {
+
+		    	    	  this.toggle_node(e);
+		    	    	  return false;
+		    	      }
+		    	      
+		    	  	},
+		    	  "file" : {
+		    		  "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/file.png"
+		    	      },
+		    		  "valid_children" : [ "none" ],
+		    		  "deselect_node" : function (node,e) {
+		    			  var jform = $('#incorpForm');
+		    			  $('#incorpForm .formError').hide(0);
+		    				
+		    			  
+		    			var textValue = $('#incorpemail').val();
+		  				$('#incorpForm').trigger('reset');
+		  				$('#incorpCCDAsubmit').unbind("click");
+		  				
+		  				$('#incorpfilePathOutput').empty();
+		  				$('#incorpfilepath').val('');
+		  				
+		  				$('#incorpemail').val(textValue);
+		    			  
+		    		  },
+		    		  "select_node" : function (node,e) {
+		    			  //var jform = $('#incorpForm');
+		    			  //jform.validationEngine('hideAll');
+		    			  $('#incorpForm .formError').hide(0);
+		    			  //populate the textbox
+		    			  $("#incorpfilepath").val(node.data("serverpath"));
+		    			  
+		    			  var pathTokens = $("#incorpfilepath").val().split("/");
+		    			  if (pathTokens.length === 1){
+		    				  pathTokens = pathTokens[0].split("\\");
+		    			  }
+		    			  var fileName = pathTokens[pathTokens.length-1];
+		    			  
+		    			  //$("#incorpfilePathOutput").text($("#incorpfilepath").val());
+		    			  $("#incorpfilePathOutput").text(fileName);
+		    			  
+		    	    	  //hide the drop down panel
+		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
+		    			  //hide all the errors
+		    			  //$('#incorpCCDAsubmit').validationEngine('hideAll');
+		    			  
+		    			  $('#dLabel').focus();
+		    			  $('#dLabel').dropdown("toggle");
+		    			  
+		    			  $("#incorpCCDAsubmit").click(function(e){
+		    				    
+		    				  	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+		    				  	$.blockUI({ css: { 
+		    				        border: 'none', 
+		    				        padding: '15px', 
+		    				        backgroundColor: '#000', 
+		    				        '-webkit-border-radius': '10px', 
+		    				        '-moz-border-radius': '10px', 
+		    				        opacity: .5, 
+		    				        color: '#fff' 
+		    			    	},
+		    			    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+		    					          '<div class="lbl">Preparing your download...</div></div>' });
+		    				  	
+		    				  
+		    					var jform = $('#incorpForm');
+		    					jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
+		    					if(jform.validationEngine('validate'))
+		    					{
+		    						$('#incorpForm .formError').hide(0);
+		    						
+		    					    
+		    						$.fileDownload($('#incorpForm').attr('action'), {
+		    							
+		    							successCallback: function (url) {
+		    								$.unblockUI(); 
+		    				            },
+		    				            failCallback: function (responseHtml, url) {
+		    				            	alert("Server error:" + responseHtml);
+		    				            	alert(url);
+		    				            	$.unblockUI(); 
+		    				            },
+		    					        httpMethod: "POST",
+		    					        data: $('#incorpForm').serialize()
+		    					    });
+		    						
+		    						
+		    						/*
+		    						 * 
+		    						var formData = $('#incorpForm').serialize();
+		    					    $.ajax({
+		    					        url: $('#incorpForm').attr('action'),
+		    					        
+		    					        type: 'POST',
+		    					        
+		    					        //xhr: function() {  // custom xhr
+		    					         //   myXhr = $.ajaxSettings.xhr();
+		    					         //   if(myXhr.upload){ // check if upload property exists
+		    					         //      myXhr.upload.addEventListener('progressor', progressorHandlingFunction, false); 
+		    					         //   }
+		    					         //   return myXhr;
+		    					        //},
+		    					        
+		    					        success: function(data){
+		    					        	
+		    					        },
+		    					        
+		    					        error: function (request, status, error) {
+		    					        	alert(status);
+		    					        	alert(error);
+		    					        },
+		    					        // Form data
+		    					        data: formData,
+		    					        //Options to tell JQuery not to process data or worry about content-type
+		    					        cache: false,
+		    					        contentType: false,
+		    					        processData: false
+		    					    });
+		    					    */
+		    					}
+		    					else
+		    					{
+		    						$('#incorpForm .formError').show(0);
+		    						
+		    						$('#incorpform .incorpfilepathformError').prependTo('#incorperrorlock');
+		    					}
+		    					
+		    					return false;
+		    				});
+		    			  
+		    		  }
+		    	  },
+		    	  "folder" : {
+		    		  "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/folder.png"
+		    	      },
+		    		  "valid_children" : [ "file" ],
+		    		  "select_node" : function (e) {
+		    	    	  e.find('a:first').focus();
+		    			  this.toggle_node(e);
+		    	    	  return false;
+		    	      }
+		    	  }
+	    	 }
+	    },
+	    "plugins" : [ "themes", "json_data", "ui", "types" ]
+	}).bind('loaded.jstree', function(e, data) {
+		isfiletreeloaded = true;
+		
+		$('#ccdafiletreepanel').find('a').each(function() {
+		    $(this).attr('tabindex', '1');
+		});
+	});
+	
 	
 });
-
