@@ -67,7 +67,7 @@ public class SampleCCDATreeController extends BaseController {
 									"%d_%d", deep, count), "helloword");
 					folder.getMetadata().setDescription("This is CCDA file 1.");
 					folder.getMetadata().setServerPath(
-							dirPath.replace(props.getProperty("sampleCcdaDir")
+							dirPath.replace(props.getProperty("samplesFromVendorsForIncorporation")
 									+ "/", ""));
 					root.addChild(folder);
 				}
@@ -86,8 +86,8 @@ public class SampleCCDATreeController extends BaseController {
 		_log.trace("Start get sample CCDAs.");
 		SampleCCDATreeNode root = new SampleCCDATreeNode("Localhost", "root",
 				"open", "1", "helloword");
-		String CCDASampleDirBase = props.getProperty("sampleCcdaDir");
-		String CCDASampleDir = CCDASampleDirBase + "/SamplesFromVendors/sample_ccdas";
+		
+		String CCDASampleDir = props.getProperty("samplesFromVendorsForIncorporation");
 		
 		
 		this.tranverseDir(CCDASampleDir, root, 1);

@@ -294,9 +294,19 @@ text-decoration: underline;
 
 #incorpFormWrapper
 {
-	height:240px
+	/*height:240px*/
 }
 
+.well .panel {
+border: 0px;
+}
 
+.well .panel + .panel {
+margin-top: 0px;
+}
 
+.panel-group.well {
+margin: 0px;
+padding: 0px;
+}
 

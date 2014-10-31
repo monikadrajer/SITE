@@ -83,11 +83,11 @@
       		<p>To perform C-CDA validation, please select a C-CDA validator below. <br/><br/>Please note: validation may take up to one minute to run.</p>
       		
       		
-      		<div class="panel-group" id="CCDAAccordion">
+      		<div class="panel-group well" id="CCDAAccordion">
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
-			        <a data-toggle="collapse" data-parent="#CCDAAccordion" href="#collapseCCDA1_1">
+			        <a data-toggle="collapse" data-parent="#CCDAAccordion" href="#collapseCCDA1_1" tabindex="1">
 			          C-CDA R1.1 Validator
 			        </a>
 			      </h4>
@@ -152,7 +152,7 @@
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
-			        <a data-toggle="collapse" data-parent="#CCDAAccordion" href="#collapseCCDA2_0">
+			        <a data-toggle="collapse" data-parent="#CCDAAccordion" href="#collapseCCDA2_0" tabindex="1">
 			          C-CDA R2.0 Validator
 			        </a>
 			      </h4>
@@ -201,7 +201,7 @@
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
-			        <a data-toggle="collapse" data-parent="#CCDAAccordion" href="#collapseReconciledValidator">
+			        <a data-toggle="collapse" data-parent="#CCDAAccordion" href="#collapseReconciledValidator" tabindex="1">
 			          Reconciled C-CDA Validator
 			        </a>
 			      </h4>
@@ -301,7 +301,7 @@
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
-			        <a data-toggle="collapse" data-parent="#CCDAAccordion" href="#collapseReferenceValidator">
+			        <a data-toggle="collapse" data-parent="#CCDAAccordion" href="#collapseReferenceValidator" tabindex="1">
 			          Reference C-CDA Validator
 			        </a>
 			      </h4>
@@ -385,7 +385,7 @@
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
-			        <a data-toggle="collapse" data-parent="#CCDAAccordion" href="#collapseSuperValidator">
+			        <a data-toggle="collapse" data-parent="#CCDAAccordion" href="#collapseSuperValidator" tabindex="1">
 			          Super C-CDA Validator
 			        </a>
 			      </h4>
@@ -462,7 +462,7 @@
       		<p>Please download C-CDAs below</p>
       		
   			
-  			<div class="panel-group" id="IncorporationAccordion">
+  			<div class="panel-group well" id="IncorporationAccordion">
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
@@ -471,7 +471,7 @@
 			        </a>
 			      </h4>
 			    </div>
-			    <div id="collapseNegativeTesting" class="panel-collapse collapse" tabindex="1"> 
+			    <div id="collapseNegativeTesting" class="panel-collapse collapse"> 
 			      <div class="panel-body">
 			      
 			      	<!--<a href="http://wiki.siframework.org/Companion+Guide+to+Consolidated+CDA+for+MU2"> (Download as .zip)</a>-->
@@ -520,10 +520,10 @@
 			      </div>
 			    </div>
 			  </div>
-			  <div class="panel panel-default">
+			  <div class="panel panel-default" style="overflow: visible;">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
-			        <a data-toggle="collapse" data-parent="#IncorporationAccordion" href="#collapseVendorDownload">
+			        <a data-toggle="collapse" data-parent="#IncorporationAccordion" href="#collapseVendorDownload" tabindex="1">
 			          Samples from Vendors for Incorporation
 			        </a>
 			      </h4>

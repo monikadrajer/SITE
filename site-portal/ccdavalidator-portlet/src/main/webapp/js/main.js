@@ -23,7 +23,7 @@ function fileSelected()
 
 function BlockPortletUI()
 {
-	window.validationpanel = $('#CCDAvalidator');
+	window.validationpanel = $('#CCDAvalidator .well');
 	
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	
@@ -368,15 +368,10 @@ $(function(){
 		    			  $('#incorpForm .formError').hide(0);
 		    			  //populate the textbox
 		    			  $("#incorpfilepath").val(node.data("serverpath"));
+		    			
 		    			  
-		    			  var pathTokens = $("#incorpfilepath").val().split("/");
-		    			  if (pathTokens.length === 1){
-		    				  pathTokens = pathTokens[0].split("\\");
-		    			  }
-		    			  var fileName = pathTokens[pathTokens.length-1];
-		    			  
-		    			  //$("#incorpfilePathOutput").text($("#incorpfilepath").val());
-		    			  $("#incorpfilePathOutput").text(fileName);
+		    			  $("#incorpfilePathOutput").text($("#incorpfilepath").val());
+		    			 
 		    			  
 		    	    	  //hide the drop down panel
 		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
