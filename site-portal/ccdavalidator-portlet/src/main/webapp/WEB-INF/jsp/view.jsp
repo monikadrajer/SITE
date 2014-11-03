@@ -475,9 +475,8 @@
 			      <div class="panel-body">
 			      
 			      	<!--<a href="http://wiki.siframework.org/Companion+Guide+to+Consolidated+CDA+for+MU2"> (Download as .zip)</a>-->
-			      	<br/>
-			      	<br>
-			        <div class="list-group download-list" style="width:75%">
+		
+			        <div class="list-group download-list">
 			        
 			        	<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=0" style="width: 100%;" tabindex="1">Get All C-CDAs</a>
 			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=1"  style="width: 100%;" tabindex="1">Expired vocabulary testing</a>
@@ -510,7 +509,7 @@
 			    </div>
 			    <div id="collapseReference" class="panel-collapse collapse">
 			      <div class="panel-body">
-			        <div class="list-group download-list" style="width:75%">
+			        <div class="list-group download-list">
 			        	<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=0" style="width: 100%;" tabindex="1">Base C-CDA</a>
 			      		<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=1" style="width: 100%;" tabindex="1">C-CDA 1 for Incorporation</a>
 			      		<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=2" style="width: 100%;" tabindex="1">C-CDA 2 for Incorporation</a>

@@ -261,7 +261,7 @@ text-decoration: underline;
 
 
 .download-list {
-	margin-left: 10%;
+	margin-bottom: 0px;
 }
 
 
@@ -308,5 +308,21 @@ margin-top: 0px;
 .panel-group.well {
 margin: 0px;
 padding: 0px;
+}
+
+div#collapseNegativeTesting .panel-body .list-group-item {
+	border-radius: 0px;
+}
+div#collapseNegativeTesting .panel-body {
+	padding: 0px;
+
+}
+
+div#collapseReference .panel-body .list-group-item {
+	border-radius: 0px;
+}
+div#collapseReference .panel-body {
+	padding: 0px;
+
 }
 
