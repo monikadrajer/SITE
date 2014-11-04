@@ -220,7 +220,7 @@ function smartCCDAValidation()
 	    var  iframeId = 'unique' + (new Date().getTime());
 	    var action = jform.attr("action");
 	    var relay = jform.attr("relay");
-	    
+	    // Set the action on the form to the value of the relay
 	    jform.attr("action", relay);
 	    
 	    var iframe = $('<iframe src="javascript:false;" name="'+iframeId+'" id="'+iframeId+'" />');
@@ -239,7 +239,8 @@ function smartCCDAValidation()
 	    });
 		
 	    jform.submit();
-		
+	    // Set the action on the form from the relay 
+	    // back to the original action
 	    jform.attr("action", action);
 	
 	} else {

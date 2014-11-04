@@ -224,7 +224,7 @@
 	                    //}
 	                    //else {
 	                    //    return true;
-	                    //}     
+	                    //}
 	            	},
 	            	"alertText" : "* The uploaded file exceeds the maximum file size of 3 MB."
 	            }
