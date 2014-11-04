@@ -261,7 +261,7 @@ text-decoration: underline;
 
 
 .download-list {
-	margin-left: 10%;
+	margin-bottom: 0px;
 }
 
 
@@ -294,9 +294,35 @@ text-decoration: underline;
 
 #incorpFormWrapper
 {
-	height:240px
+	/*height:240px*/
 }
 
+.well .panel {
+border: 0px;
+}
 
+.well .panel + .panel {
+margin-top: 0px;
+}
 
+.panel-group.well {
+margin: 0px;
+padding: 0px;
+}
+
+div#collapseNegativeTesting .panel-body .list-group-item {
+	border-radius: 0px;
+}
+div#collapseNegativeTesting .panel-body {
+	padding: 0px;
+
+}
+
+div#collapseReference .panel-body .list-group-item {
+	border-radius: 0px;
+}
+div#collapseReference .panel-body {
+	padding: 0px;
+
+}
 

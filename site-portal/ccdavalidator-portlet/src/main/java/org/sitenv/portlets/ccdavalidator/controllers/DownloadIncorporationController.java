@@ -12,6 +12,7 @@ import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
+import org.apache.log4j.Logger;
 import org.sitenv.common.statistics.manager.StatisticsManager;
 import org.sitenv.common.utilities.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class DownloadIncorporationController extends BaseController {
 	
 	@Autowired
 	private StatisticsManager statisticsManager;
+	
+	private static Logger logger = Logger.getLogger(DownloadIncorporationController.class);
 	
     private static final Map<String, String> negativeTestingCCDAFileNames;
     static
@@ -88,11 +91,10 @@ public class DownloadIncorporationController extends BaseController {
 		
 		String ccdaVal = resourceRequest.getParameter("getCCDA");
 		
-		String downloadPathBase = this.props.getProperty("sampleCcdaDir");
 		String fileName = DownloadIncorporationController.negativeTestingCCDAFileNames.get(ccdaVal);
 		
 		
-		String downloadPath = downloadPathBase + "/NegativeTestingSamples/" + fileName;
+		String downloadPath = props.getProperty("CcdasForNegativeTesting") + "/" + fileName;
 		
 		File downloadFile = new File(downloadPath);
 		InputStream in = new FileInputStream(downloadFile);
@@ -126,10 +128,9 @@ public class DownloadIncorporationController extends BaseController {
 		
 		String ccdaVal = resourceRequest.getParameter("getCCDA");
 		
-		String downloadPathBase = this.props.getProperty("sampleCcdaDir");
 		String fileName = DownloadIncorporationController.referenceCCDAFileNames.get(ccdaVal);
 		
-		String downloadPath = downloadPathBase + "/ReferenceSamples/" + fileName;
+		String downloadPath = props.getProperty("referenceCcdasForIncorporation") + "/" + fileName;
 		
 		File downloadFile = new File(downloadPath);
 		InputStream in = new FileInputStream(downloadFile);
@@ -162,15 +163,13 @@ public class DownloadIncorporationController extends BaseController {
 			this.loadProperties();
 		}
 		
-		String downloadPath = resourceRequest.getParameter("incorpfilepath");
+		String downloadPath = props.getProperty("samplesFromVendorsForIncorporation") + "/" + resourceRequest.getParameter("incorpfilepath");
+		
+		logger.info("DOWNLOAD PATH!!!!!!!!!!!!!!!!!!!!! "  + downloadPath);
 		
 		String[] downloadPathTokens = downloadPath.split("[/\\\\]");
 		String fileName = downloadPathTokens[downloadPathTokens.length-1];
 		
-		if (downloadPathTokens.length > 1){
-			String folder = downloadPathTokens[downloadPathTokens.length-2];
-			fileName = folder + " - " + fileName;
-		}
 		
 		File downloadFile = new File(downloadPath);
 		InputStream in = new FileInputStream(downloadFile);
