@@ -202,7 +202,7 @@
 	            },
 	            "maxCCDAFileSize":{
 	            	"func": function(field, rules, i, options) {
-	            		if ((bowser.msie && bower.version <= 9)) {
+	            		if ((bowser.msie && bowser.version <= 9)) {
 	                        
 	                        return true;
 	                       } else {

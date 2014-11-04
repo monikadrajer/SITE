@@ -98,6 +98,82 @@ function floorFigure(figure, decimals){
     return (parseInt(figure*d)/d).toFixed(decimals);
 };
 
+
+
+
+
+function writeSmartCCDAResultHTML(data){
+	var results = JSON.parse(data);
+	if(results.IsSuccess)
+	{
+		try{
+    		var tablehtml = [];
+    		var rubricLookup = results.RubricLookup;
+    		var rowtmp = '<tr><td>{label}</td><td>{score}</td><td>{scoreexplain}</td><td>{detail}</td></tr>';
+    		
+    		tablehtml.push('<table class="bordered">');
+    		tablehtml.push('<colgroup>');
+    		tablehtml.push('<col span="1" style="width: 15%;">');
+    		tablehtml.push('<col span="1" style="width: 50px;">');
+    		tablehtml.push('<col span="1" style="width: 15%;">');
+    		tablehtml.push('<col span="1" style="width: 67%;">');
+    		tablehtml.push('</colgroup>');
+    		
+    		tablehtml.push('<thead><tr>');
+    		tablehtml.push('<th>Rubric</th>');
+    		tablehtml.push('<th>Score</th>');
+    		tablehtml.push('<th>Comment</th>');
+    		tablehtml.push('<th>Details</th>');
+    		tablehtml.push('</tr></thead>');
+    		
+    		tablehtml.push('<tbody>');
+
+    		$.each(results.Results, function(i, result) {
+    			//look up the label
+    			var rowcache = rowtmp;
+    			var label = rubricLookup[result.rubric].description;
+    			rowcache = rowcache.replace(/{label}/g, label?label:'N/A');
+    			rowcache = rowcache.replace(/{score}/g, result.score?result.score:'N/A');
+    			var scoreexplaination = (rubricLookup[result.rubric])?(rubricLookup[result.rubric].points)?rubricLookup[result.rubric].points[result.score]:'N/A':'N/A';
+    			rowcache = rowcache.replace(/{scoreexplain}/g, scoreexplaination?scoreexplaination:'N/A');
+    			rowcache = rowcache.replace(/{detail}/g, result.detail?result.detail:'');
+    			tablehtml.push(rowcache);
+            });
+    		
+    		tablehtml.push('</tbody></table>');
+    		
+    		$("#resultModalTabs a[href='#tabs-3']").show();
+    		
+    		$(".modal-body").scrollTop(0);
+    		
+    		$("#resultModalTabs a[href='#tabs-3']").tab("show");
+    		
+    		$("#ValidationResult .tab-content #tabs-3" ).html(tablehtml.join(""));
+		
+		}
+		catch(exp)
+		{
+			alert('javascript crashed, please report this issue:'+ err.message);
+		}
+		$.unblockUI();
+	}
+	else
+	{
+		alert(results.Message);
+		$.unblockUI();
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
 function smartCCDAValidation()
 {
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
@@ -135,81 +211,33 @@ function smartCCDAValidation()
 		
 	});
 	
-	var formData = $(selector).serializefiles();
-	var serviceUrl = $(selector).attr("relay");
-	$.ajax({
-        url: serviceUrl,
-        type: 'POST',
-        
-        success: function(data){
-        	var results = JSON.parse(data);
-        	if(results.IsSuccess)
-        	{
-        		try{
-	        		var tablehtml = [];
-	        		var rubricLookup = results.RubricLookup;
-	        		var rowtmp = '<tr><td>{label}</td><td>{score}</td><td>{scoreexplain}</td><td>{detail}</td></tr>';
-	        		
-	        		tablehtml.push('<table class="bordered">');
-	        		tablehtml.push('<colgroup>');
-	        		tablehtml.push('<col span="1" style="width: 15%;">');
-	        		tablehtml.push('<col span="1" style="width: 50px;">');
-	        		tablehtml.push('<col span="1" style="width: 15%;">');
-	        		tablehtml.push('<col span="1" style="width: 67%;">');
-	        		tablehtml.push('</colgroup>');
-	        		
-	        		tablehtml.push('<thead><tr>');
-	        		tablehtml.push('<th>Rubric</th>');
-	        		tablehtml.push('<th>Score</th>');
-	        		tablehtml.push('<th>Comment</th>');
-	        		tablehtml.push('<th>Details</th>');
-	        		tablehtml.push('</tr></thead>');
-	        		
-	        		tablehtml.push('<tbody>');
 	
-	        		$.each(results.Results, function(i, result) {
-	        			//look up the label
-	        			var rowcache = rowtmp;
-	        			var label = rubricLookup[result.rubric].description;
-	        			rowcache = rowcache.replace(/{label}/g, label?label:'N/A');
-	        			rowcache = rowcache.replace(/{score}/g, result.score?result.score:'N/A');
-	        			var scoreexplaination = (rubricLookup[result.rubric])?(rubricLookup[result.rubric].points)?rubricLookup[result.rubric].points[result.score]:'N/A':'N/A';
-	        			rowcache = rowcache.replace(/{scoreexplain}/g, scoreexplaination?scoreexplaination:'N/A');
-	        			rowcache = rowcache.replace(/{detail}/g, result.detail?result.detail:'');
-	        			tablehtml.push(rowcache);
-		            });
-	        		
-	        		tablehtml.push('</tbody></table>');
-	        		
-	        		$("#resultModalTabs a[href='#tabs-3']").show();
-	        		
-	        		$(".modal-body").scrollTop(0);
-	        		
-	        		$("#resultModalTabs a[href='#tabs-3']").tab("show");
-	        		
-	        		$("#ValidationResult .tab-content #tabs-3" ).html(tablehtml.join(""));
-        		
-        		}
-        		catch(exp)
-        		{
-        			alert('javascript crashed, please report this issue:'+ err.message);
-        		}
-        		$.unblockUI();
-        	}
-        	else
-        	{
-        		alert(results.Message);
-        		$.unblockUI();
-        	}
-        },
-        error: errorHandler,
-        // Form data
-        data: formData,
-        //Options to tell JQuery not to process data or worry about content-type
-        cache: false,
-        contentType: false,
-        processData: false
-    });
+	
+	if (bowser.msie && bowser.version <= 9) {
+		
+		//var jform = $(selector);
+		
+		
+	} else {
+		
+		var formData = $(selector).serializefiles();
+		var serviceUrl = $(selector).attr("relay");
+		$.ajax({
+	        url: serviceUrl,
+	        type: 'POST',
+	        
+	        success: function(data){
+	        	writeSmartCCDAResultHTML(data);
+	        },
+	        error: errorHandler,
+	        // Form data
+	        data: formData,
+	        //Options to tell JQuery not to process data or worry about content-type
+	        cache: false,
+	        contentType: false,
+	        processData: false
+	    });
+	}
 }
 
 
