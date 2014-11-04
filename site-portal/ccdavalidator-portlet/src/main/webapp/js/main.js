@@ -215,9 +215,33 @@ function smartCCDAValidation()
 	
 	if (bowser.msie && bowser.version <= 9) {
 		
-		//var jform = $(selector);
+		var jform = $(selector);
 		
+	    var  iframeId = 'unique' + (new Date().getTime());
+	    var action = jform.attr("action");
+	    var relay = jform.attr("relay");
+	    
+	    jform.attr("action", relay);
+	    
+	    var iframe = $('<iframe src="javascript:false;" name="'+iframeId+'" id="'+iframeId+'" />');
+	    
+	    iframe.hide();
+	    jform.attr('target',iframeId);
+	    iframe.appendTo('body');
+	    
+	    iframe.load(function(e)
+	    {
+	        var doc = getDoc(iframe[0]); //get iframe Document
+	        var node = doc.body ? doc.body : doc.documentElement;
+	        var data = (node.innerText || node.textContent);
+	        writeSmartCCDAResultHTML(data);
+	        
+	    });
 		
+	    jform.submit();
+		
+	    jform.attr("action", action);
+	
 	} else {
 		
 		var formData = $(selector).serializefiles();
@@ -238,6 +262,7 @@ function smartCCDAValidation()
 	        processData: false
 	    });
 	}
+	
 }
 
 
