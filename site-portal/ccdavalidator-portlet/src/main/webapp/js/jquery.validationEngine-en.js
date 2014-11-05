@@ -206,7 +206,7 @@
 	                        
 	                        return true;
 	                       } else {
-			                        
+			                    
 			            		
 			            		var uploadedFile = field[0].files[0];
 			            		

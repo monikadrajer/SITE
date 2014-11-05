@@ -40,6 +40,7 @@ $(function() {
         	}
         },
 		done : function(e, data) {
+			
 			$.each(data.result.files, function(index, file) {
 				$('#CCDA1files').empty();
 				$('#CCDA1files').text(file.name);
@@ -59,7 +60,7 @@ $(function() {
 			
 			var tabHtml1 = 
 				   ['<title>Validation Results</title>',
-				    '<h1 align="center">Consolidated-CDA Validation and Meaningful Use Stage 2 Certification Results</h1>',
+				    '<h1 align="center">Consolidated-CDA r1.1 Validation and Meaningful Use Stage 2 Certification Results</h1>',
 				    '<b>Upload Results:</b>',
 				    '<br/>'+uploadedFileName+' was uploaded successfully.',
 				    '<br/><br/>',
@@ -393,6 +394,17 @@ $(function() {
         	}
         },
 		done : function(e, data) {
+			
+			
+			// For R2.0, we don't want to show the SmartCCDA validator option
+			$("#smartCCDAValidationBtn").hide();
+			
+			$("#closeResultsBtn").bind('click', function(e, data) {
+				$("#smartCCDAValidationBtn").show();
+			});
+			
+			
+			
 			$.each(data.result.files, function(index, file) {
 				$('#CCDA2files').empty();
 				$('#CCDA2files').text(file.name);
@@ -413,7 +425,7 @@ $(function() {
 			
 			var tabHtml1 = 
 				   ['<title>Validation Results</title>',
-				    '<h1 align="center">Consolidated-CDA Validation and Meaningful Use Stage 2 Certification Results</h1>',
+				    '<h1 align="center">Consolidated-CDA r2.0 Validation Results</h1>',
 				    '<b>Upload Results:</b>',
 				    '<br/>'+uploadedFileName+' was uploaded successfully.',
 				    '<br/><br/>',
@@ -573,6 +585,8 @@ $(function() {
 			
 			
 			$( "#ValidationResult .tab-content #tabs-1" ).html(tabHtml1);
+			
+			
 			
 			$("#resultModal").modal("show");
 			
@@ -745,6 +759,8 @@ $(function() {
       	}
       },
 		done : function(e, data) {
+			
+			
 			$.each(data.result.files, function(index, file) {
 				$('#CCDASuperFiles').empty();
 				$('#CCDASuperFiles').text(file.name);
@@ -765,7 +781,7 @@ $(function() {
 			
 			var tabHtml1 = 
 				   ['<title>Validation Results</title>',
-				    '<h1 align="center">Consolidated-CDA Validation and Meaningful Use Stage 2 Certification Results</h1>',
+				    '<h1 align="center">Consolidated-CDA Super Validation and Meaningful Use Stage 2 Certification Results</h1>',
 				    '<b>Upload Results:</b>',
 				    '<br/>'+uploadedFileName+' was uploaded successfully.',
 				    '<br/><br/>',

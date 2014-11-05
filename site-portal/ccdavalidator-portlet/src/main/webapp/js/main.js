@@ -263,7 +263,6 @@ function smartCCDAValidation()
 	        processData: false
 	    });
 	}
-	
 }
 
 
