@@ -435,7 +435,7 @@
 											<div id="CCDASuperFiles"></div>
 											
 										</div>
-									</div>								
+									</div>
 								</div>
 								<hr/>
 								<button id="CCDASuperFormSubmit" type="submit" class="btn btn-primary start" onclick="return false;"  tabindex="1">
@@ -627,7 +627,7 @@
 				<div class="modal-footer">
 					<button type="button" class="btn btn-primary" id="smartCCDAValidationBtn">Smart C-CDA Validation</button>
 					<button type="button" class="btn btn-primary" id="saveResultsBtn">Save Results</button>
-			        <button type="button" class="btn btn-default" data-dismiss="modal">Close Results</button>
+			        <button type="button" class="btn btn-default" id="closeResultsBtn" data-dismiss="modal">Close Results</button>
 				</div>
 			</div>
 			</div>
