@@ -44,7 +44,7 @@ public class SingleTestServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     private static final String BASE_DN_PROPERTY = "project.test.server.dsml.dn.base";
     private static final String URL_PROPERTY = "project.test.server.wsdl.url";
-    private static final String MSPD_SOAPUI_PROJECT_FILE = "soapui-project_hpdplus.xml";
+    //private static final String MSPD_SOAPUI_PROJECT_FILE = "soapui-project_hpdplus.xml";
     private static final String IHE_SOAPUI_PROJECT_FILE = "soapui-project.xml";
 
     private static WsdlProject IHE_WSDL_PROJECT;
@@ -119,7 +119,7 @@ public class SingleTestServlet extends HttpServlet {
 		SoapUI.getThreadPool().setKeepAliveTime(0, TimeUnit.SECONDS);  // any threads over the core pool size will be deallocated immediately upon completion.
 		
 		IHE_WSDL_PROJECT = getWsdlProject(getFileUrl(IHE_SOAPUI_PROJECT_FILE));
-		MSPD_WSDL_PROJECT = getWsdlProject(getFileUrl(MSPD_SOAPUI_PROJECT_FILE));
+		//MSPD_WSDL_PROJECT = getWsdlProject(getFileUrl(MSPD_SOAPUI_PROJECT_FILE));
 		
 	
 	}
@@ -189,9 +189,9 @@ public class SingleTestServlet extends HttpServlet {
 		
 		// we are only dealing with ModSpec for this version...
 		//if (wsdl.equals("modSpec")) {
-			project = MSPD_WSDL_PROJECT;			
+			//project = MSPD_WSDL_PROJECT;			
 		//} else if (wsdl.equals("ihehpd")) {
-		//    project = IHE_WSDL_PROJECT;			
+		    project = IHE_WSDL_PROJECT;			
 		//} else {
 		//	project = null;
 		//}
