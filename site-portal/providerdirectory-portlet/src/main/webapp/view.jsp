@@ -76,8 +76,8 @@
       <div class="panel-heading"><h3 class="panel-title">Provider Directory Client Testing</h3></div>
   		<div class="panel-body">
 
-	PD clients that would like to verify their systems are generating conformant PD search requests following the ONC Modular Specifications can issue requests against the Provider Directory Test Implementation (PDTI) setup at the following WSDL:<br /><br />
-http://54.201.181.21/pdti-server/Hpd_Plus_ProviderInformationDirectoryService?wsdl<br /><br />
+	PD clients that would like to verify their systems are generating conformant PD search requests following the IHE HPD specification can issue requests against the Provider Directory Test Implementation (PDTI) setup at the following WSDL:<br /><br />
+http://54.201.181.21/pdti-server/ProviderInformationDirectoryService?wsdl<br /><br />
 The PDTI has the test data loaded as specified above, and clients can verify the results, based on their search requests, by manually cross-checking results against the test data.
   </div>
 </div>
