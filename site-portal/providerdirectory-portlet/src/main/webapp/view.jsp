@@ -30,13 +30,17 @@
 </script>
 
 <div id="providerDirectoryWidget" class="panel panel-default">
-      <div class="panel-heading"><h3 class="panel-title">Provider Directory Server Test Cases</h3></div>
+      <div class="panel-heading"><h3 class="panel-title">Provider Information Directory (Server) Test Cases</h3></div>
   		<div class="panel-body">
 	
 	<h4>Directions</h4>
-      		
-     <p>To execute test cases against your provider directory server implementation, please enter the publicly available WSDL URL for your PD endpoint, enter the base DN for your PD implementation, and select the test case that you wish to execute.<br/><br/>Please note: the test cases may take up to one minute to run.</p>
-      	
+	<ol>
+		<li>Import the test data provided following <a href="https://github.com/siteadmin/pdti">these instructions</a></li>
+		<li>Once the data is imported into the directory, enter your WSDL below.</li>
+		<li>Specify you based DN</li>
+		<li>Select the test case and execute</li>
+	</ol>
+     
 <div class="well">
   <form action="/site-portal-providerdirectory-servlet/GetPDGISingleTest" name="testForm" method="post" id="providerDirectoryTestForm">
       
