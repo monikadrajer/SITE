@@ -90,8 +90,8 @@ public class CCDAValidatorController extends BaseController {
 				MultipartEntity entity = new MultipartEntity();
 				// set the file content
 				entity.addPart("file", new InputStreamBody(file.getInputStream() , file.getOriginalFilename()));
-				// set the CCDA type
 				
+				// set the CCDA type
 				entity.addPart("type_val",new StringBody(ccda_type_value));
 				
 				post.setEntity(entity);
@@ -110,15 +110,27 @@ public class CCDAValidatorController extends BaseController {
 				}
 				else
 				{
-					boolean hasErrors = true, hasWarnings = true, hasInfo = true;
+					boolean ccdaHasErrors = true, ccdaHasWarnings = true, ccdaHasInfo = true;
+					boolean extendedCcdaHasErrors = true, extendedCcdaHasWarnings = true, extendedCcdaHasInfo = true;
+					
 					
 					String json = handler.handleResponse(relayResponse);
 					JSONObject jsonbody = new JSONObject(json);
 					
-					JSONObject report = jsonbody.getJSONObject("report");
-					hasErrors = report.getBoolean("hasErrors");
-					hasWarnings = report.getBoolean("hasWarnings");
-					hasInfo = report.getBoolean("hasInfo");
+					JSONObject ccdaReport = jsonbody.getJSONObject("ccdaResults").getJSONObject("report");
+					ccdaHasErrors = ccdaReport.getBoolean("hasErrors");
+					ccdaHasWarnings = ccdaReport.getBoolean("hasWarnings");
+					ccdaHasInfo = ccdaReport.getBoolean("hasInfo");
+					
+					JSONObject extendedCcdaReport = jsonbody.getJSONObject("ccdaExtendedResults").getJSONObject("report");
+					extendedCcdaHasErrors = extendedCcdaReport.getBoolean("hasErrors");
+					extendedCcdaHasWarnings = extendedCcdaReport.getBoolean("hasWarnings");
+					extendedCcdaHasInfo = extendedCcdaReport.getBoolean("hasInfo");
+					
+					boolean hasErrors = (ccdaHasErrors || extendedCcdaHasErrors);
+					boolean hasWarnings = (ccdaHasWarnings || extendedCcdaHasWarnings);
+					boolean hasInfo = (ccdaHasInfo || extendedCcdaHasInfo);
+					
 					
 					responseJSON.setJSONResponseBody(jsonbody);
 					

@@ -50,7 +50,7 @@ $(function() {
 			//$( "#ValidationResult .tab-content #tabs-1" ).html(data.result.body);
 			//$( "#ValidationResult .tab-content #tabs-1" ).html(window.JSON.stringify(data.result.body));
 			
-			var report = data.result.body.report;
+			var report = data.result.body.ccdaResults.report;
 			var valResult = report.validationResults1;
 			var valStatement = report.validationResults2;
 			var uploadedFileName = data.result.files[0].name;
@@ -80,41 +80,7 @@ $(function() {
 				tabHtml1 += '<i>'+valResult+'</i><br/>'+valStatement+'<br/><br/><hr/>';
 				tabHtml1 += '<hr/><i>Errors Received (Total of '+report.errorCount.toString()+'):</i><hr/>';
 				
-				var errorList = ['<hr/>',
-				                 '<ul>'];
-				
-				var errors = data.result.body.errors;
-				
-				var nErrors = errors.length;
-				for (var i=0; i < nErrors; i++){
-					
-					var error = errors[i];
-					var message = error.message;
-					var path = error.path;
-					var lineNum = error.lineNumber;
-					var source = error.source;
-					
-					var errorDescription = ['<li> ERROR '+(i+1).toString()+'',
-					                    '<ul>',
-					                    	'<li>Message: '+ message + '</li>',
-					                    '</ul>',
-					                    '<ul>',
-				                    		'<li>Path: '+ path + '</li>',
-				                    	'</ul>',
-				                    	'<ul>',
-				                    		'<li>Line Number (approximate): '+ lineNum + '</li>',
-				                    	'</ul>',
-				                    	'<ul>',
-			                    			'<li>Source: (approximate): '+ source + '</li>',
-			                    		'</ul>',
-			                    		'</li>'
-					                    ];
-					
-					errorList = errorList.concat(errorDescription);
-				}
-				errorList.push('</ul>');
-				errorList.push('</font>');
-				tabHtml1 += (errorList.join('\n'));
+				tabHtml1 += buildCcdaErrorList(data);
 				
 				
 			} else {
@@ -131,7 +97,7 @@ $(function() {
 				
 				var warningList = ['<ul>'];
 				
-				var warnings = data.result.body.warnings;
+				var warnings = data.result.body.ccdaResults.warnings;
 				
 				var nWarnings = warnings.length;
 				for (var i=0; i < nWarnings; i++){
@@ -176,7 +142,7 @@ $(function() {
 				
 				var infoList = ['<ul>'];
 				
-				var infos = data.result.body.info;
+				var infos = data.result.body.ccdaResults.info;
 				
 				var nInfo = infos.length;
 				for (var i=0; i < nInfo; i++){
@@ -353,6 +319,80 @@ $(function() {
 	
 });
 
+function buildCcdaErrorList(data){
+	var errorList = ['<hr/>',
+	                 '<ul>'];
+	
+	var errors = data.result.body.ccdaResults.errors;
+	
+	var nErrors = errors.length;
+	for (var i=0; i < nErrors; i++){
+		
+		var error = errors[i];
+		var message = error.message;
+		var path = error.path;
+		var lineNum = error.lineNumber;
+		var source = error.source;
+		
+		var errorDescription = ['<li> ERROR '+(i+1).toString()+'',
+		                    '<ul>',
+		                    	'<li>Message: '+ message + '</li>',
+		                    '</ul>',
+		                    '<ul>',
+	                    		'<li>Path: '+ path + '</li>',
+	                    	'</ul>',
+	                    	'<ul>',
+	                    		'<li>Line Number (approximate): '+ lineNum + '</li>',
+	                    	'</ul>',
+	                    	'<ul>',
+                    			'<li>Source: (approximate): '+ source + '</li>',
+                    		'</ul>',
+                    		'</li>'
+		                    ];
+		
+		errorList = errorList.concat(errorDescription);
+	}
+	errorList.push('</ul>');
+	errorList.push('</font>');
+	return (errorList.join('\n'));
+}
+
+function buildCcdaWarningList(){
+	var warningList = ['<ul>'];
+	
+	var warnings = data.result.body.warnings;
+	
+	var nWarnings = warnings.length;
+	for (var i=0; i < nWarnings; i++){
+		
+		var warning = warnings[i];
+		var message = warning.message;
+		var path = warning.path;
+		var lineNum = warning.lineNumber;
+		var source = warning.source;
+		
+		var warningDescription = ['<li> WARNING '+(i+1).toString()+'',
+		                    '<ul>',
+		                    	'<li>Message: '+ message + '</li>',
+		                    '</ul>',
+		                    '<ul>',
+	                    		'<li>Path: '+ path + '</li>',
+	                    	'</ul>',
+	                    	'<ul>',
+	                    		'<li>Line Number (approximate): '+ lineNum + '</li>',
+	                    	'</ul>',
+	                    	'<ul>',
+                    			'<li>Source: (approximate): '+ source + '</li>',
+                    		'</ul>',
+                    		'</li>'
+		                    ];
+		
+		warningList = warningList.concat(warningDescription);
+	}
+	warningList.push('</ul>');
+	warningList.push('</font>');
+	return (warningList.join('\n'));
+}
 
 
 

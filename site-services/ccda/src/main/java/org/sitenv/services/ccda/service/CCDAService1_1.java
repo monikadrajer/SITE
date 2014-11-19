@@ -246,8 +246,6 @@ public class CCDAService1_1 extends BaseCCDAService {
 	}
 	
 	
-	
-	
 	private JSONObject getCCDAResult(ValidationData validationData) throws IOException, JSONException
 	{
 		JSONObject json = null;
