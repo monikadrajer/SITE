@@ -127,7 +127,12 @@ public class CCDAService1_1 extends BaseCCDAService {
 	    	
 	    	logger.error("Error while accessing extended CCDA validation service: ",  e);
 	    	try {
-	    		extendedCcdaJSON = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
+	    		
+	    		String errormsg = "{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}";
+	    		
+	    		System.out.println(errormsg);
+	    		
+	    		extendedCcdaJSON = new JSONObject(errormsg);
 				
 			} catch (JSONException e1) {
 				logger.error("Error while creating error JSON output: ",  e1);

@@ -117,25 +117,30 @@ public class CCDAValidatorController extends BaseController {
 					String json = handler.handleResponse(relayResponse);
 					JSONObject jsonbody = new JSONObject(json);
 					
-					JSONObject ccdaReport = jsonbody.getJSONObject("ccdaResults").getJSONObject("report");
-					ccdaHasErrors = ccdaReport.getBoolean("hasErrors");
-					ccdaHasWarnings = ccdaReport.getBoolean("hasWarnings");
-					ccdaHasInfo = ccdaReport.getBoolean("hasInfo");
-					
-					JSONObject extendedCcdaReport = jsonbody.getJSONObject("ccdaExtendedResults").getJSONObject("report");
-					extendedCcdaHasErrors = extendedCcdaReport.getBoolean("hasErrors");
-					extendedCcdaHasWarnings = extendedCcdaReport.getBoolean("hasWarnings");
-					extendedCcdaHasInfo = extendedCcdaReport.getBoolean("hasInfo");
-					
-					boolean hasErrors = (ccdaHasErrors || extendedCcdaHasErrors);
-					boolean hasWarnings = (ccdaHasWarnings || extendedCcdaHasWarnings);
-					boolean hasInfo = (ccdaHasInfo || extendedCcdaHasInfo);
-					
-					
-					responseJSON.setJSONResponseBody(jsonbody);
-					
-					statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false, "r1.1");
-					
+					if (jsonbody.has("error")){
+						//TODO: Make sure the UI handles this gracefully.
+						responseJSON.setJSONResponseBody(jsonbody);
+						statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, false, "r1.1");
+					} else {
+						
+						JSONObject ccdaReport = jsonbody.getJSONObject("ccdaResults").getJSONObject("report");
+						ccdaHasErrors = ccdaReport.getBoolean("hasErrors");
+						ccdaHasWarnings = ccdaReport.getBoolean("hasWarnings");
+						ccdaHasInfo = ccdaReport.getBoolean("hasInfo");
+						
+						JSONObject extendedCcdaReport = jsonbody.getJSONObject("ccdaExtendedResults").getJSONObject("report");
+						extendedCcdaHasErrors = extendedCcdaReport.getBoolean("hasErrors");
+						extendedCcdaHasWarnings = extendedCcdaReport.getBoolean("hasWarnings");
+						extendedCcdaHasInfo = extendedCcdaReport.getBoolean("hasInfo");
+						
+						boolean hasErrors = (ccdaHasErrors || extendedCcdaHasErrors);
+						boolean hasWarnings = (ccdaHasWarnings || extendedCcdaHasWarnings);
+						boolean hasInfo = (ccdaHasInfo || extendedCcdaHasInfo);
+						
+						
+						responseJSON.setJSONResponseBody(jsonbody);
+						statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false, "r1.1");
+					}
 				}				
 				
 
@@ -143,7 +148,7 @@ public class CCDAValidatorController extends BaseController {
 			statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true, "r1.1");
 			System.out.println(e.getMessage());
 			throw new RuntimeException(e);
-		} 
+		}
 		
 	}
 	
