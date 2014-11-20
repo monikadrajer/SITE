@@ -130,8 +130,6 @@ public class CCDAService1_1 extends BaseCCDAService {
 	    		
 	    		String errormsg = "{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}";
 	    		
-	    		System.out.println(errormsg);
-	    		
 	    		extendedCcdaJSON = new JSONObject(errormsg);
 				
 			} catch (JSONException e1) {
