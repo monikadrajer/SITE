@@ -66,6 +66,24 @@ public class DownloadIncorporationController extends BaseController {
     	referenceCCDAFileNames.put("3", "CCDA3.zip");
     	referenceCCDAFileNames.put("4", "CCDA4.zip");
     }
+    
+    
+    private static final Map<String, String> testInputFileNames;
+    static
+    {
+    	testInputFileNames = new HashMap<String, String>();
+    	testInputFileNames.put("0", "ReferenceFile1.pdf");
+    	testInputFileNames.put("1", "ReferenceFile2.pdf");
+    	testInputFileNames.put("2", "ReferenceFile3.pdf");
+    	testInputFileNames.put("3", "ReferenceFile4.pdf");
+    	testInputFileNames.put("4", "ReferenceFile5.pdf");
+    	testInputFileNames.put("5", "ReferenceFile6.pdf");
+    	testInputFileNames.put("6", "ReferenceFile7.pdf");
+    	testInputFileNames.put("7", "ReferenceFile8.pdf");
+    	testInputFileNames.put("8", "ReferenceFile9.pdf");
+    }
+    
+    
 	
 	
 	public void copyStream(InputStream in, OutputStream out){
@@ -78,6 +96,44 @@ public class DownloadIncorporationController extends BaseController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	
+	@ResourceMapping("downloadTestInputFile")
+	public void serveTestInputFileSamples(ResourceRequest resourceRequest, ResourceResponse res) throws PortletException, IOException {
+		
+		if (this.props == null)
+		{
+			this.loadProperties();
+		}
+		
+		String fileVal = resourceRequest.getParameter("getFile");
+		
+		String fileName = DownloadIncorporationController.testInputFileNames.get(fileVal);
+		
+		
+		String downloadPath = props.getProperty("TestInputFile") + "/" + fileName;
+		
+		File downloadFile = new File(downloadPath);
+		InputStream in = new FileInputStream(downloadFile);
+		
+		res.setContentType("application/zip");
+		res.addProperty(HttpHeaders.CACHE_CONTROL,
+				"max-age=3600, must-revalidate");
+		res.addProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
+				+ fileName + "\"");
+		// Use this to directly download the file
+		res.addProperty("Set-Cookie", "fileDownload=true; path=/");
+		
+		OutputStream out = res.getPortletOutputStream();
+		
+		copyStream(in, out);
+		out.flush();
+		out.close();
+		in.close();
+		statisticsManager.addReferenceCcdaDownload(fileName);
+		
 	}
 	
 	
