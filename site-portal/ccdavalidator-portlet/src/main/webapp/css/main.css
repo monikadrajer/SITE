@@ -310,12 +310,20 @@ margin: 0px;
 padding: 0px;
 }
 
+div#collapseSampleDownloads .panel-body .list-group-item {
+	border-radius: 0px;
+}
+div#collapseSampleDownloads .panel-body {
+	padding: 0px;
+
+}
+
 div#collapseNegativeTesting .panel-body .list-group-item {
 	border-radius: 0px;
 }
 div#collapseNegativeTesting .panel-body {
 	padding: 0px;
-
+	
 }
 
 div#collapseReference .panel-body .list-group-item {
