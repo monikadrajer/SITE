@@ -49,186 +49,100 @@ $(function() {
 			
 			//$( "#ValidationResult .tab-content #tabs-1" ).html(data.result.body);
 			//$( "#ValidationResult .tab-content #tabs-1" ).html(window.JSON.stringify(data.result.body));
+			var tabHtml1 = "";
 			
-			var ccdaReport = data.result.body.ccdaResults.report;
-			var extendedCcdaReport = data.result.body.ccdaExtendedResults;
-			
-			//var ccdaValResult = report.validationResults1;
-			//var ccdaValStatement = report.validationResults2;
-			var uploadedFileName = data.result.files[0].name;
-			var docTypeSelected = ccdaReport.docTypeSelected;
-			//var ccdaWarningCount = report.warningCount;
-			//var ccdaInfoCount = report.infoCount;
-			
-			var tabHtml1 = 
-				   ['<title>Validation Results</title>',
-				    '<h1 align="center">Consolidated-CDA r1.1 Validation and Meaningful Use Stage 2 Certification Results</h1>',
-				    '<b>Upload Results:</b>',
-				    '<br/>'+uploadedFileName+' was uploaded successfully.',
-				    '<br/><br/>',
-				    '<b>MU2 C-CDA Document Type Selected: </b>',
-				    '<br/>'+docTypeSelected+'',
-				    '<hr/>',
-				    '<hr/>',
-				    '<br/>',
-				    '<br/>',
-				    '<b>Validation Results:</b>',
-				    '<br/>'
-				   ].join('\n');
-			
-			if (ccdaReport.hasErrors || ccdaReport.hasErrors){
-				tabHtml1 += '<font color="red">';
+			if (("error" in data.result.body.ccdaResults) || ("error" in data.result.body.ccdaExtendedResults))
+			{
+				
+				tabHtml1 = ['<title>Validation Results</title>',
+									    '<h1 align="center">Consolidated-CDA r1.1 Validation and Meaningful Use Stage 2 Certification Results</h1>',
+									    '<font color="red">',
+									    '<b>An error occurred during validation. Please try again. If this error persists, please contact the system administrator:</b>',
+									    '</font>',
+									    '<hr/>',
+									    '<hr/>',
+									    '<br/>'].join('\n');
 			} else {
-				tabHtml1 += '<font color="green">';
-				tabHtml1 += '<i>'+valResult+'</i><br/>'+valStatement;
-				tabHtml1 += '<br/>';
-				tabHtml1 += '<hr/>';
-			}
-			
-			/*
-			if (valResult.indexOf("Failed Validation") > -1 ){
-				tabHtml1 += '<font color="red">';
-				tabHtml1 += '<i>'+valResult+'</i><br/>'+valStatement+'<br/><br/><hr/>';
-				tabHtml1 += '<hr/><i>Errors Received (Total of '+report.errorCount.toString()+'):</i><hr/>';
 				
 				
-			} else {
-				tabHtml1 += '<font color="green">';
-				tabHtml1 += '<i>'+valResult+'</i><br/>'+valStatement;
-				tabHtml1 += '<br/>';
-				tabHtml1 += '<hr/>';
-			}
-			*/
-			tabHtml1 += buildCcdaErrorList(data);
-			
-			tabHtml1 += buildExtendedCcdaErrorList(data);
-			
-			tabHtml1 += '</font>';
-			
-			if (ccdaReport.hasWarnings || ccdaReport.hasWarnings){
-				tabHtml1 += '<font color="blue">';
-				//tabHtml1 += '<hr/><i>Warnings Received (Total of '+warningCount.toString()+'):</i><hr/>';
-			}
-			
-			tabHtml1 += buildCcdaWarningList(data);
-			
-			tabHtml1 += buildExtendedCcdaWarningList(data);
-			
-			tabHtml1 += '</font>';
-			
-			
-			if (ccdaReport.hasInfo || ccdaReport.hasInfo){
-				tabHtml1 += '<font color="gray">';
-			}
-			
-			
-			tabHtml1 += buildCcdaInfoList(data);
-			
-			tabHtml1 += buildExtendedCcdaInfoList(data);
-			
-			tabHtml1 += '</font>';
-			
-			
-			
-			/*Comment out warnings and Infos
-			if (warningCount > 0){
-				tabHtml1 += '<font color="blue">';
-				tabHtml1 += '<hr/><i>Warnings Received (Total of '+warningCount.toString()+'):</i><hr/>';
 				
-				var warningList = ['<ul>'];
+				var ccdaReport = data.result.body.ccdaResults.report;
+				var extendedCcdaReport = data.result.body.ccdaExtendedResults.report;
 				
-				var warnings = data.result.body.ccdaResults.warnings;
+				var ccdaValResult = ccdaReport.validationResults1;
+				var ccdaValStatement = ccdaReport.validationResults2;
+				var uploadedFileName = data.result.files[0].name;
+				var docTypeSelected = ccdaReport.docTypeSelected;
+				//var ccdaWarningCount = report.warningCount;
+				//var ccdaInfoCount = report.infoCount;
 				
-				var nWarnings = warnings.length;
-				for (var i=0; i < nWarnings; i++){
-					
-					var warning = warnings[i];
-					var message = warning.message;
-					var path = warning.path;
-					var lineNum = warning.lineNumber;
-					var source = warning.source;
-					
-					var warningDescription = ['<li> WARNING '+(i+1).toString()+'',
-					                    '<ul>',
-					                    	'<li>Message: '+ message + '</li>',
-					                    '</ul>',
-					                    '<ul>',
-				                    		'<li>Path: '+ path + '</li>',
-				                    	'</ul>',
-				                    	'<ul>',
-				                    		'<li>Line Number (approximate): '+ lineNum + '</li>',
-				                    	'</ul>',
-				                    	'<ul>',
-			                    			'<li>Source: (approximate): '+ source + '</li>',
-			                    		'</ul>',
-			                    		'</li>'
-					                    ];
-					
-					warningList = warningList.concat(warningDescription);
+				var tabHtml1 = 
+					   ['<title>Validation Results</title>',
+					    '<h1 align="center">Consolidated-CDA r1.1 Validation and Meaningful Use Stage 2 Certification Results</h1>',
+					    '<b>Upload Results:</b>',
+					    '<br/>'+uploadedFileName+' was uploaded successfully.',
+					    '<br/><br/>',
+					    '<b>MU2 C-CDA Document Type Selected: </b>',
+					    '<br/>'+docTypeSelected+'',
+					    '<hr/>',
+					    '<hr/>',
+					    '<br/>',
+					    '<br/>',
+					    '<br/>'
+					   ].join('\n');
+				
+				if (ccdaReport.hasErrors || extendedCcdaReport.hasErrors){
+					tabHtml1 += '<font color="red">';
+				} else {
+					tabHtml1 += '<font color="green">';
+					tabHtml1 += '<i>'+ccdaValResult+'</i><br/>'+ccdaValStatement;
+					tabHtml1 += '<br/>';
+					tabHtml1 += '<hr/>';
 				}
-				warningList.push('</ul>');
-				warningList.push('</font>');
-				tabHtml1 += (warningList.join('\n'));
 				
-			} else {
-				tabHtml1 += '<font color="blue">';
-				tabHtml1 += '<hr/><i>No Warnings Received</i><hr/>';
-			}
-			
-			
-			if (infoCount > 0){
-				tabHtml1 += '<font color="gray">';
-				tabHtml1 += '<hr/><i>Info Messages Received (Total of '+infoCount.toString()+'):</i><hr/>';
+				tabHtml1 += '<hr/><b>Validation Results:</b>';
 				
-				var infoList = ['<ul>'];
+				tabHtml1 += buildCcdaErrorList(data);
 				
-				var infos = data.result.body.ccdaResults.info;
+				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
 				
-				var nInfo = infos.length;
-				for (var i=0; i < nInfo; i++){
-					
-					var info = infos[i];
-					var message = info.message;
-					var path = info.path;
-					var lineNum = info.lineNumber;
-					var source = info.source;
-					
-					var infoDescription = ['<li> INFO '+(i+1).toString()+'',
-					                    '<ul>',
-					                    	'<li>Message: '+ message + '</li>',
-					                    '</ul>',
-					                    '<ul>',
-				                    		'<li>Path: '+ path + '</li>',
-				                    	'</ul>',
-				                    	'<ul>',
-				                    		'<li>Line Number (approximate): '+ lineNum + '</li>',
-				                    	'</ul>',
-				                    	'<ul>',
-			                    			'<li>Source: (approximate): '+ source + '</li>',
-			                    		'</ul>',
-			                    		'</li>'
-					                    ];
-					
-					infoList = infoList.concat(infoDescription);
+				tabHtml1 += buildExtendedCcdaErrorList(data);
+				
+				tabHtml1 += '</font>';
+				
+				if (ccdaReport.hasWarnings || extendedCcdaReport.hasWarnings){
+					tabHtml1 += '<font color="blue">';
 				}
-				infoList.push('</ul>');
-				infoList.push('</font>');
-				tabHtml1 += (infoList.join('\n'));
+				
+				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				
+				tabHtml1 += buildCcdaWarningList(data);
+				
+				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+				
+				tabHtml1 += buildExtendedCcdaWarningList(data);
+				
+				tabHtml1 += '</font>';
 				
 				
-			} else {
-				tabHtml1 += '<font color="gray">';
-				tabHtml1 += '<hr/><i>No Info messages Received</i><hr/>';
+				if (ccdaReport.hasInfo || extendedCcdaReport.hasInfo){
+					tabHtml1 += '<font color="gray">';
+				}
+				
+				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				
+				tabHtml1 += buildCcdaInfoList(data);
+				
+				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+				
+				tabHtml1 += buildExtendedCcdaInfoList(data);
+				
+				tabHtml1 += '</font>';
 			}
-			End comment out warning and info*/
 			
-			
-			
-			
-			$( "#ValidationResult .tab-content #tabs-1" ).html(tabHtml1);
+			$("#ValidationResult .tab-content #tabs-1").html(tabHtml1);
 			
 			$("#resultModal").modal("show");
-			
 			
 			
 			//disable smart ccda result tab.
@@ -331,10 +245,6 @@ $(function() {
 		e.preventDefault();
 	});
 	
-	//$('#smartCCDAValidationBtn').bind('click', function(e, data) {
-	//	smartCCDAValidation();
-	//});
-	
 	
 	$('#CCDA1fileupload-btn').bind('click', function(e, data)
 	{
@@ -404,6 +314,7 @@ function buildExtendedCcdaErrorList(data){
 	                 '<ul>'];
 	
 	var errors = data.result.body.ccdaExtendedResults.errorList;
+	
 	
 	var nErrors = errors.length;
 	for (var i=0; i < nErrors; i++){
