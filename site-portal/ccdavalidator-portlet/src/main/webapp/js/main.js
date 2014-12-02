@@ -278,15 +278,6 @@ $(function(){
 	
 	
 	
-	 var urlmenu = document.getElementById('');
-	 urlmenu.onchange = function() {
-	      window.open( this.options[ this.selectedIndex ].value );
-	 };
-	
-	
-	
-	
-	
 	$('#smartCCDAValidationBtn').bind('click', function(e, data) {
 		smartCCDAValidation();
 	});
