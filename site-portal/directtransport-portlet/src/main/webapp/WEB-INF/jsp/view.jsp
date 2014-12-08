@@ -49,7 +49,6 @@
 
 <%
 	//String serviceContext = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + "/delegate";
-	String serviceContext = ServiceContext;
 %>
 
 <portlet:renderURL var="endpointcerturl"> 
@@ -58,7 +57,7 @@
 
 <script type="text/javascript">
 	window.currentContextPath = "<%=request.getContextPath()%>";
-	window.serviceContextPath = "<%=serviceContext%>"; 
+	 
 	var sampleCCDATreeURL = '${sampleCCDATree}';
 </script>
 
