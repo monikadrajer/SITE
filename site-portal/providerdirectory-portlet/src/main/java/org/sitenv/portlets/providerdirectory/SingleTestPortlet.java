@@ -29,6 +29,7 @@ public class SingleTestPortlet extends MVCPortlet {
     	testCaseNames.add("Find_Organizations_for_Unique_Individual");
     	testCaseNames.add("Find_Individuals_for_Unique_Organization");
     	testCaseNames.add("Find_Individuals_and_Organizations");
+    	testCaseNames.add("Find_Members_for_Unique_Relationship");
     	
     	testCaseRealNames = new HashMap<String, String>();
     	testCaseRealNames.put("search_provider_by_name", "Search Provider by Name");
@@ -43,6 +44,7 @@ public class SingleTestPortlet extends MVCPortlet {
     	testCaseRealNames.put("Find_Organizations_for_Unique_Individual", "Find Organizations for Unique Individual");
     	testCaseRealNames.put("Find_Individuals_for_Unique_Organization", "Find Individuals for Unique Organization");
     	testCaseRealNames.put("Find_Individuals_and_Organizations", "Find Individuals and Organizations");
+    	testCaseRealNames.put("Find_Members_for_Unique_Relationship", "Find Members for Unique Relationship");
     	
     }
 
