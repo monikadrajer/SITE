@@ -16,6 +16,15 @@
     	<portlet:param name="javax.portlet.action" value="sampleCCDATree"/>
       </portlet:actionURL>
       
+      <portlet:actionURL var="reconciledCCDATree" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    	<portlet:param name="javax.portlet.action" value="reconciledCCDATree"/>
+      </portlet:actionURL>
+      
+      <portlet:actionURL var="referenceCCDATree" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    	<portlet:param name="javax.portlet.action" value="referenceCCDATree"/>
+      </portlet:actionURL>
+      
+      
       
       <portlet:actionURL var="urlAction1_1" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
     	<portlet:param name="javax.portlet.action" value="uploadCCDA1.1"/>
@@ -46,6 +55,13 @@
 	  </portlet:resourceURL>
 	  
 	  
+	  
+	  <portlet:resourceURL id="downloadReconciledBundle"  var="downloadReconciledBundleAction">
+      </portlet:resourceURL>
+	  
+	  <portlet:resourceURL id="downloadReferenceTestData"  var="downloadReferenceTestDataAction">
+      </portlet:resourceURL>
+	  
 	  <portlet:resourceURL id="downloadTestInputFile"  var="downloadTestInputAction">
       </portlet:resourceURL>
 	  
@@ -72,9 +88,12 @@
       
      
       <script type="text/javascript">
-		
       	window.currentContextPath = "<%=request.getContextPath()%>";
     	var sampleCCDATreeURL = '${sampleCCDATree}';
+    	var reconciledCCDATreeURL = '${reconciledCCDATree}';
+    	var referenceCCDATreeURL = '${referenceCCDATree}';
+    	
+    	
       </script>
       
       
@@ -226,7 +245,47 @@
 			      		<h4>Directions:</h4>
 			      		<ol>	      		
 			      			<li>Download a test data input file to be used as input prior to reconciliation. (Selecting an input file should provide the test data input and the reconciliation input for Step 2).</li>
-							<li>Download the reconciliation input and incorporate it into your system.</li>
+							<li>Download the reconciliation input and incorporate it into your system.
+							
+							<div id="reconciledBundleFormWrapper">
+  						
+												<form id="reconciledBundleForm" action="${downloadReconciledBundleAction}" method="POST">
+												
+												<p>
+												<noscript><input type="hidden" name="redirect" value="true"  /></noscript>
+												<div id="reconciledBundleErrorlock" style="position: relative;">
+													<div class="row">
+													<div class="col-md-12">
+													<label for="reconciledBundledLabel">Select test data and reconciliation file to download:</label><br/>
+																	<div class="dropdown">
+																		<button id="reconciledBundledLabel" data-toggle="dropdown"
+																			class="btn btn-success dropdown-toggle validate[funcCall[incorpRequired]]" type="button" tabindex="1">
+																			Pick Files <i class="glyphicon glyphicon-play"></i>
+																		</button>
+								
+																		<ul class="dropdown-menu rightMenu" role="menu" aria-labelledby="reconciledBundledLabel" style=" overflow: scroll; /* position: absolute; */ ">
+																			<li>
+																				<div id="reconciledBundleFileTreePanel"></div>
+																			</li>
+																		</ul>
+																	</div>
+																	<div><span id="reconciledBundleFilePathOutput"></span></div>
+													</div>
+													</div>
+												</div>
+												<hr />
+												<button id="reconciledBundleCCDAsubmit" type="submit"
+													class="btn btn-primary start" onclick="return false;"  tabindex="1">
+													<i class="glyphicon glyphicon-download"></i> <span>Download File</span>
+												</button>
+												<input id="reconciledBundleFilepath"
+														name="reconciledBundleFilepath" type="hidden">
+												</form>
+											</div>
+								<br/>
+								<br/>
+							
+							</li>
 							<li>Generate a C-CDA from the system which would be a combination of the test data from step 1 and the reconciliation input from step 2.</li>			
 							<li>Select a C-CDA Document type or MU objective  to validate your generated C-CDA after reconciliation.</li>
 							<li>Select the test data input file used as input prior to reconciliation.</li>
@@ -336,7 +395,47 @@
 	  					
 	  						<h4>Directions:</h4>
 	  							<ol>
-	  								<li><a href="#IncorporationAccordion">Download</a> a test data input file to be used as input for generating a C-CDA.</li>
+	  								<li>Download a test data input file to be used as input for generating a C-CDA.</li>
+	  								
+		  								<div id="referenceDownloadFormWrapper">
+	  						
+													<form id="referenceDownloadBundleForm" action="${downloadReferenceTestDataActions}" method="POST">
+													
+													<p>
+													<noscript><input type="hidden" name="redirect" value="true"  /></noscript>
+													<div id="referenceDownloadErrorlock" style="position: relative;">
+														<div class="row">
+														<div class="col-md-12">
+														<label for="referenceDownloadLabel">Select file to download:</label><br/>
+																		<div class="dropdown">
+																			<button id="referenceDownloadLabel" data-toggle="dropdown"
+																				class="btn btn-success dropdown-toggle validate[funcCall[incorpRequired]]" type="button" tabindex="1">
+																				Pick Files <i class="glyphicon glyphicon-play"></i>
+																			</button>
+									
+																			<ul class="dropdown-menu rightMenu" role="menu" aria-labelledby="referenceDownloadLabel" style=" overflow: scroll; /* position: absolute; */ ">
+																				<li>
+																					<div id="referenceDownloadFileTreePanel"></div>
+																				</li>
+																			</ul>
+																		</div>
+																		<div><span id="referenceDownloadFilePathOutput"></span></div>
+														</div>
+														</div>
+													</div>
+													<hr />
+													<button id="referenceDownloadCCDAsubmit" type="submit"
+														class="btn btn-primary start" onclick="return false;"  tabindex="1">
+														<i class="glyphicon glyphicon-download"></i> <span>Download File</span>
+													</button>
+													<input id="referenceDownloadFilepath"
+															name="referenceDownloadFilepath" type="hidden">
+													</form>
+												</div>
+									<br/>
+									<br/>
+	  								
+	  								
 									<li>Generate your CCDA file and when you are ready to validate, proceed to Step 3.</li>
 									<li>Select a C-CDA Document type or MU objective to validate your generated C-CDA.</li>
 									<li>Select the input file that you used to generate the C-CDA.</li>
@@ -503,32 +602,6 @@
   			
   			<div class="panel-group well" id="IncorporationAccordion">
   			
-  			<div class="panel panel-default">
-			    <div class="panel-heading">
-			      <h4 class="panel-title">
-			        <a data-toggle="collapse" data-parent="#IncorporationAccordion" href="#collapseSampleDownloads" tabindex="1">
-			          Sample Test Data Input Files
-			        </a>
-			      </h4>
-			    </div>
-			    <div id="collapseSampleDownloads" class="panel-collapse collapse"> 
-			      <div class="panel-body">
-			      
-			        <div class="list-group download-list">
-			        
-			        	<a class="list-group-item" href="${downloadTestInputAction}&getFile=0" style="width: 100%;" tabindex="1">ReferenceFile1</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=1"  style="width: 100%;" tabindex="1">ReferenceFile2</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=2"  style="width: 100%;" tabindex="1">ReferenceFile3</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=3" style="width: 100%;" tabindex="1">ReferenceFile4</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=4"  style="width: 100%;" tabindex="1">ReferenceFile5</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=5"  style="width: 100%;" tabindex="1">ReferenceFile6</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=6" style="width: 100%;" tabindex="1">ReferenceFile7</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=7"  style="width: 100%;" tabindex="1">ReferenceFile8</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=8"  style="width: 100%;" tabindex="1">ReferenceFile9</a>
-			    	</div>
-			      </div>
-			    </div>
-			  </div>
   			
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
@@ -660,7 +733,7 @@
 		var urlCCDA1_1 = '${urlAction1_1}';
 		var urlCCDA2_0 = '${urlAction2_0}';
 		var urlCCDAReconciled = '${urlActionReconciled}';
-		var urlCCDAReference = '${urlActionReferece}';
+		var urlCCDAReference = '${urlActionReference}';
 		var urlCCDASuper = '${urlActionSuper}';
 	</script>
       	
