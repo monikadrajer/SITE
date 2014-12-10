@@ -32,7 +32,7 @@ public class TreeController extends BaseController {
 	private SampleCCDATreeNode reconciledCCDARoot = null;
 	private SampleCCDATreeNode referenceCCDARoot = null;
 
-	private void tranverseDir(String rootDirectory, String path, SampleCCDATreeNode root, int deep)
+	private void traverseDir(String rootDirectory, String path, SampleCCDATreeNode root, int deep)
 			throws IOException {
 		if (this.props == null) {
 			this.loadProperties();
@@ -53,22 +53,24 @@ public class TreeController extends BaseController {
 					&& !file.getName().equalsIgnoreCase("README.md")) {
 
 				if (file.isDirectory()) {
-					String dirPath = file.getCanonicalPath();
+					String dirPath = file.getCanonicalPath().replace("\\", "/");
+					
 					SampleCCDATreeNode folder = new SampleCCDATreeNode(
-							file.getName(), "folder", "open", String.format(
+							file.getName().replace("\\", "/"), "folder", "open", String.format(
 									"%d_%d", deep, count), "helloword");
 					folder.getMetadata().setDescription("This is CCDA file 1.");
 					root.addChild(folder);
-					tranverseDir(rootDirectory, dirPath, folder, deep);
+					traverseDir(rootDirectory, dirPath, folder, deep);
 				} else {
 					
-					String dirPath = file.getCanonicalPath();
+					String dirPath = file.getCanonicalPath().replace("\\", "/");
+					
 					SampleCCDATreeNode folder = new SampleCCDATreeNode(
-							file.getName(), "file", "leaf", String.format(
+							file.getName().replace("\\", "/"), "file", "leaf", String.format(
 									"%d_%d", deep, count), "helloword");
 					folder.getMetadata().setDescription("This is CCDA file 1.");
 					folder.getMetadata().setServerPath(
-							dirPath.replace(rootDirectory
+							dirPath.replace(rootDirectory.replace("\\", "/")
 									+ "/", ""));
 					root.addChild(folder);
 				}
@@ -80,30 +82,30 @@ public class TreeController extends BaseController {
 	public void CCDASampleResponse(ActionRequest request, ActionResponse response)
 			throws IOException {
 		
+		
+		
 		if (this.props == null) {
 			this.loadProperties();
 		}
 
-		_log.trace("Start get sample CCDAs.");
 		SampleCCDATreeNode root = new SampleCCDATreeNode("Localhost", "root",
 				"open", "1", "helloword");
 		
-		String CCDASampleDir = props.getProperty("samplesFromVendorsForIncorporation");
+		String SampleDir = props.getProperty("samplesFromVendorsForIncorporation").replace("\\", "/");
 		
-		this.tranverseDir(CCDASampleDir, CCDASampleDir, root, 1);
+		this.traverseDir(SampleDir, SampleDir, root, 1);
 		
 		this.vendorCCDAroot = root;
-		
-		_log.trace("End get sample CCDAs.");
 
 		response.setRenderParameter("javax.portlet.action", "sampleCCDATree");
-
+		
 	}
 
 	@RequestMapping(params = "javax.portlet.action=sampleCCDATree")
 	public ModelAndView processVendorCCDA(RenderRequest request, Model model)
 			throws IOException {
 		Map map = new HashMap();
+		
 		
 		Gson gson = new Gson();
 		String json = gson.toJson(vendorCCDAroot);
@@ -112,7 +114,6 @@ public class TreeController extends BaseController {
 
 		return new ModelAndView("sampleCCDATreeJsonView", map);
 	}
-
 	
 	@ActionMapping(params = "javax.portlet.action=reconciledCCDATree")
 	public void ReconciledSampleResponse(ActionRequest request, ActionResponse response)
@@ -127,7 +128,7 @@ public class TreeController extends BaseController {
 		
 		String SampleDir = props.getProperty("ReconciledFileBundles");
 		
-		this.tranverseDir(SampleDir, SampleDir, root, 1);
+		this.traverseDir(SampleDir, SampleDir, root, 1);
 		
 		this.reconciledCCDARoot = root;
 
@@ -156,13 +157,13 @@ public class TreeController extends BaseController {
 		if (this.props == null) {
 			this.loadProperties();
 		}
-
+		
 		SampleCCDATreeNode root = new SampleCCDATreeNode("Localhost", "root",
 				"open", "1", "helloword");
 		
 		String SampleDir = props.getProperty("ReferenceDownloadFiles");
 		
-		this.tranverseDir(SampleDir, SampleDir, root, 1);
+		this.traverseDir(SampleDir, SampleDir, root, 1);
 		
 		this.referenceCCDARoot = root;
 		
@@ -184,8 +185,5 @@ public class TreeController extends BaseController {
 
 		return new ModelAndView("sampleCCDATreeJsonView", map);
 	}
-
-	
-	
 	
 }

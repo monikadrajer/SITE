@@ -774,6 +774,6 @@ $(function(){
 		$('#referenceDownloadFileTreePanel').find('a').each(function() {
 		    $(this).attr('tabindex', '1');
 		});
-	});	
+	});
 	
 });
