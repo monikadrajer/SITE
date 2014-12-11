@@ -586,10 +586,10 @@ $(function(){
 		    					          '<div class="lbl">Preparing your download...</div></div>' });
 		    				  	
 		    				  
-		    					var jform = $('#reconciledBundleForm');
-		    					jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-		    					if(jform.validationEngine('validate'))
-		    					{
+		    					//var jform = $('#reconciledBundleForm');
+		    					//jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
+		    					//if(jform.validationEngine('validate'))
+		    				  	{
 		    						$('#reconciledBundleForm .formError').hide(0);
 		    						
 		    					    
@@ -607,12 +607,6 @@ $(function(){
 		    					        data: $('#reconciledBundleForm').serialize()
 		    					    });
 		    						
-		    					}
-		    					else
-		    					{
-		    						$('#reconciledBundleForm .formError').show(0);
-		    						
-		    						$('#reconciledBundleform .reconciledBundleFilepathformError').prependTo('#reconciledBundleErrorlock');
 		    					}
 		    					
 		    					return false;
@@ -720,9 +714,6 @@ $(function(){
 		    					          '<div class="lbl">Preparing your download...</div></div>' });
 		    				  	
 		    				  
-		    					var jform = $('#referenceDownloadForm');
-		    					jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-		    					if(jform.validationEngine('validate'))
 		    					{
 		    						$('#referenceDownloadForm .formError').hide(0);
 		    						
@@ -742,13 +733,6 @@ $(function(){
 		    					    });
 		    						
 		    					}
-		    					else
-		    					{
-		    						$('#referenceDownloadForm .formError').show(0);
-		    						
-		    						$('#referenceDownloadform .referenceDownloadFilepathformError').prependTo('#referenceDownloadErrorlock');
-		    					}
-		    					
 		    					return false;
 		    				});
 		    			  

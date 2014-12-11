@@ -399,7 +399,7 @@
 	  								
 		  								<div id="referenceDownloadFormWrapper">
 	  						
-													<form id="referenceDownloadBundleForm" action="${downloadReferenceTestDataActions}" method="POST">
+													<form id="referenceDownloadForm" action="${downloadReferenceTestDataAction}" method="POST">
 													
 													<p>
 													<noscript><input type="hidden" name="redirect" value="true"  /></noscript>

@@ -2,7 +2,6 @@ package org.sitenv.portlets.ccdavalidator.controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -146,7 +145,7 @@ public class TreeController extends BaseController {
 
 		map.put("jsonRoot", json);
 
-		return new ModelAndView("sampleCCDATreeJsonView", map);
+		return new ModelAndView("reconciledCCDATreeJsonView", map);
 	}
 
 
@@ -167,8 +166,6 @@ public class TreeController extends BaseController {
 		
 		this.referenceCCDARoot = root;
 		
-		_log.trace("End get sample CCDAs.");
-
 		response.setRenderParameter("javax.portlet.action", "referenceCCDATree");
 
 	}
@@ -183,7 +180,7 @@ public class TreeController extends BaseController {
 
 		map.put("jsonRoot", json);
 
-		return new ModelAndView("sampleCCDATreeJsonView", map);
+		return new ModelAndView("referenceCCDATreeJsonView", map);
 	}
 	
 }
