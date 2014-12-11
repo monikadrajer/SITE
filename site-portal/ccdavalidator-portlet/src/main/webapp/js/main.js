@@ -713,7 +713,6 @@ $(function(){
 		    			    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
 		    					          '<div class="lbl">Preparing your download...</div></div>' });
 		    				  	
-		    				  
 		    					{
 		    						$('#referenceDownloadForm .formError').hide(0);
 		    						
