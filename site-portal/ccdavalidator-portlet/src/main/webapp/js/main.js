@@ -185,12 +185,12 @@ function smartCCDAValidation()
 		selector = '#CCDA1ValidationForm';
 	} else if ($('#collapseCCDA2_0').hasClass('in')){
 		selector = '#CCDA2ValidationForm';
-	} else if ($('#collapseReconciledValidator').hasClass('in')){
-		selector = '#CCDAReconciledValidationForm';
-	} else if ($('#collapseReferenceValidator').hasClass('in')){
-		selector = '#CCDAReferenceValidationForm';
-	} else if ($('#collapseSuperValidator').hasClass('in')){
-		selector = '#CCDASuperValidationForm';
+	//} else if ($('#collapseReconciledValidator').hasClass('in')){
+	//	selector = '#CCDAReconciledValidationForm';
+	//} else if ($('#collapseReferenceValidator').hasClass('in')){
+	//	selector = '#CCDAReferenceValidationForm';
+	//} else if ($('#collapseSuperValidator').hasClass('in')){
+	//	selector = '#CCDASuperValidationForm';
 	} else {
 		
 	}

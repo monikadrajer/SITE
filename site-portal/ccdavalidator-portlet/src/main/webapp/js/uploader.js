@@ -812,7 +812,7 @@ $(function() {
 
 
 
-
+/*
 //Super C-CDA
 $(function() {
 	'use strict';
@@ -1045,8 +1045,6 @@ $(function() {
 			
 		    Liferay.Portlet.refresh("#p_p_id_Statistics_WAR_siteportalstatisticsportlet_"); // refresh the counts
 		    
-		    //clean up the links
-		    /*$("#ValidationResult #tabs #tabs-1 b:first, #ValidationResult #tabs #tabs-1 a:first").remove();*/
 		    $("#ValidationResult .tab-content #tabs-1 hr:lt(4)").remove();
 		    
 			if(typeof window.validationpanel != 'undefined')
@@ -1160,8 +1158,7 @@ $(function() {
 	});
 	
 });
-
-
+*/
 
 
 (function($) {
@@ -1216,7 +1213,7 @@ function getDoc(frame) {
     return doc;
 }
 
-
+/*
 
 function CCDAMultiFileValidationReconciledSubmitIFrame()
 {
@@ -1299,10 +1296,10 @@ function CCDAMultiFileValidationReconciledSubmitIFrame()
 		}
 	}
 }
+*/
 
 
-
-
+/*
 function CCDAMultiFileValidationReferenceSubmitIFrame()
 {
 	
@@ -1382,9 +1379,9 @@ function CCDAMultiFileValidationReferenceSubmitIFrame()
 	}
 }
 
+*/
 
-
-
+/*
 function CCDAMultiFileValidationReconciledSubmit()
 {
 	
@@ -1459,10 +1456,10 @@ function CCDAMultiFileValidationReconciledSubmit()
 		
 	}
 }
+*/
 
 
-
-
+/*
 function CCDAMultiFileValidationReferenceSubmit()
 {
 	
@@ -1534,9 +1531,9 @@ function CCDAMultiFileValidationReferenceSubmit()
 		
 	}
 }
+*/
 
-
-
+/*
 $(function() {
 	
 	
@@ -1648,6 +1645,6 @@ $(function() {
 });
 
 
-
+*/
 
 

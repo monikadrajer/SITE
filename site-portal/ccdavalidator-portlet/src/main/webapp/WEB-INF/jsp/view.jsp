@@ -25,6 +25,7 @@
     	<portlet:param name="javax.portlet.action" value="uploadCCDA2.0"/>
 	  </portlet:actionURL>
 	  
+	  <%-- 
 	  <portlet:actionURL var="urlActionReconciled" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
     	<portlet:param name="javax.portlet.action" value="uploadCCDAReconciled"/>
 	  </portlet:actionURL>
@@ -36,6 +37,7 @@
 	  <portlet:actionURL var="urlActionSuper" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
     	<portlet:param name="javax.portlet.action" value="uploadCCDASuper"/>
 	  </portlet:actionURL>
+	  --%>
 	  
 	  <portlet:actionURL var="smartCCDAAction" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
     	<portlet:param name="javax.portlet.action" value="smartCCDA"/>
@@ -44,11 +46,7 @@
 	  
 	  <portlet:resourceURL id="saveAsPDF"  var="downloadCCDAAction">
 	  </portlet:resourceURL>
-	  
-	  
-	  <portlet:resourceURL id="downloadTestInputFile"  var="downloadTestInputAction">
-      </portlet:resourceURL>
-	  
+	  	  
       <portlet:resourceURL id="downloadVendorIncorporation"  var="downloadVendorIncorporationAction">
       </portlet:resourceURL>
       
@@ -209,6 +207,8 @@
 			      </div>
 			    </div>
 			  </div>
+			  
+			  <%--
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
@@ -318,6 +318,9 @@
 			      </div>
 			    </div>
 			  </div>
+			  --%>
+			  
+			  <%-- 
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
@@ -412,6 +415,10 @@
 			      </div>
 			    </div>
 			  </div>
+			  --%>
+			  
+			  
+			 <%--
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
@@ -484,6 +491,7 @@
 			      </div>
 			    </div>
 			  </div>
+			  --%>
 			</div>
 		</div>
 	</div>
@@ -503,33 +511,6 @@
   			
   			<div class="panel-group well" id="IncorporationAccordion">
   			
-  			<div class="panel panel-default">
-			    <div class="panel-heading">
-			      <h4 class="panel-title">
-			        <a data-toggle="collapse" data-parent="#IncorporationAccordion" href="#collapseSampleDownloads" tabindex="1">
-			          Sample Test Data Input Files
-			        </a>
-			      </h4>
-			    </div>
-			    <div id="collapseSampleDownloads" class="panel-collapse collapse"> 
-			      <div class="panel-body">
-			      
-			        <div class="list-group download-list">
-			        
-			        	<a class="list-group-item" href="${downloadTestInputAction}&getFile=0" style="width: 100%;" tabindex="1">ReferenceFile1</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=1"  style="width: 100%;" tabindex="1">ReferenceFile2</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=2"  style="width: 100%;" tabindex="1">ReferenceFile3</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=3" style="width: 100%;" tabindex="1">ReferenceFile4</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=4"  style="width: 100%;" tabindex="1">ReferenceFile5</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=5"  style="width: 100%;" tabindex="1">ReferenceFile6</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=6" style="width: 100%;" tabindex="1">ReferenceFile7</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=7"  style="width: 100%;" tabindex="1">ReferenceFile8</a>
-			      		<a class="list-group-item" href="${downloadTestInputAction}&getFile=8"  style="width: 100%;" tabindex="1">ReferenceFile9</a>
-			    	</div>
-			      </div>
-			    </div>
-			  </div>
-  			
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
@@ -545,28 +526,28 @@
 		
 			        <div class="list-group download-list">
 			        
-			        	<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=0" style="width: 100%;" tabindex="1">Get All C-CDAs</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=1"  style="width: 100%;" tabindex="1">Expired vocabulary testing</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=2"  style="width: 100%;" tabindex="1">Code not in value set</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=3" style="width: 100%;" tabindex="1">Provided templateIds not included in the base document</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=4"  style="width: 100%;" tabindex="1">Does not include required templateIds</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=5"  style="width: 100%;" tabindex="1">Section with missing narrative</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=6" style="width: 100%;" tabindex="1">Section with invalid Code System</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=7"  style="width: 100%;" tabindex="1">Entry that included invalid data types</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=8"  style="width: 100%;" tabindex="1">Document does not include core MU data elements</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=9" style="width: 100%;" tabindex="1">Incorrect coding of Medication data</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=10"  style="width: 100%;" tabindex="1">Incorrect coding of Problems data</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=11"  style="width: 100%;" tabindex="1">Incorrect coding of Allergies data</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=12" style="width: 100%;" tabindex="1">Incorrect coding of Lab Results data</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=13"  style="width: 100%;" tabindex="1">Incorrect coding of Procedures data</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=14"  style="width: 100%;" tabindex="1">Incorrect coding of Vital Signs data</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=15" style="width: 100%;" tabindex="1">Incorrect coding of Immunization data</a>
+			        	<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=0" style="width: 100%;" tabindex="1">Get All Negative Testing C-CDAs</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=1"  style="width: 100%;" tabindex="1">Ambulatory: Incorrect Coding of ImmunizationData</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=2"  style="width: 100%;" tabindex="1">Ambulatory: Incorrect Coding of Lab Results Data</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=3" style="width: 100%;" tabindex="1">Ambulatory: Incorrect Coding of Procedures Data</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=4"  style="width: 100%;" tabindex="1">Ambulatory: Incorrect Coding of Vital Signs Data</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=5"  style="width: 100%;" tabindex="1">Ambulatory: Invalid CS</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=6" style="width: 100%;" tabindex="1">Ambulatory: Invalid Data Types</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=7"  style="width: 100%;" tabindex="1">Ambulatory: Missing MU2 Elements</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=8"  style="width: 100%;" tabindex="1">Ambulatory: Missing Narrative</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=9" style="width: 100%;" tabindex="1">Inpatient: Code not in Value Set</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=10"  style="width: 100%;" tabindex="1">Inpatient: Incorrect coding of Allergies Data</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=11"  style="width: 100%;" tabindex="1">Inpatient: Incorrect Coding of Medication Data</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=12" style="width: 100%;" tabindex="1">Inpatient: Incorrect Coding of Problems Data</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=13"  style="width: 100%;" tabindex="1">Inpatient: Incorrect Missing Template IDs</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=14"  style="width: 100%;" tabindex="1">Inpatient: Poorly Formed</a>
+			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=15" style="width: 100%;" tabindex="1">Inpatient: Wrong Template IDs</a>
 			      		
 			    	</div>
 			      </div>
 			    </div>
 			  </div>
-			  <div class="panel panel-default">
+			  <%--<div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
 			        <a data-toggle="collapse" data-parent="#IncorporationAccordion" href="#collapseReference" tabindex="1">
@@ -586,6 +567,7 @@
 			      </div>
 			    </div>
 			  </div>
+			  --%>
 			  <div class="panel panel-default" style="overflow: visible;">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
@@ -594,6 +576,7 @@
 			        </a>
 			      </h4>
 			    </div>
+			     
 			    <div id="collapseVendorDownload" class="panel-collapse collapse" >
 			      <div class="panel-body">
 			      
@@ -638,9 +621,7 @@
 			      </div>
 			    </div>
 			  </div>
-			</div> 			
-  			
-			    
+			</div>
 			</div>
 	</div>
     
@@ -659,9 +640,9 @@
 	<script type="text/javascript">
 		var urlCCDA1_1 = '${urlAction1_1}';
 		var urlCCDA2_0 = '${urlAction2_0}';
-		var urlCCDAReconciled = '${urlActionReconciled}';
-		var urlCCDAReference = '${urlActionReferece}';
-		var urlCCDASuper = '${urlActionSuper}';
+		//var urlCCDAReconciled = '${urlActionReconciled}';
+		//var urlCCDAReference = '${urlActionReferece}';
+		//var urlCCDASuper = '${urlActionSuper}';
 	</script>
       	
       	
@@ -710,7 +691,6 @@
 						style="display: none;">
       				</textarea>
 					<br>
-
 					
 				</form>
 			</div>
