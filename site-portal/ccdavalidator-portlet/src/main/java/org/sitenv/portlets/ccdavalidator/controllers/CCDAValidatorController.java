@@ -43,7 +43,6 @@ public class CCDAValidatorController extends BaseController {
 	@Autowired
 	private JSONResponse responseJSON;
 	
-
 	@Autowired
 	private StatisticsManager statisticsManager;
 
@@ -202,28 +201,46 @@ public class CCDAValidatorController extends BaseController {
 				if(code != HttpStatus.SC_OK) 
 				{
 					//do the error handling.
-					statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, true, "r2.0");
+					statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, true, "R2.0");
 				}
 				else
 				{
-					boolean hasErrors = true, hasWarnings = true, hasInfo = true;
+					boolean ccdaHasErrors = true, ccdaHasWarnings = true, ccdaHasInfo = true;
+					boolean extendedCcdaHasErrors = true, extendedCcdaHasWarnings = true, extendedCcdaHasInfo = true;
+					
 					
 					String json = handler.handleResponse(relayResponse);
-					
 					JSONObject jsonbody = new JSONObject(json);
 					
-					JSONObject report = jsonbody.getJSONObject("report");
-					hasErrors = report.getBoolean("hasErrors");
-					hasWarnings = report.getBoolean("hasWarnings");
-					hasInfo = report.getBoolean("hasInfo");
-					
-					responseJSON.setJSONResponseBody(jsonbody);
-					
-					statisticsManager.addCcdaValidation("NonSpecificCCDAR2", hasErrors, hasWarnings, hasInfo, false, "r2.0");
-				}				
+					if (jsonbody.getJSONObject("ccdaResults").has("error") || 
+							jsonbody.getJSONObject("ccdaExtendedResults").has("error")){
+						//TODO: Make sure the UI handles this gracefully.
+						responseJSON.setJSONResponseBody(jsonbody);
+						statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, false, "R2.0");
+					} else {
+						
+						JSONObject ccdaReport = jsonbody.getJSONObject("ccdaResults").getJSONObject("report");
+						ccdaHasErrors = ccdaReport.getBoolean("hasErrors");
+						ccdaHasWarnings = ccdaReport.getBoolean("hasWarnings");
+						ccdaHasInfo = ccdaReport.getBoolean("hasInfo");
+						
+						JSONObject extendedCcdaReport = jsonbody.getJSONObject("ccdaExtendedResults").getJSONObject("report");
+						extendedCcdaHasErrors = extendedCcdaReport.getBoolean("hasErrors");
+						extendedCcdaHasWarnings = extendedCcdaReport.getBoolean("hasWarnings");
+						extendedCcdaHasInfo = extendedCcdaReport.getBoolean("hasInfo");
+						
+						boolean hasErrors = (ccdaHasErrors || extendedCcdaHasErrors);
+						boolean hasWarnings = (ccdaHasWarnings || extendedCcdaHasWarnings);
+						boolean hasInfo = (ccdaHasInfo || extendedCcdaHasInfo);
+						
+						
+						responseJSON.setJSONResponseBody(jsonbody);
+						statisticsManager.addCcdaValidation("NonSpecificCCDAR2", hasErrors, hasWarnings, hasInfo, false, "R2.0");
+					}
+				}
 				
 		} catch (JSONException e) {
-			statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, true, "r2.0");
+			statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, true, "R2.0");
 			throw new RuntimeException(e);
 		}
 	}
