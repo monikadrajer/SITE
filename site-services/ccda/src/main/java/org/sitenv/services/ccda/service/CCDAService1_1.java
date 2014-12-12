@@ -35,7 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 @Service(value="CCDA1_1")
-public class CCDAService1_1 extends BaseCCDAService {
+public class CCDAService1_1 extends VocabularyCCDAService {
 	
 	Logger logger = LogManager.getLogger(CCDAService1_1.class.getName());
 	
@@ -72,11 +72,11 @@ public class CCDAService1_1 extends BaseCCDAService {
 	@Override
 	public String validate(ValidationData validationData) {
 		
+		Date requestStart = new Date();
 		JSONObject json = new JSONObject();
 		JSONObject ccdaJSON = null;
 		JSONObject extendedCcdaJSON = null;
 		
-		Date requestStart = new Date();
 		
 	    try {
 			
@@ -121,7 +121,7 @@ public class CCDAService1_1 extends BaseCCDAService {
 	    
 	    try {
 	    	
-	    	extendedCcdaJSON = getExtendedCCDAResult(validationData);
+	    	extendedCcdaJSON = getVocabularyResult(validationData);
 			
 	    } catch (JSONException e) {
 	    	
@@ -148,7 +148,7 @@ public class CCDAService1_1 extends BaseCCDAService {
 	    
 	    
 	    try {
-			JSONObject statsError = writeStatistics(ccdaJSON, extendedCcdaJSON, validationData.getParameter("type_val"));
+			JSONObject statsError = writeCcdaAndVocabStatistics(ccdaJSON, extendedCcdaJSON, validationData.getParameter("type_val"));
 			
 			if (statsError != null){
 				json = statsError;
@@ -180,72 +180,6 @@ public class CCDAService1_1 extends BaseCCDAService {
 		Date requestFinish = new Date();
 		logSuccessOrFailure(json, requestStart ,requestFinish);
 		return json.toString();
-	}
-	
-	
-	private void logSuccessOrFailure(JSONObject json, Date requestStart, Date requestFinish){
-		String logMessage = "";
-		try {
-			
-			JSONObject error = json.getJSONObject("error");
-			String message = error.getString("message");
-			logMessage = "[Failure] RequestTime: "+requestStart.toString()+" ResponseTime:"+requestFinish+" Message:"+message;
-			
-		} catch (JSONException e) {
-			logMessage = "[Success] RequestTime: "+requestStart.toString()+" ResponseTime:"+requestFinish;
-		}
-		logger.info(logMessage);
-	}
-	
-	
-	private JSONObject getError(JSONObject json){
-		JSONObject error = new JSONObject();
-		
-		if (json.has("error")){
-			try {
-				error.put("error", json.getJSONObject("error"));
-			} catch (JSONException e) {
-				logger.error("Error while creating error JSON output: ", e);
-			}
-		}
-		return error;
-	}
-	
-	
-	private JSONObject writeStatistics(JSONObject ccdaJSON,
-			JSONObject extendedCcdaJSON, 
-			String validationType) throws JSONException{
-		
-		JSONObject errorJson = null;
-		
-		
-		if ((ccdaJSON == null) || (extendedCcdaJSON == null)){
-			recordStatistics(validationType, false, false, false, true);
-		
-		} else if (getError(ccdaJSON) != null){
-			recordStatistics(validationType, false, false, false, true);
-			errorJson = getError(ccdaJSON);
-		
-		} else if (getError(extendedCcdaJSON) != null){
-			recordStatistics(validationType, false, false, false, true);
-			errorJson = getError(extendedCcdaJSON);
-		} else {
-			
-			JSONObject ccdaReport = ccdaJSON.getJSONObject("report");
-			JSONObject ccdaExtendedReport = extendedCcdaJSON.getJSONObject("report");
-			
-			boolean hasErrors = (ccdaReport.getBoolean("hasErrors") || 
-					ccdaExtendedReport.getBoolean("hasErrors"));
-			
-			boolean hasWarnings = (ccdaReport.getBoolean("hasWarnings") || 
-					ccdaExtendedReport.getBoolean("hasWarnings"));
-			
-			boolean hasInfo = (ccdaReport.getBoolean("hasInfo") || 
-					ccdaExtendedReport.getBoolean("hasInfo"));
-			
-			recordStatistics(validationType, hasErrors, hasWarnings, hasInfo, false);
-		}
-		return errorJson;
 	}
 	
 	
@@ -295,41 +229,13 @@ public class CCDAService1_1 extends BaseCCDAService {
 			
 		post.setEntity(entity);
 		HttpResponse relayResponse = client.execute(post);
-		json = handleCCDAResponse(relayResponse, mu2_ccda_type_value);
+		json = handleCCDAResponse(relayResponse);
 		
 		return json;
 	}
 	
 	
-	private JSONObject getExtendedCCDAResult(ValidationData validationData) throws ClientProtocolException, IOException, JSONException
-	{
-		JSONObject json = null;
-		
-		MultipartFile file = validationData.getFile("file");
-			
-		String extendedCcdaURL = null;
-		
-		extendedCcdaURL = this.props.getProperty("ExtendedCCDAValidationServiceURL");
-		
-		HttpClient client = new DefaultHttpClient();
-		HttpPost post = new HttpPost(extendedCcdaURL);
-		
-		MultipartEntity entity = new MultipartEntity();
-			
-		// set the file content
-		entity.addPart("file", new InputStreamBody(file.getInputStream(), 
-				file.getName()));
-		
-		post.setEntity(entity);
-		HttpResponse relayResponse = client.execute(post);	
-		json = handleExtendedCCDAResponse(relayResponse);
-		
-		return json;
-	}
-	
-	
-	private JSONObject handleCCDAResponse(HttpResponse relayResponse, 
-			String mu2_ccda_type_value) throws ClientProtocolException, 
+	private JSONObject handleCCDAResponse(HttpResponse relayResponse) throws ClientProtocolException, 
 			IOException, JSONException{
 		
 		ResponseHandler<String> handler = new BasicResponseHandler();
@@ -406,44 +312,4 @@ public class CCDAService1_1 extends BaseCCDAService {
 		return jsonbody;
 	}
 	
-	private JSONObject handleExtendedCCDAResponse(HttpResponse relayResponse) throws JSONException, ClientProtocolException, IOException {
-		
-		ResponseHandler<String> handler = new BasicResponseHandler();
-		
-		int code = relayResponse.getStatusLine().getStatusCode();
-		
-		JSONObject jsonbody = null;
-		
-		if(code != HttpStatus.SC_OK)
-		{
-			//do the error handling.
-			logger.log(Level.ERROR, "Error while accessing CCDA service: "
-			+ code + ": "
-			+ relayResponse.getStatusLine().getReasonPhrase());
-			
-			jsonbody = new JSONObject("{ \"error\" : {\"message\": Error while accessing Extended CCDA service - "
-			+"\""+code +"-"+relayResponse.getStatusLine().getReasonPhrase() +"\""+"}}");
-		}
-		else
-		{
-			String body = handler.handleResponse(relayResponse);
-			jsonbody = new JSONObject(body);
-			JSONObject report = new JSONObject();
-			
-			boolean hasErrors = jsonbody.getBoolean("errors");
-			boolean hasWarnings = jsonbody.getBoolean("warnings");
-			boolean hasInfo = jsonbody.getBoolean("information");
-			
-			jsonbody.remove("errors");
-			jsonbody.remove("warnings");
-			jsonbody.remove("information");
-			
-			report.put("hasErrors", hasErrors);
-			report.put("hasWarnings", hasWarnings);
-			report.put("hasInfo", hasInfo);
-			jsonbody.put("report", report);
-			
-		}
-		return jsonbody;
-	}
 }
