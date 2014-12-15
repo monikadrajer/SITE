@@ -37,21 +37,21 @@ public class DownloadIncorporationController extends BaseController {
     {
     	negativeTestingCCDAFileNames = new HashMap<String, String>();
     	negativeTestingCCDAFileNames.put("0", "AllNegativeTestingCCDAs.zip");
-    	negativeTestingCCDAFileNames.put("1", "ExpiredVocabularyTesting.zip");
-    	negativeTestingCCDAFileNames.put("2", "CodeNotInValueSet.zip");
-    	negativeTestingCCDAFileNames.put("3", "TemplateIdsNotIncludedInBaseDocument.zip");
-    	negativeTestingCCDAFileNames.put("4", "DoesNotIncludeRequiredTemplateIds.zip");
-    	negativeTestingCCDAFileNames.put("5", "SectionWithMissingNarrative.zip");
-    	negativeTestingCCDAFileNames.put("6", "SectionWithInvalidCodeSystem.zip");
-    	negativeTestingCCDAFileNames.put("7", "EntryThatIncludedInvalidDataTypes.zip");
-    	negativeTestingCCDAFileNames.put("8", "DocumentDoesNotIncludeCoreMUDataElements.zip");
-    	negativeTestingCCDAFileNames.put("9", "IncorrectCodingOfMedicationData.zip");
-    	negativeTestingCCDAFileNames.put("10", "IncorrectCodingOfProblemsData.zip");
-    	negativeTestingCCDAFileNames.put("11", "IncorrectCodingOfAllergiesData.zip");
-    	negativeTestingCCDAFileNames.put("12", "IncorrectCodingOfLabResultsData.zip");
-    	negativeTestingCCDAFileNames.put("13", "IncorrectCodingOfProceduresData.zip");
-    	negativeTestingCCDAFileNames.put("14", "IncorrectCodingOfVitalSignsData.zip");
-    	negativeTestingCCDAFileNames.put("15", "IncorrectCodingOfImmunizationData.zip");
+    	negativeTestingCCDAFileNames.put("1", "Ambulatory_IncorrectImmunization.zip");
+    	negativeTestingCCDAFileNames.put("2", "Ambulatory_IncorrectLabResults.zip");
+    	negativeTestingCCDAFileNames.put("3", "Ambulatory_IncorrectProcedures.zip");
+    	negativeTestingCCDAFileNames.put("4", "Ambulatory_IncorrectVitalSigns.zip");
+    	negativeTestingCCDAFileNames.put("5", "Ambulatory_InvalidCS.zip");
+    	negativeTestingCCDAFileNames.put("6", "Ambulatory_invalidDataTypes.zip");
+    	negativeTestingCCDAFileNames.put("7", "Ambulatory_missingMU2elements.zip");
+    	negativeTestingCCDAFileNames.put("8", "Ambulatory_missingNarrative.zip");
+    	negativeTestingCCDAFileNames.put("9", "Inpatient_Code_Not_in_ValueSet.zip");
+    	negativeTestingCCDAFileNames.put("10", "Inpatient_IncorrectAllergies.zip");
+    	negativeTestingCCDAFileNames.put("11", "Inpatient_IncorrectMedication.zip");
+    	negativeTestingCCDAFileNames.put("12", "Inpatient_IncorrectProblems.zip");
+    	negativeTestingCCDAFileNames.put("13", "Inpatient_missingTemplateIds.zip");
+    	negativeTestingCCDAFileNames.put("14", "Inpatient_PooprlyFormed.zip");
+    	negativeTestingCCDAFileNames.put("15", "Inpatient_wrongTemplateIds.zip");
     	
     }
 	
@@ -60,31 +60,11 @@ public class DownloadIncorporationController extends BaseController {
     static
     {
     	referenceCCDAFileNames = new HashMap<String, String>();
-    	referenceCCDAFileNames.put("0", "BaseCCDA.zip");
-    	referenceCCDAFileNames.put("1", "CCDA1.zip");
-    	referenceCCDAFileNames.put("2", "CCDA2.zip");
-    	referenceCCDAFileNames.put("3", "CCDA3.zip");
-    	referenceCCDAFileNames.put("4", "CCDA4.zip");
+    	//referenceCCDAFileNames.put("0", "BaseCCDA.zip");
+    	referenceCCDAFileNames.put("1", "Ambulatory_Summary-no_errors.xml");
+    	referenceCCDAFileNames.put("2", "Inpatient_Summary-no_errors.xml");
     }
     
-    
-    private static final Map<String, String> testInputFileNames;
-    static
-    {
-    	testInputFileNames = new HashMap<String, String>();
-    	testInputFileNames.put("0", "ReferenceFile1.pdf");
-    	testInputFileNames.put("1", "ReferenceFile2.pdf");
-    	testInputFileNames.put("2", "ReferenceFile3.pdf");
-    	testInputFileNames.put("3", "ReferenceFile4.pdf");
-    	testInputFileNames.put("4", "ReferenceFile5.pdf");
-    	testInputFileNames.put("5", "ReferenceFile6.pdf");
-    	testInputFileNames.put("6", "ReferenceFile7.pdf");
-    	testInputFileNames.put("7", "ReferenceFile8.pdf");
-    	testInputFileNames.put("8", "ReferenceFile9.pdf");
-    }
-    
-    
-	
 	
 	public void copyStream(InputStream in, OutputStream out){
 		byte[] buffer = new byte[1024];
@@ -96,44 +76,6 @@ public class DownloadIncorporationController extends BaseController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	
-	
-	@ResourceMapping("downloadTestInputFile")
-	public void serveTestInputFileSamples(ResourceRequest resourceRequest, ResourceResponse res) throws PortletException, IOException {
-		
-		if (this.props == null)
-		{
-			this.loadProperties();
-		}
-		
-		String fileVal = resourceRequest.getParameter("getFile");
-		
-		String fileName = DownloadIncorporationController.testInputFileNames.get(fileVal);
-		
-		
-		String downloadPath = props.getProperty("TestInputFile") + "/" + fileName;
-		
-		File downloadFile = new File(downloadPath);
-		InputStream in = new FileInputStream(downloadFile);
-		
-		res.setContentType("application/zip");
-		res.addProperty(HttpHeaders.CACHE_CONTROL,
-				"max-age=3600, must-revalidate");
-		res.addProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
-				+ fileName + "\"");
-		// Use this to directly download the file
-		res.addProperty("Set-Cookie", "fileDownload=true; path=/");
-		
-		OutputStream out = res.getPortletOutputStream();
-		
-		copyStream(in, out);
-		out.flush();
-		out.close();
-		in.close();
-		statisticsManager.addReferenceCcdaDownload(fileName);
-		
 	}
 	
 	
@@ -221,7 +163,6 @@ public class DownloadIncorporationController extends BaseController {
 		
 		String downloadPath = props.getProperty("samplesFromVendorsForIncorporation") + "/" + resourceRequest.getParameter("incorpfilepath");
 		
-		logger.info("DOWNLOAD PATH!!!!!!!!!!!!!!!!!!!!! "  + downloadPath);
 		
 		String[] downloadPathTokens = downloadPath.split("[/\\\\]");
 		String fileName = downloadPathTokens[downloadPathTokens.length-1];

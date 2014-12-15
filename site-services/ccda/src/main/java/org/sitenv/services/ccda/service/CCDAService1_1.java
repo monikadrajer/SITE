@@ -3,16 +3,10 @@ package org.sitenv.services.ccda.service;
 
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
-
-
-
-
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
@@ -41,9 +35,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 
 @Service(value="CCDA1_1")
-public class CCDAService1_1 extends BaseCCDAService {
+public class CCDAService1_1 extends VocabularyCCDAService {
 	
 	Logger logger = LogManager.getLogger(CCDAService1_1.class.getName());
+	
 	
     private static final Map<String, String> typeValMap;
     static {
@@ -76,8 +71,120 @@ public class CCDAService1_1 extends BaseCCDAService {
 	
 	@Override
 	public String validate(ValidationData validationData) {
-
+		
 		Date requestStart = new Date();
+		JSONObject json = new JSONObject();
+		JSONObject ccdaJSON = null;
+		JSONObject extendedCcdaJSON = null;
+		
+		
+	    try {
+			
+	    	if (this.props == null)
+			{
+				this.loadProperties();
+			}
+			
+	    } catch (IOException e) {
+				
+	    	logger.error("Error while accessing CCDA service: ",  e);
+			try {
+				json = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
+			} catch (JSONException e1) {
+				logger.error("Error while creating error JSON output: ",  e1);
+			}
+		}
+	    
+	    try {
+	    	
+	    	ccdaJSON = getCCDAResult(validationData);
+			
+	    } catch (JSONException e) {
+	    	
+	    	logger.error("Error while accessing CCDA validation service: ",  e);
+	    	try {
+	    		ccdaJSON = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
+			} catch (JSONException e1) {
+				logger.error("Error while creating error JSON output: ",  e1);
+			}
+	    	
+	    } catch (IOException e) {
+	    	
+	    	logger.error("Error while accessing CCDA validation service: ",  e);
+	    	try {
+	    		ccdaJSON = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
+			} catch (JSONException e1) {
+				logger.error("Error while creating error JSON output: ",  e1);
+			}
+	    }
+	    
+	    
+	    try {
+	    	
+	    	extendedCcdaJSON = getVocabularyResult(validationData);
+			
+	    } catch (JSONException e) {
+	    	
+	    	logger.error("Error while accessing extended CCDA validation service: ",  e);
+	    	try {
+	    		
+	    		String errormsg = "{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}";
+	    		
+	    		extendedCcdaJSON = new JSONObject(errormsg);
+				
+			} catch (JSONException e1) {
+				logger.error("Error while creating error JSON output: ",  e1);
+			}
+	    	
+	    } catch (IOException e) {
+	    	
+	    	logger.error("Error while accessing extended CCDA validation service: ",  e);
+	    	try {
+	    		extendedCcdaJSON = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
+			} catch (JSONException e1) {
+				logger.error("Error while creating error JSON output: ",  e1);
+			}
+	    }
+	    
+	    
+	    try {
+			JSONObject statsError = writeCcdaAndVocabStatistics(ccdaJSON, extendedCcdaJSON, validationData.getParameter("type_val"));
+			
+			if (statsError != null){
+				json = statsError;
+			}
+			
+		} catch (JSONException e) {
+			logger.error("Error recording statistics: ",  e);
+		}
+	    
+	    
+	    if ((ccdaJSON != null) && (extendedCcdaJSON != null)){
+	    	
+			try {
+				if (!json.has("error")){
+					json.put("ccdaResults", ccdaJSON);
+					json.put("ccdaExtendedResults", extendedCcdaJSON);
+				}
+				
+			} catch (JSONException e) {
+		    	logger.error("Error while accessing CCDA service: ",  e);
+		    	try {
+					json = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
+				} catch (JSONException e1) {
+					logger.error("Error while creating error JSON output: ",  e1);
+				}
+			}
+	    }
+		
+		Date requestFinish = new Date();
+		logSuccessOrFailure(json, requestStart ,requestFinish);
+		return json.toString();
+	}
+	
+	
+	private JSONObject getCCDAResult(ValidationData validationData) throws IOException, JSONException
+	{
 		JSONObject json = null;
 		String mu2_ccda_type_value = null;
 		mu2_ccda_type_value = validationData.getParameter("type_val");
@@ -97,88 +204,38 @@ public class CCDAService1_1 extends BaseCCDAService {
 		
 		MultipartFile file = validationData.getFile("file");
 		
-		try {
-			if (this.props == null)
-			{
-				this.loadProperties();
-			}
-			
-			String mu2CcdaURL = null;
-			
-			if (mu2_ccda_type_value.equals("NonSpecificCCDA")) {
-				mu2CcdaURL = this.props.getProperty("NonSpecificCCDAValidationServiceURL");
-			} else {
-				mu2CcdaURL = this.props.getProperty("CCDAValidationServiceURL");
-			}
-			
-			HttpClient client = new DefaultHttpClient();
-			HttpPost post = new HttpPost(mu2CcdaURL);
-			
-			MultipartEntity entity = new MultipartEntity();
-			
-			// set the file content
-			entity.addPart("file", new InputStreamBody(file.getInputStream(), 
-					file.getName()));
-			
-			// set the CCDA type
-			entity.addPart("ccda_type",new StringBody(mu2_ccda_type_value));
-			entity.addPart("return_json_param", new StringBody("true"));
-			
-			//Change this to "false" in production:
-			entity.addPart("debug_mode", new StringBody("true"));
-			
-			post.setEntity(entity);
-			HttpResponse relayResponse = client.execute(post);
-			json = handleCCDAResponse(relayResponse, mu2_ccda_type_value);
-			
-	    } catch (JSONException e) {
-	    	
-	    	recordStatistics(mu2_ccda_type_value, false, false, false, true);
-	    	logger.error("Error while accessing CCDA service: ",  e);
-	    	try {
-				json = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
-			} catch (JSONException e1) {
-				logger.error("Error while creating error JSON output: ",  e1);
-			}
-	    }  catch (UnsupportedEncodingException e) {
-	    	
-	    	recordStatistics(mu2_ccda_type_value, false, false, false, true);
-	    	logger.error("Error while accessing CCDA service: ",  e);
-	    	try {
-				json = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
-			} catch (JSONException e1) {
-				logger.error("Error while creating error JSON output: ",  e1);
-			}
-	    } catch (IOException e) {
-	    	
-	    	recordStatistics(mu2_ccda_type_value, false, false, false, true);
-	    	logger.error("Error while accessing CCDA service: ",  e);
-	    	try {
-				json = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
-			} catch (JSONException e1) {
-				logger.error("Error while creating error JSON output: ",  e1);
-			}
-	    }
+		String mu2CcdaURL = null;
 		
-		Date requestFinish = new Date();
-		
-		String logMessage = "";
-		try {
-			JSONObject error = json.getJSONObject("error");
-			String message = error.getString("message");
-			logMessage = "[Failure] RequestTime: "+requestStart.toString()+" ResponseTime:"+requestFinish+" Message:"+message;
-			
-		} catch (JSONException e) {
-			logMessage = "[Success] RequestTime: "+requestStart.toString()+" ResponseTime:"+requestFinish;
+		if (mu2_ccda_type_value.equals("NonSpecificCCDA")) {
+			mu2CcdaURL = this.props.getProperty("NonSpecificCCDAValidationServiceURL");
+		} else {
+			mu2CcdaURL = this.props.getProperty("CCDAValidationServiceURL");
 		}
-		logger.info(logMessage);
+			
+		HttpClient client = new DefaultHttpClient();
+		HttpPost post = new HttpPost(mu2CcdaURL);
+			
+		MultipartEntity entity = new MultipartEntity();
 		
-		return json.toString();
+		// set the file content
+		entity.addPart("file", new InputStreamBody(file.getInputStream(), 
+				file.getName()));
+			
+		// set the CCDA type
+		entity.addPart("ccda_type",new StringBody(mu2_ccda_type_value));
+		entity.addPart("return_json_param", new StringBody("true"));
+		
+		entity.addPart("debug_mode", new StringBody("true"));
+			
+		post.setEntity(entity);
+		HttpResponse relayResponse = client.execute(post);
+		json = handleCCDAResponse(relayResponse);
+		
+		return json;
 	}
 	
 	
-	private JSONObject handleCCDAResponse(HttpResponse relayResponse, 
-			String mu2_ccda_type_value) throws ClientProtocolException, 
+	private JSONObject handleCCDAResponse(HttpResponse relayResponse) throws ClientProtocolException, 
 			IOException, JSONException{
 		
 		ResponseHandler<String> handler = new BasicResponseHandler();
@@ -199,12 +256,9 @@ public class CCDAService1_1 extends BaseCCDAService {
 			jsonbody = new JSONObject("{ \"error\" : {\"message\": Error while accessing CCDA service - "
 			+"\""+code +"-"+relayResponse.getStatusLine().getReasonPhrase() +"\""+"}}");
 			
-			recordStatistics(mu2_ccda_type_value, false, false, false, true);
 		}
 		else
 		{
-			boolean hasErrors = true, hasWarnings = true, hasInfo = true;
-			
 			
 			org.apache.http.Header[] errorHeaders = relayResponse.getHeaders("error_message");
 			
@@ -235,8 +289,6 @@ public class CCDAService1_1 extends BaseCCDAService {
 	    	JSONObject performance_object = new JSONObject().put("dateTimeOfRequest", timeAndDate);
 	    	performance_object.put("processingTime", processingTime);
 			
-	    	
-	    	
 			String body = handler.handleResponse(relayResponse);
 			Document doc = Jsoup.parseBodyFragment(body);
 			org.jsoup.nodes.Element json = doc.select("pre").first();
@@ -246,30 +298,18 @@ public class CCDAService1_1 extends BaseCCDAService {
 				if (errorMessage != null){
 					
 					jsonbody = new JSONObject("{ \"error\" : {\"message\": "+errorMessage+"\""+"}}");
-					recordStatistics(mu2_ccda_type_value, false, false, false, true);
 				} else {
 					
 					jsonbody = new JSONObject("{ \"error\" : {\"message\": \"The web service has encountered an unknown error. Please try again. If this issue persists, please contact the SITE team."+"\""+"}}");
-					recordStatistics(mu2_ccda_type_value, false, false, false, true);
 				}
 				
 			} else {
 				
 				jsonbody = new JSONObject(json.text());
-				
-				JSONObject report = jsonbody.getJSONObject("report");
-				hasErrors = report.getBoolean("hasErrors");
-				hasWarnings = report.getBoolean("hasWarnings");
-				hasInfo = report.getBoolean("hasInfo");
-				
 				jsonbody.put("performance", performance_object);
-				recordStatistics(mu2_ccda_type_value, hasErrors, hasWarnings, hasInfo, false);
-				
 			}
-			
 		}
 		return jsonbody;
 	}
-	
 	
 }

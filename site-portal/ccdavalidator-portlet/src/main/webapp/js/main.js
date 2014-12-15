@@ -185,12 +185,12 @@ function smartCCDAValidation()
 		selector = '#CCDA1ValidationForm';
 	} else if ($('#collapseCCDA2_0').hasClass('in')){
 		selector = '#CCDA2ValidationForm';
-	} else if ($('#collapseReconciledValidator').hasClass('in')){
-		selector = '#CCDAReconciledValidationForm';
-	} else if ($('#collapseReferenceValidator').hasClass('in')){
-		selector = '#CCDAReferenceValidationForm';
-	} else if ($('#collapseSuperValidator').hasClass('in')){
-		selector = '#CCDASuperValidationForm';
+	//} else if ($('#collapseReconciledValidator').hasClass('in')){
+	//	selector = '#CCDAReconciledValidationForm';
+	//} else if ($('#collapseReferenceValidator').hasClass('in')){
+	//	selector = '#CCDAReferenceValidationForm';
+	//} else if ($('#collapseSuperValidator').hasClass('in')){
+	//	selector = '#CCDASuperValidationForm';
 	} else {
 		
 	}
@@ -278,15 +278,6 @@ $(function(){
 	
 	
 	
-	 var urlmenu = document.getElementById('');
-	 urlmenu.onchange = function() {
-	      window.open( this.options[ this.selectedIndex ].value );
-	 };
-	
-	
-	
-	
-	
 	$('#smartCCDAValidationBtn').bind('click', function(e, data) {
 		smartCCDAValidation();
 	});
@@ -334,47 +325,6 @@ $(function(){
 	    });
 		
 	});
-	
-	//ccdavalidator_callAjax();
-	/*
-	$("#ccdavalidate_btn").click(function(e){
-	    
-		//switch back to tab1.
-		$( "#ValidationResult [href='#tabs-1']").trigger( "click" );
-		
-		//block the UI.
-		//find the cloest panel content
-		
-		BlockPortletUI();
-		
-		var formData = $('#CCDAValidationForm').serializefiles();
-	    
-	    $.ajax({
-	        url: $('#CCDAValidationForm').attr('action'),
-	        type: 'POST',
-	        
-	        xhr: function() {  // custom xhr
-	            myXhr = $.ajaxSettings.xhr();
-	            if(myXhr.upload){ // check if upload property exists
-	                myXhr.upload.addEventListener('progress',progressHandlingFunction, false); // for handling the progress of the upload
-	            }
-	            return myXhr;
-	        },
-	        
-	        //Ajax events
-	        //beforeSend: beforeSendHandler,
-	        success: completeHandler,
-	        error: errorHandler,
-	        // Form data
-	        data: formData,
-	        //Options to tell JQuery not to process data or worry about content-type
-	        cache: false,
-	        contentType: false,
-	        processData: false
-	    });
-	    return false;
-	});
-	*/
 	
 	$("#ccdafiletreepanel").jstree({
 		 "json_data" : {
@@ -481,39 +431,6 @@ $(function(){
 		    					        data: $('#incorpForm').serialize()
 		    					    });
 		    						
-		    						
-		    						/*
-		    						 * 
-		    						var formData = $('#incorpForm').serialize();
-		    					    $.ajax({
-		    					        url: $('#incorpForm').attr('action'),
-		    					        
-		    					        type: 'POST',
-		    					        
-		    					        //xhr: function() {  // custom xhr
-		    					         //   myXhr = $.ajaxSettings.xhr();
-		    					         //   if(myXhr.upload){ // check if upload property exists
-		    					         //      myXhr.upload.addEventListener('progressor', progressorHandlingFunction, false); 
-		    					         //   }
-		    					         //   return myXhr;
-		    					        //},
-		    					        
-		    					        success: function(data){
-		    					        	
-		    					        },
-		    					        
-		    					        error: function (request, status, error) {
-		    					        	alert(status);
-		    					        	alert(error);
-		    					        },
-		    					        // Form data
-		    					        data: formData,
-		    					        //Options to tell JQuery not to process data or worry about content-type
-		    					        cache: false,
-		    					        contentType: false,
-		    					        processData: false
-		    					    });
-		    					    */
 		    					}
 		    					else
 		    					{
