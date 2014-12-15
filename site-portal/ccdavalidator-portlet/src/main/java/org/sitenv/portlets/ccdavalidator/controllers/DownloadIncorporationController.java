@@ -60,11 +60,9 @@ public class DownloadIncorporationController extends BaseController {
     static
     {
     	referenceCCDAFileNames = new HashMap<String, String>();
-    	referenceCCDAFileNames.put("0", "BaseCCDA.zip");
-    	referenceCCDAFileNames.put("1", "CCDA1.zip");
-    	referenceCCDAFileNames.put("2", "CCDA2.zip");
-    	referenceCCDAFileNames.put("3", "CCDA3.zip");
-    	referenceCCDAFileNames.put("4", "CCDA4.zip");
+    	//referenceCCDAFileNames.put("0", "BaseCCDA.zip");
+    	referenceCCDAFileNames.put("1", "Ambulatory_Summary-no_errors.xml");
+    	referenceCCDAFileNames.put("2", "Inpatient_Summary-no_errors.xml");
     }
     
 	
@@ -165,7 +163,6 @@ public class DownloadIncorporationController extends BaseController {
 		
 		String downloadPath = props.getProperty("samplesFromVendorsForIncorporation") + "/" + resourceRequest.getParameter("incorpfilepath");
 		
-		logger.info("DOWNLOAD PATH!!!!!!!!!!!!!!!!!!!!! "  + downloadPath);
 		
 		String[] downloadPathTokens = downloadPath.split("[/\\\\]");
 		String fileName = downloadPathTokens[downloadPathTokens.length-1];

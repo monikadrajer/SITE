@@ -547,7 +547,7 @@
 			      </div>
 			    </div>
 			  </div>
-			  <%--<div class="panel panel-default">
+			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
 			        <a data-toggle="collapse" data-parent="#IncorporationAccordion" href="#collapseReference" tabindex="1">
@@ -558,16 +558,20 @@
 			    <div id="collapseReference" class="panel-collapse collapse">
 			      <div class="panel-body">
 			        <div class="list-group download-list">
-			        	<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=0" style="width: 100%;" tabindex="1">Base C-CDA</a>
+			        
+			        	<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=1" style="width: 100%;" tabindex="1">Ambulatory Summary</a>
+			      		<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=2" style="width: 100%;" tabindex="1">Inpatient Summary</a>
+			        
+			        	<%--<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=0" style="width: 100%;" tabindex="1">Base C-CDA</a>
 			      		<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=1" style="width: 100%;" tabindex="1">C-CDA 1 for Incorporation</a>
 			      		<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=2" style="width: 100%;" tabindex="1">C-CDA 2 for Incorporation</a>
 			      		<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=3" style="width: 100%;" tabindex="1">C-CDA 3 for Incorporation</a>
 			      		<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=4" style="width: 100%;" tabindex="1">C-CDA 4 for Incorporation</a>
+			      		--%>
 			    	</div>
 			      </div>
 			    </div>
 			  </div>
-			  --%>
 			  <div class="panel panel-default" style="overflow: visible;">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
