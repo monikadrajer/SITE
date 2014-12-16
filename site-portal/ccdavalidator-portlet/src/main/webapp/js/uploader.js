@@ -69,12 +69,31 @@ $(function() {
 				var ccdaReport = data.result.body.ccdaResults.report;
 				var extendedCcdaReport = data.result.body.ccdaExtendedResults.report;
 				
-				var ccdaValResult = ccdaReport.validationResults1;
-				var ccdaValStatement = ccdaReport.validationResults2;
 				var uploadedFileName = data.result.files[0].name;
 				var docTypeSelected = ccdaReport.docTypeSelected;
-				//var ccdaWarningCount = report.warningCount;
-				//var ccdaInfoCount = report.infoCount;
+				
+				var ccdaErrorCount = data.result.body.ccdaResults.errors.length;
+				var ccdaWarningCount = data.result.body.ccdaResults.warnings.length;
+				var ccdaInfoCount = data.result.body.ccdaResults.info.length;
+				
+				var extendedErrorCount = data.result.body.ccdaExtendedResults.errorList.length;
+				var extendedWarningCount = data.result.body.ccdaExtendedResults.warningList.length;
+				var extendedInfoCount = data.result.body.ccdaExtendedResults.informationList.length;
+				
+				
+				var CCDARedOrGreen = '<font color="green">';
+				
+				if (ccdaErrorCount > 0) {
+					CCDARedOrGreen = '<font color="red">';
+				}
+				
+				var vocabRedOrGreen = '<font color="green">';
+				
+				if (extendedErrorCount > 0){
+					vocabRedOrGreen = '<font color="red">';
+				}
+				
+				
 				
 				var tabHtml1 = 
 					   ['<title>Validation Results</title>',
@@ -87,18 +106,25 @@ $(function() {
 					    '<hr/>',
 					    '<hr/>',
 					    '<br/>',
+					    '<br/>'+CCDARedOrGreen+'',
+					    '<b>Validation Results: </b>',
+					    '<br/>The file has encountered '+ccdaErrorCount+' error(s). The file has encountered '+ccdaWarningCount+' warning(s). The file has encountered '+ccdaInfoCount+' info message(s).',
+					    '</font>',
+					    '<hr/>',
+					    '<hr/>',
+					    '<br/>',
+					    '<br/>',
+					    '<br/>'+vocabRedOrGreen+'',
+					    '<b>Vocabulary Validation Results: </b>',
+					    '<br/>The file has encountered '+extendedErrorCount+' error(s). The file has encountered '+extendedWarningCount+' warning(s). The file has encountered '+extendedInfoCount+' info message(s).',
+					    '</font>',
+					    '<hr/>',
+					    '<hr/>',
 					    '<br/>',
 					    '<br/>'
 					   ].join('\n');
 				
-				if (ccdaReport.hasErrors || extendedCcdaReport.hasErrors){
-					tabHtml1 += '<font color="red">';
-				} else {
-					tabHtml1 += '<font color="green">';
-					tabHtml1 += '<i>'+ccdaValResult+'</i><br/>'+ccdaValStatement;
-					tabHtml1 += '<br/>';
-					tabHtml1 += '<hr/>';
-				}
+				tabHtml1 += '<font color="red">';
 				
 				tabHtml1 += '<hr/><b>Validation Results:</b>';
 				
@@ -615,31 +641,60 @@ $(function() {
 				var ccdaReport = data.result.body.ccdaResults.report;
 				var extendedCcdaReport = data.result.body.ccdaExtendedResults.report;
 				
-				var ccdaValResult = ccdaReport.validationResults1;
-				var ccdaValStatement = ccdaReport.validationResults2;
+				//var ccdaValResult = ccdaReport.validationResults1;
+				//var ccdaValStatement = ccdaReport.validationResults2;
 				var uploadedFileName = data.result.files[0].name;
+				
+				
+				var ccdaErrorCount = data.result.body.ccdaResults.errors.length;
+				var ccdaWarningCount = data.result.body.ccdaResults.warnings.length;
+				var ccdaInfoCount = data.result.body.ccdaResults.info.length;
+				
+				var extendedErrorCount = data.result.body.ccdaExtendedResults.errorList.length;
+				var extendedWarningCount = data.result.body.ccdaExtendedResults.warningList.length;
+				var extendedInfoCount = data.result.body.ccdaExtendedResults.informationList.length;
+				
+				
+				var CCDARedOrGreen = '<font color="green">';
+				
+				if (ccdaErrorCount > 0) {
+					CCDARedOrGreen = '<font color="red">';
+				}
+				
+				var vocabRedOrGreen = '<font color="green">';
+				
+				if (extendedErrorCount > 0){
+					vocabRedOrGreen = '<font color="red">';
+				}
+				
 				
 				var tabHtml1 = 
 					   ['<title>Validation Results</title>',
 					    '<h1 align="center">Consolidated-CDA R2.0 Validation Results</h1>',
 					    '<b>Upload Results:</b>',
 					    '<br/>'+uploadedFileName+' was uploaded successfully.',
-					    '<br/><br/>', 
+					    '<br/><br/>',
+					    '<hr/>',
+					    '<br/>',
+					    '<br/>'+CCDARedOrGreen+'',
+					    '<b>Validation Results: </b>',
+					    '<br/>The file has encountered '+ccdaErrorCount+' error(s). The file has encountered '+ccdaWarningCount+' warning(s). The file has encountered '+ccdaInfoCount+' info message(s).',
+					    '</font>',
 					    '<hr/>',
 					    '<hr/>',
 					    '<br/>',
+					    '<br/>',
+					    '<br/>'+vocabRedOrGreen+'',
+					    '<b>Vocabulary Validation Results: </b>',
+					    '<br/>The file has encountered '+extendedErrorCount+' error(s). The file has encountered '+extendedWarningCount+' warning(s). The file has encountered '+extendedInfoCount+' info message(s).',
+					    '</font>',
+					    '<hr/>',
+					    '<hr/>',
 					    '<br/>',
 					    '<br/>'
 					   ].join('\n');
 				
-				if (ccdaReport.hasErrors || extendedCcdaReport.hasErrors){
-					tabHtml1 += '<font color="red">';
-				} else {
-					tabHtml1 += '<font color="green">';
-					tabHtml1 += '<i>'+ccdaValResult+'</i><br/>'+ccdaValStatement;
-					tabHtml1 += '<br/>';
-					tabHtml1 += '<hr/>';
-				}
+				tabHtml1 += '<font color="red">';
 				
 				tabHtml1 += '<hr/><b>Validation Results:</b>';
 				
