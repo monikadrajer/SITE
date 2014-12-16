@@ -10,12 +10,12 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
 
-@Component("sampleCCDATreeJsonView")
-public class SampleCCDATreeJsonView extends AbstractView {
+@Component("referenceCCDATreeJsonView")
+public class ReferenceCCDATreeJsonView extends AbstractView {
 	
-	private Logger logger = Logger.getLogger(SampleCCDATreeJsonView.class);
+	private Logger logger = Logger.getLogger(ReferenceCCDATreeJsonView.class);
 	
-	public SampleCCDATreeJsonView() {
+	public ReferenceCCDATreeJsonView() {
 		super();
 		
 		setContentType("text/plain");
@@ -25,6 +25,8 @@ public class SampleCCDATreeJsonView extends AbstractView {
     protected void renderMergedOutputModel(Map map, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
     logger.info("Resolving ajax request view - " + map);
+    
+    logger.info(map.toString());
     
     logger.info("content Type = " + getContentType());
     response.setContentType("text/plain");

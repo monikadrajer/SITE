@@ -16,6 +16,15 @@
     	<portlet:param name="javax.portlet.action" value="sampleCCDATree"/>
       </portlet:actionURL>
       
+      <portlet:actionURL var="reconciledCCDATree" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    	<portlet:param name="javax.portlet.action" value="reconciledCCDATree"/>
+      </portlet:actionURL>
+      
+      <portlet:actionURL var="referenceCCDATree" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    	<portlet:param name="javax.portlet.action" value="referenceCCDATree"/>
+      </portlet:actionURL>
+      
+      
       
       <portlet:actionURL var="urlAction1_1" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
     	<portlet:param name="javax.portlet.action" value="uploadCCDA1.1"/>
@@ -25,7 +34,6 @@
     	<portlet:param name="javax.portlet.action" value="uploadCCDA2.0"/>
 	  </portlet:actionURL>
 	  
-	  <%-- 
 	  <portlet:actionURL var="urlActionReconciled" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
     	<portlet:param name="javax.portlet.action" value="uploadCCDAReconciled"/>
 	  </portlet:actionURL>
@@ -37,7 +45,6 @@
 	  <portlet:actionURL var="urlActionSuper" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
     	<portlet:param name="javax.portlet.action" value="uploadCCDASuper"/>
 	  </portlet:actionURL>
-	  --%>
 	  
 	  <portlet:actionURL var="smartCCDAAction" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
     	<portlet:param name="javax.portlet.action" value="smartCCDA"/>
@@ -46,7 +53,18 @@
 	  
 	  <portlet:resourceURL id="saveAsPDF"  var="downloadCCDAAction">
 	  </portlet:resourceURL>
-	  	  
+	  
+	  
+	  
+	  <portlet:resourceURL id="downloadReconciledBundle"  var="downloadReconciledBundleAction">
+      </portlet:resourceURL>
+	  
+	  <portlet:resourceURL id="downloadReferenceTestData"  var="downloadReferenceTestDataAction">
+      </portlet:resourceURL>
+	  
+	  <portlet:resourceURL id="downloadTestInputFile"  var="downloadTestInputAction">
+      </portlet:resourceURL>
+	  
       <portlet:resourceURL id="downloadVendorIncorporation"  var="downloadVendorIncorporationAction">
       </portlet:resourceURL>
       
@@ -70,9 +88,12 @@
       
      
       <script type="text/javascript">
-		
       	window.currentContextPath = "<%=request.getContextPath()%>";
     	var sampleCCDATreeURL = '${sampleCCDATree}';
+    	var reconciledCCDATreeURL = '${reconciledCCDATree}';
+    	var referenceCCDATreeURL = '${referenceCCDATree}';
+    	
+    	
       </script>
       
       
@@ -208,7 +229,6 @@
 			    </div>
 			  </div>
 			  
-			  <%--
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
@@ -223,38 +243,76 @@
 			      
 			      	<div id="CCDAReconciled">
 			      	
-			      		<h4>Directions:</h4>
-			      		<ol>	      		
-			      			<li>Download a test data input file to be used as input prior to reconciliation. (Selecting an input file should provide the test data input and the reconciliation input for Step 2).</li>
-							<li>Download the reconciliation input and incorporate it into your system.</li>
-							<li>Generate a C-CDA from the system which would be a combination of the test data from step 1 and the reconciliation input from step 2.</li>			
-							<li>Select a C-CDA Document type or MU objective  to validate your generated C-CDA after reconciliation.</li>
-							<li>Select the test data input file used as input prior to reconciliation.</li>
-							<li>Select the CCDA document used as reconciliation input.</li>
-							<li>Upload C-CDA file generated post reconciliation to validate.</li>
-							<li>Validate.</li>
-			      		</ol>
-			        
+			      	
 	  					<div id="CCDAReconciledWrapper">
 	  					
 					       	<form id="CCDAReconciledValidationForm" action="${urlActionReconciled}" method="POST" relay="<%= smartCCDAAction %>" enctype="multipart/form-data">
 					      		
-					      		
-					      		<div id="CCDAReconciled_type_radioboxgroup" class="btn-group-vertical">
-					      			<label for="CCDAReconciled_type_val">Select a C-CDA Document Type or MU Stage 2 Objective:</label><br/>
-					      			<select id="CCDAReconciled_type_val" name="CCDAReconciled_type_val" class="form-control" tabindex="1">
-					      				<option value="ClinicalOfficeVisitSummary">Clinical Office Visit Summary - MU2 170.314(e)(2) - Clinical Summary</option>
-					      				<option value="TransitionsOfCareAmbulatorySummaryb2">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Ambulatory Care</option>
-					      				<option value="TransitionsOfCareAmbulatorySummaryb7">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(7) Data Portability - For Ambulatory Care</option>
-					      				<option value="TransitionsOfCareAmbulatorySummaryb1">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(1) Transition of Care Receive - For Ambulatory Care</option>
-					      				<option value="TransitionsOfCareInpatientSummaryb2">Transitions Of Care Inpatient Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Inpatient Care</option>
-					      				<option value="TransitionsOfCareInpatientSummaryb7">Transitions Of Care Inpatient Summary - MU2 170.314(b)(7) Data Portability - For Inpatient Care</option>
-					      				<option value="TransitionsOfCareInpatientSummaryb1">Transitions Of Care Inpatient Summary - MU2 170.314(b)(1) Transition of Care Receive - For Inpatient Care</option>
-					      				<option value="VDTAmbulatorySummary">VDT Ambulatory Summary - MU2 170.314 (e)(1) Ambulatory Summary</option>
-					      				<option value="VDTInpatientSummary">VDT Inpatient Summary - MU2 170.314 (e)(1) Inpatient Summary</option>
-					      				<option value="NonSpecificCCDA">C-CDA R1.1 Document</option>
-					      			</select>
-								</div>
+					      		<h4>Directions:</h4>
+					      		<ol>	      		
+					      			<li>Download a bundle from the file picker below, which will contain a test data input file to be used as input prior to reconciliation, along with the reconciliation input. Incorporate into your system.
+									
+									<div id="reconciledBundleFormWrapper">
+		  						
+														<form id="reconciledBundleForm" action="${downloadReconciledBundleAction}" method="POST">
+														
+														<p>
+														<noscript><input type="hidden" name="redirect" value="true"  /></noscript>
+														<div id="reconciledBundleErrorlock" style="position: relative;">
+															<div class="row">
+															<div class="col-md-12">
+															<label for="reconciledBundledLabel">Select test data and reconciliation file to download:</label><br/>
+																			<div class="dropdown">
+																				<button id="reconciledBundledLabel" data-toggle="dropdown"
+																					class="btn btn-success dropdown-toggle validate[funcCall[incorpRequired]]" type="button" tabindex="1">
+																					Pick Files <i class="glyphicon glyphicon-play"></i>
+																				</button>
+										
+																				<ul class="dropdown-menu rightMenu" role="menu" aria-labelledby="reconciledBundledLabel" style=" overflow: scroll; /* position: absolute; */ ">
+																					<li>
+																						<div id="reconciledBundleFileTreePanel"></div>
+																					</li>
+																				</ul>
+																			</div>
+																			<div><span id="reconciledBundleFilePathOutput"></span></div>
+															</div>
+															</div>
+														</div>
+														<hr />
+														<button id="reconciledBundleCCDAsubmit" type="submit"
+															class="btn btn-primary start" onclick="return false;"  tabindex="1">
+															<i class="glyphicon glyphicon-download"></i> <span>Download File</span>
+														</button>
+														<input id="reconciledBundleFilepath"
+																name="reconciledBundleFilepath" type="hidden">
+														</form>
+													</div>
+										<br/>
+										<br/>
+									</li>
+									
+									
+									<li>Generate a C-CDA from the system which would be a combination of the test data and the reconciliation input from step 1.</li>			
+									<li>Select a C-CDA Document type or MU objective  to validate your generated C-CDA after reconciliation.</li>
+									<div id="CCDAReconciled_type_radioboxgroup" class="btn-group-vertical">
+					      				<label for="CCDAReconciled_type_val">Select a C-CDA Document Type or MU Stage 2 Objective:</label><br/>
+						      			<select id="CCDAReconciled_type_val" name="CCDAReconciled_type_val" class="form-control" tabindex="1">
+						      				<option value="ClinicalOfficeVisitSummary">Clinical Office Visit Summary - MU2 170.314(e)(2) - Clinical Summary</option>
+						      				<option value="TransitionsOfCareAmbulatorySummaryb2">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Ambulatory Care</option>
+						      				<option value="TransitionsOfCareAmbulatorySummaryb7">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(7) Data Portability - For Ambulatory Care</option>
+						      				<option value="TransitionsOfCareAmbulatorySummaryb1">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(1) Transition of Care Receive - For Ambulatory Care</option>
+						      				<option value="TransitionsOfCareInpatientSummaryb2">Transitions Of Care Inpatient Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Inpatient Care</option>
+						      				<option value="TransitionsOfCareInpatientSummaryb7">Transitions Of Care Inpatient Summary - MU2 170.314(b)(7) Data Portability - For Inpatient Care</option>
+						      				<option value="TransitionsOfCareInpatientSummaryb1">Transitions Of Care Inpatient Summary - MU2 170.314(b)(1) Transition of Care Receive - For Inpatient Care</option>
+						      				<option value="VDTAmbulatorySummary">VDT Ambulatory Summary - MU2 170.314 (e)(1) Ambulatory Summary</option>
+						      				<option value="VDTInpatientSummary">VDT Inpatient Summary - MU2 170.314 (e)(1) Inpatient Summary</option>
+						      				<option value="NonSpecificCCDA">C-CDA R1.1 Document</option>
+						      			</select>
+									</div>
+									<li>Select the test data input file used as input prior to reconciliation.</li>
+									<li>Upload C-CDA file generated post reconciliation to validate.</li>
+									<li>Validate.</li>
+					      		</ol>
 								
 								
 								<br/><br/>
@@ -290,7 +348,7 @@
 											<br />
 											
 										</div>
-									</div>			
+									</div>
 								</div>
 								<div id="CCDAReconciledReconciliationUploadErrorLock" style="position: relative;">
 									<div class="row">
@@ -304,7 +362,6 @@
 											
 										</div>
 									</div>
-																
 								</div>
 								<hr/>
 								<button id="CCDAReconciledFormSubmit" type="submit" class="btn btn-primary start" onclick="return false;"  tabindex="1">
@@ -318,9 +375,7 @@
 			      </div>
 			    </div>
 			  </div>
-			  --%>
-			  
-			  <%-- 
+
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
@@ -339,7 +394,47 @@
 	  					
 	  						<h4>Directions:</h4>
 	  							<ol>
-	  								<li><a href="#IncorporationAccordion">Download</a> a test data input file to be used as input for generating a C-CDA.</li>
+	  								<li>Download a test data input file to be used as input for generating a C-CDA.</li>
+	  								
+		  								<div id="referenceDownloadFormWrapper">
+	  						
+													<form id="referenceDownloadForm" action="${downloadReferenceTestDataAction}" method="POST">
+													
+													<p>
+													<noscript><input type="hidden" name="redirect" value="true"  /></noscript>
+													<div id="referenceDownloadErrorlock" style="position: relative;">
+														<div class="row">
+														<div class="col-md-12">
+														<label for="referenceDownloadLabel">Select file to download:</label><br/>
+																		<div class="dropdown">
+																			<button id="referenceDownloadLabel" data-toggle="dropdown"
+																				class="btn btn-success dropdown-toggle validate[funcCall[incorpRequired]]" type="button" tabindex="1">
+																				Pick Files <i class="glyphicon glyphicon-play"></i>
+																			</button>
+									
+																			<ul class="dropdown-menu rightMenu" role="menu" aria-labelledby="referenceDownloadLabel" style=" overflow: scroll; /* position: absolute; */ ">
+																				<li>
+																					<div id="referenceDownloadFileTreePanel"></div>
+																				</li>
+																			</ul>
+																		</div>
+																		<div><span id="referenceDownloadFilePathOutput"></span></div>
+														</div>
+														</div>
+													</div>
+													<hr />
+													<button id="referenceDownloadCCDAsubmit" type="submit"
+														class="btn btn-primary start" onclick="return false;"  tabindex="1">
+														<i class="glyphicon glyphicon-download"></i> <span>Download File</span>
+													</button>
+													<input id="referenceDownloadFilepath"
+															name="referenceDownloadFilepath" type="hidden">
+													</form>
+												</div>
+									<br/>
+									<br/>
+	  								
+	  								
 									<li>Generate your CCDA file and when you are ready to validate, proceed to Step 3.</li>
 									<li>Select a C-CDA Document type or MU objective to validate your generated C-CDA.</li>
 									<li>Select the input file that you used to generate the C-CDA.</li>
@@ -415,10 +510,10 @@
 			      </div>
 			    </div>
 			  </div>
-			  --%>
-			  
-			  
-			 <%--
+
+
+
+
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
@@ -491,7 +586,6 @@
 			      </div>
 			    </div>
 			  </div>
-			  --%>
 			</div>
 		</div>
 	</div>
@@ -644,9 +738,9 @@
 	<script type="text/javascript">
 		var urlCCDA1_1 = '${urlAction1_1}';
 		var urlCCDA2_0 = '${urlAction2_0}';
-		//var urlCCDAReconciled = '${urlActionReconciled}';
-		//var urlCCDAReference = '${urlActionReferece}';
-		//var urlCCDASuper = '${urlActionSuper}';
+		var urlCCDAReconciled = '${urlActionReconciled}';
+		var urlCCDAReference = '${urlActionReference}';
+		var urlCCDASuper = '${urlActionSuper}';
 	</script>
       	
       	

@@ -381,7 +381,6 @@ $(function(){
 		    			  $('#incorpForm .formError').hide(0);
 		    			  //populate the textbox
 		    			  $("#incorpfilepath").val(node.data("serverpath"));
-		    			
 		    			  
 		    			  $("#incorpfilePathOutput").text($("#incorpfilepath").val());
 		    			 
@@ -466,5 +465,257 @@ $(function(){
 		});
 	});
 	
+	
+	
+	$("#reconciledBundleFileTreePanel").jstree({
+		 "json_data" : {
+			      "ajax" : {
+				      "url" : reconciledCCDATreeURL,
+				      "type" : "post",
+				  }
+	      },
+	      
+	      "types" : {
+	    	  "valid_children" : [ "all" ],
+	    	  "type_attr" : "ref",
+	    	  "types" : {
+	    		  "root" : {
+		    	      "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/root.png"
+		    	      },
+		    	      "valid_children" : [ "file","folder" ],
+		    	      "max_depth" : 2,
+		    	      "hover_node" : false,
+		    	      "select_node" : function (e) {
+
+		    	    	  this.toggle_node(e);
+		    	    	  return false;
+		    	      }
+		    	      
+		    	  	},
+		    	  "file" : {
+		    		  "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/file.png"
+		    	      },
+		    		  "valid_children" : [ "none" ],
+		    		  "deselect_node" : function (node,e) {
+		    			  //var jform = $('#incorpForm');
+		    			$('#reconciledBundleForm .formError').hide(0);
+		    				
+		    			  
+		    			//var textValue = $('#incorpemail').val();
+		  				$('#reconciledBundleForm').trigger('reset');
+		  				$('#reconciledBundleFormCCDAsubmit').unbind("click");
+		  				
+		  				$('#reconciledBundleFilePathOutput').empty();
+		  				$('#reconciledBundleFilepath').val('');
+		  				
+		  				//$('#incorpemail').val(textValue);
+		    			  
+		    		  },
+		    		  "select_node" : function (node,e) {
+		    			  
+		    			  $('#reconciledBundleForm .formError').hide(0);
+		    			  //populate the textbox
+		    			  $("#reconciledBundleFilepath").val(node.data("serverpath"));
+		    			
+		    			  
+		    			  $("#reconciledBundleFilePathOutput").text($("#reconciledBundleFilepath").val());
+		    			 
+		    			  
+		    	    	  //hide the drop down panel
+		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
+		    			  
+		    			  $('#reconciledBundledLabel').focus();
+		    			  $('#reconciledBundledLabel').dropdown("toggle");
+		    			  
+		    			  $("#reconciledBundleCCDAsubmit").click(function(e){
+		    				    
+		    				  	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+		    				  	$.blockUI({ css: { 
+		    				        border: 'none', 
+		    				        padding: '15px', 
+		    				        backgroundColor: '#000', 
+		    				        '-webkit-border-radius': '10px', 
+		    				        '-moz-border-radius': '10px', 
+		    				        opacity: .5, 
+		    				        color: '#fff' 
+		    			    	},
+		    			    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+		    					          '<div class="lbl">Preparing your download...</div></div>' });
+		    				  	
+		    				  
+		    					//var jform = $('#reconciledBundleForm');
+		    					//jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
+		    					//if(jform.validationEngine('validate'))
+		    				  	{
+		    						$('#reconciledBundleForm .formError').hide(0);
+		    						
+		    					    
+		    						$.fileDownload($('#reconciledBundleForm').attr('action'), {
+		    							
+		    							successCallback: function (url) {
+		    								$.unblockUI(); 
+		    				            },
+		    				            failCallback: function (responseHtml, url) {
+		    				            	alert("Server error:" + responseHtml);
+		    				            	alert(url);
+		    				            	$.unblockUI(); 
+		    				            },
+		    					        httpMethod: "POST",
+		    					        data: $('#reconciledBundleForm').serialize()
+		    					    });
+		    						
+		    					}
+		    					
+		    					return false;
+		    				});
+		    			  
+		    		  }
+		    	  },
+		    	  "folder" : {
+		    		  "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/folder.png"
+		    	      },
+		    		  "valid_children" : [ "file" ],
+		    		  "select_node" : function (e) {
+		    	    	  e.find('a:first').focus();
+		    			  this.toggle_node(e);
+		    	    	  return false;
+		    	      }
+		    	  }
+	    	 }
+	    },
+	    "plugins" : [ "themes", "json_data", "ui", "types" ]
+	}).bind('loaded.jstree', function(e, data) {
+		isfiletreeloaded = true;
+		
+		$('#reconciledBundleFileTreePanel').find('a').each(function() {
+		    $(this).attr('tabindex', '1');
+		});
+	});
+	
+	
+	
+	
+	
+	
+	$("#referenceDownloadFileTreePanel").jstree({
+		 "json_data" : {
+			      "ajax" : {
+				      "url" : referenceCCDATreeURL,
+				      "type" : "post",
+				  }
+	      },
+	      
+	      "types" : {
+	    	  "valid_children" : [ "all" ],
+	    	  "type_attr" : "ref",
+	    	  "types" : {
+	    		  "root" : {
+		    	      "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/root.png"
+		    	      },
+		    	      "valid_children" : [ "file","folder" ],
+		    	      "max_depth" : 2,
+		    	      "hover_node" : false,
+		    	      "select_node" : function (e) {
+
+		    	    	  this.toggle_node(e);
+		    	    	  return false;
+		    	      }
+		    	      
+		    	  	},
+		    	  "file" : {
+		    		  "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/file.png"
+		    	      },
+		    		  "valid_children" : [ "none" ],
+		    		  "deselect_node" : function (node,e) {
+		    			
+		    			  
+		    			$('#referenceDownloadForm .formError').hide(0);
+		  				$('#referenceDownloadForm').trigger('reset');
+		  				$('#referenceDownloadFormCCDAsubmit').unbind("click");
+		  				
+		  				$('#referenceDownloadFilePathOutput').empty();
+		  				$('#referenceDownloadFilepath').val('');
+		  				
+		    			  
+		    		  },
+		    		  "select_node" : function (node,e) {
+		    			  $('#referenceDownloadForm .formError').hide(0);
+		    			  //populate the textbox
+		    			  $("#referenceDownloadFilepath").val(node.data("serverpath"));
+		    			
+		    			  
+		    			  $("#referenceDownloadFilePathOutput").text($("#referenceDownloadFilepath").val());
+		    			  
+		    	    	  //hide the drop down panel
+		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
+		    			  
+		    			  $('#referenceDownloaddLabel').focus();
+		    			  $('#referenceDownloaddLabel').dropdown("toggle");
+		    			  
+		    			  $("#referenceDownloadCCDAsubmit").click(function(e){
+		    				    
+		    				  	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+		    				  	$.blockUI({ css: { 
+		    				        border: 'none', 
+		    				        padding: '15px', 
+		    				        backgroundColor: '#000', 
+		    				        '-webkit-border-radius': '10px', 
+		    				        '-moz-border-radius': '10px', 
+		    				        opacity: .5, 
+		    				        color: '#fff' 
+		    			    	},
+		    			    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+		    					          '<div class="lbl">Preparing your download...</div></div>' });
+		    				  	
+		    					{
+		    						$('#referenceDownloadForm .formError').hide(0);
+		    						
+		    					    
+		    						$.fileDownload($('#referenceDownloadForm').attr('action'), {
+		    							
+		    							successCallback: function (url) {
+		    								$.unblockUI(); 
+		    				            },
+		    				            failCallback: function (responseHtml, url) {
+		    				            	alert("Server error:" + responseHtml);
+		    				            	alert(url);
+		    				            	$.unblockUI(); 
+		    				            },
+		    					        httpMethod: "POST",
+		    					        data: $('#referenceDownloadForm').serialize()
+		    					    });
+		    						
+		    					}
+		    					return false;
+		    				});
+		    			  
+		    		  }
+		    	  },
+		    	  "folder" : {
+		    		  "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/folder.png"
+		    	      },
+		    		  "valid_children" : [ "file" ],
+		    		  "select_node" : function (e) {
+		    	    	  e.find('a:first').focus();
+		    			  this.toggle_node(e);
+		    	    	  return false;
+		    	      }
+		    	  }
+	    	 }
+	    },
+	    "plugins" : [ "themes", "json_data", "ui", "types" ]
+	}).bind('loaded.jstree', function(e, data) {
+		isfiletreeloaded = true;
+		
+		$('#referenceDownloadFileTreePanel').find('a').each(function() {
+		    $(this).attr('tabindex', '1');
+		});
+	});
 	
 });
