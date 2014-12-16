@@ -61,7 +61,7 @@ public class SampleCCDATreeController extends BaseController {
 				} else {
 					// String dirPath = getRelativePath(file,new
 					// File(CCDAServerRootPath));
-					String dirPath = file.getCanonicalPath();
+					String dirPath = file.getCanonicalPath().replace("\\", "/");
 					SampleCCDATreeNode folder = new SampleCCDATreeNode(
 							file.getName(), "file", "leaf", String.format(
 									"%d_%d", deep, count), "helloword");
