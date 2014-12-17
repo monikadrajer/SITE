@@ -286,6 +286,18 @@ text-decoration: underline;
 	width: 180px;
 }
 
+
+#reconciledBundledLabel {
+	width: 180px;
+}
+
+
+#referenceDownloadLabel {
+	width: 180px;
+}
+
+
+
 #ccdafiletreepanel
 {
 	background: #ffffff;
@@ -356,6 +368,5 @@ div#collapseReference .panel-body .list-group-item {
 }
 div#collapseReference .panel-body {
 	padding: 0px;
-
 }
 
