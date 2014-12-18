@@ -3,10 +3,12 @@ package org.sitenv.services.ccda.service;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
@@ -21,6 +23,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -306,6 +309,51 @@ public class CCDAService1_1 extends VocabularyCCDAService {
 			} else {
 				
 				jsonbody = new JSONObject(json.text());
+				
+				// Get rid of message objects in the case when there is no error found
+				if (jsonbody.has("errors")){
+					JSONArray errors = jsonbody.getJSONArray("errors");
+					JSONObject firstElement = errors.getJSONObject(0);
+					if (firstElement.has("message")){
+						String message = firstElement.getString("message");
+						if (message.equals("no_data_found")){
+							ArrayList emptyList = new ArrayList();
+							jsonbody.remove("errors");
+							jsonbody.put("errors", emptyList);//.put("errors", []);
+						}
+					}
+				}
+				
+				
+				if (jsonbody.has("warnings")){
+					JSONArray errors = jsonbody.getJSONArray("warnings");
+					JSONObject firstElement = errors.getJSONObject(0);
+					if (firstElement.has("message")){
+						String message = firstElement.getString("message");
+						if (message.equals("no_data_found")){
+							ArrayList emptyList = new ArrayList();
+							jsonbody.remove("warnings");
+							jsonbody.put("warnings", emptyList);//.put("errors", []);
+						}
+					}
+				}
+				
+				
+				if (jsonbody.has("info")){
+					JSONArray errors = jsonbody.getJSONArray("info");
+					JSONObject firstElement = errors.getJSONObject(0);
+					if (firstElement.has("message")){
+						String message = firstElement.getString("message");
+						if (message.equals("no_data_found")){
+							ArrayList emptyList = new ArrayList();
+							jsonbody.remove("info");
+							jsonbody.put("info", emptyList);//.put("errors", []);
+						}
+					}
+				}
+				
+
+				
 				jsonbody.put("performance", performance_object);
 			}
 		}
