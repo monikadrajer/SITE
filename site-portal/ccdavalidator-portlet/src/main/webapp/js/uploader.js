@@ -823,7 +823,7 @@ $(function() {
 			{
 				$('#CCDA2ValidationForm .formError').show(0);
 				
-				$('#CCDA2ValidationForm .CCDA2fileuploadformError').prependTo('#ccdauploaderrorlock');
+				$('#CCDA2ValidationForm .CCDA2fileuploadformError').prependTo('#CCDA2uploaderrorlock');
 			}
 			
 		});
