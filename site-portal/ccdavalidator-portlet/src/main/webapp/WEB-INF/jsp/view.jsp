@@ -287,7 +287,6 @@
 														</form>
 													</div>
 										<br/>
-										<br/>
 									</li>
 									</ol>
 									<form id="CCDAReconciledValidationForm" action="${urlActionReconciled}" method="POST" relay="<%= smartCCDAAction %>" enctype="multipart/form-data">
@@ -342,7 +341,7 @@
 											<div id="CCDAReconciledReconciliationUploadErrorLock" style="position: relative;">
 												<div class="row">
 													<div class="col-md-12">
-														<label for="CCDAReconciledReconciliationFileupload">Upload a C-CDA File to Validate:</label><br/>
+														<label for="CCDAReconciledReconciliationFileupload">Upload a C-CDA File:</label><br/>
 														<span class="btn btn-success fileinput-button" id="CCDAReconciledReconciliationFileupload-btn"> <i
 																class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
 																<input id="CCDAReconciledReconciliationFileupload" type="file" name="ReconciliationFile"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
@@ -391,7 +390,6 @@
 	  								
 		  								<div id="referenceDownloadFormWrapper">
 													<form id="referenceDownloadForm" action="${downloadReferenceTestDataAction}" method="POST">
-													
 													<p>
 													<noscript><input type="hidden" name="redirect" value="true"  /></noscript>
 													<div id="referenceDownloadErrorlock" style="position: relative;">
@@ -424,7 +422,6 @@
 													<input id="referenceDownloadFilepath"
 														name="referenceDownloadFilepath" type="hidden">
 													</form>
-												<br/>
 												<br/>
 										</div>
 	  								</li>
@@ -461,10 +458,9 @@
 									<noscript><input type="hidden" name="redirect" value="true" /></noscript>
 										<div id="CCDAReferenceUploaderrorlock" style="position: relative;">
 										<br/>
-										<br/>
 											<div class="row">
 												<div class="col-md-12">
-													<label for="CCDAReferenceFileupload">Upload the input file used for generating C-CDA:</label><br/>
+													<label for="CCDAReferenceFileupload">Upload Input File:</label><br/>
 													<span class="btn btn-success fileinput-button" id="CCDAReferenceFileupload-btn"> <i
 															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a File...</span>
 															<input id="CCDAReferenceFileupload" type="file" name="file"  class="validate[required, custom[maxCCDAFileSize]]"  tabindex="1"/>
@@ -476,14 +472,14 @@
 										<br/>
 										</div>
 									</li>
-									<li>Upload C-CDA file to validate.
+									<li>Upload generated C-CDA file to validate.
 										<br/>
 										<br/>
 										<div id="CCDAReferenceCEHRTUploaderrorlock" style="position: relative;">
 											
 											<div class="row">
 												<div class="col-md-12">
-													<label for="CCDAReferenceCEHRTFileupload">Upload a CEHRT Generated C-CDA File to Validate:</label><br/>
+													<label for="CCDAReferenceCEHRTFileupload">Upload C-CDA File:</label><br/>
 													<span class="btn btn-success fileinput-button" id="CCDAReferenceCEHRTFileupload-btn"> <i
 															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
 															<input id="CCDAReferenceCEHRTFileupload" type="file" name="CEHRTFile"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
@@ -510,18 +506,12 @@
 									</li>
 	  							</ol>
 	  						</form>
-					      	
-				      	</div>      	
+				      </div>      	
 		      		</div>
-		      		
-		      		
 			      </div>
 			    </div>
 			  </div>
-
-
-
-
+			  
 			  <div class="panel panel-default">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">

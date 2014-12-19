@@ -304,18 +304,6 @@ text-decoration: underline;
 	height:150px;
 }
 
-#ccdafiletreepanel
-{
-	background: #ffffff;
-	height:150px;
-}
-
-#ccdafiletreepanel
-{
-	background: #ffffff;
-	height:150px;
-}
-
 #reconciledBundleFileTreePanel
 {
 	background: #ffffff;
@@ -369,4 +357,16 @@ div#collapseReference .panel-body .list-group-item {
 div#collapseReference .panel-body {
 	padding: 0px;
 }
+
+
+.jstree li {
+	min-width: 360px;
+}
+
+
+
+
+
+
+
 
