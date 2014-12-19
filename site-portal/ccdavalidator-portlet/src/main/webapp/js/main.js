@@ -684,7 +684,7 @@ $(function(){
 		    				            failCallback: function (responseHtml, url) {
 		    				            	alert("Server error:" + responseHtml);
 		    				            	alert(url);
-		    				            	$.unblockUI(); 
+		    				            	$.unblockUI();
 		    				            },
 		    					        httpMethod: "POST",
 		    					        data: $('#referenceDownloadForm').serialize()

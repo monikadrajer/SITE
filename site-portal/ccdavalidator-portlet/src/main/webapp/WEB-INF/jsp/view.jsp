@@ -245,8 +245,6 @@
 			      	
 			      	
 	  					<div id="CCDAReconciledWrapper">
-	  					
-					       	<form id="CCDAReconciledValidationForm" action="${urlActionReconciled}" method="POST" relay="<%= smartCCDAAction %>" enctype="multipart/form-data">
 					      		
 					      		<h4>Directions:</h4>
 					      		<ol>	      		
@@ -291,78 +289,80 @@
 										<br/>
 										<br/>
 									</li>
+									</ol>
+									<form id="CCDAReconciledValidationForm" action="${urlActionReconciled}" method="POST" relay="<%= smartCCDAAction %>" enctype="multipart/form-data">
+									<ol start=2>
 									
-									
-									<li>Generate a C-CDA from the system which would be a combination of the test data and the reconciliation input from step 1.</li>			
-									<li>Select a C-CDA Document type or MU objective  to validate your generated C-CDA after reconciliation.
-									<br/>
-									<br/>
-										<div id="CCDAReconciled_type_radioboxgroup" class="btn-group-vertical">
-						      				<label for="CCDAReconciled_type_val">Select a C-CDA Document Type or MU Stage 2 Objective:</label><br/>
-							      			<select id="CCDAReconciled_type_val" name="CCDAReconciled_type_val" class="form-control" tabindex="1">
-							      				<option value="ClinicalOfficeVisitSummary">Clinical Office Visit Summary - MU2 170.314(e)(2) - Clinical Summary</option>
-							      				<option value="TransitionsOfCareAmbulatorySummaryb2">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Ambulatory Care</option>
-							      				<option value="TransitionsOfCareAmbulatorySummaryb7">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(7) Data Portability - For Ambulatory Care</option>
-							      				<option value="TransitionsOfCareAmbulatorySummaryb1">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(1) Transition of Care Receive - For Ambulatory Care</option>
-							      				<option value="TransitionsOfCareInpatientSummaryb2">Transitions Of Care Inpatient Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Inpatient Care</option>
-							      				<option value="TransitionsOfCareInpatientSummaryb7">Transitions Of Care Inpatient Summary - MU2 170.314(b)(7) Data Portability - For Inpatient Care</option>
-							      				<option value="TransitionsOfCareInpatientSummaryb1">Transitions Of Care Inpatient Summary - MU2 170.314(b)(1) Transition of Care Receive - For Inpatient Care</option>
-							      				<option value="VDTAmbulatorySummary">VDT Ambulatory Summary - MU2 170.314 (e)(1) Ambulatory Summary</option>
-							      				<option value="VDTInpatientSummary">VDT Inpatient Summary - MU2 170.314 (e)(1) Inpatient Summary</option>
-							      				<option value="NonSpecificCCDA">C-CDA R1.1 Document</option>
-							      			</select>
-										</div>
-									<br/>
-									<br/>	
-									</li>
-									<li>Select the test data input file used as input prior to reconciliation.
+										<li>Generate a C-CDA from the system which would be a combination of the test data and the reconciliation input from step 1.</li>			
+										<li>Select a C-CDA Document type or MU objective  to validate your generated C-CDA after reconciliation.
 										<br/>
 										<br/>
-										<noscript><input type="hidden" name="redirect" value="true" /></noscript>
-										<div id="CCDAReconciledUploaderrorlock" style="position: relative;">
-											<div class="row">
-												<div class="col-md-12">
-													<label for="CCDAReconciledFileupload">Upload Input File:</label><br/>
-													<span class="btn btn-success fileinput-button" id="CCDAReconciledFileupload-btn"> <i
-															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a File...</span>
-															<input id="CCDAReconciledFileupload" type="file" name="file"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
-													</span>
-													<div id="CCDAReconciledFiles"></div>
-													<br/>
-													<br/>
-													
+											<div id="CCDAReconciled_type_radioboxgroup" class="btn-group-vertical">
+							      				<label for="CCDAReconciled_type_val">Select a C-CDA Document Type or MU Stage 2 Objective:</label><br/>
+								      			<select id="CCDAReconciled_type_val" name="CCDAReconciled_type_val" class="form-control" tabindex="1">
+								      				<option value="ClinicalOfficeVisitSummary">Clinical Office Visit Summary - MU2 170.314(e)(2) - Clinical Summary</option>
+								      				<option value="TransitionsOfCareAmbulatorySummaryb2">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Ambulatory Care</option>
+								      				<option value="TransitionsOfCareAmbulatorySummaryb7">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(7) Data Portability - For Ambulatory Care</option>
+								      				<option value="TransitionsOfCareAmbulatorySummaryb1">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(1) Transition of Care Receive - For Ambulatory Care</option>
+								      				<option value="TransitionsOfCareInpatientSummaryb2">Transitions Of Care Inpatient Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Inpatient Care</option>
+								      				<option value="TransitionsOfCareInpatientSummaryb7">Transitions Of Care Inpatient Summary - MU2 170.314(b)(7) Data Portability - For Inpatient Care</option>
+								      				<option value="TransitionsOfCareInpatientSummaryb1">Transitions Of Care Inpatient Summary - MU2 170.314(b)(1) Transition of Care Receive - For Inpatient Care</option>
+								      				<option value="VDTAmbulatorySummary">VDT Ambulatory Summary - MU2 170.314 (e)(1) Ambulatory Summary</option>
+								      				<option value="VDTInpatientSummary">VDT Inpatient Summary - MU2 170.314 (e)(1) Inpatient Summary</option>
+								      				<option value="NonSpecificCCDA">C-CDA R1.1 Document</option>
+								      			</select>
+											</div>
+										<br/>
+										<br/>	
+										</li>
+										<li>Select the test data input file used as input prior to reconciliation.
+											<br/>
+											<br/>
+											<noscript><input type="hidden" name="redirect" value="true" /></noscript>
+											<div id="CCDAReconciledUploaderrorlock" style="position: relative;">
+												<div class="row">
+													<div class="col-md-12">
+														<label for="CCDAReconciledFileupload">Upload Input File:</label><br/>
+														<span class="btn btn-success fileinput-button" id="CCDAReconciledFileupload-btn"> <i
+																class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a File...</span>
+																<input id="CCDAReconciledFileupload" type="file" name="file"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
+														</span>
+														<div id="CCDAReconciledFiles"></div>
+														<br/>
+														<br/>
+														
+													</div>
 												</div>
 											</div>
-										</div>
-									
-									</li>
-									<li>Upload C-CDA file generated post reconciliation to validate.
-										<br/>
-										<br/>
-										<div id="CCDAReconciledReconciliationUploadErrorLock" style="position: relative;">
-											<div class="row">
-												<div class="col-md-12">
-													<label for="CCDAReconciledReconciliationFileupload">Upload a C-CDA File to Validate:</label><br/>
-													<span class="btn btn-success fileinput-button" id="CCDAReconciledReconciliationFileupload-btn"> <i
-															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
-															<input id="CCDAReconciledReconciliationFileupload" type="file" name="ReconciliationFile"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
-													</span>
-													<div id="CCDAReconciliationReconciledFiles"></div>
-													
+										
+										</li>
+										<li>Upload C-CDA file generated post reconciliation to validate.
+											<br/>
+											<br/>
+											<div id="CCDAReconciledReconciliationUploadErrorLock" style="position: relative;">
+												<div class="row">
+													<div class="col-md-12">
+														<label for="CCDAReconciledReconciliationFileupload">Upload a C-CDA File to Validate:</label><br/>
+														<span class="btn btn-success fileinput-button" id="CCDAReconciledReconciliationFileupload-btn"> <i
+																class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
+																<input id="CCDAReconciledReconciliationFileupload" type="file" name="ReconciliationFile"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
+														</span>
+														<div id="CCDAReconciliationReconciledFiles"></div>
+														
+													</div>
 												</div>
 											</div>
-										</div>
-										<br/>
-										<br/>
-									</li>
-									<li>Validate.
-										<br/>
-										<br/>
-										<button id="CCDAReconciledFormSubmit" type="submit" class="btn btn-primary start" onclick="return false;"  tabindex="1">
-											<i class="glyphicon glyphicon-ok"></i> <span>Validate Document</span>
-										</button>
-									</li>
-					      		</ol>
+											<br/>
+											<br/>
+										</li>
+										<li>Validate.
+											<br/>
+											<br/>
+											<button id="CCDAReconciledFormSubmit" type="submit" class="btn btn-primary start" onclick="return false;"  tabindex="1">
+												<i class="glyphicon glyphicon-ok"></i> <span>Validate Document</span>
+											</button>
+										</li>
+					      			</ol>
 					      	</form>
 				      	</div>      	
 		      		</div>
@@ -381,7 +381,6 @@
 			    <div id="collapseReferenceValidator" class="panel-collapse collapse">
 			      <div class="panel-body">
 			      
-			      <form id="CCDAReferenceValidationForm" action="${urlActionReference}" method="POST" relay="<%= smartCCDAAction %>" enctype="multipart/form-data">
 			      	<div id="CCDAReference">
 			        
 	  					<div id="CCDAReferenceWrapper">
@@ -429,7 +428,13 @@
 												<br/>
 										</div>
 	  								</li>
-	  								
+	  							</ol>
+	  							
+	  							
+	  							<form id="CCDAReferenceValidationForm" action="${urlActionReference}" method="POST" relay="<%= smartCCDAAction %>" enctype="multipart/form-data">
+	  							
+	  							<ol start=2>
+	  							
 									<li>Generate your CCDA file and when you are ready to validate, proceed to Step 3.</li>
 									<li>Select a C-CDA Document type or MU objective to validate your generated C-CDA.
 										<br/>
@@ -504,7 +509,8 @@
 									
 									</li>
 	  							</ol>
-					      	</form>
+	  						</form>
+					      	
 				      	</div>      	
 		      		</div>
 		      		
