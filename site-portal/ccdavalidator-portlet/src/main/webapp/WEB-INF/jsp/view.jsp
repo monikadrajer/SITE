@@ -155,17 +155,21 @@
 											<label for="CCDA1fileupload">Upload C-CDA file to Validate:</label><br/>
 											<span class="btn btn-success fileinput-button" id="CCDA1fileupload-btn"> <i
 													class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
-													<input id="CCDA1fileupload" type="file" name="file"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
+													<input id="CCDA1fileupload" type="file" name="file"  data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDA1InfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
 											</span>
 											<div id="CCDA1files"></div>
+											<div id="CCDA1InfoArea"></div>
 										</div>
 									</div>
 								</div>
 								<hr/>
-								<button id="CCDA1formSubmit" type="submit" class="btn btn-primary start" onclick="return false;"  tabindex="1">
+								<!--<button id="CCDA1formSubmit" type="submit" class="btn btn-primary start" onclick="return false;"  tabindex="1">
 												<i class="glyphicon glyphicon-ok"></i> <span>Validate Document</span>
-											</button>
-								
+											</button>-->
+											
+								<button id="CCDA1formSubmit" type="submit" class="btn btn-primary start" tabindex="1">
+												<i class="glyphicon glyphicon-ok"></i> <span>Validate Document</span>
+								</button>
 								
 					      	</form>
 				      	</div>
@@ -205,19 +209,15 @@
 											<label for="CCDA2fileupload">Upload C-CDA file to Validate:</label><br/>
 											<span class="btn btn-success fileinput-button" id="CCDA2fileupload-btn"> <i
 													class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
-													<input id="CCDA2fileupload" type="file" name="file"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
+													<input id="CCDA2fileupload" type="file" name="file"  data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDA2InfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
 											</span>
 											<div id="CCDA2files"></div>
-											
+											<div id="CCDA2InfoArea"></div>
 										</div>
-										
-										
 									</div>
-										
-										
 								</div>
 								<hr/>
-								<button id="CCDA2formSubmit" type="submit" class="btn btn-primary start" onclick="return false;"  tabindex="1">
+								<button id="CCDA2formSubmit" type="submit" class="btn btn-primary start" tabindex="1">
 												<i class="glyphicon glyphicon-ok"></i> <span>Validate Document</span>
 								</button>
 								

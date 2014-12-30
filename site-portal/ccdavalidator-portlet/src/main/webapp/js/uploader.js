@@ -221,48 +221,65 @@ $(function() {
 		});
 
 		
-		
 		data.context = $('#CCDA1formSubmit').click(function(e) {
-			
-			var jform = $('#CCDA1ValidationForm');
-			jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-			//jform.validationEngine('hideAll');
-			
-			if(jform.validationEngine('validate'))
-			{
-				$('#CCDA1ValidationForm .formError').hide(0);
-				//switch back to tab1.
-				$( "#ValidationResult [href='#tabs-1']").trigger( "click" );
 				
-				BlockPortletUI();
+				// Setting up parsley options to have listed errors and to append the errors to parent element.
+				var parsleyOptions ={
+						errorsWrapper: '<ul></ul>',
+						errorElem: '<li></li>'	,
+						  errors: {
+						  		classHandler: function(el){
+						 			return el.parent();
+				 					}
+							}
+					};
+				// Parsley validator to validate xml extension.
 				
-				var selectedValue = $("#CCDA1_type_val").val();
+				window.ParsleyValidator.addValidator('filetype',function(value,requirement){
+					var ext=value.split('.').pop().toLowerCase();
+					return ext === requirement;	
+				},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
 				
-				data.formData = { };
+				// parsley Validator to validate the file size
 				
-				if (selectedValue != undefined) {
-					data.formData.ccda_type_val = selectedValue;
-				}
+				window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+					var file_size=$('#CCDA1fileupload')[0].files[0];
+					return file_size.size < requirement*1024*1024;
+				},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
 				
-				data.submit();
-				
-
-				window.lastFilesUploaded = data.files;
-			}
-			else
-			{
-				$('#CCDA1ValidationForm .formError').show(0);
-				
-				$('#CCDA1ValidationForm .CCDA1fileuploadformError').prependTo('#ccdauploaderrorlock');
-			}
-			
-			
-			
-		});
+				// unsubscribe callbacks from previous uploads
+				$('#CCDA1ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+				// calling the Parsley Validator.
+				$('#CCDA1ValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+					
+					formInstance.submitEvent.preventDefault();
+					if(formInstance.isValid()==true){
+						var hideMsg3 = $("#CCDA1fileupload").parsley();
+						window.ParsleyUI.removeError(hideMsg3,'required');
+						
+						
+						$( "#ValidationResult [href='#tabs-1']").trigger( "click" );
+						
+						BlockPortletUI();
+						
+						var selectedValue = $("#CCDA1_type_val").val();
+						
+						data.formData = { };
+						
+						if (selectedValue != undefined) {
+							data.formData.ccda_type_val = selectedValue;
+						}
+						
+						data.submit();
+						
+						window.lastFilesUploaded = data.files;
+						
+					}
+				});
+			});	
+		})
 		
-		
-		
-	}).prop('disabled', !$.support.fileInput).parent().addClass(
+		.prop('disabled', !$.support.fileInput).parent().addClass(
 			$.support.fileInput ? undefined : 'disabled');
 
 	$('#CCDA1fileupload').bind('fileuploaddrop', function(e, data) {
@@ -272,17 +289,54 @@ $(function() {
 	});
 	
 	
+	$('#CCDA1formSubmit').click(function(e) {
+			
+			// Setting up parsley options to have listed errors and to append the errors to parent element.
+			var parsleyOptions ={
+					errorsWrapper: '<ul></ul>',
+					errorElem: '<li></li>',
+					  errors: {
+					  		classHandler: function(el){
+					 			return el.parent();
+			 					}
+						}
+				};
+			// Parsley validator to validate xml extension.
+			window.ParsleyValidator.addValidator('filetype',function(value,requirement){
+				var ext=value.split('.').pop().toLowerCase();
+				return ext === requirement;	
+			},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
+			
+			// parsley Validator to validate the file size
+			window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+				var file_size=$('#CCDA1fileupload')[0].files[0];
+				return file_size.size < requirement*1024*1024;
+			},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+			
+			// unsubscribe callbacks from previous uploads
+			$('#CCDA1ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+			// calling the Parsley Validator.
+			$('#CCDA1ValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+				
+				formInstance.submitEvent.preventDefault();
+				if(formInstance.isValid()==true){
+					var hideMsg3 = $("#CCDA1fileupload").parsley();
+					window.ParsleyUI.removeError(hideMsg3,'required');
+				}
+			});
+	});	
+	
 	$('#CCDA1fileupload-btn').bind('click', function(e, data)
 	{
-		$('#CCDA1ValidationForm .formError').hide(0);
+		//$('#CCDA1ValidationForm .formError').hide(0);
 		
 		var selectedText = $("#CCDA1_type_val :selected").text();
 		$("#CCDA1_type_val option").each(function() {
 			  if($(this).text() == selectedText) {
-			    $(this).attr('selected', 'selected');            
+			    $(this).attr('selected', 'selected');
 			  } else {
 				$(this).removeAttr('selected');
-			  }                    
+			  }
 			});
 		
 		$('#CCDA1ValidationForm').trigger('reset');
@@ -292,7 +346,6 @@ $(function() {
 		
 		
 	});
-	
 });
 
 function buildCcdaErrorList(data){
@@ -792,6 +845,7 @@ $(function() {
 
 		
 		
+		/*
 		data.context = $('#CCDA2formSubmit').click(function(e) {
 			
 			var jform = $('#CCDA2ValidationForm');
@@ -805,17 +859,8 @@ $(function() {
 				$( "#ValidationResult [href='#tabs-1']").trigger( "click" );
 				
 				BlockPortletUI();
-				
-				var selectedValue = $("#CCDA2_type_val").val();
-				
 				data.formData = { };
-				
-				if (selectedValue != undefined) {
-					data.formData.ccda_type_val = selectedValue;
-				}
-				
 				data.submit();
-				
 
 				window.lastFilesUploaded = data.files;
 			}
@@ -830,7 +875,58 @@ $(function() {
 		
 		
 		
-	}).prop('disabled', !$.support.fileInput).parent().addClass(
+	})
+	*/
+		data.context = $('#CCDA2formSubmit').click(function(e) {
+			
+			// Setting up parsley options to have listed errors and to append the errors to parent element.
+			var parsleyOptions ={
+					errorsWrapper: '<ul></ul>',
+					errorElem: '<li></li>'	,
+					  errors: {
+					  		classHandler: function(el){
+					 			return el.parent();
+			 					}
+						}
+				};
+			
+			// Parsley validator to validate xml extension.
+			window.ParsleyValidator.addValidator('filetype',function(value,requirement){
+				var ext=value.split('.').pop().toLowerCase();
+				return ext === requirement;	
+			},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
+			
+			// parsley Validator to validate the file size
+			window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+				var file_size=$('#CCDA2fileupload')[0].files[0];
+				return file_size.size < requirement*1024*1024;
+			},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+			
+			// unsubscribe callbacks from previous uploads
+			$('#CCDA2ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+			
+			// calling the Parsley Validator
+			$('#CCDA2ValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+				
+				formInstance.submitEvent.preventDefault();
+				if(formInstance.isValid()==true){
+					var hideMsg3 = $("#CCDA2fileupload").parsley();
+					window.ParsleyUI.removeError(hideMsg3,'required');
+					
+					
+					$( "#ValidationResult [href='#tabs-1']").trigger( "click" );
+					
+					BlockPortletUI();
+					data.formData = { };
+					data.submit();
+					window.lastFilesUploaded = data.files;
+					
+				}
+			});
+		});	
+	})
+		
+	.prop('disabled', !$.support.fileInput).parent().addClass(
 			$.support.fileInput ? undefined : 'disabled');
 
 	$('#CCDA2fileupload').bind('fileuploaddrop', function(e, data) {
@@ -838,6 +934,49 @@ $(function() {
 	}).bind('fileuploaddragover', function(e) {
 		e.preventDefault();
 	});
+	
+	
+	
+	
+	$('#CCDA2formSubmit').click(function(e) {
+		
+		// Setting up parsley options to have listed errors and to append the errors to parent element.
+		var parsleyOptions ={
+				errorsWrapper: '<ul></ul>',
+				errorElem: '<li></li>',
+				  errors: {
+				  		classHandler: function(el){
+				 			return el.parent();
+		 					}
+					}
+			};
+		// Parsley validator to validate xml extension.
+		window.ParsleyValidator.addValidator('filetype',function(value,requirement){
+			var ext=value.split('.').pop().toLowerCase();
+			return ext === requirement;	
+		},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
+		
+		// parsley Validator to validate the file size
+		window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+			var file_size=$('#CCDA2fileupload')[0].files[0];
+			return file_size.size < requirement*1024*1024;
+		},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+		
+		// unsubscribe callbacks from previous uploads
+		$('#CCDA2ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+		// calling the Parsley Validator.
+		$('#CCDA2ValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+			
+			formInstance.submitEvent.preventDefault();
+			if(formInstance.isValid()==true){
+				var hideMsg3 = $("#CCDA2fileupload").parsley();
+				window.ParsleyUI.removeError(hideMsg3,'required');
+			}
+		});
+	});	
+	
+	
+	
 	
 	
 	$('#CCDA2fileupload-btn').bind('click', function(e, data)

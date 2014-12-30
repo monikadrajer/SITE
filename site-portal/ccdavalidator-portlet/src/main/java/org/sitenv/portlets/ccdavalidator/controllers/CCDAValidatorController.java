@@ -116,6 +116,7 @@ public class CCDAValidatorController extends BaseController {
 					String json = handler.handleResponse(relayResponse);
 					JSONObject jsonbody = new JSONObject(json);
 					
+					
 					if (jsonbody.getJSONObject("ccdaResults").has("error") || 
 							jsonbody.getJSONObject("ccdaExtendedResults").has("error")){
 						//TODO: Make sure the UI handles this gracefully.
@@ -141,7 +142,7 @@ public class CCDAValidatorController extends BaseController {
 						responseJSON.setJSONResponseBody(jsonbody);
 						statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false, "r1.1");
 					}
-				}				
+				}
 				
 		} catch (Exception e) {
 			statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true, "r1.1");
