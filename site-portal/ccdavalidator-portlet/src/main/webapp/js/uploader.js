@@ -977,7 +977,7 @@ $(function() {
 
 	// Change this to the location of your server-side upload handler:
 	$('#progress').hide();
-	$('#CCDASupperFileupload').fileupload({
+	$('#CCDASuperFileupload').fileupload({
 		url : urlCCDASuper,
 		dataType : 'json',
 		autoUpload : false,
@@ -1211,7 +1211,7 @@ $(function() {
 				// parsley Validator to validate the file size
 				
 				window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
-					var file_size=$('#CCDA1fileupload')[0].files[0];
+					var file_size=$('#CCDASuperFileupload')[0].files[0];
 					return file_size.size < requirement*1024*1024;
 				},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
 				
@@ -1722,7 +1722,7 @@ function getDoc(frame) {
 }
 
 
-
+/*
 function CCDAMultiFileValidationCIRISubmitIFrame()
 {
 	
@@ -1804,6 +1804,8 @@ function CCDAMultiFileValidationCIRISubmitIFrame()
 		}
 	}
 }
+
+*/
 
 
 
