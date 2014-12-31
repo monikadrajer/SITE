@@ -844,39 +844,6 @@ $(function() {
 		});
 
 		
-		
-		/*
-		data.context = $('#CCDA2formSubmit').click(function(e) {
-			
-			var jform = $('#CCDA2ValidationForm');
-			jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-			//jform.validationEngine('hideAll');
-			
-			if(jform.validationEngine('validate'))
-			{
-				$('#CCDA2ValidationForm .formError').hide(0);
-				//switch back to tab1.
-				$( "#ValidationResult [href='#tabs-1']").trigger( "click" );
-				
-				BlockPortletUI();
-				data.formData = { };
-				data.submit();
-
-				window.lastFilesUploaded = data.files;
-			}
-			else
-			{
-				$('#CCDA2ValidationForm .formError').show(0);
-				
-				$('#CCDA2ValidationForm .CCDA2fileuploadformError').prependTo('#CCDA2uploaderrorlock');
-			}
-			
-		});
-		
-		
-		
-	})
-	*/
 		data.context = $('#CCDA2formSubmit').click(function(e) {
 			
 			// Setting up parsley options to have listed errors and to append the errors to parent element.
@@ -1000,6 +967,353 @@ $(function() {
 		
 	});
 	
+});
+
+
+
+//Super C-CDA
+$(function() {
+	'use strict';
+
+	// Change this to the location of your server-side upload handler:
+	$('#progress').hide();
+	$('#CCDASupperFileupload').fileupload({
+		url : urlCCDASuper,
+		dataType : 'json',
+		autoUpload : false,
+		type : 'POST',
+		contenttype : false,
+		replaceFileInput : false,
+		error: function(jqXHR, textStatus, errorThrown) {
+			
+			var iconurl = window.currentContextPath + "/css/icn_alert_error.png" ;
+			
+			$('.blockMsg .progressorpanel img').attr('src',iconurl);
+        	
+        	$('.blockMsg .progressorpanel .lbl').text('Error uploading file.');
+			
+			if(window.validationpanel)
+        	{
+        		window.validationPanelTimeout = setTimeout(function(){
+        				window.validationpanel.unbind("click");
+        				window.validationpanel.unblock();
+        			},10000);
+        		
+        		
+        		window.validationpanel.bind("click", function() { 
+        			window.validationpanel.unbind("click");
+        			clearTimeout(window.validationPanelTimeout);
+        			window.validationpanel.unblock();
+        			window.validationpanel.attr('title','Click to hide this message.').click($.unblockUI); 
+	            });
+        		
+        	}
+        },
+		done : function(e, data) {
+			
+			$.each(data.result.files, function(index, file) {
+				$('#CCDASuperFiles').empty();
+				$('#CCDASuperFiles').text(file.name);
+			});
+			
+			
+			var tabHtml1 = "";
+			
+			if (("error" in data.result.body.ccdaResults) || ("error" in data.result.body.ccdaExtendedResults))
+			{
+				
+				tabHtml1 = ['<title>Validation Results</title>',
+									    '<h1 align="center">Super Compliant Consolidated-CDA Validation and Meaningful Use Stage 2 Certification Results</h1>',
+									    '<font color="red">',
+									    '<b>An error occurred during validation. Please try again. If this error persists, please contact the system administrator:</b>',
+									    '</font>',
+									    '<hr/>',
+									    '<hr/>',
+									    '<br/>'].join('\n');
+			} else {
+				
+				
+				
+				var ccdaReport = data.result.body.ccdaResults.report;
+				var extendedCcdaReport = data.result.body.ccdaExtendedResults.report;
+				
+				var uploadedFileName = data.result.files[0].name;
+				var docTypeSelected = ccdaReport.docTypeSelected;
+				
+				var ccdaErrorCount = data.result.body.ccdaResults.errors.length;
+				var ccdaWarningCount = data.result.body.ccdaResults.warnings.length;
+				var ccdaInfoCount = data.result.body.ccdaResults.info.length;
+				
+				var extendedErrorCount = data.result.body.ccdaExtendedResults.errorList.length;
+				var extendedWarningCount = data.result.body.ccdaExtendedResults.warningList.length;
+				var extendedInfoCount = data.result.body.ccdaExtendedResults.informationList.length;
+				
+				
+				var CCDARedOrGreen = '<font color="green">';
+				
+				if (ccdaErrorCount > 0) {
+					CCDARedOrGreen = '<font color="red">';
+				}
+				
+				var vocabRedOrGreen = '<font color="green">';
+				
+				if (extendedErrorCount > 0){
+					vocabRedOrGreen = '<font color="red">';
+				}
+				
+				
+				
+				var tabHtml1 = 
+					   ['<title>Validation Results</title>',
+					    '<h1 align="center">Super Compliant Consolidated-CDA Validation and Meaningful Use Stage 2 Certification Results</h1>',
+					    '<b>Upload Results:</b>',
+					    '<br/>'+uploadedFileName+' was uploaded successfully.',
+					    '<br/><br/>',
+					    '<b>MU2 C-CDA Document Type Selected: </b>',
+					    '<br/>'+docTypeSelected+'',
+					    '<hr/>',
+					    '<hr/>',
+					    '<br/>',
+					    '<br/>'+CCDARedOrGreen+'',
+					    '<b>Validation Results: </b>',
+					    '<br/>The file has encountered '+ccdaErrorCount+' error(s). The file has encountered '+ccdaWarningCount+' warning(s). The file has encountered '+ccdaInfoCount+' info message(s).',
+					    '</font>',
+					    '<hr/>',
+					    '<hr/>',
+					    '<br/>',
+					    '<br/>',
+					    '<br/>'+vocabRedOrGreen+'',
+					    '<b>Vocabulary Validation Results: </b>',
+					    '<br/>The file has encountered '+extendedErrorCount+' error(s). The file has encountered '+extendedWarningCount+' warning(s). The file has encountered '+extendedInfoCount+' info message(s).',
+					    '</font>',
+					    '<hr/>',
+					    '<hr/>',
+					    '<br/>',
+					    '<br/>'
+					   ].join('\n');
+				
+				tabHtml1 += '<font color="red">';
+				
+				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				
+				tabHtml1 += buildCcdaErrorList(data);
+				
+				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+				
+				tabHtml1 += buildExtendedCcdaErrorList(data);
+				
+				tabHtml1 += '</font>';
+				
+				if (ccdaReport.hasWarnings || extendedCcdaReport.hasWarnings){
+					tabHtml1 += '<font color="blue">';
+				}
+				
+				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				
+				tabHtml1 += buildCcdaWarningList(data);
+				
+				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+				
+				tabHtml1 += buildExtendedCcdaWarningList(data);
+				
+				tabHtml1 += '</font>';
+				
+				
+				if (ccdaReport.hasInfo || extendedCcdaReport.hasInfo){
+					tabHtml1 += '<font color="gray">';
+				}
+				
+				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				
+				tabHtml1 += buildCcdaInfoList(data);
+				
+				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+				
+				tabHtml1 += buildExtendedCcdaInfoList(data);
+				
+				tabHtml1 += '</font>';
+			}
+			
+			$("#ValidationResult .tab-content #tabs-1").html(tabHtml1);
+			
+			$("#resultModal").modal("show");
+			
+			
+			//disable smart ccda result tab.
+			$("#resultModalTabs a[href='#tabs-1']").tab("show");
+		    $("#resultModalTabs a[href='#tabs-2']").hide();
+		    $("#resultModalTabs a[href='#tabs-3']").hide();
+			
+		    Liferay.Portlet.refresh("#p_p_id_Statistics_WAR_siteportalstatisticsportlet_"); // refresh the counts
+		    
+		    //clean up the links
+		    /*$("#ValidationResult #tabs #tabs-1 b:first, #ValidationResult #tabs #tabs-1 a:first").remove();*/
+		    $("#ValidationResult .tab-content #tabs-1 hr:lt(4)").remove();
+		    
+			if(typeof window.validationpanel != 'undefined')
+				window.validationpanel.unblock();
+
+			window.setTimeout(function() {
+				$('#progress').fadeOut(400, function() {
+					$('#progress .progress-bar').css('width', '0%');
+					
+				});
+
+			}, 1000);
+		},
+		progressall : function(e, data) {
+			var progressval = parseInt(data.loaded / data.total * 100, 10);
+			//$('#progress').fadeIn();
+			//$('#progress .progress-bar').css('width', progress + '%');
+			
+			if(progressval < 99)
+		    {
+		    	$('.blockMsg .progressorpanel .lbl').text('Uploading...');
+		   		$('.blockMsg .progressorpanel .progressor').text( floorFigure(data.loaded/data.total*100,0).toString()+"%" );
+		    }
+		    else
+		    {
+		    	$('.blockMsg .progressorpanel .lbl').text('Validating...');
+		    	$('.blockMsg .progressorpanel .progressor').text('');
+		    }
+		}
+	}).on('fileuploadadd', function(e, data) {
+		$('#CCDASuperFormSubmit').unbind("click");
+		$('#CCDASuperFiles').empty();
+		data.context = $('<div/>').appendTo('#CCDASuperFiles');
+		$.each(data.files, function(index, file) {
+
+			var node = $('<p/>').append($('<span/>').text(file.name));
+
+			node.appendTo(data.context);
+		});
+
+		
+		data.context = $('#CCDASuperFormSubmit').click(function(e) {
+				
+				// Setting up parsley options to have listed errors and to append the errors to parent element.
+				var parsleyOptions ={
+						errorsWrapper: '<ul></ul>',
+						errorElem: '<li></li>'	,
+						  errors: {
+						  		classHandler: function(el){
+						 			return el.parent();
+				 					}
+							}
+					};
+				// Parsley validator to validate xml extension.
+				
+				window.ParsleyValidator.addValidator('filetype',function(value,requirement){
+					var ext=value.split('.').pop().toLowerCase();
+					return ext === requirement;	
+				},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
+				
+				// parsley Validator to validate the file size
+				
+				window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+					var file_size=$('#CCDA1fileupload')[0].files[0];
+					return file_size.size < requirement*1024*1024;
+				},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+				
+				// unsubscribe callbacks from previous uploads
+				$('#CCDASuperValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+				// calling the Parsley Validator.
+				$('#CCDASuperValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+					
+					formInstance.submitEvent.preventDefault();
+					if(formInstance.isValid()==true){
+						var hideMsg3 = $("#CCDASuperFileupload").parsley();
+						window.ParsleyUI.removeError(hideMsg3,'required');
+						
+						
+						$( "#ValidationResult [href='#tabs-1']").trigger( "click" );
+						
+						BlockPortletUI();
+						
+						var selectedValue = $("#CCDASuper_type_val").val();
+						
+						data.formData = { };
+						
+						if (selectedValue != undefined) {
+							data.formData.ccda_type_val = selectedValue;
+						}
+						
+						data.submit();
+						
+						window.lastFilesUploaded = data.files;
+						
+					}
+				});
+			});	
+		})
+		
+		.prop('disabled', !$.support.fileInput).parent().addClass(
+			$.support.fileInput ? undefined : 'disabled');
+
+	$('#CCDASuperFileupload').bind('fileuploaddrop', function(e, data) {
+		e.preventDefault();
+	}).bind('fileuploaddragover', function(e) {
+		e.preventDefault();
+	});
+	
+	
+	$('#CCDASuperFormSubmit').click(function(e) {
+			
+			// Setting up parsley options to have listed errors and to append the errors to parent element.
+			var parsleyOptions ={
+					errorsWrapper: '<ul></ul>',
+					errorElem: '<li></li>',
+					  errors: {
+					  		classHandler: function(el){
+					 			return el.parent();
+			 					}
+						}
+				};
+			// Parsley validator to validate xml extension.
+			window.ParsleyValidator.addValidator('filetype',function(value,requirement){
+				var ext=value.split('.').pop().toLowerCase();
+				return ext === requirement;	
+			},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
+			
+			// parsley Validator to validate the file size
+			window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+				var file_size=$('#CCDASuperFileupload')[0].files[0];
+				return file_size.size < requirement*1024*1024;
+			},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+			
+			// unsubscribe callbacks from previous uploads
+			$('#CCDASuperValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+			// calling the Parsley Validator.
+			$('#CCDASuperValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+				
+				formInstance.submitEvent.preventDefault();
+				if(formInstance.isValid()==true){
+					var hideMsg3 = $("#CCDASuperFileupload").parsley();
+					window.ParsleyUI.removeError(hideMsg3,'required');
+				}
+			});
+	});	
+	
+	$('#CCDASuperFileupload-btn').bind('click', function(e, data)
+	{
+		//$('#CCDA1ValidationForm .formError').hide(0);
+		
+		var selectedText = $("#CCDASuper_type_val :selected").text();
+		$("#CCDASuper_type_val option").each(function() {
+			  if($(this).text() == selectedText) {
+			    $(this).attr('selected', 'selected');
+			  } else {
+				$(this).removeAttr('selected');
+			  }
+			});
+		
+		$('#CCDASuperValidationForm').trigger('reset');
+		$('#CCDASuperFormSubmit').unbind("click");
+		
+		$('#CCDASuperFiles').empty();
+		
+		
+	});
 });
 
 
@@ -1407,8 +1721,100 @@ function getDoc(frame) {
     return doc;
 }
 
-/*
 
+
+function CCDAMultiFileValidationCIRISubmitIFrame()
+{
+	
+	var formSelector = "#CCDAReconciledValidationForm";
+	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+	
+	
+	//var jform = $(formSelector);
+	//jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
+	//jform.validationEngine('hideAll');
+	
+	//if(jform.validationEngine('validate'))
+	{
+		$('#CCDAReconciledValidationForm .formError').hide(0);
+	
+		$.blockUI({
+			css: {
+		        border: 'none', 
+		        padding: '15px', 
+		        backgroundColor: '#000', 
+		        '-webkit-border-radius': '10px', 
+		        '-moz-border-radius': '10px', 
+		        opacity: .5, 
+		        color: '#fff' 
+	    	},
+	    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+			          '<div class="lbl">Validating...</div></div>'
+			
+		});
+		
+	    //generate a random id
+	    var  iframeId = 'unique' + (new Date().getTime());
+	 
+	    //create an empty iframe
+	    var iframe = $('<iframe src="javascript:false;" name="'+iframeId+'" id="'+iframeId+'" />');
+	    
+	    
+	    //hide it
+	    iframe.hide();
+	 
+	    //set form target to iframe
+	    jform.attr('target',iframeId);
+	    
+	    //Add iframe to body
+	    iframe.appendTo('body');
+	    
+	    iframe.load(function(e)
+	    {
+	        var doc = getDoc(iframe[0]); //get iframe Document
+	        var node = doc.body ? doc.body : doc.documentElement;
+	        //var node = docRoot.innerHTML;
+	        var data = (node.innerText || node.textContent);
+	        var results = JSON.parse(data);
+	        // do something with results.
+	        $.unblockUI();
+	        alert("This has been a call to the Reconciled validator from  an old browser");
+	        
+	    });
+		
+	    jform.submit();
+	    
+	} else {
+		
+		nErrors = $('#CCDAReconciledValidationForm .formError').size();
+		
+		for (i = 0; i < nErrors; i++){
+			$('#CCDAReconciledValidationForm .formError').show(i);
+		}
+		
+		
+		if ($('#CCDAReconciledValidationForm .CCDAReconciledFileuploadformError').size() > 0){
+			$('#CCDAReconciledValidationForm .CCDAReconciledFileuploadformError').prependTo('#CCDAReconciledUploaderrorlock');
+		}
+		if ($('#CCDAReconciledValidationForm .CCDAReconciledCEHRTFileuploadformError').size() > 0){
+			$('#CCDAReconciledValidationForm .CCDAReconciledCEHRTFileuploadformError').prependTo('#CCDAReconciledCEHRTUploadErrorLock');
+		}
+		if ($('#CCDAReconciledValidationForm .CCDAReconciledReconciliationFileuploadformError').size() > 0){
+			$('#CCDAReconciledValidationForm .CCDAReconciledReconciliationFileuploadformError').prependTo('#CCDAReconciledReconciliationUploadErrorLock');
+		}
+	}
+}
+
+
+
+
+
+
+
+
+
+
+/*
 function CCDAMultiFileValidationReconciledSubmitIFrame()
 {
 	
