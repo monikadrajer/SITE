@@ -713,7 +713,7 @@ count(//dsml:attr)</path><content>6</content><allowWildcards>false</allowWildcar
       <con:properties/>
     </con:testCase>
     <con:testCase failOnError="false" failTestCaseOnErrors="false" keepSession="false" maxResults="0" name="search_credential_by_id" searchProperties="true" id="e9222d91-45e5-45dd-bcab-356d80d22fd5">
-      <con:description>Basic search for Credential by hpdCredentialId attribute</con:description><con:settings/>
+      <con:description>Basic search for Credential by credentialNumber attribute</con:description><con:settings/>
       <con:testStep type="request" name="search_credential_by_id">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -730,7 +730,7 @@ count(//dsml:attr)</path><content>6</content><allowWildcards>false</allowWildcar
       <dsml:batchRequest requestID="${=project.name}_${=testSuite.name}_${=testCase.name}_${=testStep.name}_${=request.name}_${=UUID.randomUUID()}" xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=HPDCredential,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
             <dsml:filter>
-               <dsml:equalityMatch name="hpdCredentialId">
+               <dsml:equalityMatch name="credentialNumber">
                   <dsml:value>2</dsml:value>
                </dsml:equalityMatch>
             </dsml:filter>
@@ -745,8 +745,8 @@ count(//dsml:attr)</path><content>6</content><allowWildcards>false</allowWildcar
               <con:configuration/>
             </con:assertion>
             <con:assertion type="SOAP Fault Assertion"/>
-<con:assertion type="XPath Match" name="attr hpdCredentialId XPath Match"><con:configuration><path>declare namespace dsml='urn:oasis:names:tc:DSML:2:0:core';
-//dsml:searchResultEntry/dsml:attr/lower-case(@name)="hpdcredentialid"</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion>
+<con:assertion type="XPath Match" name="attr credentialNumber XPath Match"><con:configuration><path>declare namespace dsml='urn:oasis:names:tc:DSML:2:0:core';
+//dsml:searchResultEntry/dsml:attr/lower-case(@name)="credentialNumber"</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion>
 <con:assertion type="XPath Match" name="attr credentialName XPath Match"><con:configuration><path>declare namespace dsml='urn:oasis:names:tc:DSML:2:0:core';
 //dsml:searchResultEntry/dsml:attr/lower-case(@name)="credentialname"</path><content>true</content><allowWildcards>false</allowWildcards><ignoreNamspaceDifferences>false</ignoreNamspaceDifferences><ignoreComments>false</ignoreComments></con:configuration></con:assertion>
 <con:assertion type="XPath Match" name="attr credentialNumber XPath Match"><con:configuration><path>declare namespace dsml='urn:oasis:names:tc:DSML:2:0:core';
@@ -2960,7 +2960,7 @@ other organizations are returned. </con:description><con:settings/>
           </con:request>
         </con:config>
       </con:testStep><con:properties/>
-    </con:testCase><con:testCase failOnError="false" failTestCaseOnErrors="false" keepSession="false" maxResults="0" name="Find_Members_for_Unique_Relationship" searchProperties="true">
+    </con:testCase><con:testCase failOnError="false" failTestCaseOnErrors="false" keepSession="false" maxResults="0" name="Find_Members_for_Unique_Relationship" searchProperties="true" id="e28daa79-e268-4314-b8e5-7cf3c2c2a580">
       <con:description/><con:settings/>
       <con:testStep type="request" name="Find_Members_for_Unique_Relationship">
         <con:settings/>
