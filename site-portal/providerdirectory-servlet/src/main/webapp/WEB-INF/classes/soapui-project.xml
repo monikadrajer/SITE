@@ -3007,14 +3007,14 @@ other organizations are returned. </con:description><con:settings/>
           </con:request>
         </con:config>
       </con:testStep><con:properties/>
-    </con:testCase><con:testCase failOnError="false" failTestCaseOnErrors="false" keepSession="false" maxResults="0" name="Find_Federated_Individuals" searchProperties="true" id="573390f0-a3c5-4d9c-b7d0-3fd00b7463e4">
+    </con:testCase><con:testCase failOnError="false" failTestCaseOnErrors="false" keepSession="false" maxResults="0" name="Find_Federated_Group" searchProperties="true" id="573390f0-a3c5-4d9c-b7d0-3fd00b7463e4">
       <con:description/><con:settings/>
-      <con:testStep type="request" name="Find_Members_for_Unique_Relationship">
+      <con:testStep type="request" name="search_group_by_name">
         <con:settings/>
         <con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
           <con:interface>ProviderInformationDirectory_Port_SoapBinding</con:interface>
           <con:operation>ProviderInformationQueryRequest</con:operation>
-          <con:request name="Find_Members_for_Unique_Relationship" outgoingWss="" incomingWss="">
+          <con:request name="search_group_by_name" outgoingWss="" incomingWss="">
             <con:settings>
               <con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting>
             </con:settings>
