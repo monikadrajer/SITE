@@ -223,7 +223,6 @@
 								
 					      	</form>
 				      	</div>
-			      	
 		      		</div>
 			      </div>
 			    </div>
@@ -324,7 +323,7 @@
 														<label for="CCDAReconciledTestDataFileupload">Upload Input File:</label><br/>
 														<span class="btn btn-success fileinput-button" id="CCDAReconciledTestDataFileupload-btn"> <i
 																class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a File...</span>
-																<input id="CCDAReconciledTestDataFileupload" type="file" name="file"  data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDAReconciledTestDataInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select an input file." tabindex="1"/>
+																<input id="CCDAReconciledTestDataFileupload" type="file" name="file"  data-parsley-testdatamaxsize="3" data-parsley-required data-parsley-errors-container="#CCDAReconciledTestDataInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select an input file." tabindex="1"/>
 																
 														</span>
 														<div id="CCDAReconciledTestDataFiles"></div>
@@ -347,7 +346,7 @@
 														<span class="btn btn-success fileinput-button" id="CCDAReconciledReconciliationFileupload-btn"> <i
 																class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
 																
-																<input id="CCDAReconciledReconciliationFileupload" type="file" name="ReconciliationFile"  data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDAReconciledTestDataInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
+																<input id="CCDAReconciledReconciliationFileupload" type="file" name="ReconciliationFile"  data-parsley-reconciledmaxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDAReconciliationReconciledInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
 														</span>
 														<div id="CCDAReconciliationReconciledFiles"></div>
 														<div id="CCDAReconciliationReconciledInfoArea"></div>
@@ -360,9 +359,6 @@
 										<li>Validate.
 											<br/>
 											<br/>
-											<!--<button id="CCDAReconciledFormSubmit" type="submit" class="btn btn-primary start" onclick="return false;"  tabindex="1">
-												<i class="glyphicon glyphicon-ok"></i> <span>Validate Document</span>
-											</button>-->
 											
 											<button id="CCDAReconciledFormSubmit" type="submit" class="btn btn-primary start" tabindex="1">
 												<i class="glyphicon glyphicon-ok"></i> <span>Validate Document</span>
@@ -372,7 +368,7 @@
 										</li>
 					      			</ol>
 					      	</form>
-				      	</div>      	
+				      	</div>
 		      		</div>
 			      </div>
 			    </div>
