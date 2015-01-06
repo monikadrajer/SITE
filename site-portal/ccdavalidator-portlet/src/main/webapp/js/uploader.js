@@ -1301,7 +1301,6 @@ $(function() {
 	
 	$('#CCDASuperFileupload-btn').bind('click', function(e, data)
 	{
-		//$('#CCDA1ValidationForm .formError').hide(0);
 		
 		var selectedText = $("#CCDASuper_type_val :selected").text();
 		$("#CCDASuper_type_val option").each(function() {
@@ -1386,44 +1385,47 @@ $(function() {
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	var jform = $(formSelector);
 	
+	
+	// Parsley validator to validate xml extension.
+	window.ParsleyValidator.addValidator('filetype',function(value,requirement){
+		var ext=value.split('.').pop().toLowerCase();
+		return ext === requirement;	
+	},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
+	
+	// parsley Validator to validate CIRI test data file size
+	window.ParsleyValidator.addValidator('testdatamaxsize',function(value,requirement){
+		var file_size=$('#CCDAReconciledTestDataFileupload')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','testdatamaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+	
+	// parsley Validator to validate the reconciled file size
+	window.ParsleyValidator.addValidator('reconciledmaxsize',function(value,requirement){
+		var file_size=$('#CCDAReconciledReconciliationFileupload')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','reconciledmaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');	
+	
+	
+	// Setting up parsley options to have listed errors and to append the errors to parent element.
+	var parsleyOptions = {
+			errorsWrapper: '<ul></ul>',
+			errorElem: '<li></li>',
+			  errors: {
+			  		classHandler: function(el){
+			 			return el.parent();
+	 					}
+				}
+		};
+	
+	var formInstance = jform.parsley(parsleyOptions);
+	
+	// In the case we have access to the FormData interface:
 	if(window.FormData !== undefined){
 		
 		$('#CCDAReconciledFormSubmit').click(function(e) {
 			
 			e.preventDefault();
 			
-			// Setting up parsley options to have listed errors and to append the errors to parent element.
-			var parsleyOptions = {
-					errorsWrapper: '<ul></ul>',
-					errorElem: '<li></li>',
-					  errors: {
-					  		classHandler: function(el){
-					 			return el.parent();
-			 					}
-						}
-				};
-			
-			// Parsley validator to validate xml extension.
-			window.ParsleyValidator.addValidator('filetype',function(value,requirement){
-				var ext=value.split('.').pop().toLowerCase();
-				return ext === requirement;	
-			},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
-			
-			// parsley Validator to validate CIRI test data file size
-			window.ParsleyValidator.addValidator('testdatamaxsize',function(value,requirement){
-				var file_size=$('#CCDAReconciledTestDataFileupload')[0].files[0];
-				return file_size.size < requirement*1024*1024;
-			},32).addMessage('en','testdatamaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
-			
-			// parsley Validator to validate the reconciled file size
-			window.ParsleyValidator.addValidator('reconciledmaxsize',function(value,requirement){
-				var file_size=$('#CCDAReconciledReconciliationFileupload')[0].files[0];
-				return file_size.size < requirement*1024*1024;
-			},32).addMessage('en','reconciledmaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
-			
-
-			var formInstance = jform.parsley(parsleyOptions);
-			if(formInstance.isValid()===true){
+			if(formInstance.validate() === true){
 					
 					var hideMsg = $("#CCDAReconciledTestDataFileupload").parsley();
 					window.ParsleyUI.removeError(hideMsg,'required');
@@ -1474,44 +1476,14 @@ $(function() {
 			});
 
 		
-	} else {
+	} else { // If no FormData, use a hidden Iframe to submit instead
 		
 		$('#CCDAReconciledFormSubmit').click(function(e) {
 			
 			e.preventDefault();
-				
-			// Setting up parsley options to have listed errors and to append the errors to parent element.
-			var parsleyOptions = {
-					errorsWrapper: '<ul></ul>',
-					errorElem: '<li></li>',
-					  errors: {
-					  		classHandler: function(el){
-					 			return el.parent();
-			 					}
-						}
-				};
 			
-			// Parsley validator to validate xml extension.
-			window.ParsleyValidator.addValidator('filetype',function(value,requirement){
-				var ext=value.split('.').pop().toLowerCase();
-				return ext === requirement;	
-			},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
-			
-			// parsley Validator to validate CIRI test data file size
-			window.ParsleyValidator.addValidator('testdatamaxsize',function(value,requirement){
-				var file_size=$('#CCDAReconciledTestDataFileupload')[0].files[0];
-				return file_size.size < requirement*1024*1024;
-			},32).addMessage('en','testdatamaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
-			
-			// parsley Validator to validate the reconciled file size
-			window.ParsleyValidator.addValidator('reconciledmaxsize',function(value,requirement){
-				var file_size=$('#CCDAReconciledReconciliationFileupload')[0].files[0];
-				return file_size.size < requirement*1024*1024;
-			},32).addMessage('en','reconciledmaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
-			
-
-			var formInstance = jform.parsley(parsleyOptions);
-			if(formInstance.isValid()===true){
+			//var formInstance = jform.parsley(parsleyOptions);
+			if(formInstance.validate() === true){
 					
 					var hideMsg = $("#CCDAReconciledTestDataFileupload").parsley();
 					window.ParsleyUI.removeError(hideMsg,'required');
@@ -1537,7 +1509,7 @@ $(function() {
 					
 				    //generate a random id
 				    var  iframeId = 'unique' + (new Date().getTime());
-				 
+				    
 				    //create an empty iframe
 				    var iframe = $('<iframe src="javascript:false;" name="'+iframeId+'" id="'+iframeId+'" />');
 				    
@@ -1554,7 +1526,6 @@ $(function() {
 				    {
 				        var doc = getDoc(iframe[0]); //get iframe Document
 				        var node = doc.body ? doc.body : doc.documentElement;
-				        //var node = docRoot.innerHTML;
 				        var data = (node.innerText || node.textContent);
 				        var results = JSON.parse(data);
 				        
@@ -1580,7 +1551,7 @@ $(function() {
 		context = $('<div/>').appendTo('#CCDAReconciledTestDataFiles');
 		var node = $('<p/>').append($('<span/>').text(fileName));
 		node.appendTo(context);
-	
+		
 	});
 	
 	
@@ -1593,7 +1564,7 @@ $(function() {
 		context = $('<div/>').appendTo('#CCDAReconciliationReconciledFiles');
 		var node = $('<p/>').append($('<span/>').text(fileName));
 		node.appendTo(context);
-	
+		
 	});
 	
 });

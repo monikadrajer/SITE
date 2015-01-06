@@ -158,7 +158,7 @@
 													<input id="CCDA1fileupload" type="file" name="file"  data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDA1InfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
 											</span>
 											<div id="CCDA1files"></div>
-											<div id="CCDA1InfoArea"></div>
+											<div id="CCDA1InfoArea" class="infoArea"></div>
 										</div>
 									</div>
 								</div>
@@ -212,7 +212,7 @@
 													<input id="CCDA2fileupload" type="file" name="file"  data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDA2InfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
 											</span>
 											<div id="CCDA2files"></div>
-											<div id="CCDA2InfoArea"></div>
+											<div id="CCDA2InfoArea" class="infoArea"></div>
 										</div>
 									</div>
 								</div>
@@ -327,7 +327,7 @@
 																
 														</span>
 														<div id="CCDAReconciledTestDataFiles"></div>
-														<div id="CCDAReconciledTestDataInfoArea"></div>
+														<div id="CCDAReconciledTestDataInfoArea" class="infoArea"></div>
 														<br/>
 														<br/>
 														
@@ -349,7 +349,7 @@
 																<input id="CCDAReconciledReconciliationFileupload" type="file" name="ReconciliationFile"  data-parsley-reconciledmaxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDAReconciliationReconciledInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
 														</span>
 														<div id="CCDAReconciliationReconciledFiles"></div>
-														<div id="CCDAReconciliationReconciledInfoArea"></div>
+														<div id="CCDAReconciliationReconciledInfoArea" class="infoArea"></div>
 													</div>
 												</div>
 											</div>
@@ -471,7 +471,7 @@
 															<input id="CCDAReferenceFileupload" type="file" name="file"  data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDAReferenceInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
 													</span>
 													<div id="CCDAReferenceFiles"></div>
-													<div id="CCDAReferenceInfoArea"></div>
+													<div id="CCDAReferenceInfoArea" class="infoArea"></div>
 												</div>
 											</div>
 										<br/>
@@ -492,7 +492,7 @@
 															
 													</span>
 													<div id="CCDACEHRTReferenceFiles"></div>
-													<div id="CCDACEHRTInfoArea"></div>
+													<div id="CCDACEHRTInfoArea" class="infoArea"></div>
 													
 												</div>
 											</div>							
@@ -575,7 +575,7 @@
 													<input id="CCDASuperFileupload" type="file" name="file"  data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDASuperInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
 											</span>
 											<div id="CCDASuperFiles"></div>
-											<div id="CCDASuperInfoArea"></div>
+											<div id="CCDASuperInfoArea" class="infoArea"></div>
 										</div>
 									</div>
 								</div>

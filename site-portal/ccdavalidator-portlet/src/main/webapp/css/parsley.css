@@ -35,7 +35,12 @@ textarea.parsley-error {
   opacity: 1;
 }
 
-#infoArea1,#infoArea2,#infoArea3,#CCDA1InfoArea, #CCDA2InfoArea, #CCDASuperInfoArea {
+
+.infoArea {
         color: #B94A48;
        font-size: 1.2em;
       }
+
+
+
+
