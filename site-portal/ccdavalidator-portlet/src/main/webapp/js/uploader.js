@@ -409,42 +409,48 @@ $(function() {
 				
 				tabHtml1 += '<font color="red">';
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				if (ccdaErrorCount > 0) {
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaErrorList(data);
+				}				
 				
-				tabHtml1 += buildCcdaErrorList(data);
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-				
-				tabHtml1 += buildExtendedCcdaErrorList(data);
-				
-				tabHtml1 += '</font>';
-				
-				if (ccdaReport.hasWarnings || extendedCcdaReport.hasWarnings){
-					tabHtml1 += '<font color="blue">';
+				if (extendedErrorCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaErrorList(data);
 				}
-				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
-				
-				tabHtml1 += buildCcdaWarningList(data);
-				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-				
-				tabHtml1 += buildExtendedCcdaWarningList(data);
 				
 				tabHtml1 += '</font>';
 				
 				
-				if (ccdaReport.hasInfo || extendedCcdaReport.hasInfo){
-					tabHtml1 += '<font color="gray">';
+				
+				tabHtml1 += '<font color="blue">';
+				
+				if (ccdaWarningCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaWarningList(data);
 				}
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				if (extendedWarningCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaWarningList(data);
+				}
 				
-				tabHtml1 += buildCcdaInfoList(data);
+				tabHtml1 += '</font>';
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
 				
-				tabHtml1 += buildExtendedCcdaInfoList(data);
+				
+				tabHtml1 += '<font color="gray">';
+				
+				if (ccdaInfoCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaInfoList(data);
+				}
+				
+				if (extendedInfoCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaInfoList(data);
+				}
 				
 				tabHtml1 += '</font>';
 			}
@@ -754,42 +760,48 @@ $(function() {
 				
 				tabHtml1 += '<font color="red">';
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				if (ccdaErrorCount > 0) {
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaErrorList(data);
+				}				
 				
-				tabHtml1 += buildCcdaErrorList(data);
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-				
-				tabHtml1 += buildExtendedCcdaErrorList(data);
-				
-				tabHtml1 += '</font>';
-				
-				if (ccdaReport.hasWarnings || extendedCcdaReport.hasWarnings){
-					tabHtml1 += '<font color="blue">';
+				if (extendedErrorCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaErrorList(data);
 				}
-				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
-				
-				tabHtml1 += buildCcdaWarningList(data);
-				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-				
-				tabHtml1 += buildExtendedCcdaWarningList(data);
 				
 				tabHtml1 += '</font>';
 				
 				
-				if (ccdaReport.hasInfo || extendedCcdaReport.hasInfo){
-					tabHtml1 += '<font color="gray">';
+				
+				tabHtml1 += '<font color="blue">';
+				
+				if (ccdaWarningCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaWarningList(data);
 				}
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				if (extendedWarningCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaWarningList(data);
+				}
 				
-				tabHtml1 += buildCcdaInfoList(data);
+				tabHtml1 += '</font>';
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
 				
-				tabHtml1 += buildExtendedCcdaInfoList(data);
+				
+				tabHtml1 += '<font color="gray">';
+				
+				if (ccdaInfoCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaInfoList(data);
+				}
+				
+				if (extendedInfoCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaInfoList(data);
+				}
 				
 				tabHtml1 += '</font>';
 			}
@@ -1099,42 +1111,48 @@ $(function() {
 				
 				tabHtml1 += '<font color="red">';
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				if (ccdaErrorCount > 0) {
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaErrorList(data);
+				}				
 				
-				tabHtml1 += buildCcdaErrorList(data);
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-				
-				tabHtml1 += buildExtendedCcdaErrorList(data);
-				
-				tabHtml1 += '</font>';
-				
-				if (ccdaReport.hasWarnings || extendedCcdaReport.hasWarnings){
-					tabHtml1 += '<font color="blue">';
+				if (extendedErrorCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaErrorList(data);
 				}
-				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
-				
-				tabHtml1 += buildCcdaWarningList(data);
-				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-				
-				tabHtml1 += buildExtendedCcdaWarningList(data);
 				
 				tabHtml1 += '</font>';
 				
 				
-				if (ccdaReport.hasInfo || extendedCcdaReport.hasInfo){
-					tabHtml1 += '<font color="gray">';
+				
+				tabHtml1 += '<font color="blue">';
+				
+				if (ccdaWarningCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaWarningList(data);
 				}
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				if (extendedWarningCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaWarningList(data);
+				}
 				
-				tabHtml1 += buildCcdaInfoList(data);
+				tabHtml1 += '</font>';
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
 				
-				tabHtml1 += buildExtendedCcdaInfoList(data);
+				
+				tabHtml1 += '<font color="gray">';
+				
+				if (ccdaInfoCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaInfoList(data);
+				}
+				
+				if (extendedInfoCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaInfoList(data);
+				}
 				
 				tabHtml1 += '</font>';
 			}
@@ -1764,450 +1782,5 @@ $(function() {
 	
 	
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*
-function CCDAMultiFileValidationReconciledSubmitIFrame()
-{
-	
-	var formSelector = "#CCDAReconciledValidationForm";
-	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
-	
-	
-	var jform = $(formSelector);
-	jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-	//jform.validationEngine('hideAll');
-	
-	if(jform.validationEngine('validate'))
-	{
-		$('#CCDAReconciledValidationForm .formError').hide(0);
-	
-		$.blockUI({
-			css: {
-		        border: 'none', 
-		        padding: '15px', 
-		        backgroundColor: '#000', 
-		        '-webkit-border-radius': '10px', 
-		        '-moz-border-radius': '10px', 
-		        opacity: .5, 
-		        color: '#fff' 
-	    	},
-	    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
-			          '<div class="lbl">Validating...</div></div>'
-			
-		});
-		
-	    //generate a random id
-	    var  iframeId = 'unique' + (new Date().getTime());
-	 
-	    //create an empty iframe
-	    var iframe = $('<iframe src="javascript:false;" name="'+iframeId+'" id="'+iframeId+'" />');
-	    
-	    
-	    //hide it
-	    iframe.hide();
-	 
-	    //set form target to iframe
-	    jform.attr('target',iframeId);
-	    
-	    //Add iframe to body
-	    iframe.appendTo('body');
-	    
-	    iframe.load(function(e)
-	    {
-	        var doc = getDoc(iframe[0]); //get iframe Document
-	        var node = doc.body ? doc.body : doc.documentElement;
-	        //var node = docRoot.innerHTML;
-	        var data = (node.innerText || node.textContent);
-	        var results = JSON.parse(data);
-	        
-	        $.unblockUI();
-	        alert("This has been a call to the Reconciled validator from an old browser");
-	        
-	    });
-		
-	    jform.submit();
-	    
-	} else {
-		
-		nErrors = $('#CCDAReconciledValidationForm .formError').size();
-		
-		for (i = 0; i < nErrors; i++){
-			$('#CCDAReconciledValidationForm .formError').show(i);
-		}
-		
-		
-		if ($('#CCDAReconciledValidationForm .CCDAReconciledFileuploadformError').size() > 0){
-			$('#CCDAReconciledValidationForm .CCDAReconciledFileuploadformError').prependTo('#CCDAReconciledUploaderrorlock');
-		}
-		if ($('#CCDAReconciledValidationForm .CCDAReconciledCEHRTFileuploadformError').size() > 0){
-			$('#CCDAReconciledValidationForm .CCDAReconciledCEHRTFileuploadformError').prependTo('#CCDAReconciledCEHRTUploadErrorLock');
-		}
-		if ($('#CCDAReconciledValidationForm .CCDAReconciledReconciliationFileuploadformError').size() > 0){
-			$('#CCDAReconciledValidationForm .CCDAReconciledReconciliationFileuploadformError').prependTo('#CCDAReconciledReconciliationUploadErrorLock');
-		}
-	}
-}
-*/
-
-
-/*
-function CCDAMultiFileValidationReferenceSubmitIFrame()
-{
-	
-	var formSelector = "#CCDAReferenceValidationForm";
-	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
-	
-	
-	var jform = $(formSelector);
-	jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-	
-	if(jform.validationEngine('validate'))
-	{
-		$('#CCDAReferenceValidationForm .formError').hide(0);
-	
-		$.blockUI({
-			css: {
-		        border: 'none', 
-		        padding: '15px', 
-		        backgroundColor: '#000', 
-		        '-webkit-border-radius': '10px', 
-		        '-moz-border-radius': '10px', 
-		        opacity: .5, 
-		        color: '#fff' 
-	    	},
-	    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
-			          '<div class="lbl">Validating...</div></div>'
-			
-		});
-		
-	    //generate a random id
-	    var  iframeId = 'unique' + (new Date().getTime());
-	 
-	    //create an empty iframe
-	    var iframe = $('<iframe src="javascript:false;" name="'+iframeId+'" id="'+iframeId+'" />');
-	    
-	    
-	    //hide it
-	    iframe.hide();
-	 
-	    //set form target to iframe
-	    jform.attr('target',iframeId);
-	    
-	    //Add iframe to body
-	    iframe.appendTo('body');
-	    
-	    iframe.load(function(e)
-	    {
-	        var doc = getDoc(iframe[0]); //get iframe Document
-	        var node = doc.body ? doc.body : doc.documentElement;
-	        //var node = docRoot.innerHTML;
-	        var data = (node.innerText || node.textContent);
-	        var results = JSON.parse(data);
-	        
-	        $.unblockUI();
-	        alert("This has been a call to the Reference validator from an old browser");
-	        
-	    });
-		
-	    jform.submit();
-	    
-	} else {
-		
-		nErrors = $('#CCDAReferenceValidationForm .formError').size();
-		
-		for (i = 0; i < nErrors; i++){
-			$('#CCDAReferenceValidationForm .formError').show(i);
-		}
-		
-		
-		if ($('#CCDAReferenceValidationForm .CCDAReferenceFileuploadformError').size() > 0){
-			$('#CCDAReferenceValidationForm .CCDAReferenceFileuploadformError').prependTo('#CCDAReferenceUploaderrorlock');
-		}
-		if ($('#CCDAReferenceValidationForm .CCDAReferenceCEHRTFileuploadformError').size() > 0){
-			$('#CCDAReferenceValidationForm .CCDAReferenceCEHRTFileuploadformError').prependTo('#CCDAReferenceCEHRTUploaderrorlock');
-		}
-		
-	}
-}
-
-*/
-
-/*
-function CCDAMultiFileValidationReconciledSubmit()
-{
-	
-	var formSelector = "#CCDAReconciledValidationForm";
-	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
-	
-	
-	var jform = $(formSelector);
-	jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-	//jform.validationEngine('hideAll');
-	
-	if(jform.validationEngine('validate'))
-	{
-		$('#CCDAReconciledValidationForm .formError').hide(0);
-	
-		$.blockUI({
-			css: {
-		        border: 'none', 
-		        padding: '15px', 
-		        backgroundColor: '#000', 
-		        '-webkit-border-radius': '10px', 
-		        '-moz-border-radius': '10px', 
-		        opacity: .5, 
-		        color: '#fff' 
-	    	},
-	    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
-			          '<div class="lbl">Validating...</div></div>'
-			
-		});
-		
-		var formData = $(formSelector).serializefiles();
-		var serviceUrl = $(formSelector).attr("action");
-		$.ajax({
-	        url: serviceUrl,
-	        type: 'POST',
-	        
-	        success: function(data){
-	        	
-	        	alert("This has been a call to the Reconciled validator");
-	        	
-	        	var results = JSON.parse(data);
-	        	$.unblockUI();
-	        	
-	        },
-	        error: errorHandler,
-	        // Form data
-	        data: formData,
-	        //Options to tell JQuery not to process data or worry about content-type
-	        cache: false,
-	        contentType: false,
-	        processData: false
-	    });
-		
-	} else {
-		
-		nErrors = $('#CCDAReconciledValidationForm .formError').size();
-		
-		for (i = 0; i < nErrors; i++){
-			$('#CCDAReconciledValidationForm .formError').show(i);
-		}
-		
-		
-		if ($('#CCDAReconciledValidationForm .CCDAReconciledFileuploadformError').size() > 0){
-			$('#CCDAReconciledValidationForm .CCDAReconciledFileuploadformError').prependTo('#CCDAReconciledUploaderrorlock');
-		}
-		if ($('#CCDAReconciledValidationForm .CCDAReconciledCEHRTFileuploadformError').size() > 0){
-			$('#CCDAReconciledValidationForm .CCDAReconciledCEHRTFileuploadformError').prependTo('#CCDAReconciledCEHRTUploadErrorLock');
-		}
-		if ($('#CCDAReconciledValidationForm .CCDAReconciledReconciliationFileuploadformError').size() > 0){
-			$('#CCDAReconciledValidationForm .CCDAReconciledReconciliationFileuploadformError').prependTo('#CCDAReconciledReconciliationUploadErrorLock');
-		}
-		
-	}
-}
-*/
-
-
-/*
-function CCDAMultiFileValidationReferenceSubmit()
-{
-	
-	
-	var formSelector = "#CCDAReferenceValidationForm";
-	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
-	
-	
-	var jform = $(formSelector);
-	jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-	
-	if(jform.validationEngine('validate'))
-	{
-		$('#CCDAReferenceValidationForm .formError').hide(0);
-		
-		$.blockUI({
-			css: {
-		        border: 'none', 
-		        padding: '15px', 
-		        backgroundColor: '#000', 
-		        '-webkit-border-radius': '10px', 
-		        '-moz-border-radius': '10px', 
-		        opacity: .5, 
-		        color: '#fff' 
-	    	},
-	    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
-			          '<div class="lbl">Validating...</div></div>'
-			
-		});
-		
-		var formData = $(formSelector).serializefiles();
-		var serviceUrl = $(formSelector).attr("action");
-		$.ajax({
-	        url: serviceUrl,
-	        type: 'POST',
-	        
-	        success: function(data){
-	        	
-	        	alert("This has been a call to the Reference validator");
-	        	var results = JSON.parse(data);
-	        	$.unblockUI();
-	        	
-	        },
-	        error: errorHandler,
-	        // Form data
-	        data: formData,
-	        //Options to tell JQuery not to process data or worry about content-type
-	        cache: false,
-	        contentType: false,
-	        processData: false
-	    });
-	}
-	else
-	{
-		
-		nErrors = $('#CCDAReferenceValidationForm .formError').size();
-		
-		for (i = 0; i < nErrors; i++){
-			$('#CCDAReferenceValidationForm .formError').show(i);
-		}
-		
-		
-		if ($('#CCDAReferenceValidationForm .CCDAReferenceFileuploadformError').size() > 0){
-			$('#CCDAReferenceValidationForm .CCDAReferenceFileuploadformError').prependTo('#CCDAReferenceUploaderrorlock');
-		}
-		if ($('#CCDAReferenceValidationForm .CCDAReferenceCEHRTFileuploadformError').size() > 0){
-			$('#CCDAReferenceValidationForm .CCDAReferenceCEHRTFileuploadformError').prependTo('#CCDAReferenceCEHRTUploaderrorlock');
-		}
-		
-	}
-}
-*/
-
-/*
-$(function() {
-	
-	
-	if(window.FormData !== undefined){
-		
-		$('#CCDAReconciledFormSubmit').bind('click', function(e, data) {
-			CCDAMultiFileValidationReconciledSubmit();			
-		});
-		
-	} else {
-		
-		$('#CCDAReconciledFormSubmit').bind('click', function(e, data) {
-			CCDAMultiFileValidationReconciledSubmitIFrame();
-		});
-		
-	}
-	
-	
-	$('#CCDAReconciledFileupload').bind("change", function(){
-		
-		$('#CCDAReconciledFiles').empty();
-		var filePath = $('#CCDAReconciledFileupload').val();
-		fileName = filePath.replace(/^.*[\\\/]/, '');
-		
-		context = $('<div/>').appendTo('#CCDAReconciledFiles');
-		var node = $('<p/>').append($('<span/>').text(fileName));
-		node.appendTo(context);
-	
-	});
-	
-	
-	
-	
-	$('#CCDAReconciledCEHRTFileupload').bind("change", function(){
-		
-		$('#CCDACEHRTReconciledFiles').empty();
-		var filePath = $('#CCDAReconciledCEHRTFileupload').val();
-		fileName = filePath.replace(/^.*[\\\/]/, '');
-		
-		context = $('<div/>').appendTo('#CCDACEHRTReconciledFiles');
-		var node = $('<p/>').append($('<span/>').text(fileName));
-		node.appendTo(context);
-	
-	});
-	
-	
-	$('#CCDAReconciledReconciliationFileupload').bind("change", function(){
-		
-		$('#CCDAReconciliationReconciledFiles').empty();
-		var filePath = $('#CCDAReconciledReconciliationFileupload').val();
-		fileName = filePath.replace(/^.*[\\\/]/, '');
-		
-		context = $('<div/>').appendTo('#CCDAReconciliationReconciledFiles');
-		var node = $('<p/>').append($('<span/>').text(fileName));
-		node.appendTo(context);
-	
-	});
-	
-	
-	
-});
-
-
-
-$(function() {
-	
-	
-	if(window.FormData !== undefined){
-		
-		$('#CCDAReferenceFormSubmit').bind('click', function(e, data) {
-				CCDAMultiFileValidationReferenceSubmit();
-		});
-		
-	} else {
-		
-		$('#CCDAReferenceFormSubmit').bind('click', function(e, data) {
-			CCDAMultiFileValidationReferenceSubmitIFrame();
-		});
-		
-	}
-	
-	
-	$('#CCDAReferenceFileupload').bind("change", function(){
-		
-		$('#CCDAReferenceFiles').empty();
-		var filePath = $('#CCDAReferenceFileupload').val();
-		fileName = filePath.replace(/^.*[\\\/]/, '');
-		
-		context = $('<div/>').appendTo('#CCDAReferenceFiles');
-		var node = $('<p/>').append($('<span/>').text(fileName));
-		node.appendTo(context);
-	
-	});
-	
-	
-	
-	$('#CCDAReferenceCEHRTFileupload').bind("change", function(){
-		
-		$('#CCDACEHRTReferenceFiles').empty();
-		var filePath = $('#CCDAReferenceCEHRTFileupload').val();
-		fileName = filePath.replace(/^.*[\\\/]/, '');
-		
-		context = $('<div/>').appendTo('#CCDACEHRTReferenceFiles');
-		var node = $('<p/>').append($('<span/>').text(fileName));
-		node.appendTo(context);
-	
-	});
-	
-});
-
-
-*/
 
 
