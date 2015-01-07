@@ -126,13 +126,19 @@ $(function() {
 				
 				tabHtml1 += '<font color="red">';
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
 				
-				tabHtml1 += buildCcdaErrorList(data);
+				if (ccdaErrorCount > 0) {
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaErrorList(data);
+				}				
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
 				
-				tabHtml1 += buildExtendedCcdaErrorList(data);
+				if (extendedErrorCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaErrorList(data);
+				}
+				
+
 				
 				tabHtml1 += '</font>';
 				
@@ -140,13 +146,17 @@ $(function() {
 					tabHtml1 += '<font color="blue">';
 				}
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
 				
-				tabHtml1 += buildCcdaWarningList(data);
+				if (ccdaWarningCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaWarningList(data);
+				}
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+				if (extendedWarningCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaWarningList(data);
+				}
 				
-				tabHtml1 += buildExtendedCcdaWarningList(data);
 				
 				tabHtml1 += '</font>';
 				
@@ -155,13 +165,15 @@ $(function() {
 					tabHtml1 += '<font color="gray">';
 				}
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				if (ccdaInfoCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaInfoList(data);
+				}
 				
-				tabHtml1 += buildCcdaInfoList(data);
-				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-				
-				tabHtml1 += buildExtendedCcdaInfoList(data);
+				if (extendedInfoCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaInfoList(data);
+				}
 				
 				tabHtml1 += '</font>';
 			}
@@ -696,13 +708,18 @@ $(function() {
 				
 				tabHtml1 += '<font color="red">';
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
 				
-				tabHtml1 += buildCcdaErrorList(data);
+				if (ccdaErrorCount > 0) {
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaErrorList(data);
+				}				
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
 				
-				tabHtml1 += buildExtendedCcdaErrorList(data);
+				if (extendedErrorCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaErrorList(data);
+				}
+				
 				
 				tabHtml1 += '</font>';
 				
@@ -710,13 +727,17 @@ $(function() {
 					tabHtml1 += '<font color="blue">';
 				}
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
 				
-				tabHtml1 += buildCcdaWarningList(data);
+				if (ccdaWarningCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaWarningList(data);
+				}
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+				if (extendedWarningCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaWarningList(data);
+				}
 				
-				tabHtml1 += buildExtendedCcdaWarningList(data);
 				
 				tabHtml1 += '</font>';
 				
@@ -725,13 +746,15 @@ $(function() {
 					tabHtml1 += '<font color="gray">';
 				}
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				if (ccdaInfoCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaInfoList(data);
+				}
 				
-				tabHtml1 += buildCcdaInfoList(data);
-				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-				
-				tabHtml1 += buildExtendedCcdaInfoList(data);
+				if (extendedInfoCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaInfoList(data);
+				}
 				
 				tabHtml1 += '</font>';
 			}
