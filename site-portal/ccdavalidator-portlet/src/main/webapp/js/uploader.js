@@ -126,42 +126,48 @@ $(function() {
 				
 				tabHtml1 += '<font color="red">';
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				if (ccdaErrorCount > 0) {
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaErrorList(data);
+				}				
 				
-				tabHtml1 += buildCcdaErrorList(data);
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-				
-				tabHtml1 += buildExtendedCcdaErrorList(data);
-				
-				tabHtml1 += '</font>';
-				
-				if (ccdaReport.hasWarnings || extendedCcdaReport.hasWarnings){
-					tabHtml1 += '<font color="blue">';
+				if (extendedErrorCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaErrorList(data);
 				}
-				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
-				
-				tabHtml1 += buildCcdaWarningList(data);
-				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-				
-				tabHtml1 += buildExtendedCcdaWarningList(data);
 				
 				tabHtml1 += '</font>';
 				
 				
-				if (ccdaReport.hasInfo || extendedCcdaReport.hasInfo){
-					tabHtml1 += '<font color="gray">';
+				
+				tabHtml1 += '<font color="blue">';
+				
+				if (ccdaWarningCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaWarningList(data);
 				}
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				if (extendedWarningCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaWarningList(data);
+				}
 				
-				tabHtml1 += buildCcdaInfoList(data);
+				tabHtml1 += '</font>';
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
 				
-				tabHtml1 += buildExtendedCcdaInfoList(data);
+				
+				tabHtml1 += '<font color="gray">';
+				
+				if (ccdaInfoCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaInfoList(data);
+				}
+				
+				if (extendedInfoCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaInfoList(data);
+				}
 				
 				tabHtml1 += '</font>';
 			}
@@ -696,42 +702,50 @@ $(function() {
 				
 				tabHtml1 += '<font color="red">';
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
 				
-				tabHtml1 += buildCcdaErrorList(data);
+				if (ccdaErrorCount > 0) {
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaErrorList(data);
+				}				
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
 				
-				tabHtml1 += buildExtendedCcdaErrorList(data);
-				
-				tabHtml1 += '</font>';
-				
-				if (ccdaReport.hasWarnings || extendedCcdaReport.hasWarnings){
-					tabHtml1 += '<font color="blue">';
+				if (extendedErrorCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaErrorList(data);
 				}
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
-				
-				tabHtml1 += buildCcdaWarningList(data);
-				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-				
-				tabHtml1 += buildExtendedCcdaWarningList(data);
 				
 				tabHtml1 += '</font>';
 				
 				
-				if (ccdaReport.hasInfo || extendedCcdaReport.hasInfo){
-					tabHtml1 += '<font color="gray">';
+				
+				tabHtml1 += '<font color="blue">';
+				
+				if (ccdaWarningCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaWarningList(data);
 				}
 				
-				tabHtml1 += '<hr/><b>Validation Results:</b>';
+				if (extendedWarningCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaWarningList(data);
+				}
 				
-				tabHtml1 += buildCcdaInfoList(data);
+				tabHtml1 += '</font>';
 				
-				tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
 				
-				tabHtml1 += buildExtendedCcdaInfoList(data);
+				
+				tabHtml1 += '<font color="gray">';
+				
+				if (ccdaInfoCount > 0){
+					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					tabHtml1 += buildCcdaInfoList(data);
+				}
+				
+				if (extendedInfoCount > 0){
+					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+					tabHtml1 += buildExtendedCcdaInfoList(data);
+				}
 				
 				tabHtml1 += '</font>';
 			}
