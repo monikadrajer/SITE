@@ -126,7 +126,6 @@ $(function() {
 				
 				tabHtml1 += '<font color="red">';
 				
-				
 				if (ccdaErrorCount > 0) {
 					tabHtml1 += '<hr/><b>Validation Results:</b>';
 					tabHtml1 += buildCcdaErrorList(data);
@@ -138,14 +137,11 @@ $(function() {
 					tabHtml1 += buildExtendedCcdaErrorList(data);
 				}
 				
-
-				
 				tabHtml1 += '</font>';
 				
-				if (ccdaReport.hasWarnings || extendedCcdaReport.hasWarnings){
-					tabHtml1 += '<font color="blue">';
-				}
 				
+				
+				tabHtml1 += '<font color="blue">';
 				
 				if (ccdaWarningCount > 0){
 					tabHtml1 += '<hr/><b>Validation Results:</b>';
@@ -157,13 +153,11 @@ $(function() {
 					tabHtml1 += buildExtendedCcdaWarningList(data);
 				}
 				
-				
 				tabHtml1 += '</font>';
 				
 				
-				if (ccdaReport.hasInfo || extendedCcdaReport.hasInfo){
-					tabHtml1 += '<font color="gray">';
-				}
+				
+				tabHtml1 += '<font color="gray">';
 				
 				if (ccdaInfoCount > 0){
 					tabHtml1 += '<hr/><b>Validation Results:</b>';
@@ -723,10 +717,9 @@ $(function() {
 				
 				tabHtml1 += '</font>';
 				
-				if (ccdaReport.hasWarnings || extendedCcdaReport.hasWarnings){
-					tabHtml1 += '<font color="blue">';
-				}
 				
+				
+				tabHtml1 += '<font color="blue">';
 				
 				if (ccdaWarningCount > 0){
 					tabHtml1 += '<hr/><b>Validation Results:</b>';
@@ -738,13 +731,11 @@ $(function() {
 					tabHtml1 += buildExtendedCcdaWarningList(data);
 				}
 				
-				
 				tabHtml1 += '</font>';
 				
 				
-				if (ccdaReport.hasInfo || extendedCcdaReport.hasInfo){
-					tabHtml1 += '<font color="gray">';
-				}
+				
+				tabHtml1 += '<font color="gray">';
 				
 				if (ccdaInfoCount > 0){
 					tabHtml1 += '<hr/><b>Validation Results:</b>';
