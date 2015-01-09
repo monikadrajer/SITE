@@ -104,13 +104,16 @@ function floorFigure(figure, decimals){
 
 function writeSmartCCDAResultHTML(data){
 	var results = JSON.parse(data);
+	
 	if(results.IsSuccess)
 	{
 		try{
+			
+			
     		var tablehtml = [];
     		var rubricLookup = results.RubricLookup;
     		var rowtmp = '<tr><td>{label}</td><td>{score}</td><td>{scoreexplain}</td><td>{detail}</td></tr>';
-    		
+    		/*
     		tablehtml.push('<table class="bordered">');
     		tablehtml.push('<colgroup>');
     		tablehtml.push('<col span="1" style="width: 15%;">');
@@ -127,20 +130,31 @@ function writeSmartCCDAResultHTML(data){
     		tablehtml.push('</tr></thead>');
     		
     		tablehtml.push('<tbody>');
+    		*/
+			resultsByCategory = {};
 
     		$.each(results.Results, function(i, result) {
     			//look up the label
     			var rowcache = rowtmp;
     			var label = rubricLookup[result.rubric].description;
+    			var category = rubricLookup[result.rubric].category[0];
+    			
     			rowcache = rowcache.replace(/{label}/g, label?label:'N/A');
     			rowcache = rowcache.replace(/{score}/g, result.score?result.score:'N/A');
     			var scoreexplaination = (rubricLookup[result.rubric])?(rubricLookup[result.rubric].points)?rubricLookup[result.rubric].points[result.score]:'N/A':'N/A';
     			rowcache = rowcache.replace(/{scoreexplain}/g, scoreexplaination?scoreexplaination:'N/A');
     			rowcache = rowcache.replace(/{detail}/g, result.detail?result.detail:'');
-    			tablehtml.push(rowcache);
+    			//tablehtml.push(rowcache);
+    			if (category in resultsByCategory){
+    				resultsByCategory[category].push(rowcache);
+    			} else {
+    				resultsByCategory[category] = [];
+    				resultsByCategory[category].push(rowcache);
+    			}
+    			
             });
     		
-    		tablehtml.push('</tbody></table>');
+    		//tablehtml.push('</tbody></table>');
     		
     		$("#resultModalTabs a[href='#tabs-3']").show();
     		

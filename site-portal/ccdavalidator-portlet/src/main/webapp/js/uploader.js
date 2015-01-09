@@ -1767,7 +1767,6 @@ $(function() {
 	});
 	
 	
-	
 	$('#CCDAReferenceCEHRTFileupload').bind("change", function(){
 		
 		$('#CCDACEHRTReferenceFiles').empty();
