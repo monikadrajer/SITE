@@ -265,8 +265,6 @@ function writeSmartCCDAResultHTML(data){
 
 
 
-
-
 function smartCCDAValidation()
 {
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
