@@ -120,7 +120,7 @@ function writeSmartCCDAResultHTML(data){
     			var rowcache = rowtmp;
     			var label = rubricLookup[result.rubric].description;
     			var category = rubricLookup[result.rubric].category[0];
-    			//var score = result.score?result.score:'N/A';
+    			
     			var score = 'N/A'
     			if ("score" in result){
     				score = result.score;
