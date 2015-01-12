@@ -2169,15 +2169,6 @@ relationships are returned.</con:description><con:settings/>
                </dsml:equalityMatch>
             </dsml:filter>
             <dsml:attributes>
-<!--               <dsml:attribute name="hpdHasAService"/>-->
-<!--               <dsml:attribute name="telephoneNumber"/>-->
-<!--               <dsml:attribute name="facsimileTelephoneNumber"/>-->
-<!--               <dsml:attribute name="mobile"/>-->
-<!--               <dsml:attribute name="pager"/>-->
-<!--               <dsml:attribute name="mail"/>-->
-<!--               <dsml:attribute name="hpdHasAProvider"/>-->
-               <!--<dsml:attribute name="hpdHasASubOrg"/>-->
-<!--               <dsml:attribute name="hpdMemberId"/>-->
                <dsml:attribute name="hpdHasAnOrg"/>
             </dsml:attributes>
          </dsml:searchRequest>
