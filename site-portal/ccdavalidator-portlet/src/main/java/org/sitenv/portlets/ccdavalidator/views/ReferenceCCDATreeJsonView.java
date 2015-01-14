@@ -32,6 +32,13 @@ public class ReferenceCCDATreeJsonView extends AbstractView {
     response.setContentType("text/plain");
     response.setCharacterEncoding("UTF-8");
     response.getWriter().write(map.get("jsonRoot").toString());
+    
+    System.out.println("000000000000000000000");
+    System.out.println(map.get("jsonRoot").toString());
+    System.out.println(request.toString());
+    System.out.println("000000000000000000000");
+    
+    
     response.getWriter().flush();
     }
 

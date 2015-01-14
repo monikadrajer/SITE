@@ -552,11 +552,11 @@ public class CCDAValidatorController extends BaseController {
 		
 		return modelAndView;
 	}
-
+	
 	public StatisticsManager getStatisticsManager() {
 		return statisticsManager;
 	}
-
+	
 	public void setStatisticsManager(StatisticsManager statisticsManager) {
 		this.statisticsManager = statisticsManager;
 	}

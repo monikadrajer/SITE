@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import javax.portlet.ActionRequest;
@@ -128,9 +129,23 @@ public class TreeController extends BaseController {
 		String SampleDir = props.getProperty("ReconciledFileBundles");
 		
 		this.traverseDir(SampleDir, SampleDir, root, 1);
-		
+		System.out.println("555555555555555");
 		this.reconciledCCDARoot = root;
-
+		System.out.println(response.toString());
+		System.out.println(request.toString());
+		System.out.println(root.toString());
+		
+		
+		Map<String, String[]>  renderParams = response.getRenderParameterMap();
+		
+	    Iterator it = renderParams.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+	        //it.remove(); // avoids a ConcurrentModificationException
+	    }
+		
+		
 		response.setRenderParameter("javax.portlet.action", "reconciledCCDATree");
 
 	}
@@ -142,14 +157,18 @@ public class TreeController extends BaseController {
 		
 		Gson gson = new Gson();
 		String json = gson.toJson(reconciledCCDARoot);
-
+		
+		System.out.println("333333333333333333333333333");
+		System.out.println(json);
+		System.out.println("333333333333333333333333333");
 		map.put("jsonRoot", json);
+		
 
 		return new ModelAndView("reconciledCCDATreeJsonView", map);
 	}
 
 
-	@ActionMapping(params = "javax.portlet.action=referenceCCDATree")
+	@ActionMapping(params = "javax.portlet.refaction=referenceCCDATree")
 	public void ReferenceDownloadResponse(ActionRequest request, ActionResponse response)
 			throws IOException {
 		
@@ -163,14 +182,28 @@ public class TreeController extends BaseController {
 		String SampleDir = props.getProperty("ReferenceDownloadFiles");
 		
 		this.traverseDir(SampleDir, SampleDir, root, 1);
+		System.out.println("666666666666666");
+		System.out.println(response.toString());
+		System.out.println(request.toString());
+		System.out.println(root.toString());
+		
+		
+		Map<String, String[]>  renderParams = response.getRenderParameterMap();
+		
+	    Iterator it = renderParams.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pairs = (Map.Entry)it.next();
+	        System.out.println(pairs.getKey() + " = " + pairs.getValue());
+	        //it.remove(); // avoids a ConcurrentModificationException
+	    }
 		
 		this.referenceCCDARoot = root;
 		
-		response.setRenderParameter("javax.portlet.action", "referenceCCDATree");
+		response.setRenderParameter("javax.portlet.refaction", "referenceCCDATree");
 
 	}
 
-	@RequestMapping(params = "javax.portlet.action=referenceCCDATree")
+	@RequestMapping(params = "javax.portlet.refaction=referenceCCDATree")
 	public ModelAndView processReferenceDownload(RenderRequest request, Model model)
 			throws IOException {
 		Map map = new HashMap();
@@ -178,6 +211,9 @@ public class TreeController extends BaseController {
 		Gson gson = new Gson();
 		String json = gson.toJson(referenceCCDARoot);
 
+		System.out.println("444444444444444444444444444444");
+		System.out.println(json);
+		System.out.println("444444444444444444444444444444");
 		map.put("jsonRoot", json);
 
 		return new ModelAndView("referenceCCDATreeJsonView", map);
