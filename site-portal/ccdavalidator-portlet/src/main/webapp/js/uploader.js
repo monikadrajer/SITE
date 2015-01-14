@@ -55,7 +55,7 @@ $(function() {
 			{
 				
 				tabHtml1 = ['<title>Validation Results</title>',
-									    '<h1 align="center">Consolidated-CDA r1.1 Validation and Meaningful Use Stage 2 Certification Results</h1>',
+									    '<h1 align="center">Validation Results</h1>',
 									    '<font color="red">',
 									    '<b>An error occurred during validation. Please try again. If this error persists, please contact the system administrator:</b>',
 									    '</font>',
@@ -93,49 +93,78 @@ $(function() {
 					vocabRedOrGreen = '<font color="red">';
 				}
 				
+				var tabHtml1 = '';
+				
+				if (showVocabularyValidation){
+					tabHtml1 = 
+						   ['<title>Validation Results</title>',
+						    '<h1 align="center">Validation results for document '+uploadedFileName+' validated against '+docTypeSelected+'</h1>',
+						    '<b>Upload Results:</b>',
+						    '<br/>'+uploadedFileName+' was uploaded successfully.',
+						    '<br/><br/>',
+						    '<b>MU2 C-CDA Document Type Selected: </b>',
+						    '<br/>'+docTypeSelected+'',
+						    '<hr/>',
+						    '<hr/>',
+						    '<br/>',
+						    '<br/>'+CCDARedOrGreen+'',
+						    '<b>Validation Results: </b>',
+						    '<br/>The file has encountered '+ccdaErrorCount+' error(s). The file has encountered '+ccdaWarningCount+' warning(s). The file has encountered '+ccdaInfoCount+' info message(s).',
+						    '</font>',
+						    '<hr/>',
+						    '<hr/>',
+						    '<br/>',
+						    '<br/>',
+						    '<br/>'+vocabRedOrGreen+'',
+						    '<b>Vocabulary Validation Results: </b>',
+						    '<br/>The file has encountered '+extendedErrorCount+' error(s). The file has encountered '+extendedWarningCount+' warning(s). The file has encountered '+extendedInfoCount+' info message(s).',
+						    '</font>',
+						    '<hr/>',
+						    '<hr/>',
+						    '<br/>',
+						    '<br/>'
+						   ].join('\n');
+				} else {
+					tabHtml1 = 
+						   ['<title>Validation Results</title>',
+						    '<h1 align="center">Validation results for document '+uploadedFileName+' validated against '+docTypeSelected+'</h1>',
+						    '<b>Upload Results:</b>',
+						    '<br/>'+uploadedFileName+' was uploaded successfully.',
+						    '<br/><br/>',
+						    '<b>MU2 C-CDA Document Type Selected: </b>',
+						    '<br/>'+docTypeSelected+'',
+						    '<hr/>',
+						    '<hr/>',
+						    '<br/>',
+						    '<br/>'+CCDARedOrGreen+'',
+						    '<b>Validation Results: </b>',
+						    '<br/>The file has encountered '+ccdaErrorCount+' error(s). The file has encountered '+ccdaWarningCount+' warning(s). The file has encountered '+ccdaInfoCount+' info message(s).',
+						    '</font>',
+						    '<hr/>',
+						    '<hr/>',
+						    '<br/>',
+						    '<br/>'
+						   ].join('\n');
+				}
 				
 				
-				var tabHtml1 = 
-					   ['<title>Validation Results</title>',
-					    '<h1 align="center">Consolidated-CDA r1.1 Validation and Meaningful Use Stage 2 Certification Results</h1>',
-					    '<b>Upload Results:</b>',
-					    '<br/>'+uploadedFileName+' was uploaded successfully.',
-					    '<br/><br/>',
-					    '<b>MU2 C-CDA Document Type Selected: </b>',
-					    '<br/>'+docTypeSelected+'',
-					    '<hr/>',
-					    '<hr/>',
-					    '<br/>',
-					    '<br/>'+CCDARedOrGreen+'',
-					    '<b>Validation Results: </b>',
-					    '<br/>The file has encountered '+ccdaErrorCount+' error(s). The file has encountered '+ccdaWarningCount+' warning(s). The file has encountered '+ccdaInfoCount+' info message(s).',
-					    '</font>',
-					    '<hr/>',
-					    '<hr/>',
-					    '<br/>',
-					    '<br/>',
-					    '<br/>'+vocabRedOrGreen+'',
-					    '<b>Vocabulary Validation Results: </b>',
-					    '<br/>The file has encountered '+extendedErrorCount+' error(s). The file has encountered '+extendedWarningCount+' warning(s). The file has encountered '+extendedInfoCount+' info message(s).',
-					    '</font>',
-					    '<hr/>',
-					    '<hr/>',
-					    '<br/>',
-					    '<br/>'
-					   ].join('\n');
 				
 				tabHtml1 += '<font color="red">';
 				
 				if (ccdaErrorCount > 0) {
-					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					if (showVocabularyValidation){
+						tabHtml1 += '<hr/><b>Validation Results:</b>';
+					}
 					tabHtml1 += buildCcdaErrorList(data);
 				}				
 				
-				
-				if (extendedErrorCount > 0){
-					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-					tabHtml1 += buildExtendedCcdaErrorList(data);
+				if (showVocabularyValidation){
+					if (extendedErrorCount > 0){
+						tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+						tabHtml1 += buildExtendedCcdaErrorList(data);
+					}
 				}
+
 				
 				tabHtml1 += '</font>';
 				
@@ -144,14 +173,19 @@ $(function() {
 				tabHtml1 += '<font color="blue">';
 				
 				if (ccdaWarningCount > 0){
-					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					if (showVocabularyValidation){
+						tabHtml1 += '<hr/><b>Validation Results:</b>';
+					}
 					tabHtml1 += buildCcdaWarningList(data);
 				}
 				
-				if (extendedWarningCount > 0){
-					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-					tabHtml1 += buildExtendedCcdaWarningList(data);
+				if (showVocabularyValidation){
+					if (extendedWarningCount > 0){
+						tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+						tabHtml1 += buildExtendedCcdaWarningList(data);
+					}		
 				}
+
 				
 				tabHtml1 += '</font>';
 				
@@ -160,13 +194,17 @@ $(function() {
 				tabHtml1 += '<font color="gray">';
 				
 				if (ccdaInfoCount > 0){
-					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					if (showVocabularyValidation){
+						tabHtml1 += '<hr/><b>Validation Results:</b>';
+					}
 					tabHtml1 += buildCcdaInfoList(data);
 				}
 				
-				if (extendedInfoCount > 0){
-					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-					tabHtml1 += buildExtendedCcdaInfoList(data);
+				if (showVocabularyValidation){
+					if (extendedInfoCount > 0){
+						tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+						tabHtml1 += buildExtendedCcdaInfoList(data);
+					}
 				}
 				
 				tabHtml1 += '</font>';
@@ -673,47 +711,75 @@ $(function() {
 					vocabRedOrGreen = '<font color="red">';
 				}
 				
+				var tabHtml1 = '';
 				
-				var tabHtml1 = 
-					   ['<title>Validation Results</title>',
-					    '<h1 align="center">Consolidated-CDA R2.0 Validation Results</h1>',
-					    '<b>Upload Results:</b>',
-					    '<br/>'+uploadedFileName+' was uploaded successfully.',
-					    '<br/><br/>',
-					    '<hr/>',
-					    '<br/>',
-					    '<br/>'+CCDARedOrGreen+'',
-					    '<b>Validation Results: </b>',
-					    '<br/>The file has encountered '+ccdaErrorCount+' error(s). The file has encountered '+ccdaWarningCount+' warning(s). The file has encountered '+ccdaInfoCount+' info message(s).',
-					    '</font>',
-					    '<hr/>',
-					    '<hr/>',
-					    '<br/>',
-					    '<br/>',
-					    '<br/>'+vocabRedOrGreen+'',
-					    '<b>Vocabulary Validation Results: </b>',
-					    '<br/>The file has encountered '+extendedErrorCount+' error(s). The file has encountered '+extendedWarningCount+' warning(s). The file has encountered '+extendedInfoCount+' info message(s).',
-					    '</font>',
-					    '<hr/>',
-					    '<hr/>',
-					    '<br/>',
-					    '<br/>'
-					   ].join('\n');
+				if (showVocabularyValidation){
+				
+					tabHtml1 = 
+						   ['<title>Validation Results</title>',
+						    '<h1 align="center">Consolidated-CDA R2.0 Validation Results Validation results for document '+uploadedFileName+'</h1>',
+						    '<b>Upload Results:</b>',
+						    '<br/>'+uploadedFileName+' was uploaded successfully.',
+						    '<br/><br/>',
+						    '<hr/>',
+						    '<br/>',
+						    '<br/>'+CCDARedOrGreen+'',
+						    '<b>Validation Results: </b>',
+						    '<br/>The file has encountered '+ccdaErrorCount+' error(s). The file has encountered '+ccdaWarningCount+' warning(s). The file has encountered '+ccdaInfoCount+' info message(s).',
+						    '</font>',
+						    '<hr/>',
+						    '<hr/>',
+						    '<br/>',
+						    '<br/>',
+						    '<br/>'+vocabRedOrGreen+'',
+						    '<b>Vocabulary Validation Results: </b>',
+						    '<br/>The file has encountered '+extendedErrorCount+' error(s). The file has encountered '+extendedWarningCount+' warning(s). The file has encountered '+extendedInfoCount+' info message(s).',
+						    '</font>',
+						    '<hr/>',
+						    '<hr/>',
+						    '<br/>',
+						    '<br/>'
+						   ].join('\n');
+				} else {
+					
+					tabHtml1 = 
+						   ['<title>Validation Results</title>',
+						    '<h1 align="center">Consolidated-CDA R2.0 Validation Results Validation results for document '+uploadedFileName+'</h1>',
+						    '<b>Upload Results:</b>',
+						    '<br/>'+uploadedFileName+' was uploaded successfully.',
+						    '<br/><br/>',
+						    '<hr/>',
+						    '<br/>',
+						    '<br/>'+CCDARedOrGreen+'',
+						    '<b>Validation Results: </b>',
+						    '<br/>The file has encountered '+ccdaErrorCount+' error(s). The file has encountered '+ccdaWarningCount+' warning(s). The file has encountered '+ccdaInfoCount+' info message(s).',
+						    '</font>',
+						    '<hr/>',
+						    '<hr/>',
+						    '<br/>',
+						    '<br/>'
+						   ].join('\n');
+				}
+				
+				
 				
 				tabHtml1 += '<font color="red">';
 				
 				
 				if (ccdaErrorCount > 0) {
-					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					
+					if (showVocabularyValidation){
+						tabHtml1 += '<hr/><b>Validation Results:</b>';
+					}
 					tabHtml1 += buildCcdaErrorList(data);
 				}				
 				
-				
-				if (extendedErrorCount > 0){
-					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-					tabHtml1 += buildExtendedCcdaErrorList(data);
+				if (showVocabularyValidation){
+					if (extendedErrorCount > 0){
+						tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+						tabHtml1 += buildExtendedCcdaErrorList(data);
+					}
 				}
-				
 				
 				tabHtml1 += '</font>';
 				
@@ -722,13 +788,18 @@ $(function() {
 				tabHtml1 += '<font color="blue">';
 				
 				if (ccdaWarningCount > 0){
-					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					
+					if (showVocabularyValidation){
+						tabHtml1 += '<hr/><b>Validation Results:</b>';
+					}
 					tabHtml1 += buildCcdaWarningList(data);
 				}
 				
-				if (extendedWarningCount > 0){
-					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-					tabHtml1 += buildExtendedCcdaWarningList(data);
+				if (showVocabularyValidation){
+					if (extendedWarningCount > 0){
+						tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+						tabHtml1 += buildExtendedCcdaWarningList(data);
+					}
 				}
 				
 				tabHtml1 += '</font>';
@@ -738,13 +809,17 @@ $(function() {
 				tabHtml1 += '<font color="gray">';
 				
 				if (ccdaInfoCount > 0){
-					tabHtml1 += '<hr/><b>Validation Results:</b>';
+					if (showVocabularyValidation){
+						tabHtml1 += '<hr/><b>Validation Results:</b>';
+					}
 					tabHtml1 += buildCcdaInfoList(data);
 				}
 				
-				if (extendedInfoCount > 0){
-					tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
-					tabHtml1 += buildExtendedCcdaInfoList(data);
+				if (showVocabularyValidation){
+					if (extendedInfoCount > 0){
+						tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
+						tabHtml1 += buildExtendedCcdaInfoList(data);
+					}
 				}
 				
 				tabHtml1 += '</font>';
