@@ -95,7 +95,7 @@
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
 			        <a data-toggle="collapse" data-parent="#CCDAAccordion" href="#collapseCCDA1_1" tabindex="1">
-			          C-CDA R1.1 or MU Stage 2 Validator
+			          C-CDA R1.1 / MU Stage 2 Validator
 			        </a>
 			      </h4>
 			    </div>
