@@ -16,7 +16,6 @@
     	<portlet:param name="javax.portlet.action" value="sampleCCDATree"/>
       </portlet:actionURL>
       
-      
       <portlet:actionURL var="urlAction1_1" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
     	<portlet:param name="javax.portlet.action" value="uploadCCDA1.1"/>
 	  </portlet:actionURL>
@@ -72,8 +71,12 @@
       <script type="text/javascript">
 		
       	window.currentContextPath = "<%=request.getContextPath()%>";
-    	var sampleCCDATreeURL = '${sampleCCDATree}';
-    	var showVocabularyValidation = false;
+    	
+      	var sampleCCDATreeURL = '${sampleCCDATree}';
+    	
+      	var showVocab = '${showVocabulary}';
+      	
+    	var showVocabularyValidation = (showVocab === 'true');
     	
       </script>
       
