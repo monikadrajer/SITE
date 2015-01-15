@@ -435,11 +435,19 @@ public class CCDAValidatorController extends BaseController {
 	
 	@RenderMapping()
 	public ModelAndView handleRenderRequest(RenderRequest request,
-			RenderResponse response) {
+			RenderResponse response) throws IOException {
 
+		
+		if (this.props == null)
+		{
+				this.loadProperties();
+		}
+		
 		ModelAndView modelAndView = new ModelAndView();
 		
 		modelAndView.setViewName("view");
+		
+		modelAndView.addObject("showVocabulary", this.props.getProperty("showVocabularyValidation"));
 		
 		return modelAndView;
 	}
