@@ -72,6 +72,14 @@ $(function() {
 				var uploadedFileName = data.result.files[0].name;
 				var docTypeSelected = ccdaReport.docTypeSelected;
 				
+				var nonSpecific = "Non-specific C-CDA";
+				
+				var isNonSpecific = (docTypeSelected.lastIndexOf(nonSpecific, 0) === 0);
+				
+				if (isNonSpecific === true){
+					docTypeSelected = docTypeSelected.replace(nonSpecific, "C-CDA R1.1");
+				}
+				
 				var ccdaErrorCount = data.result.body.ccdaResults.errors.length;
 				var ccdaWarningCount = data.result.body.ccdaResults.warnings.length;
 				var ccdaInfoCount = data.result.body.ccdaResults.info.length;
