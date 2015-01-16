@@ -361,7 +361,6 @@ $(function() {
 					docTypeSelected = docTypeSelected.replace(nonSpecific, "C-CDA R1.1");
 				}
 				
-				
 				var ccdaErrorCount = data.result.body.ccdaResults.errors.length;
 				var ccdaWarningCount = data.result.body.ccdaResults.warnings.length;
 				var ccdaInfoCount = data.result.body.ccdaResults.info.length;
