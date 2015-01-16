@@ -353,6 +353,15 @@ $(function() {
 				var uploadedFileName = data.result.files[0].name;
 				var docTypeSelected = ccdaReport.docTypeSelected;
 				
+				var nonSpecific = "Non-specific C-CDA";
+				
+				var isNonSpecific = (docTypeSelected.lastIndexOf(nonSpecific, 0) === 0);
+				
+				if (isNonSpecific === true){
+					docTypeSelected = docTypeSelected.replace(nonSpecific, "C-CDA R1.1");
+				}
+				
+				
 				var ccdaErrorCount = data.result.body.ccdaResults.errors.length;
 				var ccdaWarningCount = data.result.body.ccdaResults.warnings.length;
 				var ccdaInfoCount = data.result.body.ccdaResults.info.length;
@@ -375,6 +384,8 @@ $(function() {
 				}
 				
 				var tabHtml1 = '';
+				
+				
 				
 				if (showVocabularyValidation){
 					tabHtml1 = 
@@ -1348,7 +1359,7 @@ $(function() {
 				// parsley Validator to validate the file size
 				
 				window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
-					var file_size=$('#CCDA1fileupload')[0].files[0];
+					var file_size=$('#CCDASuperFileupload')[0].files[0];
 					return file_size.size < requirement*1024*1024;
 				},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
 				
@@ -1436,7 +1447,7 @@ $(function() {
 		//$('#CCDASuperValidationForm .formError').hide(0);
 		
 		var selectedText = $("#CCDASuper_type_val :selected").text();
-		$("#CCDA1_type_val option").each(function() {
+		$("#CCDASuper_type_val option").each(function() {
 			  if($(this).text() == selectedText) {
 			    $(this).attr('selected', 'selected');
 			  } else {

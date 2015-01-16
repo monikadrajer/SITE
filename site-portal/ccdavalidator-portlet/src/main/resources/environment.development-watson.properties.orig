@@ -4,12 +4,12 @@ SmartCCDARemoteRubricsUrl=http://ccda-scorecard.smartplatforms.org/v1/ccda-score
 
 samplesFromVendorsForIncorporation=C:\\SITE\\CCDA_GIT\\SampleCCDAsForIncorporation\\SamplesFromVendors\\sample_ccdas
 referenceCcdasForIncorporation=C:\\SITE\\CCDA_GIT\\SampleCCDAsForIncorporation\\ReferenceSamples
-<<<<<<< HEAD
-CcdasForNegativeTesting=C:\\SITE\\CCDA_GIT\\SampleCCDAsForIncorporation\\NegativeTestingSamples
-=======
 CcdasForNegativeTesting=C:\\SITE\\CCDA_GIT\\SampleCCDAsForIncorporation\\NegativeTestingSamples
 
+<<<<<<< HEAD
+showVocabularyValidation=false
+=======
 ReconciledFileBundles=C:\\SITE\\CCDA_GIT\\SampleInputFiles\\CIRITestBundles
 ReferenceDownloadFiles=C:\\SITE\\CCDA_GIT\\SampleInputFiles\\TestInputFiles
 
->>>>>>> develop-cwatson-ccda-multi-TEST-UI
+>>>>>>> develop-cwatson-multi-UI-working
