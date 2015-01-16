@@ -64,6 +64,11 @@ public class DownloadIncorporationController extends BaseController {
     	referenceCCDAFileNames.put("1", "Ambulatory_Summary-no_errors.xml");
     	referenceCCDAFileNames.put("2", "Inpatient_Summary-no_errors.xml");
     }
+<<<<<<< HEAD
+    
+=======
+	
+>>>>>>> develop-cwatson-ccda-multi-TEST-UI
 	
 	public void copyStream(InputStream in, OutputStream out){
 		byte[] buffer = new byte[1024];
@@ -80,6 +85,8 @@ public class DownloadIncorporationController extends BaseController {
 	
 	@ResourceMapping("downloadNegativeTesting")
 	public void serveNegativeTestingSamples(ResourceRequest resourceRequest, ResourceResponse res) throws PortletException, IOException {
+<<<<<<< HEAD
+=======
 		
 		if (this.props == null)
 		{
@@ -117,6 +124,7 @@ public class DownloadIncorporationController extends BaseController {
 	
 	@ResourceMapping("downloadReferenceIncorporation")
 	public void serveReferenceSamples(ResourceRequest resourceRequest, ResourceResponse res) throws PortletException, IOException {
+>>>>>>> develop-cwatson-ccda-multi-TEST-UI
 		
 		if (this.props == null)
 		{
@@ -128,6 +136,9 @@ public class DownloadIncorporationController extends BaseController {
 		String fileName = DownloadIncorporationController.referenceCCDAFileNames.get(ccdaVal);
 		
 		String downloadPath = props.getProperty("referenceCcdasForIncorporation") + "/" + fileName;
+		
+		System.out.println("DownloadPath Reference !!!!!!!!!!!!!!!!!!!");
+		System.out.println(downloadPath);
 		
 		
 		File downloadFile = new File(downloadPath);

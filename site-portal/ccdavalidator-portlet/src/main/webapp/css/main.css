@@ -286,11 +286,36 @@ text-decoration: underline;
 	width: 180px;
 }
 
+
+#reconciledBundledLabel {
+	width: 180px;
+}
+
+
+#referenceDownloadLabel {
+	width: 180px;
+}
+
+
+
 #ccdafiletreepanel
 {
 	background: #ffffff;
 	height:150px;
 }
+
+#reconciledBundleFileTreePanel
+{
+	background: #ffffff;
+	height:150px;
+}
+
+#referenceDownloadFileTreePanel
+{
+	background: #ffffff;
+	height:150px;
+}
+
 
 #incorpFormWrapper
 {
@@ -331,6 +356,17 @@ div#collapseReference .panel-body .list-group-item {
 }
 div#collapseReference .panel-body {
 	padding: 0px;
-
 }
+
+
+.jstree li {
+	min-width: 360px;
+}
+
+
+
+
+
+
+
 
