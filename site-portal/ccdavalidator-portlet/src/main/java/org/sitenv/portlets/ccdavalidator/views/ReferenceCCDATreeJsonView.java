@@ -36,7 +36,7 @@ public class ReferenceCCDATreeJsonView extends AbstractView {
     System.out.println("000000000000000000000");
     System.out.println(map.get("jsonRoot").toString());
     System.out.println(request.toString());
-    System.out.println("000000000000000000000");
+    System.out.println("ReferenceCCDATreeJsonView====View=====");
     
     
     response.getWriter().flush();

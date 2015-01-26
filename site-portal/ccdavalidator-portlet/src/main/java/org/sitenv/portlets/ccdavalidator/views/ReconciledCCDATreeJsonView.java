@@ -31,10 +31,7 @@ public class ReconciledCCDATreeJsonView extends AbstractView {
     response.setCharacterEncoding("UTF-8");
     response.getWriter().write(map.get("jsonRoot").toString());
     
-    System.out.println("111111111111111111111");
-    System.out.println(map.get("jsonRoot").toString());
-    System.out.println(request.toString());
-    System.out.println("111111111111111111111");
+    System.out.println("ReconciledCCDATreeJsonView====View====");
     
     response.getWriter().flush();
     }

@@ -21,7 +21,7 @@
       </portlet:actionURL>
       
       <portlet:actionURL var="referenceCCDATree" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-    	<portlet:param name="javax.portlet.refaction" value="referenceCCDATree"/>
+    	<portlet:param name="javax.portlet.action" value="referenceCCDATree"/>
       </portlet:actionURL>
       
       

@@ -26,6 +26,8 @@ public class SampleCCDATreeJsonView extends AbstractView {
             throws Exception {
     logger.info("Resolving ajax request view - " + map);
     
+    System.out.println("SampleCCDATreeJsonView=====View====");
+    
     logger.info("content Type = " + getContentType());
     response.setContentType("text/plain");
     response.setCharacterEncoding("UTF-8");

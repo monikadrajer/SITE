@@ -455,7 +455,6 @@ $(function() {
 						tabHtml1 += buildExtendedCcdaErrorList(data);
 					}
 				}
-
 				
 				tabHtml1 += '</font>';
 				

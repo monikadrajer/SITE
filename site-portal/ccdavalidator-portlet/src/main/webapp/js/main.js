@@ -365,57 +365,16 @@ function incorpRequired(field, rules, i, options){
 }
 
 
-$(function(){
+
+
+function loadSampleTrees(){
+	loadCCDASampleTree();
+}
+
+
+
+function loadCCDASampleTree(){
 	
-	
-	
-	$('#smartCCDAValidationBtn').bind('click', function(e, data) {
-		smartCCDAValidation();
-	});
-	
-	$('#reportSaveAsQuestion button').button();
-	
-	
-	
-	$('#saveResultsBtn').on('click', function(e){
-		e.preventDefault();
-		
-		var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
-		
-		$.blockUI({ css: { 
-	        border: 'none', 
-	        padding: '15px', 
-	        backgroundColor: '#000', 
-	        '-webkit-border-radius': '10px', 
-	        '-moz-border-radius': '10px', 
-	        opacity: .5, 
-	        color: '#fff' 
-    	},
-    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
-		          '<div class="lbl">Preparing your report...</div></div>' });
-		
-		
-		//set the value of the result and post back to server.
-		
-		var $tab = $('#resultTabContent'), $active = $tab.find('.tab-pane.active');
-		
-		$('#downloadtest textarea').val($active.html());
-		//submit the form.
-		
-		$.fileDownload($('#downloadtest').attr('action'), {
-			
-			successCallback: function (url) {
-				$.unblockUI(); 
-            },
-            failCallback: function (responseHtml, url) {
-            	alert("Server error:" + responseHtml);
-            	$.unblockUI(); 
-            },
-	        httpMethod: "POST",
-	        data: $('#downloadtest').serialize()
-	    });
-		
-	});
 	
 	$("#ccdafiletreepanel").jstree({
 		 "json_data" : {
@@ -452,7 +411,7 @@ $(function(){
 		    	      },
 		    		  "valid_children" : [ "none" ],
 		    		  "deselect_node" : function (node,e) {
-		    			  var jform = $('#incorpForm');
+		    			  
 		    			  $('#incorpForm .formError').hide(0);
 		    				
 		    			  
@@ -551,11 +510,19 @@ $(function(){
 	}).bind('loaded.jstree', function(e, data) {
 		isfiletreeloaded = true;
 		
+		loadCIRISampleFileTree();
+		
 		$('#ccdafiletreepanel').find('a').each(function() {
 		    $(this).attr('tabindex', '1');
 		});
 	});
 	
+	
+}
+
+
+
+function loadCIRISampleFileTree(){
 	
 	
 	$("#reconciledBundleFileTreePanel").jstree({
@@ -681,15 +648,18 @@ $(function(){
 	}).bind('loaded.jstree', function(e, data) {
 		isfiletreeloaded = true;
 		
+		loadCCDAReferenceTree();
+		
 		$('#reconciledBundleFileTreePanel').find('a').each(function() {
 		    $(this).attr('tabindex', '1');
 		});
 	});
-	
-	
-	
-	
-	
+}
+
+
+
+
+function loadCCDAReferenceTree(){
 	
 	$("#referenceDownloadFileTreePanel").jstree({
 		 "json_data" : {
@@ -808,5 +778,70 @@ $(function(){
 		    $(this).attr('tabindex', '1');
 		});
 	});
+}
+
+
+
+
+$(function(){
 	
+		
+	$('#smartCCDAValidationBtn').bind('click', function(e, data) {
+		smartCCDAValidation();
+	});
+	
+	$('#reportSaveAsQuestion button').button();
+	
+	
+	
+	$('#saveResultsBtn').on('click', function(e){
+		e.preventDefault();
+		
+		var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+		
+		$.blockUI({ css: { 
+	        border: 'none', 
+	        padding: '15px', 
+	        backgroundColor: '#000', 
+	        '-webkit-border-radius': '10px', 
+	        '-moz-border-radius': '10px', 
+	        opacity: .5, 
+	        color: '#fff' 
+    	},
+    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+		          '<div class="lbl">Preparing your report...</div></div>' });
+		
+		
+		//set the value of the result and post back to server.
+		
+		var $tab = $('#resultTabContent'), $active = $tab.find('.tab-pane.active');
+		
+		$('#downloadtest textarea').val($active.html());
+		//submit the form.
+		
+		$.fileDownload($('#downloadtest').attr('action'), {
+			
+			successCallback: function (url) {
+				$.unblockUI(); 
+            },
+            failCallback: function (responseHtml, url) {
+            	alert("Server error:" + responseHtml);
+            	$.unblockUI(); 
+            },
+	        httpMethod: "POST",
+	        data: $('#downloadtest').serialize()
+	    });
+		
+	});
+	
+	
+	/*
+	// Spring MVC is choking on our 3 Ajax requests at the same time, so we spread them out a bit.
+	loadCCDASampleTree();
+	setTimeout(function () { loadCCDAReferenceTree(); }, 100);
+	setTimeout(function () { loadCIRISampleFileTree(); }, 200);
+	*/
+	loadSampleTrees();
+	
+
 });
