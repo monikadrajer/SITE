@@ -406,11 +406,11 @@
                     <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
                     <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
    <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID/>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest requestID="${=project.name}_${=testSuite.name}_${=testCase.name}_${=testStep.name}_${=request.name}_${=UUID.randomUUID()}" xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -493,7 +493,7 @@ count(//dsml:attr)</path><content>25</content><allowWildcards>false</allowWildca
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
@@ -515,11 +515,11 @@ count(//dsml:attr)</path><content>25</content><allowWildcards>false</allowWildca
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
    <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID>uuid:7fd38ce5-befa-4685-bef8-5f4da61bc8e6</wsa:MessageID>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest requestID="${=project.name}_${=testSuite.name}_${=testCase.name}_${=testStep.name}_${=request.name}_${=UUID.randomUUID()}" xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -587,7 +587,7 @@ count(//dsml:attr)</path><content>19</content><allowWildcards>false</allowWildca
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
@@ -609,11 +609,11 @@ count(//dsml:attr)</path><content>19</content><allowWildcards>false</allowWildca
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
    <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID>uuid:a548d330-4fdb-4def-ab23-78b30cc01437</wsa:MessageID>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest requestID="${=project.name}_${=testSuite.name}_${=testCase.name}_${=testStep.name}_${=request.name}_${=UUID.randomUUID()}" xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -664,7 +664,7 @@ count(//dsml:attr)</path><content>10</content><allowWildcards>false</allowWildca
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
@@ -685,12 +685,12 @@ count(//dsml:attr)</path><content>10</content><allowWildcards>false</allowWildca
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+  <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID>uuid:5c653605-07e1-4110-832b-5818fbff036b</wsa:MessageID>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest requestID="${=project.name}_${=testSuite.name}_${=testCase.name}_${=testStep.name}_${=request.name}_${=UUID.randomUUID()}" xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -733,7 +733,7 @@ count(//dsml:attr)</path><content>6</content><allowWildcards>false</allowWildcar
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
@@ -755,11 +755,11 @@ count(//dsml:attr)</path><content>6</content><allowWildcards>false</allowWildcar
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
    <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID>uuid:04198a6d-ccad-4353-93d3-bf27acc8d3bd</wsa:MessageID>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest requestID="${=project.name}_${=testSuite.name}_${=testCase.name}_${=testStep.name}_${=request.name}_${=UUID.randomUUID()}" xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -810,7 +810,7 @@ count(//dsml:attr)</path><content>11</content><allowWildcards>false</allowWildca
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
@@ -1470,7 +1470,7 @@ for (i in responseIDs){
               <con:username xsi:nil="true"/>
               <con:password xsi:nil="true"/>
               <con:domain xsi:nil="true"/>
-              <con:authType>Global HTTP Settings</con:authType>
+              <con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
@@ -1650,11 +1650,11 @@ Request a list of individuals by specifying one or more individual attributes.</
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
    <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID/>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -1686,7 +1686,7 @@ Request a list of individuals by specifying one or more individual attributes.</
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" addDefaultAction="false" addDefaultTo="true" generateMessageId="true" action="urn:ihe:iti:2010:ProviderInformationQuery" replyTo="" messageID="" to=""/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" addDefaultAction="false" addDefaultTo="true" generateMessageId="true" action="urn:ihe:iti:2010:ProviderInformationQuery" replyTo="" messageID="" to=""/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
@@ -1706,11 +1706,11 @@ Request a specific individual by specifying the individual unique reference ID.<
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
    <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID/>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -1765,7 +1765,7 @@ Request a specific individual by specifying the individual unique reference ID.<
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" addDefaultAction="false" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" addDefaultAction="false" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
@@ -1786,12 +1786,12 @@ organization attributes.</con:description><con:settings/>
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+  <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID/>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -1838,7 +1838,7 @@ organization attributes.</con:description><con:settings/>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
@@ -1969,11 +1969,11 @@ organization unique reference ID.</con:description><con:settings/><con:testStep 
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
    <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID/>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -2020,7 +2020,7 @@ organization unique reference ID.</con:description><con:settings/><con:testStep 
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
@@ -2223,12 +2223,12 @@ relationships are returned.</con:description><con:settings/>
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+  <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID/>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -2258,7 +2258,7 @@ relationships are returned.</con:description><con:settings/>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
@@ -2465,11 +2465,11 @@ relationships are returned.</con:description><con:settings/>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
    <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID/>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -2508,7 +2508,7 @@ relationships are returned.</con:description><con:settings/>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
@@ -2720,11 +2720,11 @@ other organizations are returned. </con:description><con:settings/>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
    <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID>uuid:8f2604d1-d507-4679-88b6-119ac354040a</wsa:MessageID>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -2779,7 +2779,7 @@ other organizations are returned. </con:description><con:settings/>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
@@ -3047,11 +3047,11 @@ other organizations are returned. </con:description><con:settings/>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
    <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID>uuid:0294d29c-8a8a-4b88-a4a6-8e5ffa177da4</wsa:MessageID>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -3081,7 +3081,7 @@ other organizations are returned. </con:description><con:settings/>
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
@@ -3110,12 +3110,12 @@ def result = encodedTest</script></con:config></con:testStep><con:testStep type=
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action>urn:ihe:iti:2010:ProviderInformationQuery</wsa:Action>
-      <wsa:ReplyTo>
+  <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
+      <wsa:Action/>
+      <wsa:ReplyTo soap-env:mustUnderstand="1">
          <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
       </wsa:ReplyTo>
-      <wsa:MessageID>uuid:e332a26e-c4f2-4514-bf7f-9b69bb415969</wsa:MessageID>
+      <wsa:MessageID soap-env:mustUnderstand="1"/>
    </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
@@ -3148,7 +3148,7 @@ def result = encodedTest</script></con:config></con:testStep><con:testStep type=
             </con:credentials>
             <con:jmsConfig JMSDeliveryMode="PERSISTENT"/>
             <con:jmsPropertyConfig/>
-            <con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
+            <con:wsaConfig mustUnderstand="TRUE" version="200508" action="urn:ihe:iti:2010:ProviderInformationQuery" addDefaultTo="true" generateMessageId="true"/>
             <con:wsrmConfig version="1.2"/>
           </con:request>
         </con:config>
