@@ -60,7 +60,6 @@ public class DownloadIncorporationController extends BaseController {
     static
     {
     	referenceCCDAFileNames = new HashMap<String, String>();
-    	//referenceCCDAFileNames.put("0", "BaseCCDA.zip");
     	referenceCCDAFileNames.put("1", "Ambulatory_Summary-no_errors.zip");
     	referenceCCDAFileNames.put("2", "Inpatient_Summary-no_errors.zip");
     }
@@ -164,11 +163,6 @@ public class DownloadIncorporationController extends BaseController {
 		String downloadPath = props.getProperty("samplesFromVendorsForIncorporation") + "/" + resourceRequest.getParameter("incorpfilepath");
 		
 		
-		System.out.println("DownloadPath Vendors !!!!!!!!!!!!!!!!!!!");
-		System.out.println(downloadPath);
-		
-		
-		
 		String[] downloadPathTokens = downloadPath.split("[/\\\\]");
 		String fileName = downloadPathTokens[downloadPathTokens.length-1];
 		
@@ -209,11 +203,6 @@ public class DownloadIncorporationController extends BaseController {
 		String downloadPath = props.getProperty("ReconciledFileBundles") + "/" + resourceRequest.getParameter("reconciledBundleFilepath");
 		
 		
-		System.out.println("DownloadPath Reconciled !!!!!!!!!!!!!!!!!!!");
-		System.out.println(downloadPath);
-		
-		
-		
 		String[] downloadPathTokens = downloadPath.split("[/\\\\]");
 		String fileName = downloadPathTokens[downloadPathTokens.length-1];
 		
@@ -250,10 +239,6 @@ public class DownloadIncorporationController extends BaseController {
 		}
 		
 		String downloadPath = props.getProperty("ReferenceDownloadFiles") + "/" + resourceRequest.getParameter("referenceDownloadFilepath");
-		
-		
-		System.out.println("DownloadPath Reference !!!!!!!!!!!!!!!!!!!");
-		System.out.println(downloadPath);
 		
 		
 		String[] downloadPathTokens = downloadPath.split("[/\\\\]");

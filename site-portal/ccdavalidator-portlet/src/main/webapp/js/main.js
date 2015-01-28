@@ -368,12 +368,12 @@ function incorpRequired(field, rules, i, options){
 
 
 function loadSampleTrees(){
-	loadCCDASampleTree();
+	loadCCDASamplesFromVendorsTree();
 }
 
 
 
-function loadCCDASampleTree(){
+function loadCCDASamplesFromVendorsTree(){
 	
 	
 	$("#ccdafiletreepanel").jstree({
