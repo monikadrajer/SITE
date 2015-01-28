@@ -407,8 +407,6 @@ public class CCDAValidatorController extends BaseController {
 		
 	}
 	
-	
-	
 	private Map getResultMap(){
 		Map map = new HashMap();
 		map.put("files", responseJSON.getFileJson());

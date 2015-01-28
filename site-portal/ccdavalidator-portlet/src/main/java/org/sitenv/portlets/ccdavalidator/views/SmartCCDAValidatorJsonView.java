@@ -25,7 +25,7 @@ public class SmartCCDAValidatorJsonView extends AbstractView {
 	@Override
     protected void renderMergedOutputModel(Map map, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-    logger.info("Resolving ajax request view - " + map);
+    //logger.info("Resolving ajax request view - " + map);
     
     Object smartCcdaResponse = null, smartCcdaRubricResponse = null;
     

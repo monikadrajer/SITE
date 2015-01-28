@@ -24,19 +24,12 @@ public class ReferenceCCDATreeJsonView extends AbstractView {
 	@Override
     protected void renderMergedOutputModel(Map map, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-    logger.info("Resolving ajax request view - " + map);
-    
-    logger.info(map.toString());
+    //logger.info("Resolving ajax request view - " + map);
     
     logger.info("content Type = " + getContentType());
     response.setContentType("text/plain");
     response.setCharacterEncoding("UTF-8");
     response.getWriter().write(map.get("jsonRoot").toString());
-    
-    System.out.println("000000000000000000000");
-    System.out.println(map.get("jsonRoot").toString());
-    System.out.println(request.toString());
-    System.out.println("ReferenceCCDATreeJsonView====View=====");
     
     
     response.getWriter().flush();
