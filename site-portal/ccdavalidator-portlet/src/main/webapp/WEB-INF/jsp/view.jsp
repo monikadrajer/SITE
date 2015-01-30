@@ -216,7 +216,7 @@
 											<label for="CCDA2fileupload">Upload C-CDA file to Validate:</label><br/>
 											<span class="btn btn-success fileinput-button" id="CCDA2fileupload-btn"> <i
 													class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
-													<input id="CCDA2fileupload" type="file" name="file"  data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDA2InfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
+													<input id="CCDA2fileupload" type="file" name="file"  data-parsley-maxsize2="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDA2InfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
 											</span>
 											<div id="CCDA2files"></div>
 											<div id="CCDA2InfoArea" class="infoArea"></div>
@@ -475,7 +475,7 @@
 													<label for="CCDAReferenceFileupload">Upload Input File:</label><br/>
 													<span class="btn btn-success fileinput-button" id="CCDAReferenceFileupload-btn"> <i
 															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a File...</span>
-															<input id="CCDAReferenceFileupload" type="file" name="file"  data-parsley-maxsize="3" data-parsley-required data-parsley-errors-container="#CCDAReferenceInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select an input file." tabindex="1"/>
+															<input id="CCDAReferenceFileupload" type="file" name="file"  data-parsley-referencemaxsize="3" data-parsley-required data-parsley-errors-container="#CCDAReferenceInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select an input file." tabindex="1"/>
 													</span>
 													<div id="CCDAReferenceFiles"></div>
 													<div id="CCDAReferenceInfoArea" class="infoArea"></div>
@@ -495,7 +495,7 @@
 													<label for="CCDAReferenceCEHRTFileupload">Upload C-CDA File:</label><br/>
 													<span class="btn btn-success fileinput-button" id="CCDAReferenceCEHRTFileupload-btn"> <i
 															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
-															<input id="CCDAReferenceCEHRTFileupload" type="file" name="generatedFile"  data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDACEHRTInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
+															<input id="CCDAReferenceCEHRTFileupload" type="file" name="generatedFile"  data-parsley-generatedmaxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDACEHRTInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
 															
 													</span>
 													<div id="CCDACEHRTReferenceFiles"></div>
@@ -579,7 +579,7 @@
 											<label for="CCDASuperFileupload">Select a C-CDA File to Validate:</label><br/>
 											<span class="btn btn-success fileinput-button" id="CCDASuperFileupload-btn"> <i
 													class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a C-CDA File...</span>
-													<input id="CCDASuperFileupload" type="file" name="file"  data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDASuperInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
+													<input id="CCDASuperFileupload" type="file" name="file"  data-parsley-maxsize-super="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDASuperInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
 											</span>
 											<div id="CCDASuperFiles"></div>
 											<div id="CCDASuperInfoArea" class="infoArea"></div>

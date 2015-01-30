@@ -964,10 +964,10 @@ $(function() {
 			},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
 			
 			// parsley Validator to validate the file size
-			window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+			window.ParsleyValidator.addValidator('maxsize2',function(value,requirement){
 				var file_size=$('#CCDA2fileupload')[0].files[0];
 				return file_size.size < requirement*1024*1024;
-			},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+			},32).addMessage('en','maxsize2','The uploaded file size exceeds the maximum file size of 3 MB.');
 			
 			// unsubscribe callbacks from previous uploads
 			$('#CCDA2ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
@@ -1024,10 +1024,10 @@ $(function() {
 		},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
 		
 		// parsley Validator to validate the file size
-		window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+		window.ParsleyValidator.addValidator('maxsize2',function(value,requirement){
 			var file_size=$('#CCDA2fileupload')[0].files[0];
 			return file_size.size < requirement*1024*1024;
-		},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+		},32).addMessage('en','maxsize2','The uploaded file size exceeds the maximum file size of 3 MB.');
 		
 		// unsubscribe callbacks from previous uploads
 		$('#CCDA2ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
@@ -1356,10 +1356,10 @@ $(function() {
 				
 				// parsley Validator to validate the file size
 				
-				window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+				window.ParsleyValidator.addValidator('maxsize-super',function(value,requirement){
 					var file_size=$('#CCDASuperFileupload')[0].files[0];
 					return file_size.size < requirement*1024*1024;
-				},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+				},32).addMessage('en','maxsize-super','The uploaded file size exceeds the maximum file size of 3 MB.');
 				
 				// unsubscribe callbacks from previous uploads
 				$('#CCDASuperValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
@@ -1422,10 +1422,10 @@ $(function() {
 			},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
 			
 			// parsley Validator to validate the file size
-			window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+			window.ParsleyValidator.addValidator('maxsize-super',function(value,requirement){
 				var file_size=$('#CCDASuperFileupload')[0].files[0];
 				return file_size.size < requirement*1024*1024;
-			},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+			},32).addMessage('en','maxsize-super','The uploaded file size exceeds the maximum file size of 3 MB.');
 			
 			// unsubscribe callbacks from previous uploads
 			$('#CCDASuperValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
@@ -1731,13 +1731,13 @@ $(function() {
 		return ext === requirement;	
 	},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
 	
-	// parsley Validator to validate CIRI test data file size
+	// parsley Validator
 	window.ParsleyValidator.addValidator('referencemaxsize',function(value,requirement){
 		var file_size=$('#CCDAReferenceFileupload')[0].files[0];
 		return file_size.size < requirement*1024*1024;
 	},32).addMessage('en','referencemaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
 	
-	// parsley Validator to validate the reconciled file size
+	// parsley Validator to validate generated file
 	window.ParsleyValidator.addValidator('generatedmaxsize',function(value,requirement){
 		var file_size=$('#CCDAReferenceCEHRTFileupload')[0].files[0];
 		return file_size.size < requirement*1024*1024;
