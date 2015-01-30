@@ -366,12 +366,16 @@ div#collapseReference .panel-body {
 
 .infoArea {
 	
-	margin-top: 0.5em
+	margin-top: 0.5em;
 	color : #FFFFFF;
 	background-color : #CC0000;
 	display: table;
 	border-radius: 5px;
 	box-shadow: -0px 5px 5px #888888;
+}
+
+.infoArea ul {
+	margin-bottom: 0px;
 }
 
 .infoArea li {
