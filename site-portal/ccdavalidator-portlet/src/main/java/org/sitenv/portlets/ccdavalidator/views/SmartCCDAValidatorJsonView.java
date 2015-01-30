@@ -42,7 +42,6 @@ public class SmartCCDAValidatorJsonView extends AbstractView {
     {
     	returnJson = "{\"IsSuccess\":false, \"Message\":\"Relay failed.\"}";
     }
-    
 
     response.getWriter().write(returnJson);
     response.getWriter().flush();

@@ -364,9 +364,20 @@ div#collapseReference .panel-body {
 }
 
 
+.infoArea {
+	color : #FFFFFF;
+	background-color : #CC0000;
+	display: table;
+	
+	border: 2px solid;
+	border-radius: 8px;
+	
+}
 
-
-
-
-
+.infoArea li {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	font-size: 1em;
+}
 
