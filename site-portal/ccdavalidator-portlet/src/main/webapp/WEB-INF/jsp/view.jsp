@@ -268,7 +268,7 @@
 															<label for="reconciledBundledLabel">Select test data and reconciliation file to download:</label><br/>
 																			<div class="dropdown">
 																				<button id="reconciledBundledLabel" data-toggle="dropdown"
-																					class="btn btn-success dropdown-toggle validate[funcCall[incorpRequired]]" type="button" tabindex="1">
+																					class="btn btn-success dropdown-toggle" type="button" tabindex="1">
 																					Pick Files <i class="glyphicon glyphicon-play"></i>
 																				</button>
 										
@@ -410,7 +410,7 @@
 														<label for="referenceDownloadLabel">Select file to download:</label><br/>
 																		<div class="dropdown">
 																			<button id="referenceDownloadLabel" data-toggle="dropdown"
-																				class="btn btn-success dropdown-toggle validate[funcCall[incorpRequired]]" type="button" tabindex="1">
+																				class="btn btn-success dropdown-toggle" type="button" tabindex="1">
 																				Pick Files <i class="glyphicon glyphicon-play"></i>
 																			</button>
 									
@@ -703,7 +703,7 @@
 								<label for="dLabel">Select a sample C-CDA File to Download:</label><br/>
 												<div class="dropdown">
 													<button id="dLabel" data-toggle="dropdown"
-														class="btn btn-success dropdown-toggle validate[funcCall[incorpRequired]]" type="button" tabindex="1">
+														class="btn btn-success dropdown-toggle" type="button" tabindex="1">
 														Pick Sample <i class="glyphicon glyphicon-play"></i>
 													</button>
 			
