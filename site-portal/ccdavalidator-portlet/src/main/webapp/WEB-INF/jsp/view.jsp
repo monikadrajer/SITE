@@ -81,12 +81,7 @@
       <portlet:resourceURL id="downloadNegativeTestTreeIncorporation"  var="downloadNegativeTestTreeIncorporationAction">
       </portlet:resourceURL>
       
-      <portlet:resourceURL id="downloadReferenceIncorporation"  var="downloadReferenceIncorporationAction">
-      </portlet:resourceURL>
-      
-      <portlet:resourceURL id="downloadNegativeTesting"  var="downloadNegativeTestingAction">
-      </portlet:resourceURL>
-      
+            
       
       <portlet:defineObjects />
       
@@ -629,67 +624,7 @@
   			
   			<div class="panel-group well" id="IncorporationAccordion">
   			
-			  <div class="panel panel-default">
-			    <div class="panel-heading">
-			      <h4 class="panel-title">
-			        <a data-toggle="collapse" data-parent="#IncorporationAccordion" href="#collapseNegativeTesting" tabindex="1">
-			          C-CDAs for Negative Testing 
-			        </a>
-			      </h4>
-			    </div>
-			    <div id="collapseNegativeTesting" class="panel-collapse collapse"> 
-			      <div class="panel-body">
-			      
-			      	<!--<a href="http://wiki.siframework.org/Companion+Guide+to+Consolidated+CDA+for+MU2"> (Download as .zip)</a>-->
-		
-			        <div class="list-group download-list">
-			        
-			        	<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=0" style="width: 100%;" tabindex="1">Get All Negative Testing C-CDAs</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=1"  style="width: 100%;" tabindex="1">Ambulatory: Incorrect Coding of ImmunizationData</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=2"  style="width: 100%;" tabindex="1">Ambulatory: Incorrect Coding of Lab Results Data</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=3" style="width: 100%;" tabindex="1">Ambulatory: Incorrect Coding of Procedures Data</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=4"  style="width: 100%;" tabindex="1">Ambulatory: Incorrect Coding of Vital Signs Data</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=5"  style="width: 100%;" tabindex="1">Ambulatory: Invalid CS</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=6" style="width: 100%;" tabindex="1">Ambulatory: Invalid Data Types</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=7"  style="width: 100%;" tabindex="1">Ambulatory: Missing MU2 Elements</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=8"  style="width: 100%;" tabindex="1">Ambulatory: Missing Narrative</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=9" style="width: 100%;" tabindex="1">Inpatient: Code not in Value Set</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=10"  style="width: 100%;" tabindex="1">Inpatient: Incorrect coding of Allergies Data</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=11"  style="width: 100%;" tabindex="1">Inpatient: Incorrect Coding of Medication Data</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=12" style="width: 100%;" tabindex="1">Inpatient: Incorrect Coding of Problems Data</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=13"  style="width: 100%;" tabindex="1">Inpatient: Incorrect Missing Template IDs</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=14"  style="width: 100%;" tabindex="1">Inpatient: Poorly Formed</a>
-			      		<a class="list-group-item" href="${downloadNegativeTestingAction}&getCCDA=15" style="width: 100%;" tabindex="1">Inpatient: Wrong Template IDs</a>
-			      		
-			    	</div>
-			      </div>
-			    </div>
-			  </div>
-			  <div class="panel panel-default">
-			    <div class="panel-heading">
-			      <h4 class="panel-title">
-			        <a data-toggle="collapse" data-parent="#IncorporationAccordion" href="#collapseReference" tabindex="1">
-			          Reference C-CDAs for Incorporation
-			        </a>
-			      </h4>
-			    </div>
-			    <div id="collapseReference" class="panel-collapse collapse">
-			      <div class="panel-body">
-			        <div class="list-group download-list">
-			        
-			        	<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=1" style="width: 100%;" tabindex="1">Ambulatory Summary</a>
-			      		<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=2" style="width: 100%;" tabindex="1">Inpatient Summary</a>
-			        
-			        	<%--<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=0" style="width: 100%;" tabindex="1">Base C-CDA</a>
-			      		<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=1" style="width: 100%;" tabindex="1">C-CDA 1 for Incorporation</a>
-			      		<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=2" style="width: 100%;" tabindex="1">C-CDA 2 for Incorporation</a>
-			      		<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=3" style="width: 100%;" tabindex="1">C-CDA 3 for Incorporation</a>
-			      		<a class="list-group-item" href="${downloadReferenceIncorporationAction}&getCCDA=4" style="width: 100%;" tabindex="1">C-CDA 4 for Incorporation</a>
-			      		--%>
-			    	</div>
-			      </div>
-			    </div>
-			  </div>
+			  
 			  
 			  
 			  <div class="panel panel-default" style="overflow: visible;">
