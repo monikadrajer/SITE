@@ -24,7 +24,13 @@
     	<portlet:param name="javax.portlet.action" value="referenceCCDATree"/>
       </portlet:actionURL>
       
+      <portlet:actionURL var="referenceCCDAIncorpTree" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    	<portlet:param name="javax.portlet.action" value="referenceCCDAIncorpTree"/>
+      </portlet:actionURL>
       
+      <portlet:actionURL var="negativeTestCCDATree" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    	<portlet:param name="javax.portlet.action" value="negativeTestCCDATree"/>
+      </portlet:actionURL>
       
       <portlet:actionURL var="urlAction1_1" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
     	<portlet:param name="javax.portlet.action" value="uploadCCDA1.1"/>
@@ -69,6 +75,12 @@
       <portlet:resourceURL id="downloadVendorIncorporation"  var="downloadVendorIncorporationAction">
       </portlet:resourceURL>
       
+      <portlet:resourceURL id="downloadReferenceTreeIncorporation"  var="downloadReferenceTreeIncorporationAction">
+      </portlet:resourceURL>
+      
+      <portlet:resourceURL id="downloadNegativeTestTreeIncorporation"  var="downloadNegativeTestTreeIncorporationAction">
+      </portlet:resourceURL>
+      
       <portlet:resourceURL id="downloadReferenceIncorporation"  var="downloadReferenceIncorporationAction">
       </portlet:resourceURL>
       
@@ -99,8 +111,8 @@
     	
     	var reconciledCCDATreeURL = '${reconciledCCDATree}';
     	var referenceCCDATreeURL = '${referenceCCDATree}'; 
-    	
-    	
+    	var referenceCCDAIncorpTreeURL = '${referenceCCDAIncorpTree}';
+    	var negativeTestCCDATreeURL = '${negativeTestCCDATree}';
       </script>
       
       
@@ -678,6 +690,116 @@
 			      </div>
 			    </div>
 			  </div>
+			  
+			  
+			  <div class="panel panel-default" style="overflow: visible;">
+			    <div class="panel-heading">
+			      <h4 class="panel-title">
+			        <a data-toggle="collapse" data-parent="#IncorporationAccordion" href="#collapseReference1" tabindex="1">
+			          Reference C-CDAs for Incorporation test
+			        </a>
+			      </h4>
+			    </div>
+			    
+			    <div id="collapseReference1" class="panel-collapse collapse" >
+			      <div class="panel-body">
+			        
+			         <div class="tab-pane active" id="refIncorp">
+			           <div id="refIncorpFormWrapper">
+			          
+			              <form id="refIncorpForm" action="${downloadReferenceTreeIncorporationAction}" method="POST">
+			              
+			              <p>
+							<noscript><input type="hidden" name="redirect" value="true"  /></noscript>
+							<div id="refIncorperrorlock" style="position: relative;">
+								<div class="row">
+								<div class="col-md-12">
+								<label for="dLabel1">Select a Reference C-CDA File to Download:</label><br/>
+												<div class="dropdown">
+													<button id="dLabel1" data-toggle="dropdown"
+														class="btn btn-success dropdown-toggle validate[funcCall[incorpRequired]]" type="button" tabindex="1">
+														Pick Sample <i class="glyphicon glyphicon-play"></i>
+													</button>
+			
+													<ul class="dropdown-menu rightMenu" role="menu" aria-labelledby="dLabel1" style=" overflow: scroll; /* position: absolute; */ ">
+														<li>
+															<div id="refccdafiletreepanel"></div>
+														</li>
+													</ul>
+												</div>
+												<div><span id="refIncorpfilePathOutput"></span></div>
+								</div>
+								</div>
+							</div>
+							<hr />
+							<button id="refIncorpCCDAsubmit" type="submit"
+								class="btn btn-primary start" onclick="return false;"  tabindex="1">
+								<i class="glyphicon glyphicon-download"></i> <span>Download File</span>
+							</button>
+							<input id="refIncorpfilepath"
+									name="refIncorpfilepath" type="hidden">
+			              </form>
+			           </div>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			  
+			
+			  <div class="panel panel-default" style="overflow: visible;">
+			    <div class="panel-heading">
+			      <h4 class="panel-title">
+			        <a data-toggle="collapse" data-parent="#IncorporationAccordion" href="#collapseNegTestDownload" tabindex="1">
+			          C-CDAs for Negative Testing
+			        </a>
+			      </h4>
+			    </div>
+			    
+			    <div id="collapseNegTestDownload" class="panel-collapse collapse" >
+			      <div class="panel-body">
+			        
+			         <div class="tab-pane active" id="negTest">
+			           <div id="negTestFormWrapper">
+			          
+			              <form id="negTestForm" action="${downloadNegativeTestTreeIncorporationAction}" method="POST">
+			              
+			              <p>
+							<noscript><input type="hidden" name="redirect" value="true"  /></noscript>
+							<div id="negTesterrorlock" style="position: relative;">
+								<div class="row">
+								<div class="col-md-12">
+								<label for="dLabel2">Select a C-CDA File to Download:</label><br/>
+												<div class="dropdown">
+													<button id="dLabel2" data-toggle="dropdown"
+														class="btn btn-success dropdown-toggle validate[funcCall[incorpRequired]]" type="button" tabindex="1">
+														Pick Sample <i class="glyphicon glyphicon-play"></i>
+													</button>
+			
+													<ul class="dropdown-menu rightMenu" role="menu" aria-labelledby="dLabel2" style=" overflow: scroll; /* position: absolute; */ ">
+														<li>
+															<div id="negTestccdafiletreepanel"></div>
+														</li>
+													</ul>
+												</div>
+												<div><span id="negTestfilePathOutput"></span></div>
+								</div>
+								</div>
+							</div>
+							<hr />
+							<button id="negTestCCDAsubmit" type="submit"
+								class="btn btn-primary start" onclick="return false;"  tabindex="1">
+								<i class="glyphicon glyphicon-download"></i> <span>Download File</span>
+							</button>
+							<input id="negTestfilepath"
+									name="negTestfilepath" type="hidden">
+			              </form>
+			           </div>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			  
+			  
 			  <div class="panel panel-default" style="overflow: visible;">
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
