@@ -16,7 +16,6 @@
 		<header-portlet-javascript>/js/jquery.fileupload.js</header-portlet-javascript>
 		
 		<header-portlet-javascript>/js/jquery.scrollTo-1.4.3.1-min.js</header-portlet-javascript>
-		<header-portlet-javascript>/js/parsley.js</header-portlet-javascript>
 		
 		<footer-portlet-javascript>/js/uploader.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>

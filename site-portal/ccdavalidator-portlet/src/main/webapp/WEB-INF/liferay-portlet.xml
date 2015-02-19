@@ -10,7 +10,6 @@
 		<header-portlet-css>/css/jquery.fileupload.css</header-portlet-css>
 		<header-portlet-css>/css/validationEngine.jquery.css</header-portlet-css>
 		<header-portlet-css>/css/validationEngine.jquery.css</header-portlet-css>
-		<header-portlet-css>/css/parsley.css</header-portlet-css>
 		
 		<header-portlet-javascript>/js/jquery.jstree.js</header-portlet-javascript>
 		
@@ -19,7 +18,6 @@
 		<header-portlet-javascript>/js/jquery.iframe-transport.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/jquery.fileupload.js</header-portlet-javascript>
 		<header-portlet-javascript>/js/jquery.fileDownload.js</header-portlet-javascript>
-		<header-portlet-javascript>/js/parsley.js</header-portlet-javascript>
 		
 		
 		<footer-portlet-css>/css/main.css</footer-portlet-css>
