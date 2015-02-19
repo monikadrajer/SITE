@@ -23,38 +23,36 @@
 
 
 
-<script type="text/javascript">
+<script type="text/javascript" >
 	window.runTestsUrl = "/site-portal-providerdirectory-servlet/GetPDGISingleTest";
 
 	window.currentContextPath = "<%=request.getContextPath()%>";
 </script>
 
 <div id="providerDirectoryWidget" class="panel panel-default">
-      <div class="panel-heading"><h3 class="panel-title">Provider Information Directory (Server) Test Cases</h3></div>
+      <div class="panel-heading"><h3 class="panel-title">Provider Directory Server Test Cases</h3></div>
   		<div class="panel-body">
 	
 	<h4>Directions</h4>
-	<ol>
-		<li>Import the test data provided following <a href="https://github.com/siteadmin/pdti">these instructions</a></li>
-		<li>Once the data is imported into the directory, enter your WSDL below.</li>
-		<li>Specify you based DN</li>
-		<li>Select the test case and execute</li>
-	</ol>
-     
+      		
+     <p>To execute test cases against your provider directory server implementation, please enter the publicly available WSDL URL for your PD endpoint, enter the base DN for your PD implementation, and select the test case that you wish to execute.<br/><br/>Please note: the test cases may take up to one minute to run.</p>
+      	
 <div class="well">
   <form action="/site-portal-providerdirectory-servlet/GetPDGISingleTest" name="testForm" method="post" id="providerDirectoryTestForm">
       
 <p>
 	  <label for="endpointUrl">Enter Your Endpoint URL:</label>
-      <input id="endpointUrl" name="endpointUrl" type="text" value="" class="validate[required,custom[url]] form-control"  tabindex="1"/>
-</p>
+      <input id="endpointUrl" class="form-control" name="endpointUrl" type="url"  placeholder="Enter your Endpoint URL here. http:// ..." data-parsley-required="URL" data-parsley-errors-container="#infoArea1" data-pasley-trigger="change"  />
+      <div  id="infoArea1" class="infoArea"></div>
+<p></p>
 <p>      
       <label for="baseDn">Enter Your Base DN:</label>
-      <input id="baseDn" name="baseDn" type="text" value="" class="validate[required] form-control"  tabindex="1"/>
-</p>
+      <input id="baseDn" name="baseDn" type="text"  class="form-control" placeholder="Enter your base DN here ..." data-parsley-required="Base DN" data-parsley-errors-container="#infoArea2" data-pasley-trigger="change"  />
+      <div  id="infoArea2" class="infoArea"></div>
+<p></p>
 <p>      
       <label for="testCase">Select a Test Case:</label>
-      <select id="testCase" name="testCase" class="validate[required] form-control"  tabindex="1">
+      <select id="testCase" name="testCase" class="form-control" data-parsley-required="true" tabindex="1" >
         <option value="run_all_test_cases">Run All Test Cases</option>
         <% for (String testCase : SingleTestPortlet.testCaseNames) { %>
         	<option value="<%= testCase %>"><%= SingleTestPortlet.testCaseRealNames.get(testCase) %></option>
@@ -63,12 +61,11 @@
 </p>
 <p> 
 	<hr/>     
-      <button id="querySubmit" type="submit" class="btn btn-primary start" onclick="return false;"  tabindex="1">
+      <button id="querySubmit" type="submit" class="btn btn-primary start" name="submit"  tabindex="1">
       	<span class="glyphicon glyphicon-ok"></span>
           <span>Run Test Case</span>
       </button>
 
-</p>
   </form> 
 
   </div>
@@ -80,8 +77,8 @@
       <div class="panel-heading"><h3 class="panel-title">Provider Directory Client Testing</h3></div>
   		<div class="panel-body">
 
-	PD clients that would like to verify their systems are generating conformant PD search requests following the IHE HPD specification can issue requests against the Provider Directory Test Implementation (PDTI) setup at the following WSDL:<br /><br />
-http://54.201.181.21/pdti-server/ProviderInformationDirectoryService?wsdl<br /><br />
+	PD clients that would like to verify their systems are generating conformant PD search requests following the ONC Modular Specifications can issue requests against the Provider Directory Test Implementation (PDTI) setup at the following WSDL:<br /><br />
+http://54.201.181.21/pdti-server/Hpd_Plus_ProviderInformationDirectoryService?wsdl<br /><br />
 The PDTI has the test data loaded as specified above, and clients can verify the results, based on their search requests, by manually cross-checking results against the test data.
   </div>
 </div>
