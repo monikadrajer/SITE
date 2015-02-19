@@ -696,7 +696,7 @@
 			    <div class="panel-heading">
 			      <h4 class="panel-title">
 			        <a data-toggle="collapse" data-parent="#IncorporationAccordion" href="#collapseReference1" tabindex="1">
-			          Reference C-CDAs for Incorporation test
+			          Reference C-CDAs for Incorporation
 			        </a>
 			      </h4>
 			    </div>
