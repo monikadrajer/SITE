@@ -18,4 +18,6 @@
 
 @import url(bootstrap-theme.min.css);
 
+@import url(parsley.css);
+
 @import url(custom.css);

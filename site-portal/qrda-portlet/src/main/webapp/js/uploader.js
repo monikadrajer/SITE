@@ -1,6 +1,7 @@
 $(function() {
 	'use strict';
 
+			 
 	// Change this to the location of your server-side upload handler:
 	$('#qrdauploadprogress').hide();
 	$('#qrdauploadfile').fileupload({
@@ -17,41 +18,6 @@ $(function() {
         	
         	Liferay.Portlet.refresh("#p_p_id_Statistics_WAR_siteportalstatisticsportlet_"); // refresh the counts
         	
-			/*
-			var results = data.result.body;
-        	
-        	var iconurl = (results.IsSuccess == "true")? window.currentContextPath + "/images/icn_alert_success.png" :
-        									window.currentContextPath + "/images/icn_alert_error.png" ;
-        	
-        	$('#qrdaWidget .blockMsg .progressorpanel img').attr('src',iconurl);
-      
-        	
-        	$('#qrdaWidget .blockMsg .progressorpanel .lbl').text(results.ErrorMessage);
-        	
-        	if(window.qrdaWidget)
-        	{
-        		window.qrdaUploadTimeout = setTimeout(function(){
-        				window.qrdaWidget.unbind("click");
-        				window.qrdaWidget.unblock();
-        			},10000);
-        		
-        		
-        		window.qrdaWidget.bind("click", function() { 
-        			window.qrdaWidget.unbind("click");
-        			clearTimeout(window.qrdaUploadTimeout);
-        			window.qrdaWidget.unblock(); 
-        			window.qrdaWidget.attr('title','Click to hide this message.').click($.unblockUI); 
-	            });
-        		
-        	}
-
-			window.setTimeout(function() {
-				$('#qrdauploadprogress').fadeOut(400, function() {
-					$('#qrdauploadprogress .progress-bar').css('width', '0%');
-					
-				});
-
-			}, 1000);*/
 		},
 		progressall : function(e, data) {
 			var progressval = parseInt(data.loaded / data.total * 100, 10);
@@ -83,25 +49,52 @@ $(function() {
 		
 
 		data.context = $('#qrdavalidate_btn').click(function(e) {
-			var jform = $('#QRDAValidationForm');
-			jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-			if(jform.validationEngine('validate'))
-			{
-				$('#QRDAValidationForm .formError').hide(0);
-				
-				BlockPortletUI('#qrdaWidget .well');
-						
-				data.submit();
-			}
-			else
-			{
-				//jform.validationEngine({validateNonVisibleFields: true, updatePromptsPosition:true});
-				$('#QRDAValidationForm .formError').show(0);
+			
+			// Setting up parsley options to have listed errors and to append the errors to parent element.
+			var parsleyOptions ={
+					errorsWrapper: '<ul></ul>',
+					errorElem: '<li></li>'	,
+					  errors: {
+					  		classHandler: function(el){
+					 			return el.parent();
+			 					}
+						}
+				};
+			// Parsley validator to validate xml extension.
+			
+			window.ParsleyValidator.addValidator('filetype',function(value,requirement){
+				var ext=value.split('.').pop().toLowerCase();
+				return ext === requirement;	
+			},32).addMessage('en','filetype','The selected QRDA file must be an xml file(.xml)');
+			
+			// parsley Validator to validate the file size
+			
+			window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+				var file_size=$('#qrdauploadfile')[0].files[0];
+				return file_size.size < requirement*1024*1024;
+			},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+			
+			
+			$('#QRDAValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+			$('#QRDAValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+			
+				formInstance.submitEvent.preventDefault();
+				if(formInstance.isValid()==true){
+					var hideMsg3 = $("#qrdauploadfile").parsley();
+					window.ParsleyUI.removeError(hideMsg3,'required');
+					
+					BlockPortletUI('#qrdaWidget .well');
+					data.submit();
+				}else {
 				$('#QRDAValidationForm .qrdauploadfileformError').prependTo('#qrdauploaderrorlock');
 			}
+				});
 		});
+		
+		
 	}).prop('disabled', !$.support.fileInput).parent().addClass(
 			$.support.fileInput ? undefined : 'disabled');
+
 
 	$('#qrdauploadfile').bind('fileuploaddrop', function(e, data) {
 		e.preventDefault();
@@ -109,12 +102,45 @@ $(function() {
 		e.preventDefault();
 	});
 	
-	
+	// Validating the form when refreshing the page.
+	$('#qrdavalidate_btn').click(function(e) {
+		var parsleyOptions ={
+				errorsWrapper: '<ul></ul>',
+				errorElem: '<li></li>'	,
+				  errors: {
+				  		classHandler: function(el){
+				 			return el.parent();
+		 					}
+					}
+			};
+		window.ParsleyValidator.addValidator('filetype',function(value,requirement){
+			var ext=value.split('.').pop().toLowerCase();
+			return ext === requirement;	
+		},32).addMessage('en','filetype','The selected QRDA file must be an xml file(.xml)');
+		
+		window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+			var file_size=$('#qrdauploadfile')[0].files[0];
+			return file_size.size < requirement*1024*1024;
+		},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+		
+		$('#QRDAValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+			formInstance.submitEvent.preventDefault();
+			
+			if(formInstance.isValid()==true){
+				var hideMsg3 = $("#qrdauploadfile").parsley();
+				window.ParsleyUI.removeError(hideMsg3,'required');
+				
+				BlockPortletUI('#qrdaWidget .well');
+				//data.submit();
+			} else {
+			$('#QRDAValidationForm .qrdauploadfileformError').prependTo('#qrdauploaderrorlock');
+		}
+			});
+	});
 	
 	$('#qrdauploadfile-btn').bind('click', function(e, data)
 			{
 				var dropdownvalue = $('#category').val();
-				$('#QRDAValidationForm .formError').hide(0);
 				$('#QRDAValidationForm').trigger('reset');
 				$('#qrdavalidate_btn').unbind("click");
 				
@@ -122,6 +148,6 @@ $(function() {
 				
 				$('#category').val(dropdownvalue);
 				
-			});
+			}); 
 	
 });

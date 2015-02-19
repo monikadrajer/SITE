@@ -60,15 +60,16 @@
 					<span class="btn btn-success fileinput-button" id="qrdauploadfile-btn"> <i
 								class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a QRDA...</span>
 								<!-- The file input field used as target for the file upload widget -->
-								<input id="qrdauploadfile" type="file" name="qrdauploadfile" class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
+								<input id="qrdauploadfile" type="file" name="qrdauploadfile" data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#infoArea3"  data-parsley-trigger="change" data-parsley-required-message="Please slect a QRDA file." tabindex="1"/>
 						</span>
 						<div id="qrdauploadfiles" class="files"></div>
+						<div id="infoArea3" class="infoArea"></div>
 				</div>
 				</div>
 				</div>
 				<hr/>
-				<button id="qrdavalidate_btn" type="submit"
-					class="btn btn-primary start" onclick="return false;"  tabindex="1">
+				<button id="qrdavalidate_btn" type="submit" 
+					class="btn btn-primary start"  tabindex="1">
 					<i class="glyphicon glyphicon-ok"></i> <span>Validate Document</span>
 				</button>
 			</form:form>
@@ -116,8 +117,9 @@
 
 <!-- Result panel for the regular postback. -->   
  <noscript>  
-  <h3>Result:</h3>
+  <h3>Result:</h3>  
   <p>${results}</p>
+
 </noscript>
 
   
