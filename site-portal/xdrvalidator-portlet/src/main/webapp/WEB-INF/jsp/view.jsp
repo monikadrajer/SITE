@@ -32,31 +32,147 @@
     <portlet:param name="javax.portlet.action" value="uploadXDR"/>
 </portlet:actionURL>
 
+<portlet:actionURL var="precannedXDR" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    <portlet:param name="javax.portlet.action" value="precannedXDR"/>
+</portlet:actionURL>
+
+<portlet:actionURL var="sampleCCDATree" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    <portlet:param name="javax.portlet.action" value="sampleCCDATree"/>
+</portlet:actionURL>
+
+<portlet:actionURL var="xdrSendGetRequestList" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    <portlet:param name="javax.portlet.action" value="xdrSendGetRequestList"/>
+</portlet:actionURL>
+
+<portlet:actionURL var="xdrSendGetRequest" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    <portlet:param name="javax.portlet.action" value="xdrSendGetRequest"/>
+</portlet:actionURL>
+
 <script type="text/javascript">
 	var url = '${urlAction}';
+	var precannedUrl = '${precannedXDR}';
 	window.currentContextPath = "<%=request.getContextPath()%>";
+	var sampleCCDATreeURL = '${sampleCCDATree}';
+	var xdrSendGetRequestList = '${xdrSendGetRequestList}';
+	var xdrSendGetRequest = '${xdrSendGetRequest}';
 </script>
 
-<div class="panel panel-default" id="anchoruploadwidget">
+
+<div class="panel panel-default" id="xdrsendwidget">
+	<div class="panel-heading"><h3 class="panel-title">XDR Send</h3></div>
+	<div class="panel-body">
+		<p>
+			Send messages from your implementation to the endpoint listed below:
+			<ul>
+				<li>
+					${xdrSoapEndpoint}
+				</li>			
+			</ul>
+		</p>
+		<div class="well">
+			<form id="XDRSendGetRequestList"  action="${xdrSendGetRequestList}" method="POST">
+			<label for="requestListGrouping">Enter the XDR Request "From Address":</label>
+				<input type="text" name="requestListGrouping" id="requestListGrouping" class="validate[required] form-control" tabindex="1"/>
+				<span style="font-size:smaller;">Having trouble finding your requests? Perhaps the "From Address" element was not populated correctly.  Try entering the external IP address of the sender.</span>
+			<hr />
+				<button id="xdrSendSearchSubmit" type="submit"
+					class="btn btn-primary start" onclick="return false;"  tabindex="1">
+					<i class="glyphicon glyphicon-search"></i> <span>Lookup Requests</span>
+				</button>	
+			</form>
+		</div>
+	</div>
+</div>
+
+<div class="modal modal-wide fade" id="xdrSendModal" tabindex="-1" role="dialog" aria-labelledby="xdrSendModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<ul class="nav nav-tabs" id="resultModalTabs">
+					  <li><a href="#tabs-1" data-toggle="tab">XDR Send Requests</a></li>
+					</ul>
+			</div>
+			<div class="modal-body">
+				<div id="ValidationResult">
+					<div class="tab-content" id="resultTabContent">
+						<div class="tab-pane" id="tabs-1">
+							<h2>Content heading 1</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" id="closeResultsBtn" data-dismiss="modal">Close Results</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="panel panel-default" id="xdrreceivewidget">
       <div class="panel-heading"><h3 class="panel-title">XDR Receive</h3></div>
   		<div class="panel-body">
 			<p>
 				Receive messages from the Sandbox to your system. 
 			</p>
 			<br/><br/>
+			<ul id="xdrMessageType" class="nav nav-tabs" role="tablist">
+			  <li class="active"><a href="#precanned" role="tab" data-toggle="tab"  tabindex="1">Choose Precanned Content</a></li>
+			  <li><a href="#choosecontent" role="tab" data-toggle="tab"  tabindex="1">Choose Your Own Content</a></li>
+			</ul>
 			<div class="well">
+					<div class="tab-content">
+  			<div class="tab-pane active" id="precanned">
+  				<div id="precannedFormWrapper">
+			<form id="XDRPrecannedForm"  action="${precannedXDR}" method="POST">
+				
+				<label for="precannedWsdlLocation">Enter Your Endpoint URL:</label>
+				<input type="text" name="precannedWsdlLocation" id="precannedWsdlLocation" class="validate[required,custom[url]] form-control" tabindex="1"/>
+				
+				<br />
+				<br />
+				<noscript><input type="hidden" name="redirect" value="true"  /></noscript>
+				<div id="precannederrorlock" style="position: relative;">
+					<div class="row">
+					<div class="col-md-12">
+					<label for="dLabel">Select a Precanned Sample C-CDA File to Send:</label><br/>
+									<div class="dropdown">
+										<button id="dLabel" data-toggle="dropdown"
+											class="btn btn-success dropdown-toggle validate[funcCall[precannedRequired]]" type="button" 	tabindex="1">
+											Pick Sample <i class="glyphicon glyphicon-play"></i>
+										</button>
+
+										<ul class="dropdown-menu rightMenu" role="menu" aria-labelledby="dLabel" style="overflow: scroll; /* position: absolute; */" >
+											<li>
+												<div id="ccdafiletreepanel"></div>
+											</li>
+										</ul>
+									</div>
+									<div>
+									<span id="precannedfilePathOutput"></span>
+									</div>
+					</div>
+					</div>
+				</div>
+				<hr />
+				<button id="precannedCCDAsubmit" type="submit"
+					class="btn btn-primary start" onclick="return false;"  tabindex="1">
+					<i class="glyphicon glyphicon-envelope"></i> <span>Send
+						Message</span>
+				</button>
+				<input id="precannedfilepath"
+						name="precannedfilepath" type="hidden">
+			</form>
+		</div>
+  			</div>
+  			<div class="tab-pane" id="choosecontent">
+  			<div id="uploadFormWrapper">
 			<form id="XDRValidationForm" action="${urlAction}" method="POST" enctype="multipart/form-data">
       	
 			
 				<label for="wsdlLocation">Enter Your Endpoint URL:</label>
 				<input type="text" name="wsdlLocation" id="wsdlLocation" class="validate[required,custom[url]] form-control" tabindex="1"/>
-				<br/>
-				<label for="testCases">Select a Test Scenario:</label>
-				<select name="testCases" id="testCases" class="validate[required] form-control" tabindex="1">
-					<option value="test1">Test 1</option>
-					<option value="test2">Test 2</option>
-					<option value="test3">Test 3</option>
-				</select>
+				
 				
 				<br/><br/>
 			
@@ -80,25 +196,21 @@
 			</div>
 			<hr/>
 			<button id="formSubmit" type="submit" class="btn btn-primary start" onclick="return false;"  tabindex="1">
-							<i class="glyphicon glyphicon-ok"></i> <span>Validate Document</span>
+							<i class="glyphicon glyphicon-envelope"></i> <span>Send Message</span>
 						</button>
 			
 			</form>
 			</div>
+  			</div>
+		</div>
+		
+		
+		</div>
+		<br/>
 			
+			<div class="clear"></div>
 		</div>
 </div>
 
-<div class="panel panel-default" id="anchoruploadwidget">
-	<div class="panel-heading"><h3 class="panel-title">XDR Send</h3></div>
-	<div class="panel-body">
-		<p>
-			Send messages from your implementation to the endpoint listed below:
-			<ul>
-				<li>
-					WSDL LOCATION HERE
-				</li>			
-			</ul>
-		</p>
-	</div>
-</div>
+
+
