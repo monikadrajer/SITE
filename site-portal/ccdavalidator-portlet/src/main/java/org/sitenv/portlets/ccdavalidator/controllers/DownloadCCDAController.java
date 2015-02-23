@@ -10,6 +10,7 @@ import javax.portlet.ResourceResponse;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+
 import org.jsoup.Jsoup;
 import org.sitenv.common.utilities.controller.BaseController;
 import org.sitenv.common.statistics.manager.StatisticsManager;
@@ -19,8 +20,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.portlet.bind.annotation.ResourceMapping;
 import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
-import com.liferay.portal.kernel.servlet.HttpHeaders;
+//import org.xhtmlrenderer.extend.NamespaceHandler;
 
+//my imports
+//import java.io.*;
+//import java.net.URL;//////////////////////
+
+//import com.lowagie.text.DocumentException;
+//import com.lowagie.text.pdf.PdfWriter;
+import com.liferay.portal.kernel.servlet.HttpHeaders;
 
 @Controller
 @RequestMapping("VIEW")
@@ -169,5 +177,6 @@ public class DownloadCCDAController extends BaseController {
 	public void setStatisticsManager(StatisticsManager statisticsManager) {
 		this.statisticsManager = statisticsManager;
 	}
+
 	
 }
