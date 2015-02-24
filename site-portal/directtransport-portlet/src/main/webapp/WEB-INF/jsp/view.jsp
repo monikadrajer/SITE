@@ -220,7 +220,7 @@
 								<label for="precannedemail">Enter Your Endpoint Name:</label><br />
 								<input id="precannedemail" class="form-control"
 									data-parsley-required-message="end point is required!"
-									data-parsley-email-message="end point format is invalid (hint:example@test.org)"
+									data-parsley-type-message="end point format is invalid (hint:example@test.org)"
 									name="precannedemail"
 									placeholder="recipient direct email address"
 									style="display: inline;" type="email" tabindex="1" required />
