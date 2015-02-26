@@ -360,7 +360,7 @@
 														<span class="btn btn-success fileinput-button" id="CCDAReconciledReconciliationFileupload-btn"> <i
 																class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
 																
-																<input id="CCDAReconciledReconciliationFileupload" type="file" name="ReconciliationFile"  data-parsley-reconciledmaxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDAReconciliationReconciledInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
+																<input id="CCDAReconciledReconciliationFileupload" type="file" name="ReconciliationFile"  data-parsley-reconciledmaxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-trigger="change" data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
 														</span>
 														<div id="CCDAReconciliationReconciledFiles"></div>
 														<div id="CCDAReconciliationReconciledInfoArea" class="infoArea"></div>
@@ -482,7 +482,7 @@
 													<label for="CCDAReferenceFileupload">Upload Input File:</label><br/>
 													<span class="btn btn-success fileinput-button" id="CCDAReferenceFileupload-btn"> <i
 															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a File...</span>
-															<input id="CCDAReferenceFileupload" type="file" name="file"  data-parsley-referencemaxsize="3" data-parsley-required data-parsley-errors-container="#CCDAReferenceInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select an input file." tabindex="1"/>
+															<input id="CCDAReferenceFileupload" type="file" name="file"  data-parsley-referencemaxsize="3" data-parsley-required data-parsley-trigger="change" data-parsley-required-message="Please select an input file." tabindex="1"/>
 													</span>
 													<div id="CCDAReferenceFiles"></div>
 													<div id="CCDAReferenceInfoArea" class="infoArea"></div>
@@ -502,7 +502,7 @@
 													<label for="CCDAReferenceCEHRTFileupload">Upload C-CDA File:</label><br/>
 													<span class="btn btn-success fileinput-button" id="CCDAReferenceCEHRTFileupload-btn"> <i
 															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
-															<input id="CCDAReferenceCEHRTFileupload" type="file" name="generatedFile"  data-parsley-generatedmaxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDACEHRTInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
+															<input id="CCDAReferenceCEHRTFileupload" type="file" name="generatedFile"  data-parsley-generatedmaxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-trigger="change" data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
 															
 													</span>
 													<div id="CCDACEHRTReferenceFiles"></div>

@@ -1035,7 +1035,7 @@ $(function() {
 			$('#CCDA2ValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
 				
 				formInstance.submitEvent.preventDefault();
-				if(formInstance.isValid()==true){
+				if(formInstance.isValid()===true){
 					var hideMsg3 = $("#CCDA2fileupload").parsley();
 					window.ParsleyUI.removeError(hideMsg3,'required');
 					
@@ -1559,17 +1559,16 @@ $(function() {
 	var formSelector = "#CCDAReconciledValidationForm";
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	var jform = $(formSelector);
-	
+	var testDataInput = $('#CCDAReconciledTestDataFileupload');
+	var reconciledCCDAInput = $('#CCDAReconciledReconciliationFileupload');
 
 	// Setting up parsley options to have listed errors and to append the errors to parent element.
 	
-	var parsleyOptions ={
+	var parsleyOptionsTestData ={
 	        trigger: 'change',
 	        successClass: "has-success",
 	        errorClass: "alert alert-danger",
 	        classHandler: function (el) {
-	        	console.log(el);
-	        	alert(el);
 	        	return $('#CCDAReconciledTestDataInfoArea');
 	        },
 			errorsContainer: function (el) {
@@ -1580,7 +1579,24 @@ $(function() {
 		};
 	
 	
-	var formInstance = jform.parsley(parsleyOptions);
+	var parsleyOptionsReconciledCCDA ={
+	        trigger: 'change',
+	        successClass: "has-success",
+	        errorClass: "alert alert-danger",
+	        classHandler: function (el) {
+	        	return $('#CCDAReconciliationReconciledInfoArea');
+	        },
+			errorsContainer: function (el) {
+				return $('#CCDAReconciliationReconciledInfoArea');
+			},
+			errorsWrapper: '<ul></ul>',
+			errorElem: '<li></li>'
+		};
+	
+	var validateTestDataInput = testDataInput.parsley(parsleyOptionsTestData);
+	var validateReconciledCCDAInput = reconciledCCDAInput.parsley(parsleyOptionsReconciledCCDA);
+	
+	//var formInstance = jform.parsley(parsleyOptions);
 	
 	// In the case we have access to the FormData interface:
 	if(window.FormData !== undefined){
@@ -1589,8 +1605,8 @@ $(function() {
 			
 			e.preventDefault();
 			
-			if(formInstance.validate() === true){
-					
+			//if(formInstance.validate() === true){
+			if ((validateTestDataInput.isValid() === true) && (validateReconciledCCDAInput.isValid() === true)){	
 					var hideMsg = $("#CCDAReconciledTestDataFileupload").parsley();
 					window.ParsleyUI.removeError(hideMsg,'required');
 					
@@ -1648,7 +1664,7 @@ $(function() {
 			e.preventDefault();
 			
 			//var formInstance = jform.parsley(parsleyOptions);
-			if(formInstance.validate() === true){
+			if ((validateTestDataInput.isValid() === true) && (validateReconciledCCDAInput.isValid() === true)){
 					
 					var hideMsg = $("#CCDAReconciledTestDataFileupload").parsley();
 					window.ParsleyUI.removeError(hideMsg,'required');
@@ -1744,15 +1760,43 @@ $(function() {
 	var formSelector = "#CCDAReferenceValidationForm";
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	var jform = $(formSelector);
-	
-	
+	var testDataInput = $('#CCDAReferenceFileupload');
+	var generatedCCDAInput = $('#CCDAReferenceCEHRTFileupload');
+
 	// Setting up parsley options to have listed errors and to append the errors to parent element.
-	var parsleyOptions = {
+	
+	var parsleyOptionsTestData = {
+	        trigger: 'change',
+	        successClass: "has-success",
+	        errorClass: "alert alert-danger",
+	        classHandler: function (el) {
+	        	return $('#CCDAReferenceInfoArea');
+	        },
+			errorsContainer: function (el) {
+				return $('#CCDAReferenceInfoArea');
+			},
 			errorsWrapper: '<ul></ul>',
 			errorElem: '<li></li>'
 		};
 	
-	var formInstance = jform.parsley(parsleyOptions);
+	
+	var parsleyOptionsGeneratedCCDA = {
+	        trigger: 'change',
+	        successClass: "has-success",
+	        errorClass: "alert alert-danger",
+	        classHandler: function (el) {
+	        	return $('#CCDACEHRTInfoArea');
+	        },
+			errorsContainer: function (el) {
+				return $('#CCDACEHRTInfoArea');
+			},
+			errorsWrapper: '<ul></ul>',
+			errorElem: '<li></li>'
+		};
+	
+	var validateTestDataInput = testDataInput.parsley(parsleyOptionsTestData);
+	var validateGeneratedCCDAInput = generatedCCDAInput.parsley(parsleyOptionsGeneratedCCDA);
+	
 	
 	// In the case we have access to the FormData interface:
 	if(window.FormData !== undefined){
@@ -1761,7 +1805,7 @@ $(function() {
 			
 			e.preventDefault();
 			
-			if(formInstance.validate() === true){
+			if ((validateTestDataInput.isValid() === true) && (validateGeneratedCCDAInput.isValid() === true)){
 					
 					var hideMsg = $("#CCDAReferenceFileupload").parsley();
 					window.ParsleyUI.removeError(hideMsg,'required');
@@ -1819,7 +1863,7 @@ $(function() {
 			e.preventDefault();
 			
 			//var formInstance = jform.parsley(parsleyOptions);
-			if(formInstance.validate() === true){
+			if ((validateTestDataInput.isValid() === true) && (validateGeneratedCCDAInput.isValid() === true)){
 					
 					var hideMsg = $("#CCDAReferenceFileupload").parsley();
 					window.ParsleyUI.removeError(hideMsg,'required');
