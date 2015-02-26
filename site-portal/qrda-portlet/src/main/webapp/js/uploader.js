@@ -51,7 +51,7 @@ $(function() {
 		data.context = $('#qrdavalidate_btn').click(function(e) {
 			
 			// Setting up parsley options to have listed errors and to append the errors to parent element.
-			var parsleyOptions ={
+			var parsleyOptions = {
 					errorsWrapper: '<ul></ul>',
 					errorElem: '<li></li>'	,
 					  errors: {

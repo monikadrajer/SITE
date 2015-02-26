@@ -1,3 +1,45 @@
+
+$(function() {
+	
+	// Parsley validator to validate file extension.
+	window.ParsleyValidator.addValidator('trustfiletypes',function(value){
+		var ext=value.split('.').pop().toLowerCase();
+		
+		var istrue = false;
+		if  (ext === 'cer'){
+			istrue = true;
+		} else if (ext === 'crt') {
+			istrue = true;
+		} else if (ext === 'der') {
+			istrue = true;
+		} else if (ext === 'pem') {
+			istrue = true;
+		} else if (ext === 'cert') {
+			istrue = true;
+		}
+		
+		return istrue;
+	},32).addMessage('en','trustfiletypes','The selected certificate file must be a binary or Base64 encoded file file (.cer, .crt, .der, or .pem).');
+	
+	
+	// parsley Validator to validate the file size
+	window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+		var file_size=$('#anchoruploadfile')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+	
+	
+});
+
+
+
+
+
+
+
+
+
+
 $(function() {
 	'use strict';
 
