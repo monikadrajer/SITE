@@ -1,3 +1,72 @@
+	
+
+
+
+// Set Parsley Validators
+$(function(){
+	
+	// Parsley validator to validate xml extension.
+	window.ParsleyValidator.addValidator('filetype',function(value,requirement){
+		var ext=value.split('.').pop().toLowerCase();
+		return ext === requirement;	
+	},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
+	
+	
+	// parsley Validator to validate the file size
+	window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+		var file_size=$('#CCDA1fileupload')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+	
+	
+	// parsley Validator to validate the file size
+	window.ParsleyValidator.addValidator('maxsize2',function(value,requirement){
+		var file_size=$('#CCDA2fileupload')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','maxsize2','The uploaded file size exceeds the maximum file size of 3 MB.');
+	
+	
+	// parsley Validator to validate the file size
+	window.ParsleyValidator.addValidator('maxsize-super',function(value,requirement){
+		var file_size=$('#CCDASuperFileupload')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','maxsize-super','The uploaded file size exceeds the maximum file size of 3 MB.');
+	
+
+	// parsley Validator to validate CIRI test data file size
+	window.ParsleyValidator.addValidator('testdatamaxsize',function(value,requirement){
+		var file_size=$('#CCDAReconciledTestDataFileupload')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','testdatamaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+	
+	
+	// parsley Validator to validate the reconciled file size
+	window.ParsleyValidator.addValidator('reconciledmaxsize',function(value,requirement){
+		var file_size=$('#CCDAReconciledReconciliationFileupload')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','reconciledmaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');	
+	
+	
+	// parsley Validator
+	window.ParsleyValidator.addValidator('referencemaxsize',function(value,requirement){
+		var file_size=$('#CCDAReferenceFileupload')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','referencemaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+	
+	
+	// parsley Validator to validate generated file
+	window.ParsleyValidator.addValidator('generatedmaxsize',function(value,requirement){
+		var file_size=$('#CCDAReferenceCEHRTFileupload')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','generatedmaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');	
+
+	
+	
+});
+
+
+
+
 
 
 
@@ -282,6 +351,20 @@ function buildExtendedCcdaInfoList(data){
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //C-CDA 1.1
 $(function() {
 	'use strict';
@@ -558,28 +641,19 @@ $(function() {
 		data.context = $('#CCDA1formSubmit').click(function(e) {
 				
 				// Setting up parsley options to have listed errors and to append the errors to parent element.
-				var parsleyOptions = {
-						errorsWrapper: '<ul></ul>',
-						errorElem: '<li></li>'	,
-						  errors: {
-						  		classHandler: function(el){
-						 			return el.parent();
-				 					}
-							}
-					};
-				// Parsley validator to validate xml extension.
-				
-				window.ParsleyValidator.addValidator('filetype',function(value,requirement){
-					var ext=value.split('.').pop().toLowerCase();
-					return ext === requirement;	
-				},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
-				
-				// parsley Validator to validate the file size
-				
-				window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
-					var file_size=$('#CCDA1fileupload')[0].files[0];
-					return file_size.size < requirement*1024*1024;
-				},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+			var parsleyOptions ={
+			        trigger: 'change',
+			        successClass: "has-success",
+			        errorClass: "alert alert-danger",
+			        classHandler: function (el) {
+			        	return $('#CCDA1InfoArea');
+			        },
+					errorsContainer: function (el) {
+						return $('#CCDA1InfoArea');
+					},
+					errorsWrapper: '<ul></ul>',
+					errorElem: '<li></li>'
+				};
 				
 				// unsubscribe callbacks from previous uploads
 				$('#CCDA1ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
@@ -626,26 +700,19 @@ $(function() {
 	$('#CCDA1formSubmit').click(function(e) {
 			
 			// Setting up parsley options to have listed errors and to append the errors to parent element.
-			var parsleyOptions ={
-					errorsWrapper: '<ul></ul>',
-					errorElem: '<li></li>',
-					  errors: {
-					  		classHandler: function(el){
-					 			return el.parent();
-			 					}
-						}
-				};
-			// Parsley validator to validate xml extension.
-			window.ParsleyValidator.addValidator('filetype',function(value,requirement){
-				var ext=value.split('.').pop().toLowerCase();
-				return ext === requirement;	
-			},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
-			
-			// parsley Validator to validate the file size
-			window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
-				var file_size=$('#CCDA1fileupload')[0].files[0];
-				return file_size.size < requirement*1024*1024;
-			},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+		var parsleyOptions ={
+		        trigger: 'change',
+		        successClass: "has-success",
+		        errorClass: "alert alert-danger",
+		        classHandler: function (el) {
+		        	return $('#CCDA1InfoArea');
+		        },
+				errorsContainer: function (el) {
+					return $('#CCDA1InfoArea');
+				},
+				errorsWrapper: '<ul></ul>',
+				errorElem: '<li></li>'
+			};
 			
 			// unsubscribe callbacks from previous uploads
 			$('#CCDA1ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
@@ -948,26 +1015,18 @@ $(function() {
 			
 			// Setting up parsley options to have listed errors and to append the errors to parent element.
 			var parsleyOptions ={
+			        trigger: 'change',
+			        successClass: "has-success",
+			        errorClass: "alert alert-danger",
+			        classHandler: function (el) {
+			        	return $('#CCDA2InfoArea');
+			        },
+					errorsContainer: function (el) {
+						return $('#CCDA2InfoArea');
+					},
 					errorsWrapper: '<ul></ul>',
-					errorElem: '<li></li>'	,
-					  errors: {
-					  		classHandler: function(el){
-					 			return el.parent();
-			 					}
-						}
+					errorElem: '<li></li>'
 				};
-			
-			// Parsley validator to validate xml extension.
-			window.ParsleyValidator.addValidator('filetype',function(value,requirement){
-				var ext=value.split('.').pop().toLowerCase();
-				return ext === requirement;	
-			},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
-			
-			// parsley Validator to validate the file size
-			window.ParsleyValidator.addValidator('maxsize2',function(value,requirement){
-				var file_size=$('#CCDA2fileupload')[0].files[0];
-				return file_size.size < requirement*1024*1024;
-			},32).addMessage('en','maxsize2','The uploaded file size exceeds the maximum file size of 3 MB.');
 			
 			// unsubscribe callbacks from previous uploads
 			$('#CCDA2ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
@@ -1009,25 +1068,18 @@ $(function() {
 		
 		// Setting up parsley options to have listed errors and to append the errors to parent element.
 		var parsleyOptions ={
+		        trigger: 'change',
+		        successClass: "has-success",
+		        errorClass: "alert alert-danger",
+		        classHandler: function (el) {
+		        	return $('#CCDA2InfoArea');
+		        },
+				errorsContainer: function (el) {
+					return $('#CCDA2InfoArea');
+				},
 				errorsWrapper: '<ul></ul>',
-				errorElem: '<li></li>',
-				  errors: {
-				  		classHandler: function(el){
-				 			return el.parent();
-		 					}
-					}
+				errorElem: '<li></li>'
 			};
-		// Parsley validator to validate xml extension.
-		window.ParsleyValidator.addValidator('filetype',function(value,requirement){
-			var ext=value.split('.').pop().toLowerCase();
-			return ext === requirement;	
-		},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
-		
-		// parsley Validator to validate the file size
-		window.ParsleyValidator.addValidator('maxsize2',function(value,requirement){
-			var file_size=$('#CCDA2fileupload')[0].files[0];
-			return file_size.size < requirement*1024*1024;
-		},32).addMessage('en','maxsize2','The uploaded file size exceeds the maximum file size of 3 MB.');
 		
 		// unsubscribe callbacks from previous uploads
 		$('#CCDA2ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
@@ -1041,9 +1093,6 @@ $(function() {
 			}
 		});
 	});	
-	
-	
-	
 	
 	
 	$('#CCDA2fileupload-btn').bind('click', function(e, data)
@@ -1068,7 +1117,6 @@ $(function() {
 	});
 	
 });
-
 
 
 
@@ -1338,29 +1386,20 @@ $(function() {
 		data.context = $('#CCDASuperFormSubmit').click(function(e) {
 				
 				// Setting up parsley options to have listed errors and to append the errors to parent element.
-				var parsleyOptions ={
-						errorsWrapper: '<ul></ul>',
-						errorElem: '<li></li>'	,
-						  errors: {
-						  		classHandler: function(el){
-						 			return el.parent();
-				 					}
-							}
-					};
-				// Parsley validator to validate xml extension.
-				
-				window.ParsleyValidator.addValidator('filetype',function(value,requirement){
-					var ext=value.split('.').pop().toLowerCase();
-					return ext === requirement;	
-				},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
-				
-				// parsley Validator to validate the file size
-				
-				window.ParsleyValidator.addValidator('maxsize-super',function(value,requirement){
-					var file_size=$('#CCDASuperFileupload')[0].files[0];
-					return file_size.size < requirement*1024*1024;
-				},32).addMessage('en','maxsize-super','The uploaded file size exceeds the maximum file size of 3 MB.');
-				
+			var parsleyOptions ={
+			        trigger: 'change',
+			        successClass: "has-success",
+			        errorClass: "alert alert-danger",
+			        classHandler: function (el) {
+			        	return $('#CCDASuperInfoArea');
+			        },
+					errorsContainer: function (el) {
+						return $('#CCDASuperInfoArea');
+					},
+					errorsWrapper: '<ul></ul>',
+					errorElem: '<li></li>'
+				};
+								
 				// unsubscribe callbacks from previous uploads
 				$('#CCDASuperValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
 				// calling the Parsley Validator.
@@ -1407,25 +1446,18 @@ $(function() {
 			
 			// Setting up parsley options to have listed errors and to append the errors to parent element.
 			var parsleyOptions ={
+			        trigger: 'change',
+			        successClass: "has-success",
+			        errorClass: "alert alert-danger",
+			        classHandler: function (el) {
+			        	return $('#CCDASuperInfoArea');
+			        },
+					errorsContainer: function (el) {
+						return $('#CCDASuperInfoArea');
+					},
 					errorsWrapper: '<ul></ul>',
-					errorElem: '<li></li>',
-					  errors: {
-					  		classHandler: function(el){
-					 			return el.parent();
-			 					}
-						}
+					errorElem: '<li></li>'
 				};
-			// Parsley validator to validate xml extension.
-			window.ParsleyValidator.addValidator('filetype',function(value,requirement){
-				var ext=value.split('.').pop().toLowerCase();
-				return ext === requirement;	
-			},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
-			
-			// parsley Validator to validate the file size
-			window.ParsleyValidator.addValidator('maxsize-super',function(value,requirement){
-				var file_size=$('#CCDASuperFileupload')[0].files[0];
-				return file_size.size < requirement*1024*1024;
-			},32).addMessage('en','maxsize-super','The uploaded file size exceeds the maximum file size of 3 MB.');
 			
 			// unsubscribe callbacks from previous uploads
 			$('#CCDASuperValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
@@ -1528,36 +1560,25 @@ $(function() {
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	var jform = $(formSelector);
 	
-	
-	// Parsley validator to validate xml extension.
-	window.ParsleyValidator.addValidator('filetype',function(value,requirement){
-		var ext=value.split('.').pop().toLowerCase();
-		return ext === requirement;	
-	},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
-	
-	// parsley Validator to validate CIRI test data file size
-	window.ParsleyValidator.addValidator('testdatamaxsize',function(value,requirement){
-		var file_size=$('#CCDAReconciledTestDataFileupload')[0].files[0];
-		return file_size.size < requirement*1024*1024;
-	},32).addMessage('en','testdatamaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
-	
-	// parsley Validator to validate the reconciled file size
-	window.ParsleyValidator.addValidator('reconciledmaxsize',function(value,requirement){
-		var file_size=$('#CCDAReconciledReconciliationFileupload')[0].files[0];
-		return file_size.size < requirement*1024*1024;
-	},32).addMessage('en','reconciledmaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');	
-	
-	
+
 	// Setting up parsley options to have listed errors and to append the errors to parent element.
-	var parsleyOptions = {
+	
+	var parsleyOptions ={
+	        trigger: 'change',
+	        successClass: "has-success",
+	        errorClass: "alert alert-danger",
+	        classHandler: function (el) {
+	        	console.log(el);
+	        	alert(el);
+	        	return $('#CCDAReconciledTestDataInfoArea');
+	        },
+			errorsContainer: function (el) {
+				return $('#CCDAReconciledTestDataInfoArea');
+			},
 			errorsWrapper: '<ul></ul>',
-			errorElem: '<li></li>',
-			  errors: {
-			  		classHandler: function(el){
-			 			return el.parent();
-	 					}
-				}
+			errorElem: '<li></li>'
 		};
+	
 	
 	var formInstance = jform.parsley(parsleyOptions);
 	
@@ -1725,34 +1746,10 @@ $(function() {
 	var jform = $(formSelector);
 	
 	
-	// Parsley validator to validate xml extension.
-	window.ParsleyValidator.addValidator('filetype',function(value,requirement){
-		var ext=value.split('.').pop().toLowerCase();
-		return ext === requirement;	
-	},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
-	
-	// parsley Validator
-	window.ParsleyValidator.addValidator('referencemaxsize',function(value,requirement){
-		var file_size=$('#CCDAReferenceFileupload')[0].files[0];
-		return file_size.size < requirement*1024*1024;
-	},32).addMessage('en','referencemaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
-	
-	// parsley Validator to validate generated file
-	window.ParsleyValidator.addValidator('generatedmaxsize',function(value,requirement){
-		var file_size=$('#CCDAReferenceCEHRTFileupload')[0].files[0];
-		return file_size.size < requirement*1024*1024;
-	},32).addMessage('en','generatedmaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');	
-	
-	
 	// Setting up parsley options to have listed errors and to append the errors to parent element.
 	var parsleyOptions = {
 			errorsWrapper: '<ul></ul>',
-			errorElem: '<li></li>',
-			  errors: {
-			  		classHandler: function(el){
-			 			return el.parent();
-	 					}
-				}
+			errorElem: '<li></li>'
 		};
 	
 	var formInstance = jform.parsley(parsleyOptions);

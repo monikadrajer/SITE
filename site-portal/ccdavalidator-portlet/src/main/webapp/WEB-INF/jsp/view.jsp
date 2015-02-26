@@ -169,10 +169,10 @@
 											<label for="CCDA1fileupload">Upload C-CDA file to Validate:</label><br/>
 											<span class="btn btn-success fileinput-button" id="CCDA1fileupload-btn"> <i
 													class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
-													<input id="CCDA1fileupload" type="file" name="file"  data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDA1InfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
+													<input id="CCDA1fileupload" type="file" name="file" data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-trigger="change" data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
 											</span>
 											<div id="CCDA1files"></div>
-											<div id="CCDA1InfoArea" class="infoArea"></div>
+											<div id="CCDA1InfoArea" class="infoArea alert-danger"></div>
 										</div>
 									</div>
 								</div>
@@ -337,7 +337,7 @@
 														<label for="CCDAReconciledTestDataFileupload">Upload Input File:</label><br/>
 														<span class="btn btn-success fileinput-button" id="CCDAReconciledTestDataFileupload-btn"> <i
 																class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a File...</span>
-																<input id="CCDAReconciledTestDataFileupload" type="file" name="file"  data-parsley-testdatamaxsize="3" data-parsley-required data-parsley-errors-container="#CCDAReconciledTestDataInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please select an input file." tabindex="1"/>
+																<input id="CCDAReconciledTestDataFileupload" type="file" name="file"  data-parsley-testdatamaxsize="3" data-parsley-required data-parsley-trigger="change" data-parsley-required-message="Please select an input file." tabindex="1"/>
 																
 														</span>
 														<div id="CCDAReconciledTestDataFiles"></div>
