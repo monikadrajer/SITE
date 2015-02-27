@@ -90,7 +90,7 @@ $(function() {
 		    }
 		    else
 		    {
-		    	$('.blockMsg .progressorpanel .lbl').text('Validating...');
+		    	$('.blockMsg .progressorpanel .lbl').text('Sending...');
 		    	$('.blockMsg .progressorpanel .progressor').text('');
 		    }
 		}
@@ -123,6 +123,8 @@ $(function() {
 				var selectedValue = $("#testCases").val();
 				
 				data.formData = { };
+				
+				data.formData.wsdlLocation = $("#wsdlLocation").val();
 				
 				if (selectedValue != undefined) {
 					data.formData.testCases = selectedValue;

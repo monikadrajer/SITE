@@ -57,7 +57,7 @@ function BlockPortletUI()
 		},
 		message: '<div class="progressorpanel">' +
 				 '<img src="'+ ajaximgpath + '" alt="loading">'+
-				 '<div class="lbl">Uploading...</div></div>',
+				 '<div class="lbl">Sending...</div></div>',
 	});
 }
 

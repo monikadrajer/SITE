@@ -14,6 +14,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.sitenv.common.statistics.manager.StatisticsManager;
 import org.sitenv.common.utilities.controller.BaseController;
+import org.sitenv.portlets.xdrvalidator.business.XDR;
 import org.sitenv.portlets.xdrvalidator.models.XdrReceiveResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,8 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.bind.annotation.RenderMapping;
 import org.springframework.web.portlet.multipart.MultipartActionRequest;
+
+
 
 @Controller
 @RequestMapping("VIEW")
@@ -52,10 +55,16 @@ public class XdrValidationController extends BaseController {
 		
 		response.setRenderParameter("javax.portlet.action", "uploadXDR");
 		MultipartFile file = request.getFile("file");
+		String endpoint = request.getParameter("wsdlLocation");
 
 		fileJson = new JSONArray();
 		
 		jsonResponseBody = new JSONObject();
+		
+		
+		String test = XDR.sendValidMinimalXDRMessage(endpoint, null, null, "edge@nist.gov", "admin@sitenv.org", endpoint);
+		
+		logger.info(test);
 		
 		try {
 
@@ -98,11 +107,17 @@ public class XdrValidationController extends BaseController {
 		// handle the files:
 		
 		response.setRenderParameter("javax.portlet.action", "precannedXDR");
+		String endpoint = request.getParameter("precannedWsdlLocation");
 		//MultipartFile file = request.getFile("file");
 
 		fileJson = new JSONArray();
 		
 		jsonResponseBody = new JSONObject();
+		
+
+		String test = XDR.sendValidMinimalXDRMessage(endpoint, null, null, "edge@nist.gov", "admin@sitenv.org", endpoint);
+		
+		logger.info(test);
 		
 		try {
 

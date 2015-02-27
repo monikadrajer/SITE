@@ -145,6 +145,8 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.liferay.portal</groupId>

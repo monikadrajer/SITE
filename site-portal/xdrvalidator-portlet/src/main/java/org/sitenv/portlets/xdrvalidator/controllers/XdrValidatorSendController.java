@@ -165,8 +165,8 @@ public class XdrValidatorSendController extends BaseController {
 		
 		try
 		{
-			jsch.addIdentity(new File("/Users/chris/Desktop/xdrvalidator").getAbsolutePath());
-			session = jsch.getSession("xdrvalidator", "devsoap.sitenv.org", 22);
+			jsch.addIdentity(new File(props.getProperty("xdrvalidator.service.sftpkey")).getAbsolutePath());
+			session = jsch.getSession(props.getProperty("xdrvalidator.service.sftpusername"), props.getProperty("xdrvalidator.service.sftpserver"), 22);
 			
 			
 			
@@ -178,9 +178,9 @@ public class XdrValidatorSendController extends BaseController {
 			channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp)channel;
-            channelSftp.cd("/var/opt/sitenv/xdrvalidator/data/xdrvalidator/" + requestDir);
+            channelSftp.cd(props.getProperty("xdrvalidator.service.sftpremotedir") + "/"  + requestDir);
             
-            Vector fileList = channelSftp.ls("/var/opt/sitenv/xdrvalidator/data/xdrvalidator/" + requestDir);
+            Vector fileList = channelSftp.ls(props.getProperty("xdrvalidator.service.sftpremotedir") + "/" +  requestDir);
          
             
             
@@ -205,17 +205,20 @@ public class XdrValidatorSendController extends BaseController {
 		} 
 		catch (JSchException e) 
 		{
-			e.printStackTrace();
+			logger.error(e);
 		}
 		catch (SftpException e) 
 		{
-			e.printStackTrace();
+			logger.error(e);
 		}
 		finally
 		{
-	        channelSftp.disconnect();
-	        channel.disconnect();
-	        session.disconnect();
+			if (channelSftp != null)
+				channelSftp.disconnect();
+	        if (channel != null)
+	        	channel.disconnect();
+	        if (session != null)
+	        	session.disconnect();
 		}
 		
 		if (fileNames != null) {
@@ -245,8 +248,8 @@ public class XdrValidatorSendController extends BaseController {
         
 		try
 		{
-			jsch.addIdentity(new File("/Users/chris/Desktop/xdrvalidator").getAbsolutePath());
-			session = jsch.getSession("xdrvalidator", "devsoap.sitenv.org", 22);
+			jsch.addIdentity(new File(props.getProperty("xdrvalidator.service.sftpkey")).getAbsolutePath());
+			session = jsch.getSession(props.getProperty("xdrvalidator.service.sftpusername"), props.getProperty("xdrvalidator.service.sftpserver"), 22);
 			
 			
 			
@@ -258,7 +261,7 @@ public class XdrValidatorSendController extends BaseController {
 			channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp)channel;
-            BufferedInputStream bis = new BufferedInputStream(channelSftp.get("/var/opt/sitenv/xdrvalidator/data/xdrvalidator/" + requestDir + "/Request_" + formattedTimestamp + ".xml"));
+            BufferedInputStream bis = new BufferedInputStream(channelSftp.get(props.getProperty("xdrvalidator.service.sftpremotedir") + "/" + requestDir + "/Request_" + formattedTimestamp + ".xml"));
             
             byte[] contents = new byte[1024];
 
@@ -272,17 +275,20 @@ public class XdrValidatorSendController extends BaseController {
 		} 
 		catch (JSchException e) 
 		{
-			e.printStackTrace();
+			logger.error(e);
 		}
 		catch (SftpException e) 
 		{
-			e.printStackTrace();
+			logger.error(e);
 		}
 		finally
 		{
-	        channelSftp.disconnect();
-	        channel.disconnect();
-	        session.disconnect();
+			if (channelSftp != null)
+				channelSftp.disconnect();
+	        if (channel != null)
+	        	channel.disconnect();
+	        if (session != null)
+	        	session.disconnect();
 		}
 		
 		if (strFileContents != null)
@@ -291,26 +297,5 @@ public class XdrValidatorSendController extends BaseController {
 			return null;
 	}
 	
-	public static void main(String[] args) throws IOException
-	{
-		XdrValidatorSendController controller = new XdrValidatorSendController();
-		
-		 int maxKeyLen;
-		try {
-			maxKeyLen = Cipher.getMaxAllowedKeyLength("AES");
-			System.out.println(maxKeyLen);
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		    
-		
-		List<String> fileNames = controller.getRequestList("129.6.24.81");
-		for (String name : fileNames) 
-		{
-			System.out.println(name);
-			String timestamp = name.replace("Request_", "").replace(".xml", "");
-			System.out.println(controller.getRequestFile("129.6.24.81", timestamp));
-		}
-	}
+
 }
