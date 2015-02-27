@@ -27,10 +27,10 @@ $(function(){
 	
 	
 	// parsley Validator to validate the file size
-	window.ParsleyValidator.addValidator('maxsize-super',function(value,requirement){
+	window.ParsleyValidator.addValidator('maxsizesuper',function(value,requirement){
 		var file_size=$('#CCDASuperFileupload')[0].files[0];
 		return file_size.size < requirement*1024*1024;
-	},32).addMessage('en','maxsize-super','The uploaded file size exceeds the maximum file size of 3 MB.');
+	},32).addMessage('en','maxsizesuper','The uploaded file size exceeds the maximum file size of 3 MB.');
 	
 
 	// parsley Validator to validate CIRI test data file size
@@ -1127,7 +1127,7 @@ $(function() {
 
 	// Change this to the location of your server-side upload handler:
 	$('#progress').hide();
-	$('#CCDASuperfileupload').fileupload({
+	$('#CCDASuperFileupload').fileupload({
 		url : urlCCDASuper,
 		dataType : 'json',
 		autoUpload : false,
@@ -1162,8 +1162,8 @@ $(function() {
 		done : function(e, data) {
 			
 			$.each(data.result.files, function(index, file) {
-				$('#CCDASuperfiles').empty();
-				$('#CCDASuperfiles').text(file.name);
+				$('#CCDASuperFiles').empty();
+				$('#CCDASuperFiles').text(file.name);
 			});
 			
 			
@@ -1411,7 +1411,7 @@ $(function() {
 						window.ParsleyUI.removeError(hideMsg3,'required');
 						
 						
-						$( "#ValidationResult [href='#tabs-1']").trigger( "click" );
+						$("#ValidationResult [href='#tabs-1']").trigger( "click" );
 						
 						BlockPortletUI();
 						

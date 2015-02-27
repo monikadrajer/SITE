@@ -586,7 +586,7 @@
 											<label for="CCDASuperFileupload">Select a C-CDA File to Validate:</label><br/>
 											<span class="btn btn-success fileinput-button" id="CCDASuperFileupload-btn"> <i
 													class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a C-CDA File...</span>
-													<input id="CCDASuperFileupload" type="file" name="file"  data-parsley-maxsize-super="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDASuperInfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
+													<input id="CCDASuperFileupload" type="file" name="file"  data-parsley-maxsizesuper="3" data-parsley-filetype="xml" data-parsley-required data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
 											</span>
 											<div id="CCDASuperFiles"></div>
 											<div id="CCDASuperInfoArea" class="infoArea"></div>

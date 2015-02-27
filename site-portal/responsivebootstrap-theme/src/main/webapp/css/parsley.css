@@ -56,6 +56,11 @@ textarea.parsley-error {
   -webkit-transition: all .3s ease-in;
 }
 
+
+.infoArea {
+	margin-top: 1em;
+}
+
 /*
 .infoArea {
 	
