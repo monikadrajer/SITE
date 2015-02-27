@@ -60,10 +60,10 @@
 					<span class="btn btn-success fileinput-button" id="qrdauploadfile-btn"> <i
 								class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a QRDA...</span>
 								<!-- The file input field used as target for the file upload widget -->
-								<input id="qrdauploadfile" type="file" name="qrdauploadfile" data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#infoArea3"  data-parsley-trigger="change" data-parsley-required-message="Please slect a QRDA file." tabindex="1"/>
+								<input id="qrdauploadfile" type="file" name="qrdauploadfile" data-parsley-maxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-trigger="change" data-parsley-required-message="Please slect a QRDA file." tabindex="1"/>
 						</span>
 						<div id="qrdauploadfiles" class="files"></div>
-						<div id="infoArea3" class="infoArea"></div>
+						<div id="infoAreaQRDA" class="infoArea"></div>
 				</div>
 				</div>
 				</div>

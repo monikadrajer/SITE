@@ -1,3 +1,20 @@
+
+$(function() {
+	
+	window.ParsleyValidator.addValidator('filetype',function(value,requirement){
+		var ext=value.split('.').pop().toLowerCase();
+		return ext === requirement;	
+	},32).addMessage('en','filetype','The selected QRDA file must be an xml file(.xml)');
+	
+	// parsley Validator to validate the file size
+	
+	window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
+		var file_size=$('#qrdauploadfile')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+	
+});
+
 $(function() {
 	'use strict';
 
@@ -52,28 +69,19 @@ $(function() {
 			
 			// Setting up parsley options to have listed errors and to append the errors to parent element.
 			var parsleyOptions = {
+			        trigger: 'change',
+			        successClass: "has-success",
+			        errorClass: "alert alert-danger",
+			        classHandler: function (el) {
+			        	return $('#infoAreaQRDA');
+			        },
+					errorsContainer: function (el) {
+						return $('#infoAreaQRDA');
+					},
 					errorsWrapper: '<ul></ul>',
-					errorElem: '<li></li>'	,
-					  errors: {
-					  		classHandler: function(el){
-					 			return el.parent();
-			 					}
-						}
+					errorElem: '<li></li>'
 				};
 			// Parsley validator to validate xml extension.
-			
-			window.ParsleyValidator.addValidator('filetype',function(value,requirement){
-				var ext=value.split('.').pop().toLowerCase();
-				return ext === requirement;	
-			},32).addMessage('en','filetype','The selected QRDA file must be an xml file(.xml)');
-			
-			// parsley Validator to validate the file size
-			
-			window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
-				var file_size=$('#qrdauploadfile')[0].files[0];
-				return file_size.size < requirement*1024*1024;
-			},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
-			
 			
 			$('#QRDAValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
 			$('#QRDAValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
@@ -103,26 +111,20 @@ $(function() {
 	});
 	
 	// Validating the form when refreshing the page.
-	$('#qrdavalidate_btn').click(function(e) {
-		var parsleyOptions ={
-				errorsWrapper: '<ul></ul>',
-				errorElem: '<li></li>'	,
-				  errors: {
-				  		classHandler: function(el){
-				 			return el.parent();
-		 					}
-					}
-			};
-		window.ParsleyValidator.addValidator('filetype',function(value,requirement){
-			var ext=value.split('.').pop().toLowerCase();
-			return ext === requirement;	
-		},32).addMessage('en','filetype','The selected QRDA file must be an xml file(.xml)');
-		
-		window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
-			var file_size=$('#qrdauploadfile')[0].files[0];
-			return file_size.size < requirement*1024*1024;
-		},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
-		
+	var parsleyOptions = {
+	        trigger: 'change',
+	        successClass: "has-success",
+	        errorClass: "alert alert-danger",
+	        classHandler: function (el) {
+	        	return $('#infoAreaQRDA');
+	        },
+			errorsContainer: function (el) {
+				return $('#infoAreaQRDA');
+			},
+			errorsWrapper: '<ul></ul>',
+			errorElem: '<li></li>'
+		};
+	
 		$('#QRDAValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
 			formInstance.submitEvent.preventDefault();
 			
@@ -135,7 +137,6 @@ $(function() {
 			} else {
 			$('#QRDAValidationForm .qrdauploadfileformError').prependTo('#qrdauploaderrorlock');
 		}
-			});
 	});
 	
 	$('#qrdauploadfile-btn').bind('click', function(e, data)
