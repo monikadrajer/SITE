@@ -48,7 +48,7 @@
 		<div class="well">
 			<form id="form-testcases-hosting" enctype="multipart/form-data"
 				name="form-testcases-hosting" action="about:blank" method="post"
-				onsubmit="return false;" data-parsley-validate>
+				onsubmit="return false;">
 				<div id="testcase-info" class="input-group-small">
 					<div class="form-group form-group-addons">
 						<div class="has-error">
@@ -61,12 +61,12 @@
 						</div>
 					</div>
 					<p>
-
+					<div class="form-group">
 						<label for="testcase-hosting-select">Select a Hosting Test
 							Case:</label> <select id="testcase-hosting-select"
 							name="testcase-hosting-select"
 							class="form-control" tabindex="1"
-							required>
+							data-parsley-required data-parsley-required-message="This field is required.">
 							<option value="">-- No testcase selected --</option>
 							<option value="H1_DNS_AB_Normal">H1 - Normal
 								address-bound certificate search in DNS</option>
@@ -78,17 +78,24 @@
 								domain-bound certificate search in LDAP</option>
 						</select>
 					</p>
-
+					
+					<div class="infoArea"></div>
+					
+					</div>
 					<!-- Description of the test case will go here: -->
 					<div id="hosting-testcase-desc" class="testcase hide"
 						aria-hidden="true">Please select a test case.</div>
-					<p>
-						<label for="testcase-hosting-direct-addr">Enter Your
-							Direct Address:</label> <input id="testcase-hosting-direct-addr"
-							class="form-control" name="directAddress"
-							placeholder="direct email address" style="display: inline;"
-							type="email" tabindex="1" disabled="disabled" required />
-					</p>
+						
+					<div class="form-group">
+						<p>
+							<label for="testcase-hosting-direct-addr">Enter Your
+								Direct Address:</label> <input id="testcase-hosting-direct-addr"
+								class="form-control" name="directAddress"
+								placeholder="direct email address" style="display: inline;"
+								type="email" tabindex="1" disabled="disabled" data-parsley-required data-parsley-required-message="This field is required." />
+						</p>
+						<div class="infoArea"></div>
+					</div>
 
 					<hr />
 					<div class="form-group form-group-buttons">
@@ -102,7 +109,9 @@
 								id="testcase-hosting-reset">
 								<i class="glyphicon glyphicon-refresh"></i> <span>Reset</span>
 							</button>
+							
 						</span>
+						<div class="infoArea"></div>
 					</div>
 
 				</div>
@@ -147,11 +156,11 @@
 			<form id="form-testcases-discovery-mail-mapping" action="about:blank"
 				method="POST" enctype="multipart/form-data" target="_self"
 				onsubmit="return false;"
-				name="form-testcases-discovery-mail-mapping" data-parsley-validate>
+				name="form-testcases-discovery-mail-mapping">
 
 				<div class="form-group">
 					<div>
-						<label for="directAddress">Enter Your Direct Address:</label><br />
+						<label for="directAddress">Enter Your Direct Address:</label><br/>
 						<input id="directAddress" class="form-control"
 							name="directAddress" placeholder="direct email address"
 							style="display: inline;" type="email" tabindex="1" required  />

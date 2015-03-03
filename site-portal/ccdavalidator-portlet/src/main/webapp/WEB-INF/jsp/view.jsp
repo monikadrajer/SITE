@@ -223,7 +223,7 @@
 											<label for="CCDA2fileupload">Upload C-CDA file to Validate:</label><br/>
 											<span class="btn btn-success fileinput-button" id="CCDA2fileupload-btn"> <i
 													class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
-													<input id="CCDA2fileupload" type="file" name="file"  data-parsley-maxsize2="3" data-parsley-filetype="xml" data-parsley-required data-parsley-errors-container="#CCDA2InfoArea"  data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
+													<input id="CCDA2fileupload" type="file" name="file"  data-parsley-maxsize2="3" data-parsley-filetype="xml" data-parsley-required data-parsley-trigger="change" data-parsley-required-message="Please slect a C-CDA file." tabindex="1"/>
 											</span>
 											<div id="CCDA2files"></div>
 											<div id="CCDA2InfoArea" class="infoArea"></div>

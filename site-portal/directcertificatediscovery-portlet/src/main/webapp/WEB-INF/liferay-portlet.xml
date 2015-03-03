@@ -8,7 +8,6 @@
 		<instanceable>false</instanceable>
 		<header-portlet-css>/css/jquery/parsley.css</header-portlet-css>
 		<header-portlet-css>/css/main.css</header-portlet-css>
-		<footer-portlet-javascript>/js/jquery/parsley.min.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/dcdt/data.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/dcdt/web.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/dcdt/web-form.js</footer-portlet-javascript>

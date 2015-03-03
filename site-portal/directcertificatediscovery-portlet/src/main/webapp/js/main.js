@@ -1,5 +1,22 @@
 $(function() {
-
+	
+	/*
+	 * Parsley Options
+	 */
+	var parsleyOptions = {
+	        trigger: 'change',
+	        successClass: "has-success",
+	        errorClass: "alert alert-danger",
+	        classHandler: function (el) {
+	        	return el.$element.closest(".form-group").children(".infoArea");
+	        },
+			errorsContainer: function (el) {
+				return el.$element.closest(".form-group").children(".infoArea");
+			},
+			errorsWrapper: '<ul></ul>',
+			errorElem: '<li></li>'
+		};
+	
 	/*
 	 * 	Hosting Section
 	 */
@@ -33,10 +50,15 @@ $(function() {
     
     testcaseHostingSubmit.click(function (event) {
 
-    	// Reset the validation errors
-    	$('form#form-testcases-hosting').parsley().reset();
-
-        formTestcasesHosting.submit();
+    	isValid = $('form#form-testcases-hosting').parsley(parsleyOptions).validate();
+    	
+    	if (isValid) {
+    		
+    		// Reset the validation errors
+        	$('form#form-testcases-hosting').parsley(parsleyOptions).reset();
+            formTestcasesHosting.submit();
+    	
+    	}
     });
     
     testcaseHostingReset.click(function (event) {
