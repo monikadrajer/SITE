@@ -39,18 +39,31 @@
       	
 <div class="well">
   <form action="/site-portal-providerdirectory-servlet/GetPDGISingleTest" name="testForm" method="post" id="providerDirectoryTestForm">
-      
+  
+<div class="form-group">
 <p>
 	  <label for="endpointUrl">Enter Your Endpoint URL:</label>
-      <input id="endpointUrl" class="form-control" name="endpointUrl" type="url"  placeholder="Enter your Endpoint URL here. http:// ..." data-parsley-required="URL" data-parsley-errors-container="#infoArea1" data-pasley-trigger="change"  />
-      <div  id="infoArea1" class="infoArea"></div>
-<p></p>
+      <input id="endpointUrl" class="form-control" 
+      name="endpointUrl" type="url"  placeholder="Enter your Endpoint URL here. http:// ..." 
+      data-parsley-required="URL"
+      data-parsley-trigger="change"  />
+      <div id="infoArea1" class="infoArea"></div>
+
+</div>
+
+<div class="form-group">
 <p>      
       <label for="baseDn">Enter Your Base DN:</label>
-      <input id="baseDn" name="baseDn" type="text"  class="form-control" placeholder="Enter your base DN here ..." data-parsley-required="Base DN" data-parsley-errors-container="#infoArea2" data-pasley-trigger="change"  />
-      <div  id="infoArea2" class="infoArea"></div>
+      <input id="baseDn" name="baseDn" type="text"  
+      class="form-control" 
+      placeholder="Enter your base DN here ..." 
+      data-parsley-required="Base DN" 
+      data-parsley-trigger="change"  />
+      <div id="infoArea2" class="infoArea"></div>
 <p></p>
-<p>      
+</div>
+
+<p>
       <label for="testCase">Select a Test Case:</label>
       <select id="testCase" name="testCase" class="form-control" data-parsley-required="true" tabindex="1" >
         <option value="run_all_test_cases">Run All Test Cases</option>
@@ -59,7 +72,7 @@
         <% } %>
       </select>
 </p>
-<p> 
+<p>
 	<hr/>     
       <button id="querySubmit" type="submit" class="btn btn-primary start" name="submit"  tabindex="1">
       	<span class="glyphicon glyphicon-ok"></span>

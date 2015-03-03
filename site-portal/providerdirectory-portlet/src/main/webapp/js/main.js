@@ -1,16 +1,25 @@
 $(function() {
 	
-	// Setting up parsley options to have listed errors and to append the errors to parent element.
-	var parsleyOptions ={
-			errorsWrapper: '<ul id="#providerDirectoryWidget"></ul>',
-			errorElem: '<li></li>'	,
-			  errors: {
-			  		classHandler: function(el){
-			 			return el.parent();
-	 					}
-				}
+	
+	/*
+	 * Parsley Options
+	 */
+	var parsleyOptions = {
+	        trigger: 'change',
+	        successClass: "has-success",
+	        errorClass: "alert alert-danger",
+	        classHandler: function (el) {
+	        	return el.$element.closest(".form-group").children(".infoArea");
+	        },
+			errorsContainer: function (el) {
+				return el.$element.closest(".form-group").children(".infoArea");
+			},
+			errorsWrapper: '<ul></ul>',
+			errorElem: '<li></li>'
 		};
 	
+	// unsubscribe callbacks from previous uploads
+	$('#providerDirectoryTestForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
 	// Calling the Parsley Validator.
 	$('#providerDirectoryTestForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){     
 		formInstance.submitEvent.preventDefault();
