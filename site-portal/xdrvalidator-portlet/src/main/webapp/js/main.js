@@ -107,6 +107,22 @@ $(function() {
 	 });
 	
 	
+	$('#precannedToDirectAddress').bind('change',function(){
+	    $('#toDirectAddress').val($(this).val());
+	 });
+	
+	$('#toDirectAddress').bind('change',function(){
+	    $('#precannedToDirectAddress').val($(this).val());
+	 });
+	
+	$('#precannedFromDirectAddress').bind('change',function(){
+	    $('#fromDirectAddress').val($(this).val());
+	 });
+	
+	$('#fromDirectAddress').bind('change',function(){
+	    $('#precannedFromDirectAddress').val($(this).val());
+	 });
+	
 	$("#ccdafiletreepanel").jstree({
 		 "json_data" : {
 			      "ajax" : {

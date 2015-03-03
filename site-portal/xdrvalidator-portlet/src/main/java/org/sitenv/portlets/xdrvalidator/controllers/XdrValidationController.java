@@ -1,6 +1,9 @@
 package org.sitenv.portlets.xdrvalidator.controllers;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -9,6 +12,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -56,13 +60,17 @@ public class XdrValidationController extends BaseController {
 		response.setRenderParameter("javax.portlet.action", "uploadXDR");
 		MultipartFile file = request.getFile("file");
 		String endpoint = request.getParameter("wsdlLocation");
+		String fromDirectAddress = request.getParameter("fromDirectAddress");
+		String toDirectAddress  = request.getParameter("toDirectAddress");
 
+		String encodedFile = Base64.encodeBase64String(file.getBytes());
+		
 		fileJson = new JSONArray();
 		
 		jsonResponseBody = new JSONObject();
 		
 		
-		String test = XDR.sendValidMinimalXDRMessage(endpoint, null, null, "edge@nist.gov", "admin@sitenv.org", endpoint);
+		String test = XDR.sendValidMinimalXDRMessage(endpoint, encodedFile, file.getName(), toDirectAddress, fromDirectAddress, endpoint);
 		
 		logger.info(test);
 		
@@ -71,6 +79,7 @@ public class XdrValidationController extends BaseController {
 				JSONObject jsono = new JSONObject();
 				jsono.put("name", file.getOriginalFilename());
 				jsono.put("size", file.getSize());
+				
 				
 				fileJson.put(jsono);
 				
@@ -109,13 +118,25 @@ public class XdrValidationController extends BaseController {
 		response.setRenderParameter("javax.portlet.action", "precannedXDR");
 		String endpoint = request.getParameter("precannedWsdlLocation");
 		//MultipartFile file = request.getFile("file");
-
+		String fromDirectAddress = request.getParameter("precannedFromDirectAddress");
+		String toDirectAddress  = request.getParameter("precannedToDirectAddress");
+		String sampleCcdaDir = props.getProperty("sampleCcdaDir");
+		String precannedfile = request.getParameter("precannedfilepath");
+		
+		String serverFilePath = sampleCcdaDir + "/" + precannedfile;
+		
+		File ccdaFile = new File(serverFilePath);
+		
+		byte[] byteArray = this.read(ccdaFile);
+		
+		String base64String = Base64.encodeBase64String(byteArray);
+		
 		fileJson = new JSONArray();
 		
 		jsonResponseBody = new JSONObject();
 		
-
-		String test = XDR.sendValidMinimalXDRMessage(endpoint, null, null, "edge@nist.gov", "admin@sitenv.org", endpoint);
+		
+		String test = XDR.sendValidMinimalXDRMessage(endpoint, base64String, ccdaFile.getName(), toDirectAddress, fromDirectAddress, endpoint);
 		
 		logger.info(test);
 		
@@ -186,6 +207,28 @@ public class XdrValidationController extends BaseController {
 		modelAndView.addObject("xdrSoapEndpoint", props.get("xdrvalidator.service.endpoint"));
 
 		return modelAndView;
+	}
+	
+	public byte[] read(File file) throws IOException {
+
+
+
+	    byte []buffer = new byte[(int) file.length()];
+	    InputStream ios = null;
+	    try {
+	        ios = new FileInputStream(file);
+	        if ( ios.read(buffer) == -1 ) {
+	            throw new IOException("EOF reached while trying to read the whole file");
+	        }        
+	    } finally { 
+	        try {
+	             if ( ios != null ) 
+	                  ios.close();
+	        } catch ( IOException e) {
+	        }
+	    }
+
+	    return buffer;
 	}
 	
 }

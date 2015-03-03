@@ -148,7 +148,16 @@
 				<input type="text" name="precannedWsdlLocation" id="precannedWsdlLocation" class="validate[required,custom[url]] form-control" tabindex="1"/>
 				
 				<br />
+				<label for="precannedFromDirectAddress">Enter Your From Direct Address:</label>
+				<input type="text" name="precannedFromDirectAddress" id="precannedFromDirectAddress" class="validate[required,custom[email]] form-control" tabindex="1"/>
+				
 				<br />
+				<label for="precannedToDirectAddress">Enter Your To Direct Address:</label>
+				<input type="text" name="precannedToDirectAddress" id="precannedToDirectAddress" class="validate[required,custom[email]] form-control" tabindex="1"/>
+			
+				<br/>
+				<br/>
+				
 				<noscript><input type="hidden" name="redirect" value="true"  /></noscript>
 				<div id="precannederrorlock" style="position: relative;">
 					<div class="row">
@@ -191,6 +200,16 @@
 				<label for="wsdlLocation">Enter Your Endpoint URL:</label>
 				<input type="text" name="wsdlLocation" id="wsdlLocation" class="validate[required,custom[url]] form-control" tabindex="1"/>
 				
+				
+				
+				<br />
+				<label for="fromDirectAddress">Enter Your From Direct Address:</label>
+				<input type="text" name="fromDirectAddress" id="fromDirectAddress" class="validate[required,custom[email]] form-control" tabindex="1"/>
+				
+				<br />
+				<label for="toDirectAddress">Enter Your To Direct Address:</label>
+				<input type="text" name="toDirectAddress" id="toDirectAddress" class="validate[required,custom[email]] form-control" tabindex="1"/>
+			
 				
 				<br/><br/>
 			

@@ -12,7 +12,10 @@ public class XDR {
 		// Send full metadata for now
 		String metadata = XDRUtilities.getXDRFullTemplate("Xdr_full_metadata_only.xml");
 		metadata = XDRUtilities.replaceHeaders(metadata, directFrom, directTo, replyTo);
-		String ccda = XDRUtilities.getFileContent("encodedCCDA.txt");
+		
+		//String ccda = XDRUtilities.getFileContent("encodedCCDA.txt");
+		
+		String ccda = doc;
 		
 		String mtomPackage = XDRUtilities.createMtomPackage(metadata, ccda);
 		

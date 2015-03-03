@@ -125,6 +125,8 @@ $(function() {
 				data.formData = { };
 				
 				data.formData.wsdlLocation = $("#wsdlLocation").val();
+				data.formData.toDirectAddress = $('#toDirectAddress').val();
+				data.formData.fromDirectAddress = $('#fromDirectAddress').val(); 
 				
 				if (selectedValue != undefined) {
 					data.formData.testCases = selectedValue;
@@ -162,6 +164,8 @@ $(function() {
 	{
 		$('#XDRValidationForm .formError').hide(0);
 		var urlEndpoint = $('#wsdlLocation').val();
+		var directFrom = $('#fromDirectAddress').val();
+		var directTo = $('#toDirectAddress').val();
 		var selectedText = $("#testCases :selected").text();
 		$("#testCases option").each(function() {
 			  if($(this).text() == selectedText) {
@@ -173,6 +177,8 @@ $(function() {
 		
 		$('#XDRValidationForm').trigger('reset');
 		$('#wsdlLocation').val(urlEndpoint);
+		$('#fromDirectAddress').val(directFrom);
+		$('#toDirectAddress').val(directTo);
 		$('#formSubmit').unbind("click");
 		
 		$('#files').empty();
