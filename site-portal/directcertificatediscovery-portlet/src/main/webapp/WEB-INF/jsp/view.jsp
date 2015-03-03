@@ -111,7 +111,6 @@
 							</button>
 							
 						</span>
-						<div class="infoArea"></div>
 					</div>
 
 				</div>
@@ -163,16 +162,18 @@
 						<label for="directAddress">Enter Your Direct Address:</label><br/>
 						<input id="directAddress" class="form-control"
 							name="directAddress" placeholder="direct email address"
-							style="display: inline;" type="email" tabindex="1" required  />
+							style="display: inline;" type="email" tabindex="1" data-parsley-required data-parsley-required-message="This field is required."  />
 					</div>
+					<div class="infoArea"></div>
 				</div>
 				<div class="form-group">
 					<div>
 						<label for="resultsAddress">Enter Your Email Address (for
 							results):</label> <input id="resultsAddress" class="form-control"
 							name="resultsAddress" placeholder="results email address"
-							style="display: inline;" type="email" tabindex="1" required  />
+							style="display: inline;" type="email" tabindex="1" data-parsley-required data-parsley-required-message="This field is required."  />
 					</div>
+					<div class="infoArea"></div>
 				</div>
 
 				<hr />

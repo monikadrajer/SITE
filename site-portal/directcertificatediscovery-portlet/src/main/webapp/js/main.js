@@ -18,7 +18,7 @@ $(function() {
 		};
 	
 	/*
-	 * 	Hosting Section
+	 * 	Hosting Section 
 	 */
 	formTestcasesHosting = $("form[name=\"form-testcases-hosting\"]");
     testcasesHostingSelect = $("select#testcase-hosting-select", formTestcasesHosting);
@@ -55,7 +55,7 @@ $(function() {
     	if (isValid) {
     		
     		// Reset the validation errors
-        	$('form#form-testcases-hosting').parsley(parsleyOptions).reset();
+        	$('form#form-testcases-hosting').parsley().reset();
             formTestcasesHosting.submit();
     	
     	}
@@ -121,10 +121,15 @@ $(function() {
     
     discoveryMailMappingSubmit.click(function (event) {
     	
-    	// Reset the validation errors
-    	$('form#form-testcases-discovery-mail-mapping').parsley().reset();
-
-        formDiscoveryMailMapping.submit();
+    	isValid = $('form#form-testcases-discovery-mail-mapping').parsley(parsleyOptions).validate();
+    	
+    	if (isValid) {
+    		
+    		// Reset the validation errors
+    		$('form#form-testcases-discovery-mail-mapping').parsley().reset();
+    		formDiscoveryMailMapping.submit();
+    	}
+    	
     });
     
     discoveryMailMappingReset.click(function (event) {
