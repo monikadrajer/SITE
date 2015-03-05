@@ -84,6 +84,76 @@ function BlockSendPortletUI()
 
 $(function() {
 	
+	
+	$('#precannedOptionalOne').on('hidden.bs.collapse', function () {
+		  $('#uploadOptionalHeadingOne a').addClass('collapsed');
+		  $('#uploadOptionalOne').css("height", "0px");
+		  $('#uploadOptionalOne').removeClass('in');
+		  $('#uploadOptionalOne').addClass('collapse');
+		  
+		  //window.xdrReceiveDirectToAddress = $('#precannedToDirectAddress').val();
+		  $('#precannedToDirectAddress').val('');
+		  $('#toDirectAddress').val('');
+		  //window.xdrReceiveDirectFromAddress = $('#precannedFromDirectAddress').val();
+		  $('#precannedFromDirectAddress').val('');
+		  $('#fromDirectAddress').val('');
+		  
+
+		  $('#messageType').val('minimal');
+		  $('#precannedMessageType').val('minimal');
+		  
+		  $('#XDRPrecannedForm .formError').hide(0);
+		  $('#XDRUploadForm .formError').hide(0);
+		});
+	
+	$('#precannedOptionalOne').on('shown.bs.collapse', function () {
+			$('#uploadOptionalHeadingOne a').removeClass('collapsed');
+			$('#uploadOptionalOne').css("height", "auto");
+			$('#uploadOptionalOne').addClass('in');
+			$('#uploadOptionalOne').removeClass('collapse');
+
+		});
+	
+	$('#precannedOptionalOne').on('show.bs.collapse', function () {
+		$('#precannedToDirectAddress').val(window.xdrReceiveDirectToAddress);
+		$('#precannedFromDirectAddress').val(window.xdrReceiveDirectFromAddress);
+	});
+	
+	$('#uploadOptionalOne').on('hidden.bs.collapse', function () {
+		 $('#precannedOptionalHeadingOne a').addClass('collapsed');
+		 $('#precannedOptionalOne').css("height", "0px");
+		  $('#precannedOptionalOne').removeClass('in');
+		  $('#precannedOptionalOne').addClass('collapse');
+		  
+
+		  //window.xdrReceiveDirectToAddress = $('#toDirectAddress').val();
+		  $('#toDirectAddress').val('');
+		  $('#precannedToDirectAddress').val('');
+		  //window.xdrReceiveDirectFromAddress = $('#fromDirectAddress').val();
+		  $('#fromDirectAddress').val('');
+		  $('#precannedFromDirectAddress').val('');
+		  
+		  $('#messageType').val('minimal');
+		  $('#precannedMessageType').val('minimal');
+		  
+		  $('#XDRPrecannedForm .formError').hide(0);
+		  $('#XDRUploadForm .formError').hide(0);
+
+		});
+	
+	$('#uploadOptionalOne').on('shown.bs.collapse', function () {
+		$('#precannedOptionalHeadingOne a').removeClass('collapsed');
+		 $('#precannedOptionalOne').css("height", "auto");
+		$('#precannedOptionalOne').addClass('in');
+		  $('#precannedOptionalOne').removeClass('collapse');
+
+		});
+	
+	$('#uploadOptionalOne').on('show.bs.collapse', function () {
+		$('#toDirectAddress').val(window.xdrReceiveDirectToAddress);
+		$('#fromDirectAddress').val(window.xdrReceiveDirectFromAddress);
+	});
+	
 	$('.dropdown-menu').click(function (e) {
 		e.stopPropagation();
 	});
@@ -121,6 +191,14 @@ $(function() {
 	
 	$('#fromDirectAddress').bind('change',function(){
 	    $('#precannedFromDirectAddress').val($(this).val());
+	 });
+	
+	$('#precannedMessageType').bind('change',function(){
+	    $('#messageType').val($(this).val());
+	 });
+	
+	$('#messageType').bind('change',function(){
+	    $('#precannedMessageType').val($(this).val());
 	 });
 	
 	$("#ccdafiletreepanel").jstree({
@@ -243,6 +321,70 @@ $(function() {
 		    					        	}
 		    					        	
 		    					        	Liferay.Portlet.refresh("#p_p_id_Statistics_WAR_siteportalstatisticsportlet_"); // refresh the counts
+		    					        	
+		    					        	
+		    					        	clearTimeout(window.xdrReceiveUploadTimeout);
+		    			        			window.xdrreceivewidget.unblock();
+		    			        			var tabHtml1 = ['<title>XDR Receive Response</title>',
+		    			        									    '<h1 align="center">XDR Receive Response</h1>',
+		    			        									    '<hr/>',
+		    			        									    '<hr/>',
+		    			        									    '<br/>'].join('\n');
+		    			        			
+		    			        			tabHtml1 += '<div class="panel-group" id="receiveaccordion" role="tablist" aria-multiselectable="true">';
+		    			        			  
+		    			        			
+		    			        				
+		    			        				
+		    			        			tabHtml1 += '<div class="panel panel-default" id="xdrreceivepanel">';
+		    			        			tabHtml1 += ' <div class="panel-heading" role="tab" id="xdrreceiveheading">';
+		    			        			tabHtml1 += '  <h4 class="panel-title">';
+		    			        			tabHtml1 += 'XDR Response';
+		    			        			tabHtml1 += '  </h4>';
+		    			        			tabHtml1 += ' </div>';
+		    			        			tabHtml1 += '	<div class="panel-body"></div>';
+		    			        			tabHtml1 += '</div>';
+		    			        			  
+		    			        			
+		    			        			tabHtml1 += "</div>";
+		    			        			
+		    			        			
+		    			        			
+		    			        			$("#receiveValidationResult .tab-content #receivetabs-1").html(tabHtml1);
+		    			        			
+		    			        			
+		    			        			    	    	
+		    			        			var codeWrapper = document.createElement('div');
+		    			        			    	    	
+		    			        			var codeEle = document.createElement("code");
+		    			        			$('#receiveaccordion .panel-body').html(codeWrapper);
+		    			        			    	    	
+		    			        			$('#receiveaccordion .panel-body div').addClass("well");
+		    			        			$('#receiveaccordion .panel-body div').css("word-wrap", "break-word");
+		    			        			    	    	
+		    			        			    	    	
+		    			        			$('#receiveaccordion .panel-body .well').html(codeEle);
+		    			        			    	    	
+		    			        			$('#receiveaccordion .panel-body .well code').css("white-space", "pre");
+		    			        			    	    	
+		    			        			$('#receiveaccordion .panel-body .well code').text(results.body.xdrResponse);
+		    			        			  
+		    			        			    	 
+		    			        			  
+		    			        			   
+		    			        			
+		    			        			$("#xdrReceiveModal").modal("show");
+		    			        			
+		    			        			
+		    			        			//disable smart ccda result tab.
+		    			        			$("#receiveModalTabs a[href='#receivetabs-1']").tab("show");
+		    			        			
+		    			        		    Liferay.Portlet.refresh("#p_p_id_Statistics_WAR_siteportalstatisticsportlet_"); // refresh the counts
+		    			        		    
+		    			        		    //clean up the links
+		    			        		    /*$("#ValidationResult #tabs #tabs-1 b:first, #ValidationResult #tabs #tabs-1 a:first").remove();*/
+		    			        		    $("#receiveValidationResult .tab-content #receivetabs-1 hr:lt(4)").remove();
+		    			        		    
 		    					        	
 		    					        },
 		    					        

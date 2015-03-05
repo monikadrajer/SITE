@@ -208,3 +208,15 @@ white-space: pre;
 background-color: transparent;
 }
 
+#precannedOptionalHeaderSpan, #uploadOptionalHeaderSpan {
+	float: right; 
+	margin-top: 1px;
+}
+
+#precannedOptionalHeaderSpan::before, #uploadOptionalHeaderSpan::before {
+	content: "\e160";
+}
+
+.collapsed #precannedOptionalHeaderSpan::before, .collapsed #uploadOptionalHeaderSpan::before {
+	content: "\e159";
+}

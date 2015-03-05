@@ -61,18 +61,37 @@ public class XdrValidationController extends BaseController {
 		MultipartFile file = request.getFile("file");
 		String endpoint = request.getParameter("wsdlLocation");
 		String fromDirectAddress = request.getParameter("fromDirectAddress");
+		
+		if (fromDirectAddress == null || fromDirectAddress.trim().equals("")) {
+			fromDirectAddress = "admin@sitenv.org";
+		}
+		
 		String toDirectAddress  = request.getParameter("toDirectAddress");
 
+		if (toDirectAddress == null || toDirectAddress.trim().equals("")) {
+			toDirectAddress = "admin@sitenv.org";
+		}
+		
+		String messageType = request.getParameter("messageType");
 		String encodedFile = Base64.encodeBase64String(file.getBytes());
 		
 		fileJson = new JSONArray();
 		
 		jsonResponseBody = new JSONObject();
+
+		String xdrResponse = null;
+		
+		if (messageType.equalsIgnoreCase("full")) 
+		{
+			xdrResponse = XDR.sendValidFullXDRMessage(endpoint, encodedFile, file.getName(), toDirectAddress, fromDirectAddress, endpoint);
+		}
+		else
+		{
+			xdrResponse = XDR.sendValidMinimalXDRMessage(endpoint, encodedFile, file.getName(), toDirectAddress, fromDirectAddress, endpoint);
+		}
+		logger.info(xdrResponse);
 		
 		
-		String test = XDR.sendValidMinimalXDRMessage(endpoint, encodedFile, file.getName(), toDirectAddress, fromDirectAddress, endpoint);
-		
-		logger.info(test);
 		
 		try {
 
@@ -86,8 +105,7 @@ public class XdrValidationController extends BaseController {
 				// handle the data
 				jsonResponseBody.put("IsSuccess", "true");
 				jsonResponseBody.put("ErrorMessage", "Message Sent Successfully!");
-				
-				
+				jsonResponseBody.put("xdrResponse", xdrResponse);
 				
 				
 
@@ -119,9 +137,20 @@ public class XdrValidationController extends BaseController {
 		String endpoint = request.getParameter("precannedWsdlLocation");
 		//MultipartFile file = request.getFile("file");
 		String fromDirectAddress = request.getParameter("precannedFromDirectAddress");
+		
+		if (fromDirectAddress == null || fromDirectAddress.trim().equals("")) {
+			fromDirectAddress = "admin@sitenv.org";
+		}
+		
 		String toDirectAddress  = request.getParameter("precannedToDirectAddress");
+		
+		if (toDirectAddress == null || toDirectAddress.trim().equals("")) {
+			toDirectAddress = "admin@sitenv.org";
+		}
+		
 		String sampleCcdaDir = props.getProperty("sampleCcdaDir");
 		String precannedfile = request.getParameter("precannedfilepath");
+		String precannedMessageType = request.getParameter("precannedMessageType");
 		
 		String serverFilePath = sampleCcdaDir + "/" + precannedfile;
 		
@@ -135,10 +164,17 @@ public class XdrValidationController extends BaseController {
 		
 		jsonResponseBody = new JSONObject();
 		
+		String xdrResponse = null;
 		
-		String test = XDR.sendValidMinimalXDRMessage(endpoint, base64String, ccdaFile.getName(), toDirectAddress, fromDirectAddress, endpoint);
-		
-		logger.info(test);
+		if (precannedMessageType.equalsIgnoreCase("full")) 
+		{
+			xdrResponse = XDR.sendValidFullXDRMessage(endpoint, base64String, ccdaFile.getName(), toDirectAddress, fromDirectAddress, endpoint);
+		}
+		else
+		{
+			xdrResponse = XDR.sendValidMinimalXDRMessage(endpoint, base64String, ccdaFile.getName(), toDirectAddress, fromDirectAddress, endpoint);
+		}
+		logger.info(xdrResponse);
 		
 		try {
 
@@ -151,7 +187,7 @@ public class XdrValidationController extends BaseController {
 				// handle the data
 				jsonResponseBody.put("IsSuccess", "true");
 				jsonResponseBody.put("ErrorMessage", "Message Sent Successfully!");
-				
+				jsonResponseBody.put("xdrResponse", xdrResponse);
 				
 				
 				

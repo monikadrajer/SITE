@@ -77,6 +77,69 @@ $(function() {
 				});
 
 			}, 1000);
+			
+			clearTimeout(window.xdrReceiveUploadTimeout);
+			window.xdrreceivewidget.unblock();
+			var tabHtml1 = ['<title>XDR Receive Response</title>',
+									    '<h1 align="center">XDR Receive Response</h1>',
+									    '<hr/>',
+									    '<hr/>',
+									    '<br/>'].join('\n');
+			
+			tabHtml1 += '<div class="panel-group" id="receiveaccordion" role="tablist" aria-multiselectable="true">';
+			  
+			
+				
+				
+			tabHtml1 += '<div class="panel panel-default" id="xdrreceivepanel">';
+			tabHtml1 += ' <div class="panel-heading" role="tab" id="xdrreceiveheading">';
+			tabHtml1 += '  <h4 class="panel-title">';
+			tabHtml1 += 'XDR Response';
+			tabHtml1 += '  </h4>';
+			tabHtml1 += ' </div>';
+			tabHtml1 += '	<div class="panel-body"></div>';
+			tabHtml1 += '</div>';
+			  
+			
+			tabHtml1 += "</div>";
+			
+			
+			
+			$("#receiveValidationResult .tab-content #receivetabs-1").html(tabHtml1);
+			
+			
+			    	    	
+			var codeWrapper = document.createElement('div');
+			    	    	
+			var codeEle = document.createElement("code");
+			$('#receiveaccordion .panel-body').html(codeWrapper);
+			    	    	
+			$('#receiveaccordion .panel-body div').addClass("well");
+			$('#receiveaccordion .panel-body div').css("word-wrap", "break-word");
+			    	    	
+			    	    	
+			$('#receiveaccordion .panel-body .well').html(codeEle);
+			    	    	
+			$('#receiveaccordion .panel-body .well code').css("white-space", "pre");
+			    	    	
+			$('#receiveaccordion .panel-body .well code').text(results.xdrResponse);
+			  
+			    	 
+			  
+			   
+			
+			$("#xdrReceiveModal").modal("show");
+			
+			
+			//disable smart ccda result tab.
+			$("#receiveModalTabs a[href='#receivetabs-1']").tab("show");
+			
+		    Liferay.Portlet.refresh("#p_p_id_Statistics_WAR_siteportalstatisticsportlet_"); // refresh the counts
+		    
+		    //clean up the links
+		    /*$("#ValidationResult #tabs #tabs-1 b:first, #ValidationResult #tabs #tabs-1 a:first").remove();*/
+		    $("#receiveValidationResult .tab-content #receivetabs-1 hr:lt(4)").remove();
+			
 		},
 		progressall : function(e, data) {
 			var progressval = parseInt(data.loaded / data.total * 100, 10);
@@ -120,16 +183,16 @@ $(function() {
 				
 				BlockPortletUI();
 				
-				var selectedValue = $("#testCases").val();
+				var selectedValue = $("#messageType").val();
 				
 				data.formData = { };
 				
 				data.formData.wsdlLocation = $("#wsdlLocation").val();
 				data.formData.toDirectAddress = $('#toDirectAddress').val();
-				data.formData.fromDirectAddress = $('#fromDirectAddress').val(); 
+				data.formData.fromDirectAddress = $('#fromDirectAddress').val();
 				
 				if (selectedValue != undefined) {
-					data.formData.testCases = selectedValue;
+					data.formData.messageType = selectedValue;
 				}
 				
 				data.submit();
@@ -166,8 +229,8 @@ $(function() {
 		var urlEndpoint = $('#wsdlLocation').val();
 		var directFrom = $('#fromDirectAddress').val();
 		var directTo = $('#toDirectAddress').val();
-		var selectedText = $("#testCases :selected").text();
-		$("#testCases option").each(function() {
+		var selectedText = $("#messageType :selected").text();
+		$("#messageType option").each(function() {
 			  if($(this).text() == selectedText) {
 			    $(this).attr('selected', 'selected');            
 			  } else {

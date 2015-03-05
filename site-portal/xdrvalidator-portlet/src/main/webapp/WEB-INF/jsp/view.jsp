@@ -128,6 +128,7 @@
 				In order to verify if your system is consuming XDR messages per the IHE XDR profile used in the context of Direct Edge protocols
 				<ul>
 					<li>Send messages from SITE XDR Test Tool to your system by entering your endpoint below</li>
+					<li>Enter any optional properties by expanding the optional XDR message properties panel.  To remove the entered properties, collapse the panel by clicking on the title.</li>
 					<li>Choose a CCDA document that you would like to attach as part of the payload</li>
 					<li>Send the XDR message</li>
 				</ul>
@@ -148,12 +149,37 @@
 				<input type="text" name="precannedWsdlLocation" id="precannedWsdlLocation" class="validate[required,custom[url]] form-control" tabindex="1"/>
 				
 				<br />
-				<label for="precannedFromDirectAddress">Enter Your From Direct Address:</label>
-				<input type="text" name="precannedFromDirectAddress" id="precannedFromDirectAddress" class="validate[required,custom[email]] form-control" tabindex="1"/>
 				
-				<br />
-				<label for="precannedToDirectAddress">Enter Your To Direct Address:</label>
-				<input type="text" name="precannedToDirectAddress" id="precannedToDirectAddress" class="validate[required,custom[email]] form-control" tabindex="1"/>
+				<div class="panel-group" id="precannedOptional" role="tablist" aria-multiselectable="true">
+				  <div class="panel panel-default">
+				    <div class="panel-heading" role="tab" id="precannedOptionalHeadingOne">
+				      <h4 class="panel-title">
+				        <a data-toggle="collapse" data-parent="#precannedOptional" href="#precannedOptionalOne" aria-expanded="true" aria-controls="precannedOptionalOne" style="font-size:small;" tabindex="1" class="collapsed">
+				          Optional XDR Message Properties
+				          <span id="precannedOptionalHeaderSpan" class="glyphicon"></span>
+				        </a>
+				      </h4>
+				    </div>
+				    <div id="precannedOptionalOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="precannedOptionalHeadingOne">
+				      <div class="panel-body">
+				        <label for="precannedFromDirectAddress">Enter Your From Direct Address:</label>
+								<input type="text" name="precannedFromDirectAddress" id="precannedFromDirectAddress" class="validate[custom[email]] form-control" tabindex="1"/>
+								
+								<br />
+								<label for="precannedToDirectAddress">Enter Your To Direct Address:</label>
+								<input type="text" name="precannedToDirectAddress" id="precannedToDirectAddress" class="validate[custom[email]] form-control" tabindex="1"/>
+							
+								<br/>
+								<label for="precannedMessageType">Select an XDR Message Type:</label><br/>
+									<select id="precannedMessageType" name="precannedMessageType" class="form-control" tabindex="1">
+										<option value="minimal">Minimal XDR Message</option>
+									    <option value="full">Full XDR Message</option>
+						  			</select></div>
+				    </div>
+				  </div>
+				</div>
+				
+				
 			
 				<br/>
 				<br/>
@@ -199,16 +225,37 @@
 			
 				<label for="wsdlLocation">Enter Your Endpoint URL:</label>
 				<input type="text" name="wsdlLocation" id="wsdlLocation" class="validate[required,custom[url]] form-control" tabindex="1"/>
+				<br/>
+				<div class="panel-group" id="uploadOptional" role="tablist" aria-multiselectable="true">
+				  <div class="panel panel-default">
+				    <div class="panel-heading" role="tab" id="uploadOptionalHeadingOne">
+				      <h4 class="panel-title">
+				        <a data-toggle="collapse" data-parent="#uploadOptional" href="#uploadOptionalOne" aria-expanded="true" aria-controls="uploadOptionalOne" style="font-size:small;" tabindex="1" class="collapsed">
+				          Optional XDR Message Properties
+				          <span id="uploadOptionalHeaderSpan" class="glyphicon"></span>
+				        </a>
+				      </h4>
+				    </div>
+				    <div id="uploadOptionalOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="precannedOptionalHeadingOne">
+				      <div class="panel-body">
+				       <label for="fromDirectAddress">Enter Your From Direct Address:</label>
+						<input type="text" name="fromDirectAddress" id="fromDirectAddress" class="validate[custom[email]] form-control" tabindex="1"/>
+						
+						<br />
+						<label for="toDirectAddress">Enter Your To Direct Address:</label>
+						<input type="text" name="toDirectAddress" id="toDirectAddress" class="validate[custom[email]] form-control" tabindex="1"/>
+					
+						<br/>
+						<label for="messageType">Select an XDR Message Type:</label><br/>
+						<select id="messageType" name="messageType" class="form-control" tabindex="1">
+							<option value="minimal">Minimal XDR Message</option>
+						    <option value="full">Full XDR Message</option>
+			  			</select>
+		  				</div>
+				    </div>
+				  </div>
+				</div>
 				
-				
-				
-				<br />
-				<label for="fromDirectAddress">Enter Your From Direct Address:</label>
-				<input type="text" name="fromDirectAddress" id="fromDirectAddress" class="validate[required,custom[email]] form-control" tabindex="1"/>
-				
-				<br />
-				<label for="toDirectAddress">Enter Your To Direct Address:</label>
-				<input type="text" name="toDirectAddress" id="toDirectAddress" class="validate[required,custom[email]] form-control" tabindex="1"/>
 			
 				
 				<br/><br/>
@@ -247,6 +294,32 @@
 			
 			<div class="clear"></div>
 		</div>
+</div>
+
+
+<div class="modal modal-wide fade" id="xdrReceiveModal" tabindex="-1" role="dialog" aria-labelledby="xdrReceiveModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<ul class="nav nav-tabs" id="receiveModalTabs">
+					  <li><a href="#receivetabs-1" data-toggle="tab">XDR Send Requests</a></li>
+					</ul>
+			</div>
+			<div class="modal-body">
+				<div id="receiveValidationResult">
+					<div class="tab-content" id="receiveTabContent">
+						<div class="tab-pane" id="receivetabs-1">
+							<h2>Content heading 1</h2>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" id="closeReceiveResultsBtn" data-dismiss="modal">Close Results</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 
