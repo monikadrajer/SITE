@@ -1,3 +1,89 @@
+
+
+/*
+ * Set up Parsley validators
+ */
+$(function() {
+	
+	// Parsley validator to validate file extension.
+	window.ParsleyValidator.addValidator('trustfiletypes',function(value){
+		var ext=value.split('.').pop().toLowerCase();
+		
+		var istrue = false;
+		if  (ext === 'cer'){
+			istrue = true;
+		} else if (ext === 'crt') {
+			istrue = true;
+		} else if (ext === 'der') {
+			istrue = true;
+		} else if (ext === 'pem') {
+			istrue = true;
+		} else if (ext === 'cert') {
+			istrue = true;
+		}
+		
+		return istrue;
+	},32).addMessage('en','trustfiletypes','The selected certificate file must be a binary or Base64 encoded file file (.cer, .crt, .der, or .pem).');
+	
+	
+	// Parsley validator to validate xml extension.
+	window.ParsleyValidator.addValidator('filetype',function(value,requirement){
+		var ext=value.split('.').pop().toLowerCase();
+		return ext === requirement;	
+	},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
+	
+	
+	// parsley Validator to validate the file size
+	window.ParsleyValidator.addValidator('anchormaxsize',function(value,requirement){
+		var file_size=$('#anchoruploadfile')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','anchormaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+	
+	
+	// parsley Validator to validate the file size
+	window.ParsleyValidator.addValidator('ccdamaxsize',function(value,requirement){
+		var file_size=$('#ccdauploadfile')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','ccdamaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+	
+	
+});
+
+
+
+
+/*
+ * 	Parsley Validation
+ */
+$("button#precannedCCDAsubmit, button#ccdauploadsubmit, button#anchoruploadsubmit, button#ccdauploadsubmit").click(
+
+		
+		function()
+		{
+			
+			var parsleyOptions = {
+			        trigger: 'change',
+			        successClass: "has-success",
+			        errorClass: "alert alert-danger",
+			        classHandler: function (el) {
+			        	return el.$element.closest(".form-group").children(".infoArea");
+			        },
+					errorsContainer: function (el) {
+						return el.$element.closest(".form-group").children(".infoArea");
+					},
+					errorsWrapper: '<ul></ul>',
+					errorElem: '<li></li>'
+				};
+			
+			var $form = $(this).closest('form');
+			if (! $form.parsley(parsleyOptions).validate())
+			{
+				return false;
+			}
+		}
+);
+
+
 (function($) {
 $.fn.serializefiles = function() {
     var obj = $(this);
@@ -15,6 +101,7 @@ $.fn.serializefiles = function() {
     return formData;
 };
 })(jQuery);
+
 
 function progressorHandlingFunction(e){
     if(e.lengthComputable){
@@ -324,20 +411,6 @@ $(function() {
 
 });
 
-/*
- * 	Parsley Validation
- */
-$("button#precannedCCDAsubmit, button#ccdauploadsubmit").click(
-		function()
-		{
-			var $form = $(this).closest('form');
-			if (! $form.parsley().validate())
-			{
-				return false;
-			}
-		}
-);
-
 
 /*
  * 	Get Direct Certificate Utility
@@ -364,7 +437,23 @@ $(function() {
 	/*
 	 * Submit the form
 	 */
-	$('form#form-getdc').parsley().subscribe('parsley:form:validate', function (formInstance) {
+	var parsleyOptions = {
+	        trigger: 'change',
+	        successClass: "has-success",
+	        errorClass: "alert alert-danger",
+	        classHandler: function (el) {
+	        	return el.$element.closest(".form-group").children(".infoArea");
+	        },
+			errorsContainer: function (el) {
+				return el.$element.closest(".form-group").children(".infoArea");
+			},
+			errorsWrapper: '<ul></ul>',
+			errorElem: '<li></li>'
+		};
+	
+	$('form#form-getdc').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+    
+	$('form#form-getdc').parsley(parsleyOptions).subscribe('parsley:form:validate', function (formInstance) {
 
 		if (formInstance.isValid())
 		{
@@ -381,14 +470,14 @@ $(function() {
 			
 			return;
 		}
-
 		// else stop form submission
-	    formInstance.submitEvent.preventDefault();
+	    //formInstance.submitEvent.preventDefault();
 		
-		return;
+		return false;
 
 	});
-
+	
+    
 	/*
 	 * Reset parsley
 	 */

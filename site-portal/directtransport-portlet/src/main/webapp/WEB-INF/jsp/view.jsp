@@ -126,7 +126,7 @@
 		</ol>
 		<div class="well">
 			<form id="anchoruploadform" action="${uploadTrustAnchor}"
-				method="POST" enctype="multipart/form-data" data-parsley-validate>
+				method="POST" enctype="multipart/form-data">
 
 				<!-- The fileinput-button span is used to style the file input field as button -->
 				<noscript>
@@ -134,7 +134,7 @@
 				</noscript>
 				<div id="anchoruploaderrorlock" style="position: relative;">
 					<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-12 form-group">
 							<label for="anchoruploadfile">Select a Local Trust Anchor
 								Certificate (binary or PEM encoded): </label><br /> <span
 								class="btn btn-success fileinput-button"
@@ -143,7 +143,7 @@
 									Certificate...</span> <!-- The file input field used as target for the file upload widget -->
 								<input id="anchoruploadfile" type="file" name="anchoruploadfile"
 								class="validate[required, custom[derencncodedfileextension[der|crt|cer|pem|DER|CRT|CER|PEM]], custom[maxCertFileSize]]"
-								data-parsley-required data-parsley-errors-container="#anchorInfoArea"  data-parsley-trigger="change" data-parsley-trustfiletypes data-parsley-maxsize="3"
+								data-parsley-required data-parsley-trigger="change" data-parsley-trustfiletypes data-parsley-anchormaxsize="3"
 								tabindex="1" />
 							</span>
 							<div id="anchoruploadfiles" class="files"></div>
@@ -153,7 +153,7 @@
 				</div>
 				<hr />
 				<button id="anchoruploadsubmit" type="submit"
-					class="btn btn-primary start" onclick="return false;" tabindex="1">
+					class="btn btn-primary start" tabindex="1">
 					<i class="glyphicon glyphicon-ok"></i> <span>Submit Anchor</span>
 				</button>
 			</form>
@@ -217,28 +217,33 @@
 				<div class="tab-pane active" id="precanned">
 					<div id="precannedFormWrapper">
 						<form id="precannedForm" action="${precannedCCDADirectReceive}"
-							method="POST" data-parsley-validate>
+							method="POST">
+							<div class="form-group">
 							<p>
 								<label for="precannedemail">Enter Your Endpoint Name:</label><br />
 								<input id="precannedemail" class="form-control"
-									data-parsley-required-message="end point is required!"
-									data-parsley-type-message="end point format is invalid (hint:example@test.org)"
+									data-parsley-required 
+									data-parsley-required-message="End point is required!" 
+									data-parsley-email 
+									data-parsley-type-message="End point format is invalid (hint:example@test.org)"
 									name="precannedemail"
 									placeholder="recipient direct email address"
 									style="display: inline;" type="email" tabindex="1" required />
 							</p>
+							<div id="uploadPrecannedEmailInfoArea" class="infoArea"></div>
+							</div>
 							<br />
 							<noscript>
 								<input type="hidden" name="redirect" value="true" />
 							</noscript>
 							<div id="precannederrorlock" style="position: relative;">
 								<div class="row">
-									<div class="col-md-12">
+									<div class="col-md-12 form-group">
 										<label for="dLabel">Select a Precanned Sample C-CDA
 											File to Send:</label><br />
 										<div class="dropdown">
 											<button id="dLabel" data-toggle="dropdown"
-												class="btn btn-success dropdown-toggle validate[funcCall[precannedRequired]]"
+												class="btn btn-success dropdown-toggle"
 												type="button" tabindex="1">
 												Pick Sample <i class="glyphicon glyphicon-play"></i>
 											</button>
@@ -252,6 +257,7 @@
 										<div>
 											<span id="precannedfilePathOutput"></span>
 										</div>
+										<div id="precannedInfoArea" class="infoArea"></div>
 									</div>
 								</div>
 							</div>
@@ -270,36 +276,49 @@
 				<div class="tab-pane" id="choosecontent">
 					<div id="uploadFormWrapper">
 						<form id="ccdauploadform" action="${uploadCCDADirectReceive}"
-							method="POST" enctype="multipart/form-data" data-parsley-validate>
+							method="POST" enctype="multipart/form-data">
+							
+							<div class="form-group">
 							<p>
 								<label for="ccdauploademail">Enter Your Endpoint Name:</label><br />
 								<input id="ccdauploademail"
-									class="validate[required,custom[email]] form-control"
-									data-parsley-required-message="end point is required!"
-									data-parsley-email-message="end point format is invalid (hint:example@test.org)"
+									class="form-control"
+									data-parsley-required 
+									data-parsley-required-message="End point is required!" 
+									data-parsley-email 
+									data-parsley-type-message="End point format is invalid (hint:example@test.org)"
 									name="ccdauploademail"
 									placeholder="recipient direct email address"
-									style="display: inline;" type="email" tabindex="1" required />
+									style="display: inline;" type="email" tabindex="1" 
+									
+									/>
 							</p>
+							<div id="uploadEmailInfoArea" class="infoArea"></div>
+							</div>
 							<br />
 							<noscript>
 								<input type="hidden" name="redirect" value="true" />
 							</noscript>
 							<div id="ccdauploaderrorlock" style="position: relative;">
 								<div class="row">
-									<div class="col-md-12">
+									<div class="col-md-12 form-group">
 										<label for="ccdauploadfile">Select a Local C-CDA File
 											to Send:</label><br /> <span
 											class="btn btn-success fileinput-button"
 											id="ccdauploadfile-btn"> <i
 											class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload
 												C-CDA</span> <!-- The file input field used as target for the file upload widget -->
-											<input id="ccdauploadfile" type="file" name="ccdauploadfile"
-											class="validate[required, custom[maxCCDAFileSize]]"
+											<input id="ccdauploadfile" type="file" name="ccdauploadfile" 
+											data-parsley-required 
+											data-parsley-trigger="change" 
+											data-parsley-required-message="Please select a C-CDA file."
+											data-parsley-ccdamaxsize="3" 
+											data-parsley-filetype="xml"
 											tabindex="1" />
 										</span>
 
 										<div id="ccdauploadfiles" class="files"></div>
+										<div id="localCCDAInfoArea" class="infoArea"></div>
 									</div>
 								</div>
 							</div>
@@ -338,15 +357,15 @@
 		<div class="well">
 			<form action="about:blank" method="POST"
 				enctype="multipart/form-data" target="_self"
-				onsubmit="return false;" name="form-getdc" id="form-getdc"
-				data-parsley-validate>
+				onsubmit="return false;" name="form-getdc" id="form-getdc">
 				<div class="form-group">
 					<div>
 						<label for="directAddress">Enter Direct Address or Domain:</label><br />
 						<input id="directAddress" class="form-control"
 							name="directAddress" placeholder="direct email address or domain"
-							style="display: inline;" type="text" tabindex="1" required />
+							style="display: inline;" type="text" tabindex="1" data-parsley-required/>
 					</div>
+					<div id="directCertInfoArea" class="infoArea"></div>
 				</div>
 				<hr />
 				<div class="form-group form-group-buttons">
