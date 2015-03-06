@@ -59,12 +59,8 @@ $(function(){
 		var file_size=$('#CCDAReferenceCEHRTFileupload')[0].files[0];
 		return file_size.size < requirement*1024*1024;
 	},32).addMessage('en','generatedmaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');	
-
-	
 	
 });
-
-
 
 
 
@@ -354,17 +350,6 @@ function buildExtendedCcdaInfoList(data){
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 //C-CDA 1.1
 $(function() {
 	'use strict';
@@ -640,7 +625,7 @@ $(function() {
 		
 		data.context = $('#CCDA1formSubmit').click(function(e) {
 				
-				// Setting up parsley options to have listed errors and to append the errors to parent element.
+			// Setting up parsley options
 			var parsleyOptions ={
 			        trigger: 'change',
 			        successClass: "has-success",
@@ -684,7 +669,7 @@ $(function() {
 						
 					}
 				});
-			});	
+			});
 		})
 		
 		.prop('disabled', !$.support.fileInput).parent().addClass(
@@ -699,7 +684,7 @@ $(function() {
 	
 	$('#CCDA1formSubmit').click(function(e) {
 			
-			// Setting up parsley options to have listed errors and to append the errors to parent element.
+			//Setting up parsley options
 		var parsleyOptions ={
 		        trigger: 'change',
 		        successClass: "has-success",
@@ -1013,7 +998,7 @@ $(function() {
 		
 		data.context = $('#CCDA2formSubmit').click(function(e) {
 			
-			// Setting up parsley options to have listed errors and to append the errors to parent element.
+			// Setting up parsley options
 			var parsleyOptions ={
 			        trigger: 'change',
 			        successClass: "has-success",
@@ -1066,7 +1051,7 @@ $(function() {
 	
 	$('#CCDA2formSubmit').click(function(e) {
 		
-		// Setting up parsley options to have listed errors and to append the errors to parent element.
+		//Setting up parsley options
 		var parsleyOptions ={
 		        trigger: 'change',
 		        successClass: "has-success",
@@ -1385,7 +1370,7 @@ $(function() {
 		
 		data.context = $('#CCDASuperFormSubmit').click(function(e) {
 				
-				// Setting up parsley options to have listed errors and to append the errors to parent element.
+				//Setting up parsley options
 			var parsleyOptions ={
 			        trigger: 'change',
 			        successClass: "has-success",
@@ -1444,7 +1429,7 @@ $(function() {
 	
 	$('#CCDASuperFormSubmit').click(function(e) {
 			
-			// Setting up parsley options to have listed errors and to append the errors to parent element.
+			//Setting up parsley options
 			var parsleyOptions ={
 			        trigger: 'change',
 			        successClass: "has-success",
@@ -1562,7 +1547,7 @@ $(function() {
 	var testDataInput = $('#CCDAReconciledTestDataFileupload');
 	var reconciledCCDAInput = $('#CCDAReconciledReconciliationFileupload');
 
-	// Setting up parsley options to have listed errors and to append the errors to parent element.
+	//Setting up parsley options
 	
 	var parsleyOptionsTestData ={
 	        trigger: 'change',
@@ -1596,7 +1581,6 @@ $(function() {
 	var validateTestDataInput = testDataInput.parsley(parsleyOptionsTestData);
 	var validateReconciledCCDAInput = reconciledCCDAInput.parsley(parsleyOptionsReconciledCCDA);
 	
-	//var formInstance = jform.parsley(parsleyOptions);
 	
 	// In the case we have access to the FormData interface:
 	if(window.FormData !== undefined){
@@ -1605,7 +1589,6 @@ $(function() {
 			
 			e.preventDefault();
 			
-			//if(formInstance.validate() === true){
 			if ((validateTestDataInput.isValid() === true) && (validateReconciledCCDAInput.isValid() === true)){	
 					var hideMsg = $("#CCDAReconciledTestDataFileupload").parsley();
 					window.ParsleyUI.removeError(hideMsg,'required');
@@ -1763,7 +1746,7 @@ $(function() {
 	var testDataInput = $('#CCDAReferenceFileupload');
 	var generatedCCDAInput = $('#CCDAReferenceCEHRTFileupload');
 
-	// Setting up parsley options to have listed errors and to append the errors to parent element.
+	//Setting up parsley options
 	
 	var parsleyOptionsTestData = {
 	        trigger: 'change',
@@ -1805,8 +1788,8 @@ $(function() {
 			
 			e.preventDefault();
 			
-			if ((validateTestDataInput.isValid() === true) && (validateGeneratedCCDAInput.isValid() === true)){
-					
+			//if ((validateTestDataInput.isValid() === true) && (validateGeneratedCCDAInput.isValid() === true)){
+			if ((validateTestDataInput.validate() === true) && (validateGeneratedCCDAInput.validate() === true)){
 					var hideMsg = $("#CCDAReferenceFileupload").parsley();
 					window.ParsleyUI.removeError(hideMsg,'required');
 					

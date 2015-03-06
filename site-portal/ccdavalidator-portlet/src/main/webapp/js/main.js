@@ -450,13 +450,8 @@ function loadNegativeTestCCDATree(){
 		    			    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
 		    					          '<div class="lbl">Preparing your download...</div></div>' });
 		    				  	
-		    				  	var jform = $('#negTestForm');
-		    					jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-		    					if(jform.validationEngine('validate'))
-		    						{
 		    						$('#negTestForm .formError').hide(0);
 		    						
-		    					    
 		    						$.fileDownload($('#negTestForm').attr('action'), {
 		    							
 		    							successCallback: function (url) {
@@ -470,13 +465,6 @@ function loadNegativeTestCCDATree(){
 		    					        httpMethod: "POST",
 		    					        data: $('#negTestForm').serialize()
 		    					    });
-		    						}
-		    					else
-		    					{
-		    						$('#negTestForm .formError').show(0);
-		    						
-		    						$('#negTestForm .incorpfilepathformError').prependTo('#negTesterrorlock');
-		    					}
 		    					return false;
 		    			  });
 		    			  }
@@ -586,10 +574,6 @@ function loadReferenceCCDAIncorpTree(){
 		    			    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
 		    					          '<div class="lbl">Preparing your download...</div></div>' });
 		    				  	
-		    				  	var jform = $('#refIncorpForm');
-		    					jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-		    					if(jform.validationEngine('validate'))
-		    						{
 		    						$('#refIncorpForm .formError').hide(0);
 		    						
 		    					    
@@ -606,13 +590,6 @@ function loadReferenceCCDAIncorpTree(){
 		    					        httpMethod: "POST",
 		    					        data: $('#refIncorpForm').serialize()
 		    					    });
-		    						}
-		    					else
-		    					{
-		    						$('#incorpForm .formError').show(0);
-		    						
-		    						$('#incorpform .incorpfilepathformError').prependTo('#incorperrorlock');
-		    					}
 		    					return false;
 		    			  });
 		    			  }
@@ -697,8 +674,7 @@ function loadCCDASamplesFromVendorsTree(){
 		    			  
 		    		  },
 		    		  "select_node" : function (node,e) {
-		    			  //var jform = $('#incorpForm');
-		    			  //jform.validationEngine('hideAll');
+		    			  
 		    			  $('#incorpForm .formError').hide(0);
 		    			  //populate the textbox
 		    			  $("#incorpfilepath").val(node.data("serverpath"));
@@ -708,8 +684,6 @@ function loadCCDASamplesFromVendorsTree(){
 		    			  
 		    	    	  //hide the drop down panel
 		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
-		    			  //hide all the errors
-		    			  //$('#incorpCCDAsubmit').validationEngine('hideAll');
 		    			  
 		    			  $('#dLabel').focus();
 		    			  $('#dLabel').dropdown("toggle");
@@ -730,10 +704,6 @@ function loadCCDASamplesFromVendorsTree(){
 		    					          '<div class="lbl">Preparing your download...</div></div>' });
 		    				  	
 		    				  
-		    					var jform = $('#incorpForm');
-		    					jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-		    					if(jform.validationEngine('validate'))
-		    					{
 		    						$('#incorpForm .formError').hide(0);
 		    						
 		    					    
@@ -751,14 +721,6 @@ function loadCCDASamplesFromVendorsTree(){
 		    					        data: $('#incorpForm').serialize()
 		    					    });
 		    						
-		    					}
-		    					else
-		    					{
-		    						$('#incorpForm .formError').show(0);
-		    						
-		    						$('#incorpform .incorpfilepathformError').prependTo('#incorperrorlock');
-		    					}
-		    					
 		    					return false;
 		    				});
 		    			  
@@ -874,10 +836,6 @@ function loadCIRISampleFileTree(){
 		    					          '<div class="lbl">Preparing your download...</div></div>' });
 		    				  	
 		    				  
-		    					//var jform = $('#reconciledBundleForm');
-		    					//jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-		    					//if(jform.validationEngine('validate'))
-		    				  	{
 		    						$('#reconciledBundleForm .formError').hide(0);
 		    						
 		    					    
@@ -895,7 +853,6 @@ function loadCIRISampleFileTree(){
 		    					        data: $('#reconciledBundleForm').serialize()
 		    					    });
 		    						
-		    					}
 		    					
 		    					return false;
 		    				});

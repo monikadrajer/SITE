@@ -275,7 +275,7 @@
 															<label for="reconciledBundledLabel">Select test data and reconciliation file to download:</label><br/>
 																			<div class="dropdown">
 																				<button id="reconciledBundledLabel" data-toggle="dropdown"
-																					class="btn btn-success dropdown-toggle" type="button" tabindex="1">
+																					class="treeButton btn btn-success dropdown-toggle" type="button" tabindex="1">
 																					Pick Files <i class="glyphicon glyphicon-play"></i>
 																				</button>
 										
@@ -417,7 +417,7 @@
 														<label for="referenceDownloadLabel">Select file to download:</label><br/>
 																		<div class="dropdown">
 																			<button id="referenceDownloadLabel" data-toggle="dropdown"
-																				class="btn btn-success dropdown-toggle" type="button" tabindex="1">
+																				class="treeButton btn btn-success dropdown-toggle" type="button" tabindex="1">
 																				Pick Files <i class="glyphicon glyphicon-play"></i>
 																			</button>
 									
@@ -502,7 +502,7 @@
 													<label for="CCDAReferenceCEHRTFileupload">Upload C-CDA File:</label><br/>
 													<span class="btn btn-success fileinput-button" id="CCDAReferenceCEHRTFileupload-btn"> <i
 															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
-															<input id="CCDAReferenceCEHRTFileupload" type="file" name="generatedFile"  data-parsley-generatedmaxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-trigger="change" data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
+															<input id="CCDAReferenceCEHRTFileupload" type="file" name="generatedFile"  data-parsley-generatedmaxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-trigger="change" data-parsley-required data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
 															
 													</span>
 													<div id="CCDACEHRTReferenceFiles"></div>
@@ -652,7 +652,7 @@
 								<label for="dLabel1">Select a Reference C-CDA File to Download:</label><br/>
 												<div class="dropdown">
 													<button id="dLabel1" data-toggle="dropdown"
-														class="btn btn-success dropdown-toggle validate[funcCall[incorpRequired]]" type="button" tabindex="1">
+														class="treeButton btn btn-success dropdown-toggle" type="button" tabindex="1">
 														Pick Sample <i class="glyphicon glyphicon-play"></i>
 													</button>
 			
@@ -706,7 +706,7 @@
 								<label for="dLabel2">Select a C-CDA File to Download:</label><br/>
 												<div class="dropdown">
 													<button id="dLabel2" data-toggle="dropdown"
-														class="btn btn-success dropdown-toggle validate[funcCall[incorpRequired]]" type="button" tabindex="1">
+														class="treeButton btn btn-success dropdown-toggle" type="button" tabindex="1">
 														Pick Sample <i class="glyphicon glyphicon-play"></i>
 													</button>
 			
@@ -760,7 +760,7 @@
 								<label for="dLabel">Select a sample C-CDA File to Download:</label><br/>
 												<div class="dropdown">
 													<button id="dLabel" data-toggle="dropdown"
-														class="btn btn-success dropdown-toggle" type="button" tabindex="1">
+														class="treeButton btn btn-success dropdown-toggle" type="button" tabindex="1">
 														Pick Sample <i class="glyphicon glyphicon-play"></i>
 													</button>
 			

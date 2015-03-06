@@ -348,7 +348,6 @@ div#collapseNegativeTesting .panel-body .list-group-item {
 }
 div#collapseNegativeTesting .panel-body {
 	padding: 0px;
-	
 }
 
 div#collapseReference .panel-body .list-group-item {
@@ -363,5 +362,8 @@ div#collapseReference .panel-body {
 	min-width: 360px;
 }
 
+.treeButton {
+	width: 180px;
+}
 
 
