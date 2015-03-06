@@ -12,7 +12,7 @@ import org.springframework.web.portlet.bind.annotation.RenderMapping;
 @Controller
 
 @RequestMapping("VIEW")
-public class DirectTransportViewController extends BaseController
+public class DirectEdgeTransportViewController extends BaseController
 {
 	@RenderMapping()
 	public ModelAndView handleRenderRequest(RenderRequest request,

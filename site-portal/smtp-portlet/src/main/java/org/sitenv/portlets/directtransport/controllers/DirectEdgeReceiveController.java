@@ -48,7 +48,7 @@ import org.springframework.web.portlet.multipart.MultipartActionRequest;
 @Controller
 
 @RequestMapping("VIEW")
-public class DirectReceiveController  extends BaseController
+public class DirectEdgeReceiveController  extends BaseController
 {
 	private static final int THRESHOLD_SIZE = 1024 * 1024 * 3;    // 3MB
 	private static final int MAX_FILE_SIZE = 1024 * 1024 * 10;    // 10MB 
@@ -70,8 +70,8 @@ public class DirectReceiveController  extends BaseController
 	@Autowired
 	private StatisticsManager statisticsManager;
 	
-	@ActionMapping(params = "javax.portlet.action=uploadCCDADirectReceive")
-	public void uploadCCDADirectReceive(MultipartActionRequest request, ActionResponse response) throws IOException, JSONException {
+	@ActionMapping(params = "javax.portlet.action=uploadCCDADirectEdgeReceive")
+	public void uploadCCDADirectEdgeReceive(MultipartActionRequest request, ActionResponse response) throws IOException, JSONException {
 		
 		Boolean uploadSuccess = false;
 		
@@ -91,10 +91,11 @@ public class DirectReceiveController  extends BaseController
 		String smtphostname = props.getProperty("smtphostname");
 		String smtpport = props.getProperty("smtpport");
 		String smtpuser = props.getProperty("smtpusername");
-		String smtppswrd = FileUtils.readFileToString(new File(props.getProperty("smtppswdPath")));
+		//String smtppswrd = FileUtils.readFileToString(new File(props.getProperty("smtppswdPath")));
+		String smtppswrd = "providerpass";
 		String enableSSL = props.getProperty("smtpenablessl");
 	
-		response.setRenderParameter("javax.portlet.action", "uploadCCDADirectReceive");
+		response.setRenderParameter("javax.portlet.action", "uploadCCDADirectEdgeReceive");
 		MultipartFile file = request.getFile("ccdauploadfile");
 		
 		endPointEmail = request.getParameter("ccdauploademail");
@@ -158,7 +159,7 @@ public class DirectReceiveController  extends BaseController
 				
 				//decrypt the password.
 				
-				smtppswrd = new DesEncrypter(ENCRYPTEDKEY).decrypt(smtppswrd);
+				//smtppswrd = new DesEncrypter(ENCRYPTEDKEY).decrypt(smtppswrd);
 				
 				props.put("mail.smtp.host", smtphostname);
 				if(enableSSL.toUpperCase().equals("TRUE")){
@@ -216,8 +217,8 @@ public class DirectReceiveController  extends BaseController
 		}
 	}
 	
-	@RequestMapping(params = "javax.portlet.action=uploadCCDADirectReceive")
-	public ModelAndView processUploadCCDADirectReceive(RenderRequest request, Model model)
+	@RequestMapping(params = "javax.portlet.action=uploadCCDADirectEdgeReceive")
+	public ModelAndView processUploadCCDADirectEdgeReceive(RenderRequest request, Model model)
 			throws IOException {
 		Map map = new HashMap();
 
@@ -229,8 +230,8 @@ public class DirectReceiveController  extends BaseController
 	}
 	
 	
-	@ActionMapping(params = "javax.portlet.action=precannedCCDADirectReceive")
-	public void precannedCCDADirectReceive(ActionRequest request, ActionResponse response) throws IOException, JSONException {
+	@ActionMapping(params = "javax.portlet.action=precannedCCDADirectEdgeReceive")
+	public void precannedCCDADirectEdgeReceive(ActionRequest request, ActionResponse response) throws IOException, JSONException {
 		
 		String endPointEmail = null;
 		String fileName = null;
@@ -246,7 +247,7 @@ public class DirectReceiveController  extends BaseController
 		String smtphostname = props.getProperty("smtphostname");
 		String smtpport = props.getProperty("smtpport");
 		String enableSSL = props.getProperty("smtpenablessl");
-		response.setRenderParameter("javax.portlet.action", "precannedCCDADirectReceive");
+		response.setRenderParameter("javax.portlet.action", "precannedCCDADirectEdgeReceive");
 		String precannedfile = request.getParameter("precannedfilepath");
 		String serverFilePath = sampleCcdaDir + "/" + precannedfile;
 		endPointEmail = request.getParameter("precannedemail");
@@ -256,8 +257,8 @@ public class DirectReceiveController  extends BaseController
 
 		try {
 			final String smtpuser = props.getProperty("smtpusername");
-			final String smtppswrd = FileUtils.readFileToString(new File(props.getProperty("smtppswdPath")));
-			final String decyptedPass = new DesEncrypter(ENCRYPTEDKEY).decrypt(smtppswrd);
+			//final String smtppswrd = FileUtils.readFileToString(new File(props.getProperty("smtppswdPath")));
+			//final String decyptedPass = new DesEncrypter(ENCRYPTEDKEY).decrypt(smtppswrd);
 			MimeBodyPart ccdaAttachment = new MimeBodyPart();  
 			
 			DataSource ccdaFile = new FileDataSource(serverFilePath);  
@@ -270,15 +271,17 @@ public class DirectReceiveController  extends BaseController
 				props.put("mail.smtp.socketFactory.port", smtpport);
 				props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
 			}
-			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.auth", "false");
 			props.put("mail.smtp.port", smtpport);
 	 		
 			Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(smtpuser, decyptedPass);
+						return new PasswordAuthentication(smtpuser, null);
 					}
 				});
+			
+			//Session session = Session.getInstance(props);
  
 			Message message = new MimeMessage(session);
 			
@@ -315,8 +318,8 @@ public class DirectReceiveController  extends BaseController
 			
 	}
 	
-	@RequestMapping(params = "javax.portlet.action=precannedCCDADirectReceive")
-	public ModelAndView processPrecannedCCDADirectReceive(RenderRequest request, Model model)
+	@RequestMapping(params = "javax.portlet.action=precannedCCDADirectEdgeReceive")
+	public ModelAndView processPrecannedCCDADirectEdgeReceive(RenderRequest request, Model model)
 			throws IOException {
 		Map map = new HashMap();
 

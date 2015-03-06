@@ -39,12 +39,12 @@
     <portlet:param name="javax.portlet.action" value="uploadTrustAnchor"/>
 </portlet:actionURL>
 
-<portlet:actionURL var="uploadCCDADirectReceive" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-    <portlet:param name="javax.portlet.action" value="uploadCCDADirectReceive"/>
+<portlet:actionURL var="uploadCCDADirectEdgeReceive" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    <portlet:param name="javax.portlet.action" value="uploadCCDADirectEdgeReceive"/>
 </portlet:actionURL>
 
-<portlet:actionURL var="precannedCCDADirectReceive" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
-    <portlet:param name="javax.portlet.action" value="precannedCCDADirectReceive"/>
+<portlet:actionURL var="precannedCCDADirectEdgeReceive" windowState="<%= LiferayWindowState.EXCLUSIVE.toString() %>">
+    <portlet:param name="javax.portlet.action" value="precannedCCDADirectEdgeReceive"/>
 </portlet:actionURL>
 
 <%
@@ -194,7 +194,7 @@
 		<div class="tab-content">
   			<div class="tab-pane active" id="precanned">
   				<div id="precannedFormWrapper">
-			<form id="precannedForm"  action="${precannedCCDADirectReceive}" method="POST">
+			<form id="precannedForm"  action="${precannedCCDADirectEdgeReceive}" method="POST">
 				<p>
 				<label for="precannedemail">Enter Your Endpoint Name:</label><br/>
 					<input id="precannedemail"
@@ -243,7 +243,7 @@
   			</div>
   			<div class="tab-pane" id="choosecontent">
   			<div id="uploadFormWrapper">
-			<form id="ccdauploadform" action="${uploadCCDADirectReceive}" method="POST" enctype="multipart/form-data">
+			<form id="ccdauploadform" action="${uploadCCDADirectEdgeReceive}" method="POST" enctype="multipart/form-data">
 				<p>
 					<label for="ccdauploademail">Enter Your Endpoint Name:</label><br/>
 					 <input id="ccdauploademail"
