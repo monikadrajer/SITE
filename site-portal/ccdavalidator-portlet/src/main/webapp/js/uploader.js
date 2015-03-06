@@ -396,8 +396,6 @@ $(function() {
 			});
 			
 			
-			//$( "#ValidationResult .tab-content #tabs-1" ).html(data.result.body);
-			//$( "#ValidationResult .tab-content #tabs-1" ).html(window.JSON.stringify(data.result.body));
 			var tabHtml1 = "";
 			
 			if (("error" in data.result.body.ccdaResults) || ("error" in data.result.body.ccdaExtendedResults))
@@ -626,15 +624,15 @@ $(function() {
 		data.context = $('#CCDA1formSubmit').click(function(e) {
 				
 			// Setting up parsley options
-			var parsleyOptions ={
+			var parsleyOptions = {
 			        trigger: 'change',
 			        successClass: "has-success",
 			        errorClass: "alert alert-danger",
 			        classHandler: function (el) {
-			        	return $('#CCDA1InfoArea');
+			        	return el.$element.closest(".form-group").children(".infoArea");
 			        },
 					errorsContainer: function (el) {
-						return $('#CCDA1InfoArea');
+						return el.$element.closest(".form-group").children(".infoArea");
 					},
 					errorsWrapper: '<ul></ul>',
 					errorElem: '<li></li>'
@@ -685,20 +683,19 @@ $(function() {
 	$('#CCDA1formSubmit').click(function(e) {
 			
 			//Setting up parsley options
-		var parsleyOptions ={
+			var parsleyOptions = {
 		        trigger: 'change',
 		        successClass: "has-success",
 		        errorClass: "alert alert-danger",
 		        classHandler: function (el) {
-		        	return $('#CCDA1InfoArea');
+		        	return el.$element.closest(".form-group").children(".infoArea");
 		        },
 				errorsContainer: function (el) {
-					return $('#CCDA1InfoArea');
+					return el.$element.closest(".form-group").children(".infoArea");
 				},
 				errorsWrapper: '<ul></ul>',
 				errorElem: '<li></li>'
 			};
-			
 			// unsubscribe callbacks from previous uploads
 			$('#CCDA1ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
 			// calling the Parsley Validator.
@@ -999,15 +996,15 @@ $(function() {
 		data.context = $('#CCDA2formSubmit').click(function(e) {
 			
 			// Setting up parsley options
-			var parsleyOptions ={
+			var parsleyOptions = {
 			        trigger: 'change',
 			        successClass: "has-success",
 			        errorClass: "alert alert-danger",
 			        classHandler: function (el) {
-			        	return $('#CCDA2InfoArea');
+			        	return el.$element.closest(".form-group").children(".infoArea");
 			        },
 					errorsContainer: function (el) {
-						return $('#CCDA2InfoArea');
+						return el.$element.closest(".form-group").children(".infoArea");
 					},
 					errorsWrapper: '<ul></ul>',
 					errorElem: '<li></li>'
@@ -1052,15 +1049,15 @@ $(function() {
 	$('#CCDA2formSubmit').click(function(e) {
 		
 		//Setting up parsley options
-		var parsleyOptions ={
+		var parsleyOptions = {
 		        trigger: 'change',
 		        successClass: "has-success",
 		        errorClass: "alert alert-danger",
 		        classHandler: function (el) {
-		        	return $('#CCDA2InfoArea');
+		        	return el.$element.closest(".form-group").children(".infoArea");
 		        },
 				errorsContainer: function (el) {
-					return $('#CCDA2InfoArea');
+					return el.$element.closest(".form-group").children(".infoArea");
 				},
 				errorsWrapper: '<ul></ul>',
 				errorElem: '<li></li>'
@@ -1371,15 +1368,15 @@ $(function() {
 		data.context = $('#CCDASuperFormSubmit').click(function(e) {
 				
 				//Setting up parsley options
-			var parsleyOptions ={
+				var parsleyOptions = {
 			        trigger: 'change',
 			        successClass: "has-success",
 			        errorClass: "alert alert-danger",
 			        classHandler: function (el) {
-			        	return $('#CCDASuperInfoArea');
+			        	return el.$element.closest(".form-group").children(".infoArea");
 			        },
 					errorsContainer: function (el) {
-						return $('#CCDASuperInfoArea');
+						return el.$element.closest(".form-group").children(".infoArea");
 					},
 					errorsWrapper: '<ul></ul>',
 					errorElem: '<li></li>'
@@ -1429,20 +1426,20 @@ $(function() {
 	
 	$('#CCDASuperFormSubmit').click(function(e) {
 			
-			//Setting up parsley options
-			var parsleyOptions ={
-			        trigger: 'change',
-			        successClass: "has-success",
-			        errorClass: "alert alert-danger",
-			        classHandler: function (el) {
-			        	return $('#CCDASuperInfoArea');
-			        },
-					errorsContainer: function (el) {
-						return $('#CCDASuperInfoArea');
-					},
-					errorsWrapper: '<ul></ul>',
-					errorElem: '<li></li>'
-				};
+		//Setting up parsley options
+			var parsleyOptions = {
+		        trigger: 'change',
+		        successClass: "has-success",
+		        errorClass: "alert alert-danger",
+		        classHandler: function (el) {
+		        	return el.$element.closest(".form-group").children(".infoArea");
+		        },
+				errorsContainer: function (el) {
+					return el.$element.closest(".form-group").children(".infoArea");
+				},
+				errorsWrapper: '<ul></ul>',
+				errorElem: '<li></li>'
+			};
 			
 			// unsubscribe callbacks from previous uploads
 			$('#CCDASuperValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
@@ -1459,7 +1456,6 @@ $(function() {
 	
 	$('#CCDASuperFileupload-btn').bind('click', function(e, data)
 	{
-		//$('#CCDASuperValidationForm .formError').hide(0);
 		
 		var selectedText = $("#CCDASuper_type_val :selected").text();
 		$("#CCDASuper_type_val option").each(function() {
@@ -1544,43 +1540,22 @@ $(function() {
 	var formSelector = "#CCDAReconciledValidationForm";
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	var jform = $(formSelector);
-	var testDataInput = $('#CCDAReconciledTestDataFileupload');
-	var reconciledCCDAInput = $('#CCDAReconciledReconciliationFileupload');
-
-	//Setting up parsley options
 	
-	var parsleyOptionsTestData ={
+	var parsleyOptions = {
 	        trigger: 'change',
 	        successClass: "has-success",
 	        errorClass: "alert alert-danger",
 	        classHandler: function (el) {
-	        	return $('#CCDAReconciledTestDataInfoArea');
+	        	return el.$element.closest(".form-group").children(".infoArea");
 	        },
 			errorsContainer: function (el) {
-				return $('#CCDAReconciledTestDataInfoArea');
+				return el.$element.closest(".form-group").children(".infoArea");
 			},
 			errorsWrapper: '<ul></ul>',
 			errorElem: '<li></li>'
 		};
 	
-	
-	var parsleyOptionsReconciledCCDA ={
-	        trigger: 'change',
-	        successClass: "has-success",
-	        errorClass: "alert alert-danger",
-	        classHandler: function (el) {
-	        	return $('#CCDAReconciliationReconciledInfoArea');
-	        },
-			errorsContainer: function (el) {
-				return $('#CCDAReconciliationReconciledInfoArea');
-			},
-			errorsWrapper: '<ul></ul>',
-			errorElem: '<li></li>'
-		};
-	
-	var validateTestDataInput = testDataInput.parsley(parsleyOptionsTestData);
-	var validateReconciledCCDAInput = reconciledCCDAInput.parsley(parsleyOptionsReconciledCCDA);
-	
+	var parsleyForm = jform.parsley(parsleyOptions);
 	
 	// In the case we have access to the FormData interface:
 	if(window.FormData !== undefined){
@@ -1589,7 +1564,8 @@ $(function() {
 			
 			e.preventDefault();
 			
-			if ((validateTestDataInput.isValid() === true) && (validateReconciledCCDAInput.isValid() === true)){	
+			if ((parsleyForm.validate() === true)) {
+				
 					var hideMsg = $("#CCDAReconciledTestDataFileupload").parsley();
 					window.ParsleyUI.removeError(hideMsg,'required');
 					
@@ -1743,43 +1719,24 @@ $(function() {
 	var formSelector = "#CCDAReferenceValidationForm";
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	var jform = $(formSelector);
-	var testDataInput = $('#CCDAReferenceFileupload');
-	var generatedCCDAInput = $('#CCDAReferenceCEHRTFileupload');
 
 	//Setting up parsley options
 	
-	var parsleyOptionsTestData = {
+	var parsleyOptions = {
 	        trigger: 'change',
 	        successClass: "has-success",
 	        errorClass: "alert alert-danger",
 	        classHandler: function (el) {
-	        	return $('#CCDAReferenceInfoArea');
+	        	return el.$element.closest(".form-group").children(".infoArea");
 	        },
 			errorsContainer: function (el) {
-				return $('#CCDAReferenceInfoArea');
+				return el.$element.closest(".form-group").children(".infoArea");
 			},
 			errorsWrapper: '<ul></ul>',
 			errorElem: '<li></li>'
 		};
 	
-	
-	var parsleyOptionsGeneratedCCDA = {
-	        trigger: 'change',
-	        successClass: "has-success",
-	        errorClass: "alert alert-danger",
-	        classHandler: function (el) {
-	        	return $('#CCDACEHRTInfoArea');
-	        },
-			errorsContainer: function (el) {
-				return $('#CCDACEHRTInfoArea');
-			},
-			errorsWrapper: '<ul></ul>',
-			errorElem: '<li></li>'
-		};
-	
-	var validateTestDataInput = testDataInput.parsley(parsleyOptionsTestData);
-	var validateGeneratedCCDAInput = generatedCCDAInput.parsley(parsleyOptionsGeneratedCCDA);
-	
+	var parsleyForm = jform.parsley(parsleyOptions);
 	
 	// In the case we have access to the FormData interface:
 	if(window.FormData !== undefined){
@@ -1789,7 +1746,7 @@ $(function() {
 			e.preventDefault();
 			
 			//if ((validateTestDataInput.isValid() === true) && (validateGeneratedCCDAInput.isValid() === true)){
-			if ((validateTestDataInput.validate() === true) && (validateGeneratedCCDAInput.validate() === true)){
+			if ((parsleyForm.validate() === true)) {
 					var hideMsg = $("#CCDAReferenceFileupload").parsley();
 					window.ParsleyUI.removeError(hideMsg,'required');
 					
@@ -1932,7 +1889,5 @@ $(function() {
 	
 	
 });
-
-
 
 

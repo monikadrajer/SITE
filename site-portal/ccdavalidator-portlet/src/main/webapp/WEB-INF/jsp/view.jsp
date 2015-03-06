@@ -165,7 +165,7 @@
 								<noscript><input type="hidden" name="redirect" value="true" /></noscript>
 								<div id="ccdauploaderrorlock" style="position: relative;">
 									<div class="row">
-										<div class="col-md-12">
+										<div class="col-md-12 form-group">
 											<label for="CCDA1fileupload">Upload C-CDA file to Validate:</label><br/>
 											<span class="btn btn-success fileinput-button" id="CCDA1fileupload-btn"> <i
 													class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
@@ -219,7 +219,7 @@
 								<noscript><input type="hidden" name="redirect" value="true" /></noscript>
 								<div id="CCDA2uploaderrorlock" style="position: relative;">
 									<div class="row">
-										<div class="col-md-12">
+										<div class="col-md-12 form-group">
 											<label for="CCDA2fileupload">Upload C-CDA file to Validate:</label><br/>
 											<span class="btn btn-success fileinput-button" id="CCDA2fileupload-btn"> <i
 													class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
@@ -333,7 +333,7 @@
 											<noscript><input type="hidden" name="redirect" value="true" /></noscript>
 											<div id="CCDAReconciledTestDataUploaderrorlock" style="position: relative;">
 												<div class="row">
-													<div class="col-md-12">
+													<div class="col-md-12 form-group">
 														<label for="CCDAReconciledTestDataFileupload">Upload Input File:</label><br/>
 														<span class="btn btn-success fileinput-button" id="CCDAReconciledTestDataFileupload-btn"> <i
 																class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a File...</span>
@@ -355,7 +355,7 @@
 											<br/>
 											<div id="CCDAReconciledReconciliationUploadErrorLock" style="position: relative;">
 												<div class="row">
-													<div class="col-md-12">
+													<div class="col-md-12 form-group">
 														<label for="CCDAReconciledReconciliationFileupload">Upload a C-CDA File:</label><br/>
 														<span class="btn btn-success fileinput-button" id="CCDAReconciledReconciliationFileupload-btn"> <i
 																class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
@@ -478,7 +478,7 @@
 										<div id="CCDAReferenceUploaderrorlock" style="position: relative;">
 										<br/>
 											<div class="row">
-												<div class="col-md-12">
+												<div class="col-md-12 form-group">
 													<label for="CCDAReferenceFileupload">Upload Input File:</label><br/>
 													<span class="btn btn-success fileinput-button" id="CCDAReferenceFileupload-btn"> <i
 															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a File...</span>
@@ -498,7 +498,7 @@
 										<div id="CCDAReferenceCEHRTUploaderrorlock" style="position: relative;">
 											
 											<div class="row">
-												<div class="col-md-12">
+												<div class="col-md-12 form-group">
 													<label for="CCDAReferenceCEHRTFileupload">Upload C-CDA File:</label><br/>
 													<span class="btn btn-success fileinput-button" id="CCDAReferenceCEHRTFileupload-btn"> <i
 															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
@@ -582,7 +582,7 @@
 								<noscript><input type="hidden" name="redirect" value="true" /></noscript>
 								<div id="CCDASuperUploaderrorlock" style="position: relative;">
 									<div class="row">
-										<div class="col-md-12">
+										<div class="col-md-12 form-group">
 											<label for="CCDASuperFileupload">Select a C-CDA File to Validate:</label><br/>
 											<span class="btn btn-success fileinput-button" id="CCDASuperFileupload-btn"> <i
 													class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a C-CDA File...</span>
