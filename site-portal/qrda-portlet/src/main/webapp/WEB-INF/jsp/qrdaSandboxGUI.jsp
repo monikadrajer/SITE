@@ -55,7 +55,7 @@
 				<label for="qrdauploadfile">Select a QRDA File: </label><br/>
 				<div id="qrdauploaderrorlock" style="position:relative;">
 					<div class="row">
-						<div class="col-md-12">
+						<div class="col-md-12 form-group">
 					
 					<span class="btn btn-success fileinput-button" id="qrdauploadfile-btn"> <i
 								class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a QRDA...</span>
@@ -64,8 +64,8 @@
 						</span>
 						<div id="qrdauploadfiles" class="files"></div>
 						<div id="infoAreaQRDA" class="infoArea"></div>
-				</div>
-				</div>
+						</div>
+					</div>
 				</div>
 				<hr/>
 				<button id="qrdavalidate_btn" type="submit" 

@@ -65,7 +65,6 @@ $(function(){
 
 
 
-
 function buildCcdaErrorList(data){
 	var errorList = ['<hr/>',
 	                 '<ul>'];

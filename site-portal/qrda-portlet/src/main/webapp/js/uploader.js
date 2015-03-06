@@ -73,16 +73,16 @@ $(function() {
 			        successClass: "has-success",
 			        errorClass: "alert alert-danger",
 			        classHandler: function (el) {
-			        	return $('#infoAreaQRDA');
+			        	return el.$element.closest(".form-group").children(".infoArea");
 			        },
 					errorsContainer: function (el) {
-						return $('#infoAreaQRDA');
+						return el.$element.closest(".form-group").children(".infoArea");
 					},
 					errorsWrapper: '<ul></ul>',
 					errorElem: '<li></li>'
-				};
-			// Parsley validator to validate xml extension.
+			};
 			
+			// Parsley validator to validate xml extension.
 			$('#QRDAValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
 			$('#QRDAValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
 			
@@ -95,8 +95,8 @@ $(function() {
 					data.submit();
 				}else {
 				$('#QRDAValidationForm .qrdauploadfileformError').prependTo('#qrdauploaderrorlock');
-			}
-				});
+				}
+			});
 		});
 		
 		
@@ -110,16 +110,15 @@ $(function() {
 		e.preventDefault();
 	});
 	
-	// Validating the form when refreshing the page.
-	var parsleyOptions = {
+		var parsleyOptions = {
 	        trigger: 'change',
 	        successClass: "has-success",
 	        errorClass: "alert alert-danger",
 	        classHandler: function (el) {
-	        	return $('#infoAreaQRDA');
+	        	return el.$element.closest(".form-group").children(".infoArea");
 	        },
 			errorsContainer: function (el) {
-				return $('#infoAreaQRDA');
+				return el.$element.closest(".form-group").children(".infoArea");
 			},
 			errorsWrapper: '<ul></ul>',
 			errorElem: '<li></li>'
