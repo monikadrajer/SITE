@@ -83,7 +83,7 @@ $(function() {
 		
 		data.context = $('#anchoruploadsubmit').click(function(e) {
 			var jform = $('#anchoruploadform');
-			//jform.validationEngine('hideAll');
+			
 			jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
 			if(jform.validationEngine('validate'))
 			{

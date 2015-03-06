@@ -2,6 +2,33 @@
 
 
 
+// Set Parsley Options
+var ccdaParsleyOptions  = (function() {
+    
+	var parsleyOptions = {
+	        trigger: 'change',
+	        successClass: "has-success",
+	        errorClass: "alert alert-danger",
+	        classHandler: function (el) {
+	        	return el.$element.closest(".form-group").children(".infoArea");
+	        },
+			errorsContainer: function (el) {
+				return el.$element.closest(".form-group").children(".infoArea");
+			},
+			errorsWrapper: '<ul></ul>',
+			errorElem: '<li></li>'
+		};
+
+    return {
+        getOptions : function() {
+        	return parsleyOptions;
+        }
+    };
+
+})();
+
+
+
 // Set Parsley Validators
 $(function(){
 	
@@ -622,25 +649,10 @@ $(function() {
 		
 		data.context = $('#CCDA1formSubmit').click(function(e) {
 				
-			// Setting up parsley options
-			var parsleyOptions = {
-			        trigger: 'change',
-			        successClass: "has-success",
-			        errorClass: "alert alert-danger",
-			        classHandler: function (el) {
-			        	return el.$element.closest(".form-group").children(".infoArea");
-			        },
-					errorsContainer: function (el) {
-						return el.$element.closest(".form-group").children(".infoArea");
-					},
-					errorsWrapper: '<ul></ul>',
-					errorElem: '<li></li>'
-				};
-				
 				// unsubscribe callbacks from previous uploads
-				$('#CCDA1ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+				$('#CCDA1ValidationForm').parsley(ccdaParsleyOptions.getOptions()).unsubscribe('parsley:form:validate');
 				// calling the Parsley Validator.
-				$('#CCDA1ValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+				$('#CCDA1ValidationForm').parsley(ccdaParsleyOptions.getOptions()).subscribe('parsley:form:validate',function(formInstance){
 					
 					formInstance.submitEvent.preventDefault();
 					if(formInstance.isValid()==true){
@@ -680,25 +692,11 @@ $(function() {
 	
 	
 	$('#CCDA1formSubmit').click(function(e) {
-			
-			//Setting up parsley options
-			var parsleyOptions = {
-		        trigger: 'change',
-		        successClass: "has-success",
-		        errorClass: "alert alert-danger",
-		        classHandler: function (el) {
-		        	return el.$element.closest(".form-group").children(".infoArea");
-		        },
-				errorsContainer: function (el) {
-					return el.$element.closest(".form-group").children(".infoArea");
-				},
-				errorsWrapper: '<ul></ul>',
-				errorElem: '<li></li>'
-			};
+		
 			// unsubscribe callbacks from previous uploads
-			$('#CCDA1ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+			$('#CCDA1ValidationForm').parsley(ccdaParsleyOptions.getOptions()).unsubscribe('parsley:form:validate');
 			// calling the Parsley Validator.
-			$('#CCDA1ValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+			$('#CCDA1ValidationForm').parsley(ccdaParsleyOptions.getOptions()).subscribe('parsley:form:validate',function(formInstance){
 				
 				formInstance.submitEvent.preventDefault();
 				if(formInstance.isValid()==true){
@@ -994,26 +992,11 @@ $(function() {
 		
 		data.context = $('#CCDA2formSubmit').click(function(e) {
 			
-			// Setting up parsley options
-			var parsleyOptions = {
-			        trigger: 'change',
-			        successClass: "has-success",
-			        errorClass: "alert alert-danger",
-			        classHandler: function (el) {
-			        	return el.$element.closest(".form-group").children(".infoArea");
-			        },
-					errorsContainer: function (el) {
-						return el.$element.closest(".form-group").children(".infoArea");
-					},
-					errorsWrapper: '<ul></ul>',
-					errorElem: '<li></li>'
-				};
-			
 			// unsubscribe callbacks from previous uploads
-			$('#CCDA2ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+			$('#CCDA2ValidationForm').parsley(ccdaParsleyOptions.getOptions()).unsubscribe('parsley:form:validate');
 			
 			// calling the Parsley Validator
-			$('#CCDA2ValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+			$('#CCDA2ValidationForm').parsley(ccdaParsleyOptions.getOptions()).subscribe('parsley:form:validate',function(formInstance){
 				
 				formInstance.submitEvent.preventDefault();
 				if(formInstance.isValid()===true){
@@ -1047,25 +1030,10 @@ $(function() {
 	
 	$('#CCDA2formSubmit').click(function(e) {
 		
-		//Setting up parsley options
-		var parsleyOptions = {
-		        trigger: 'change',
-		        successClass: "has-success",
-		        errorClass: "alert alert-danger",
-		        classHandler: function (el) {
-		        	return el.$element.closest(".form-group").children(".infoArea");
-		        },
-				errorsContainer: function (el) {
-					return el.$element.closest(".form-group").children(".infoArea");
-				},
-				errorsWrapper: '<ul></ul>',
-				errorElem: '<li></li>'
-			};
-		
 		// unsubscribe callbacks from previous uploads
-		$('#CCDA2ValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+		$('#CCDA2ValidationForm').parsley(ccdaParsleyOptions.getOptions()).unsubscribe('parsley:form:validate');
 		// calling the Parsley Validator.
-		$('#CCDA2ValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+		$('#CCDA2ValidationForm').parsley(ccdaParsleyOptions.getOptions()).subscribe('parsley:form:validate',function(formInstance){
 			
 			formInstance.submitEvent.preventDefault();
 			if(formInstance.isValid()==true){
@@ -1365,26 +1333,11 @@ $(function() {
 
 		
 		data.context = $('#CCDASuperFormSubmit').click(function(e) {
-				
-				//Setting up parsley options
-				var parsleyOptions = {
-			        trigger: 'change',
-			        successClass: "has-success",
-			        errorClass: "alert alert-danger",
-			        classHandler: function (el) {
-			        	return el.$element.closest(".form-group").children(".infoArea");
-			        },
-					errorsContainer: function (el) {
-						return el.$element.closest(".form-group").children(".infoArea");
-					},
-					errorsWrapper: '<ul></ul>',
-					errorElem: '<li></li>'
-				};
 								
 				// unsubscribe callbacks from previous uploads
-				$('#CCDASuperValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+				$('#CCDASuperValidationForm').parsley(ccdaParsleyOptions.getOptions()).unsubscribe('parsley:form:validate');
 				// calling the Parsley Validator.
-				$('#CCDASuperValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+				$('#CCDASuperValidationForm').parsley(ccdaParsleyOptions.getOptions()).subscribe('parsley:form:validate',function(formInstance){
 					
 					formInstance.submitEvent.preventDefault();
 					if(formInstance.isValid()==true){
@@ -1425,25 +1378,10 @@ $(function() {
 	
 	$('#CCDASuperFormSubmit').click(function(e) {
 			
-		//Setting up parsley options
-			var parsleyOptions = {
-		        trigger: 'change',
-		        successClass: "has-success",
-		        errorClass: "alert alert-danger",
-		        classHandler: function (el) {
-		        	return el.$element.closest(".form-group").children(".infoArea");
-		        },
-				errorsContainer: function (el) {
-					return el.$element.closest(".form-group").children(".infoArea");
-				},
-				errorsWrapper: '<ul></ul>',
-				errorElem: '<li></li>'
-			};
-			
 			// unsubscribe callbacks from previous uploads
-			$('#CCDASuperValidationForm').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+			$('#CCDASuperValidationForm').parsley(ccdaParsleyOptions.getOptions()).unsubscribe('parsley:form:validate');
 			// calling the Parsley Validator.
-			$('#CCDASuperValidationForm').parsley(parsleyOptions).subscribe('parsley:form:validate',function(formInstance){
+			$('#CCDASuperValidationForm').parsley(ccdaParsleyOptions.getOptions()).subscribe('parsley:form:validate',function(formInstance){
 				
 				formInstance.submitEvent.preventDefault();
 				if(formInstance.isValid()==true){
@@ -1540,21 +1478,7 @@ $(function() {
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	var jform = $(formSelector);
 	
-	var parsleyOptions = {
-	        trigger: 'change',
-	        successClass: "has-success",
-	        errorClass: "alert alert-danger",
-	        classHandler: function (el) {
-	        	return el.$element.closest(".form-group").children(".infoArea");
-	        },
-			errorsContainer: function (el) {
-				return el.$element.closest(".form-group").children(".infoArea");
-			},
-			errorsWrapper: '<ul></ul>',
-			errorElem: '<li></li>'
-		};
-	
-	var parsleyForm = jform.parsley(parsleyOptions);
+	var parsleyForm = jform.parsley(ccdaParsleyOptions.getOptions());
 	
 	// In the case we have access to the FormData interface:
 	if(window.FormData !== undefined){
@@ -1718,24 +1642,7 @@ $(function() {
 	var formSelector = "#CCDAReferenceValidationForm";
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
 	var jform = $(formSelector);
-
-	//Setting up parsley options
-	
-	var parsleyOptions = {
-	        trigger: 'change',
-	        successClass: "has-success",
-	        errorClass: "alert alert-danger",
-	        classHandler: function (el) {
-	        	return el.$element.closest(".form-group").children(".infoArea");
-	        },
-			errorsContainer: function (el) {
-				return el.$element.closest(".form-group").children(".infoArea");
-			},
-			errorsWrapper: '<ul></ul>',
-			errorElem: '<li></li>'
-		};
-	
-	var parsleyForm = jform.parsley(parsleyOptions);
+	var parsleyForm = jform.parsley(ccdaParsleyOptions.getOptions());
 	
 	// In the case we have access to the FormData interface:
 	if(window.FormData !== undefined){
