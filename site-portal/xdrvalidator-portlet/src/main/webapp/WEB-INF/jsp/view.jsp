@@ -84,7 +84,7 @@
 		<div class="well">
 			<form id="XDRSendGetRequestList"  action="${xdrSendGetRequestList}" method="POST">
 			<label for="requestListGrouping">Enter Message Lookup Key:</label>
-				<input type="text" name="requestListGrouping" id="requestListGrouping" class="validate[required] form-control" tabindex="1"/>
+				<input type="text" name="requestListGrouping" id="requestListGrouping" class="validate[required,custom[emailOrIp]] form-control" tabindex="1"/>
 				
 			<hr />
 				<button id="xdrSendSearchSubmit" type="submit"
