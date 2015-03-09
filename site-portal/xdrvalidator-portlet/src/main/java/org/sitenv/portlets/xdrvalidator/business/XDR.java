@@ -47,7 +47,7 @@ public class XDR {
 	public static String sendValidFullXDRMessage(
 			String endpoint,String doc, String name, String directTo, String from, String replyTo)
 	{
-		return null;
+		return sendValidMinimalXDRMessage(endpoint,doc,name,directTo,from,replyTo);
 	}
 	
 	public static String sendInValidMinimalXDRMessage(
@@ -60,7 +60,7 @@ public class XDR {
 	public static String sendInValidFullXDRMessage(
 			String endpoint,String doc, String name, String directTo, String from, String replyTo)
 	{
-		return null;
+		return sendValidMinimalXDRMessage(endpoint,doc,name,directTo,from,replyTo);
 	}
 	
 
