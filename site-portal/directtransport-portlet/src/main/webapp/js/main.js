@@ -53,6 +53,36 @@ $(function() {
 
 
 /*
+ * Parsley Options
+ */
+var dtParsleyOptions = (function() {
+    
+	var parsleyOptions = {
+	        trigger: 'change',
+	        successClass: "has-success",
+	        errorClass: "alert alert-danger",
+	        classHandler: function (el) {
+	        	return el.$element.closest(".form-group").children(".infoArea");
+	        },
+			errorsContainer: function (el) {
+				return el.$element.closest(".form-group").children(".infoArea");
+			},
+			errorsWrapper: '<ul></ul>',
+			errorElem: '<li></li>'
+		};
+
+    return {
+        getOptions : function() {
+        	return parsleyOptions;
+        }
+    };
+
+})();
+
+
+
+
+/*
  * 	Parsley Validation
  */
 $("button#precannedCCDAsubmit, button#ccdauploadsubmit, button#anchoruploadsubmit, button#ccdauploadsubmit").click(
@@ -61,22 +91,8 @@ $("button#precannedCCDAsubmit, button#ccdauploadsubmit, button#anchoruploadsubmi
 		function()
 		{
 			
-			var parsleyOptions = {
-			        trigger: 'change',
-			        successClass: "has-success",
-			        errorClass: "alert alert-danger",
-			        classHandler: function (el) {
-			        	return el.$element.closest(".form-group").children(".infoArea");
-			        },
-					errorsContainer: function (el) {
-						return el.$element.closest(".form-group").children(".infoArea");
-					},
-					errorsWrapper: '<ul></ul>',
-					errorElem: '<li></li>'
-				};
-			
 			var $form = $(this).closest('form');
-			if (! $form.parsley(parsleyOptions).validate())
+			if (! $form.parsley(dtParsleyOptions.getOptions()).validate())
 			{
 				return false;
 			}
@@ -191,9 +207,6 @@ $(function() {
 	$('#directMessageType a').click(function (e) {
 		  e.preventDefault();
 		  $(this).tab('show');
-
-		    $('#precannedCCDAsubmit').validationEngine('hideAll');
-		    $('#ccdauploadsubmit').validationEngine('hideAll');
 		});
 	
 	
@@ -274,8 +287,6 @@ $(function() {
 		    			  $("#precannedfilePathOutput").text($("#precannedfilepath").val());
 		    	    	  //hide the drop down panel
 		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
-		    			  //hide all the errors
-		    			  //$('#precannedCCDAsubmit').validationEngine('hideAll');
 		    			   
 		    			  $('#dLabel').focus();
 		    			  $('#dLabel').dropdown("toggle");
@@ -283,8 +294,10 @@ $(function() {
 		    			  $("#precannedCCDAsubmit").click(function(e){
 		    				    
 		    					var jform = $('#precannedForm');
-		    					jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-		    					if(jform.validationEngine('validate'))
+		    					
+		    					var parsleyForm = jform.parsley(dtParsleyOptions.getOptions());
+		    					
+		    					if (parsleyForm.validate() === true)
 		    					{
 		    						$('#precannedForm .formError').hide(0);
 		    						
@@ -437,23 +450,9 @@ $(function() {
 	/*
 	 * Submit the form
 	 */
-	var parsleyOptions = {
-	        trigger: 'change',
-	        successClass: "has-success",
-	        errorClass: "alert alert-danger",
-	        classHandler: function (el) {
-	        	return el.$element.closest(".form-group").children(".infoArea");
-	        },
-			errorsContainer: function (el) {
-				return el.$element.closest(".form-group").children(".infoArea");
-			},
-			errorsWrapper: '<ul></ul>',
-			errorElem: '<li></li>'
-		};
-	
-	$('form#form-getdc').parsley(parsleyOptions).unsubscribe('parsley:form:validate');
+	$('form#form-getdc').parsley(dtParsleyOptions.getOptions()).unsubscribe('parsley:form:validate');
     
-	$('form#form-getdc').parsley(parsleyOptions).subscribe('parsley:form:validate', function (formInstance) {
+	$('form#form-getdc').parsley(dtParsleyOptions.getOptions()).subscribe('parsley:form:validate', function (formInstance) {
 
 		if (formInstance.isValid())
 		{

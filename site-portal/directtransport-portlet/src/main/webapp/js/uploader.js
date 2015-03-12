@@ -84,22 +84,15 @@ $(function() {
 		data.context = $('#anchoruploadsubmit').click(function(e) {
 			var jform = $('#anchoruploadform');
 			
-			jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-			if(jform.validationEngine('validate'))
+			var parsleyForm = jform.parsley(dtParsleyOptions.getOptions());
+			
+			if(parsleyForm.validate() === true)
 			{
 				$('#anchoruploadform .formError').hide(0);
 				
 				blockAnchorUploadWidget();
 						
 				data.submit();
-			}
-			else
-			{
-				//jform.validationEngine({validateNonVisibleFields: true, updatePromptsPosition:true});
-				
-				$('#anchoruploadform .formError').show(0);
-				
-				$('#anchoruploadform .anchoruploadfileformError').prependTo('#anchoruploaderrorlock');
 			}
 		});
 	}).prop('disabled', !$.support.fileInput).parent().addClass(
@@ -215,22 +208,16 @@ $(function() {
 
 		data.context = $('#ccdauploadsubmit').click(function(e) {
 			var jform = $('#ccdauploadform');
-			//jform.validationEngine('hideAll');
-			jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-			if(jform.validationEngine('validate'))
+			
+			var parsleyForm = jform.parsley(dtParsleyOptions.getOptions());
+			
+			if(parsleyForm.validate() === true)
 			{
 				$('#ccdauploadform .formError').hide(0);
 				
 				blockDirectReceiveWidget();
 						
 				data.submit();
-			}
-			else
-			{
-				//jform.validationEngine({validateNonVisibleFields: true, updatePromptsPosition:true});
-				$('#ccdauploadform .formError').show(0);
-				
-				$('#ccdauploadform .ccdauploadfileformError').prependTo('#ccdauploaderrorlock');
 			}
 		});
 	}).prop('disabled', !$.support.fileInput).parent().addClass(
