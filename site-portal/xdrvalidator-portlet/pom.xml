@@ -145,6 +145,8 @@
 			</plugin>
 		</plugins>
 	</build>
+
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.liferay.portal</groupId>
@@ -259,10 +261,22 @@
 			<artifactId>site-common-statistics</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.sitenv.common</groupId>
+			<artifactId>site-common-xdrsender</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.1.51</version>
 		</dependency>
 	</dependencies>
 </project>
