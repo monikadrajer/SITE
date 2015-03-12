@@ -405,13 +405,6 @@
                     <con:encoding>UTF-8</con:encoding>
                     <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
                     <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest requestID="${=project.name}_${=testSuite.name}_${=testCase.name}_${=testStep.name}_${=request.name}_${=UUID.randomUUID()}" xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=HcProfessional,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
@@ -514,13 +507,6 @@ count(//dsml:attr)</path><content>25</content><allowWildcards>false</allowWildca
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest requestID="${=project.name}_${=testSuite.name}_${=testCase.name}_${=testStep.name}_${=request.name}_${=UUID.randomUUID()}" xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=HcRegulatedOrganization,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
@@ -608,13 +594,6 @@ count(//dsml:attr)</path><content>19</content><allowWildcards>false</allowWildca
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest requestID="${=project.name}_${=testSuite.name}_${=testCase.name}_${=testStep.name}_${=request.name}_${=UUID.randomUUID()}" xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=HPDProviderMembership,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
@@ -685,13 +664,6 @@ count(//dsml:attr)</path><content>10</content><allowWildcards>false</allowWildca
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-  <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest requestID="${=project.name}_${=testSuite.name}_${=testCase.name}_${=testStep.name}_${=request.name}_${=UUID.randomUUID()}" xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=Services,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
@@ -754,13 +726,6 @@ count(//dsml:attr)</path><content>6</content><allowWildcards>false</allowWildcar
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest requestID="${=project.name}_${=testSuite.name}_${=testCase.name}_${=testStep.name}_${=request.name}_${=UUID.randomUUID()}" xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=HPDCredential,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
@@ -1649,13 +1614,6 @@ Request a list of individuals by specifying one or more individual attributes.</
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=HcProfessional,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
@@ -1705,13 +1663,6 @@ Request a specific individual by specifying the individual unique reference ID.<
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=HcProfessional,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
@@ -1786,13 +1737,6 @@ organization attributes.</con:description><con:settings/>
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-  <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=HcRegulatedOrganization,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
@@ -1968,13 +1912,6 @@ organization unique reference ID.</con:description><con:settings/><con:testStep 
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=HcRegulatedOrganization,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
@@ -2223,13 +2160,6 @@ relationships are returned.</con:description><con:settings/>
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-  <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=HPDProviderMembership,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
@@ -2464,13 +2394,6 @@ relationships are returned.</con:description><con:settings/>
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=HPDProviderMembership,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
@@ -2719,13 +2642,6 @@ other organizations are returned. </con:description><con:settings/>
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=HcProfessional,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
@@ -3046,13 +2962,6 @@ other organizations are returned. </con:description><con:settings/>
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-   <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=Relationship,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">
@@ -3110,13 +3019,6 @@ def result = encodedTest</script></con:config></con:testStep><con:testStep type=
             <con:encoding>UTF-8</con:encoding>
             <con:endpoint>${#Project#project.test.server.wsdl.url}</con:endpoint>
             <con:request><![CDATA[<soap-env:Envelope xmlns:soap-env="http://www.w3.org/2003/05/soap-envelope">
-  <soap-env:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-      <wsa:Action/>
-      <wsa:ReplyTo soap-env:mustUnderstand="1">
-         <wsa:Address>http://www.w3.org/2005/08/addressing/anonymous</wsa:Address>
-      </wsa:ReplyTo>
-      <wsa:MessageID soap-env:mustUnderstand="1"/>
-   </soap-env:Header>
    <soap-env:Body>
       <dsml:batchRequest xmlns:dsml="urn:oasis:names:tc:DSML:2:0:core" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
          <dsml:searchRequest dn="ou=Relationship,${#Project#project.test.server.dsml.dn.base}" scope="singleLevel" derefAliases="derefFindingBaseObj">

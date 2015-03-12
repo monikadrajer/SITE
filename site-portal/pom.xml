@@ -98,6 +98,7 @@
 		<module>ccdavalidator-portlet</module>
 		<module>usercreationalert-hook</module>
 		<module>directmailbox-portlet</module>
+		<module>smtp-portlet</module>
     	<module>qrda-portlet</module>
     	<module>providerdirectory-portlet</module>
     	<module>providerdirectory-servlet</module>
