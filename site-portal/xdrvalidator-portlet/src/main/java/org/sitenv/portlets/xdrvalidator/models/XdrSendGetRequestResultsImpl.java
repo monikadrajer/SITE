@@ -12,6 +12,7 @@ public class XdrSendGetRequestResultsImpl implements XdrSendGetRequestResults {
 	private String lookupCode;
 	private String timestamp;
 	private String requestContent;
+	private String responseContent;
 	
 	public String getLookupCode() {
 		return lookupCode;
@@ -31,7 +32,11 @@ public class XdrSendGetRequestResultsImpl implements XdrSendGetRequestResults {
 	public void setRequestContent(String requestContent) {
 		this.requestContent = requestContent;
 	}
-	
-	
+	public String getResponseContent() {
+		return responseContent;
+	}
+	public void setResponseContent(String responseContent) {
+		this.responseContent = responseContent;
+	}
 	
 }

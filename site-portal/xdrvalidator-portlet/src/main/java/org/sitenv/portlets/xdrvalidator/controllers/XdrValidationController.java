@@ -18,7 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.sitenv.common.statistics.manager.StatisticsManager;
 import org.sitenv.common.utilities.controller.BaseController;
-import org.sitenv.portlets.xdrvalidator.business.XDR;
+import org.sitenv.common.xdrsender.XDR;
 import org.sitenv.portlets.xdrvalidator.models.XdrReceiveResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

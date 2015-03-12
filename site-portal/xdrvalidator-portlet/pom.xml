@@ -261,6 +261,12 @@
 			<artifactId>site-common-statistics</artifactId>
 			<version>${project.parent.version}</version>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.sitenv.common</groupId>
+			<artifactId>site-common-xdrsender</artifactId>
+			<version>${project.parent.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>

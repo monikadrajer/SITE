@@ -31,6 +31,7 @@ public class XdrSendGetRequestJsonView extends AbstractView {
 	jsonObj.put("lookupCode", map.get("lookupCode"));
 	jsonObj.put("timestamp", map.get("timestamp"));
 	jsonObj.put("requestContent", map.get("requestContent"));
+	jsonObj.put("responseContent", map.get("responseContent"));
     
     logger.info(jsonObj.toString());
     

@@ -595,20 +595,37 @@ $(function() {
 	        			    	    	var results = JSON.parse(data);
 	        			    	    	
 	        			    	    	var codeWrapper = document.createElement('div');
+	        			    	    	var codeWrapper2 = document.createElement('div');
 	        			    	    	
+	        			    	    
 	        			    	    	var codeEle = document.createElement("code");
-	        			    	    	$('#accordion div[data-timestamp="'+results.timestamp+'"] .panel-body').html(codeWrapper);
+	        			    	    	$('#accordion div[data-timestamp="'+results.timestamp+'"] .panel-body').html('<span style="font-weight:bold;">Request:</span>');
+	        			    	    	$('#accordion div[data-timestamp="'+results.timestamp+'"] .panel-body').append(codeWrapper);
 	        			    	    	
+	        			    	    	if (results.responseContent) {
+	        			    	    		var codeEle2 = document.createElement("code");
+		        			    	    	
+	        			    	    		$('#accordion div[data-timestamp="'+results.timestamp+'"] .panel-body').append('<br/><span style="font-weight:bold;">Response:</span>');
+	        			    	    		$('#accordion div[data-timestamp="'+results.timestamp+'"] .panel-body').append(codeWrapper2);
+	        			    	    		
+	        			    	    		$(codeWrapper2).append(codeEle2);
+		        			    	    	
+		        			    	    	$(codeEle2).css("white-space", "pre");
+		        			    	    	
+		        			    	    	$(codeEle2).text(results.responseContent);
+	        			    	    	}
+	        			    	    		
 	        			    	    	$('#accordion div[data-timestamp="'+results.timestamp+'"] .panel-body div').addClass("well");
 	        			    	    	$('#accordion div[data-timestamp="'+results.timestamp+'"] .panel-body div').css("overflow-x", "scroll");
 	        			    	    	
 	        			    	    	
-	        			    	    	$('#accordion div[data-timestamp="'+results.timestamp+'"] .panel-body .well').html(codeEle);
+	        			    	    	$(codeWrapper).append(codeEle);
 	        			    	    	
-	        			    	    	$('#accordion div[data-timestamp="'+results.timestamp+'"] .panel-body .well code').css("white-space", "pre");
+	        			    	    	$(codeEle).css("white-space", "pre");
 	        			    	    	
-	        			    	    	$('#accordion div[data-timestamp="'+results.timestamp+'"] .panel-body .well code').text(results.requestContent);
-
+	        			    	    	$(codeEle).text(results.requestContent);
+	        			    	    	
+	        			    	    	
 	        			    	    	$('#accordion div[data-timestamp="'+results.timestamp+'"]').data('loaded', true);
 	        			    	    	
 	        			    	    },

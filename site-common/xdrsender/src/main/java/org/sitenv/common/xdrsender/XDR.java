@@ -1,4 +1,4 @@
-package org.sitenv.portlets.xdrvalidator.business;
+package org.sitenv.common.xdrsender;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -40,7 +40,7 @@ public class XDR {
 			e.printStackTrace();
 		}
 		
-		System.out.println("Respsone = " + response);
+		System.out.println("Response = " + response);
 		return response;
 	}
 	

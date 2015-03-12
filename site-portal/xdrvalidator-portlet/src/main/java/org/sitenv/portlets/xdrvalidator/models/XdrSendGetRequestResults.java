@@ -9,5 +9,7 @@ public interface XdrSendGetRequestResults {
 	public void setTimestamp(String timestamp);
 	public String getRequestContent();
 	public void setRequestContent(String requestContent);
+	public String getResponseContent();
+	public void setResponseContent(String responseContent);
 	
 }

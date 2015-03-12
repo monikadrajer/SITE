@@ -1,9 +1,11 @@
 package org.sitenv.portlets.xdrvalidator.controllers;
 
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
-import java.security.NoSuchAlgorithmException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,14 +13,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Vector;
 
-import javax.crypto.Cipher;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.sitenv.common.utilities.controller.BaseController;
 import org.sitenv.portlets.xdrvalidator.models.XdrSendGetRequestResults;
 import org.sitenv.portlets.xdrvalidator.models.XdrSendRequestListResults;
@@ -26,10 +31,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
-import org.springframework.web.portlet.multipart.MultipartActionRequest;
+import org.w3c.dom.Document;
 
 import com.jcraft.jsch.Channel;
 import com.jcraft.jsch.ChannelSftp;
@@ -115,10 +119,11 @@ public class XdrValidatorSendController extends BaseController {
 		String lookupCode = request.getParameter("lookup");
 		String timestamp = request.getParameter("timestamp");
 		String xmlRequest = null;
+		String xmlResponse = null;
 		
 		try {
 
-				xmlRequest = this.getRequestFile(lookupCode, timestamp);				
+				xmlRequest = this.getFile(lookupCode, timestamp,"Request");				
 
 		} catch (Exception e) {
 			//statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true);
@@ -126,9 +131,44 @@ public class XdrValidatorSendController extends BaseController {
 			throw new RuntimeException(e);
 		} 
 		
+		try {
+
+			xmlResponse = this.getFile(lookupCode, timestamp,"Response");		
+			
+			if (xmlResponse != null) 
+			{
+				Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new ByteArrayInputStream(xmlResponse.getBytes()));
+				
+				ByteArrayOutputStream outSrc = new ByteArrayOutputStream();
+		        
+		        //creating a transformer
+		        TransformerFactory transFactory = TransformerFactory.newInstance();
+		        Transformer transformer  = transFactory.newTransformer();
+		        
+		        transformer.setOutputProperty(OutputKeys.ENCODING, "utf-8");
+		        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "no");
+		        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+		        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "5");
+
+		        transformer.transform(new DOMSource(doc), new StreamResult(outSrc));
+		        
+		        xmlResponse = outSrc.toString("UTF-8");
+			}
+			
+			
+	        
+		} catch (Exception e) {
+			logger.error(e);
+		} 
+		
+		
+		
+		
+		
 		xdrSendGetRequestResults.setLookupCode(lookupCode);
 		xdrSendGetRequestResults.setTimestamp(timestamp);
 		xdrSendGetRequestResults.setRequestContent(xmlRequest);
+		xdrSendGetRequestResults.setResponseContent(xmlResponse);
 		
 	}
 	
@@ -140,6 +180,7 @@ public class XdrValidatorSendController extends BaseController {
 		map.put("lookupCode", xdrSendGetRequestResults.getLookupCode());
 		map.put("timestamp", xdrSendGetRequestResults.getTimestamp());
 		map.put("requestContent", xdrSendGetRequestResults.getRequestContent());
+		map.put("responseContent", xdrSendGetRequestResults.getResponseContent());
 		
 		
 		return new ModelAndView("xdrSendGetRequestJsonView", map);
@@ -180,7 +221,7 @@ public class XdrValidatorSendController extends BaseController {
             channelSftp = (ChannelSftp)channel;
             channelSftp.cd(props.getProperty("xdrvalidator.service.sftpremotedir") + "/"  + requestDir);
             
-            Vector fileList = channelSftp.ls(props.getProperty("xdrvalidator.service.sftpremotedir") + "/" +  requestDir);
+            Vector fileList = channelSftp.ls(props.getProperty("xdrvalidator.service.sftpremotedir") + "/" +  requestDir + "/Request*");
          
             
             
@@ -228,7 +269,7 @@ public class XdrValidatorSendController extends BaseController {
 		return fileNames;
 	}
 	
-	private String getRequestFile(String requestLookup, String formattedTimestamp) throws IOException
+	private String getFile(String requestLookup, String formattedTimestamp, String filePrefix) throws IOException
 	{
 		JSch jsch = new JSch();
 		Session session = null;
@@ -261,7 +302,7 @@ public class XdrValidatorSendController extends BaseController {
 			channel = session.openChannel("sftp");
             channel.connect();
             channelSftp = (ChannelSftp)channel;
-            BufferedInputStream bis = new BufferedInputStream(channelSftp.get(props.getProperty("xdrvalidator.service.sftpremotedir") + "/" + requestDir + "/Request_" + formattedTimestamp + ".xml"));
+            BufferedInputStream bis = new BufferedInputStream(channelSftp.get(props.getProperty("xdrvalidator.service.sftpremotedir") + "/" + requestDir + "/" + filePrefix + "_" + formattedTimestamp + ".xml"));
             
             byte[] contents = new byte[1024];
 
@@ -296,6 +337,8 @@ public class XdrValidatorSendController extends BaseController {
 		else
 			return null;
 	}
+	
+	
 	
 
 }
