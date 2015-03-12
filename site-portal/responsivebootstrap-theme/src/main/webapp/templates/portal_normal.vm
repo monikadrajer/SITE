@@ -162,7 +162,7 @@ $theme.include($body_top_include)
 			<div class="container">
 				<div class="row">
 					<div>
-						<p>This project was funded by a contract from the <a href="http://healthit.hhs.gov"  tabindex="100">Office of the National Coordinator for Health Information Technology (ONC)</a></p>
+						<p>This project was funded by a contract from the <a href="http://www.healthit.gov"  tabindex="100">Office of the National Coordinator for Health Information Technology (ONC)</a></p>
 						<p><a href="http://www.hhs.gov/Privacy.html"  tabindex="100">Privacy Policy</a> | <a href="http://www.hhs.gov/Disclaimer.html"  tabindex="100">Disclaimer</a></p>
 					</div>
 				</div>
