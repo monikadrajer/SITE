@@ -300,7 +300,11 @@ public class CCDAService1_1 extends VocabularyCCDAService {
 				
 				if (errorMessage != null){
 					
-					jsonbody = new JSONObject("{ \"error\" : {\"message\": "+errorMessage+"\""+"}}");
+					JSONObject message = new JSONObject();
+					message.put("message", errorMessage);
+					jsonbody = new JSONObject();
+					jsonbody.put("error", message);
+					
 				} else {
 					
 					jsonbody = new JSONObject("{ \"error\" : {\"message\": \"The web service has encountered an unknown error. Please try again. If this issue persists, please contact the SITE team."+"\""+"}}");
@@ -308,53 +312,64 @@ public class CCDAService1_1 extends VocabularyCCDAService {
 				
 			} else {
 				
-				jsonbody = new JSONObject(json.text());
 				
-				// Get rid of message objects in the case when there is no error found
-				if (jsonbody.has("errors")){
-					JSONArray errors = jsonbody.getJSONArray("errors");
-					JSONObject firstElement = errors.getJSONObject(0);
-					if (firstElement.has("message")){
-						String message = firstElement.getString("message");
-						if (message.equals("no_data_found")){
-							ArrayList emptyList = new ArrayList();
-							jsonbody.remove("errors");
-							jsonbody.put("errors", emptyList);//.put("errors", []);
+				if (errorMessage != null){
+					
+					JSONObject message = new JSONObject();
+					message.put("message", errorMessage);
+					jsonbody = new JSONObject();
+					jsonbody.put("error", message);
+					
+				} else {
+					
+					jsonbody = new JSONObject(json.text());
+					
+					// Get rid of message objects in the case when there is no error found
+					if (jsonbody.has("errors")){
+						JSONArray errors = jsonbody.getJSONArray("errors");
+						JSONObject firstElement = errors.getJSONObject(0);
+						if (firstElement.has("message")){
+							String message = firstElement.getString("message");
+							if (message.equals("no_data_found")){
+								ArrayList emptyList = new ArrayList();
+								jsonbody.remove("errors");
+								jsonbody.put("errors", emptyList);//.put("errors", []);
+							}
 						}
 					}
-				}
-				
-				
-				if (jsonbody.has("warnings")){
-					JSONArray errors = jsonbody.getJSONArray("warnings");
-					JSONObject firstElement = errors.getJSONObject(0);
-					if (firstElement.has("message")){
-						String message = firstElement.getString("message");
-						if (message.equals("no_data_found")){
-							ArrayList emptyList = new ArrayList();
-							jsonbody.remove("warnings");
-							jsonbody.put("warnings", emptyList);//.put("errors", []);
+					
+					
+					if (jsonbody.has("warnings")){
+						JSONArray errors = jsonbody.getJSONArray("warnings");
+						JSONObject firstElement = errors.getJSONObject(0);
+						if (firstElement.has("message")){
+							String message = firstElement.getString("message");
+							if (message.equals("no_data_found")){
+								ArrayList emptyList = new ArrayList();
+								jsonbody.remove("warnings");
+								jsonbody.put("warnings", emptyList);//.put("errors", []);
+							}
 						}
 					}
-				}
-				
-				
-				if (jsonbody.has("info")){
-					JSONArray errors = jsonbody.getJSONArray("info");
-					JSONObject firstElement = errors.getJSONObject(0);
-					if (firstElement.has("message")){
-						String message = firstElement.getString("message");
-						if (message.equals("no_data_found")){
-							ArrayList emptyList = new ArrayList();
-							jsonbody.remove("info");
-							jsonbody.put("info", emptyList);//.put("errors", []);
+					
+					
+					if (jsonbody.has("info")){
+						JSONArray errors = jsonbody.getJSONArray("info");
+						JSONObject firstElement = errors.getJSONObject(0);
+						if (firstElement.has("message")){
+							String message = firstElement.getString("message");
+							if (message.equals("no_data_found")){
+								ArrayList emptyList = new ArrayList();
+								jsonbody.remove("info");
+								jsonbody.put("info", emptyList);//.put("errors", []);
+							}
 						}
 					}
+					
+	
+					
+					jsonbody.put("performance", performance_object);
 				}
-				
-
-				
-				jsonbody.put("performance", performance_object);
 			}
 		}
 		return jsonbody;
