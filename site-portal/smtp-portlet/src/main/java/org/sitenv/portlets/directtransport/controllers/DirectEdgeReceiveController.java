@@ -13,8 +13,10 @@ import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.mail.Address;
 import javax.mail.Folder;
 import javax.mail.Message;
+import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.NoSuchProviderException;
@@ -227,7 +229,7 @@ public class DirectEdgeReceiveController  extends BaseController
 	@ActionMapping(params = "javax.portlet.action=precannedCCDADirectEdgeReceive")
 	public void precannedCCDADirectEdgeReceive(ActionRequest request, ActionResponse response) throws IOException, JSONException {
 		
-		String endPointEmail = null;
+		String fromEmail = null;
 		String fileName = null;
 		
 		if (this.props == null)
@@ -237,15 +239,15 @@ public class DirectEdgeReceiveController  extends BaseController
 		
 		String sampleCcdaDir = props.getProperty("sampleCcdaDir");
 		String delimiter = "@";
-		String fromendpoint = props.getProperty("directFromEndpoint");
+		String hisptoemailaddress = props.getProperty("hisptoemailaddress");
 		String smtphostname = props.getProperty("smtphostname");
 		String smtpport = props.getProperty("smtpport");
 		String enableSSL = props.getProperty("smtpenablessl");
 		response.setRenderParameter("javax.portlet.action", "precannedCCDADirectEdgeReceive");
 		String precannedfile = request.getParameter("precannedfilepath");
 		String serverFilePath = sampleCcdaDir + "/" + precannedfile;
-		endPointEmail = request.getParameter("precannedemail");
-		String domain = endPointEmail.split(delimiter)[1];
+		fromEmail = request.getParameter("fromemail");
+		String domain = fromEmail.split(delimiter)[1];
 		
 		directRecieveResults.setPrecannedResult(new JSONObject());
 
@@ -280,14 +282,11 @@ public class DirectEdgeReceiveController  extends BaseController
 						return new PasswordAuthentication(smtpuser, "providerpass");
 					}
 				});
-			
-			//Session session = Session.getInstance(props);
  
 			Message message = new MimeMessage(session);
-			
-			message.setFrom(new InternetAddress(fromendpoint));
+			message.setFrom(new InternetAddress(fromEmail));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(endPointEmail));
+					InternetAddress.parse(hisptoemailaddress));
 			message.setSubject("SITE direct email test");
 			
 			Multipart multiPart = new MimeMultipart();  
@@ -378,21 +377,6 @@ public class DirectEdgeReceiveController  extends BaseController
 	}  
 	
 	private void searchEmail(Session session, final String keyword) {
-//        Properties properties = new Properties();
- 
-//        // server setting
-//        properties.put("mail.imap.host", host);
-//        properties.put("mail.imap.port", port);
-// 
-//        // SSL setting
-//        properties.setProperty("mail.imap.socketFactory.class",
-//                "javax.net.ssl.SSLSocketFactory");
-//        properties.setProperty("mail.imap.socketFactory.fallback", "false");
-//        properties.setProperty("mail.imap.socketFactory.port",
-//                String.valueOf(port));
-// 
-//        Session session = Session.getDefaultInstance(properties);
- 
         try {
             // connects to the message store
             Store store = session.getStore("pop3");
@@ -410,9 +394,13 @@ public class DirectEdgeReceiveController  extends BaseController
 //                        if (message.getSubject().contains(keyword)) {
 //                            return true;
 //                        }
-                        if (message.getFrom().equals(keyword)) {
-                            return true;
-                        }
+                    	Address[] addresses = message.getFrom();
+                    	for(Address address : addresses) {
+                    		InternetAddress iAddress = (InternetAddress)address;
+                    		if(iAddress.getAddress().equals(keyword)){
+                    			return true;
+                    		}
+                    	}
                     } catch (MessagingException ex) {
                         ex.printStackTrace();
                     }
@@ -426,7 +414,7 @@ public class DirectEdgeReceiveController  extends BaseController
             for (int i = 0; i < foundMessages.length; i++) {
                 Message message = foundMessages[i];
                 String subject = message.getSubject();
-                System.out.println("Found message #" + i + ": " + subject);
+                System.out.println("DEBUG ---> Found message #" + i + ": " + subject);
             }
  
             // disconnect
