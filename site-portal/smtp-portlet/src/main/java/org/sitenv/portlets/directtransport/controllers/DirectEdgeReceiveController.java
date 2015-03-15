@@ -391,9 +391,6 @@ public class DirectEdgeReceiveController  extends BaseController
                 @Override
                 public boolean match(Message message) {
                     try {
-//                        if (message.getSubject().contains(keyword)) {
-//                            return true;
-//                        }
                     	Address[] addresses = message.getFrom();
                     	for(Address address : addresses) {
                     		InternetAddress iAddress = (InternetAddress)address;
