@@ -61,89 +61,9 @@
 	var sampleCCDATreeURL = '${sampleCCDATree}';
 </script>
 
-<%-- <div class="panel panel-default" id="anchoruploadwidget">
-      <div class="panel-heading"><h3 class="panel-title">Trust Anchor Exchange</h3></div>
-  		<div class="panel-body">
-				
-			<span>Trust Anchor Exchange can be accomplished via two different mechanisms.</span>
-			<ol>
-				<li>
-	  				<span style="text-decoration: underline;">
-	  					Trust Anchor Exchange using BlueButton Trust Bundles:
-					</span>
-					<ul>
-						<li>
-							SITE's Direct instantiation synchronizes with the <a href="https://secure.bluebuttontrust.org/" target="_blank"  tabindex="1">BlueButton</a>
-							 Patient and Provider Test bundles every minute. 
-							The SITE's Trust Anchor is already part of the <a href="https://secure.bluebuttontrust.org/" target="_blank" tabindex="1">BlueButton</a> Patient and Provider Test bundles.
-							<ul>
-								<li>Implementers can download the SITE Trust Anchor from the <a href="https://secure.bluebuttontrust.org/" target="_blank" tabindex="1">BlueButton</a> bundles.</li> 
-								<li>Implementers can submit their Trust Anchors on the <a href="https://secure.bluebuttontrust.org/" target="_blank" tabindex="1">BlueButton</a> website.</li>
-							</ul>
-						</li>
-					</ul>
-				</li>
-				<li>
-					<span style="text-decoration: underline;">
-	  					Trust Anchor Exchange using "SITE Upload Trust Anchor":
-					</span>
-					<ul>
-						<li>
-							Download the Trust Anchor for the Sandbox 
-							<a href="<%=request.getContextPath()%>/Certificates/PublicKeys/direct.sitenv.org_ca.der" tabindex="1">(direct.sitenv.org Certificate)</a> and import the trust anchor into your trust store.
-						</li>
-						<li>
-							Please upload your Trust Anchor by selecting your Trust Anchor. 
-							If you need to replace the Trust Anchor, just perform another upload and the previous one will be replaced.
-						</li>
-						<li>
-							Uploading the Trust Anchor causes an update to the 
-							<a href="/trustBundle/TrustBundle.p7b" tabindex="1">Trust Bundle</a> of 
-							<a href="http://direct.sitenv.org" target="_blank" tabindex="1">direct.sitenv.org</a> 
-							which is refreshed every five minutes and is only used for testing purposes. Once a Trust Anchor is uploaded, users can test with the Direct sandbox after five minutes. 
-						</li>
-					</ul>
-				</li>
-	  		</ol>
-	  	<div class="well">
-	  	<form id="anchoruploadform" action="${uploadTrustAnchor}" method="POST" enctype="multipart/form-data">
-      		
-			<!-- The fileinput-button span is used to style the file input field as button -->
-			
-			<noscript><input type="hidden" name="redirect" value="true" tabindex="1" /></noscript>
-			<div id="anchoruploaderrorlock" style="position:relative;">
-				<div class="row">
-					<div class="col-md-12">
-				<label for="anchoruploadfile">Select a Local Trust Anchor Certificate (binary or PEM encoded): </label><br/>
-				<span class="btn btn-success fileinput-button" id="anchoruploadfile-btn"> <i
-							class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a Certificate...</span>
-							<!-- The file input field used as target for the file upload widget -->
-							<input id="anchoruploadfile" type="file" name="anchoruploadfile" class="validate[required, custom[derencncodedfileextension[der|crt|cer|pem|DER|CRT|CER|PEM]], custom[maxCertFileSize]]"  tabindex="1"/>
-					</span>
-					<div id="anchoruploadfiles" class="files"></div>
-			</div>
-					
-				</div>
-			</div>
-			<hr/>
-			<button id="anchoruploadsubmit" type="submit" class="btn btn-primary start" onclick="return false;"  tabindex="1">
-				<i class="glyphicon glyphicon-ok"></i> <span>Submit Anchor</span>
-			</button>
-			
-			
-      	</form>
-      	
-      	</div>
-
-		<div class="clear"></div>
-	</div>
-</div> --%>
-
-<div class="panel panel-default" id="anchoruploadwidget">
+<!-- <div class="panel panel-default" id="anchoruploadwidget">
       <div class="panel-heading"><h3 class="panel-title">Direct Send</h3></div>
   		<div class="panel-body">
-
-
 		<p>
 		Send messages from your implementation to the end points listed below:
 		<ul>
@@ -154,17 +74,17 @@
 		Upon successful receipt of the message, the Direct Sandbox will send an MDN(Message Disposition Notification) back to the sender. The content of the message can be anything and is not validated or used by the SITE.
 		</p>
 	</div>
-</div>
+</div> -->
 
 <div class="panel panel-default" id="directreceivewidget">
-      <div class="panel-heading"><h3 class="panel-title">Direct Receive</h3></div>
+      <div class="panel-heading"><h3 class="panel-title">Send SMTP message to the test tool</h3></div>
   		<div class="panel-body">
-
-
 			<p>
-				Receive messages from the Sandbox to your system. 
-				
+				You can use this tool to send an SMTP message to the Direct Edge test tool per the below instructions. Or you can send an SMTP message to provider1@edge.direct.sitenv.org from your system.
 				<ul>
+					<li>
+						<u>Enter your from address:</u> The email address that represents a message from your Direct Edge system.
+					</li>
 					<li>
 						<u>Choose your own content:</u> Developers can use their own files as the payload of the Direct message sent from the Sandbox. 
 									This provides the ability to verify the file they chosen and that the contents were decrypted appropriately.
@@ -173,11 +93,8 @@
 						<u>Choose pre-canned content:</u> Provides a list of files that you can choose from as the payload of the Direct message.
 					</li>
 					<li>
-						<u>Enter your end point name:</u> The name of the Direct address where you would like to receive the message. Ensure that the Trust Anchor corresponding to the end point has already been uploaded.
-					</li>
-					<li>
 						Once the above fields are populated, hit the send message button.<br/>
-						You will receive a message from provider1@edge.direct.sitenv.org to your system with the content you have uploaded.			
+						You can validate the message was received by using the lookup tool in the above form.		
 					</li>
 				</ul>
 			</p>
@@ -196,13 +113,13 @@
   				<div id="precannedFormWrapper">
 			<form id="precannedForm"  action="${precannedCCDADirectEdgeReceive}" method="POST">
 				<p>
-				<label for="precannedemail">Enter Your Endpoint Name:</label><br/>
-					<input id="precannedemail"
+				<label for="fromemail">Enter From Address:</label><br/>
+					<input id="fromemail"
 						class="validate[required,custom[email]] form-control" 
 						data-errormessage-value-missing="end point is required!"
 						data-errormessage-custom-error="end point format is invalid (hint:example@test.org)"
-						name="precannedemail"
-						placeholder="recipient direct email address"
+						name="fromemail"
+						placeholder="from email address"
 						style="display: inline;" type="text"  tabindex="1"/>
 				</p>
 				

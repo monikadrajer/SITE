@@ -13,28 +13,32 @@ import java.util.Properties;
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
+import javax.mail.Address;
+import javax.mail.Folder;
 import javax.mail.Message;
+import javax.mail.Message.RecipientType;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
+import javax.mail.NoSuchProviderException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
+import javax.mail.Store;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+import javax.mail.search.SearchTerm;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
 
 import org.apache.commons.fileupload.FileUploadException;
-import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.sitenv.common.utilities.controller.BaseController;
-import org.sitenv.common.utilities.encryption.DesEncrypter;
 import org.sitenv.common.statistics.manager.StatisticsManager;
+import org.sitenv.common.utilities.controller.BaseController;
 import org.sitenv.portlets.directtransport.DirectReceiveResults;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,20 +57,13 @@ public class DirectEdgeReceiveController  extends BaseController
 	private static final int THRESHOLD_SIZE = 1024 * 1024 * 3;    // 3MB
 	private static final int MAX_FILE_SIZE = 1024 * 1024 * 10;    // 10MB 
 	private static final int REQUEST_SIZE = 1024 * 1024 * 11;    // 11MB
-	
 	private static final String SERVERFILEPATH_FLDNAME = "precannedfilepath";
 	private static final String CUSTOMCCDAFILE_FLDNAME = "uploadccdafilecontent";
-	
 	private static final String ENCRYPTEDKEY = "sitplatform@1234";
-	
 	private static final long serialVersionUID = 1L;
-	
-
 	
 	@Autowired
 	private DirectReceiveResults directRecieveResults;
-	
-	
 	@Autowired
 	private StatisticsManager statisticsManager;
 	
@@ -229,11 +226,10 @@ public class DirectEdgeReceiveController  extends BaseController
 		return new ModelAndView("genericResultJsonView", map);
 	}
 	
-	
 	@ActionMapping(params = "javax.portlet.action=precannedCCDADirectEdgeReceive")
 	public void precannedCCDADirectEdgeReceive(ActionRequest request, ActionResponse response) throws IOException, JSONException {
 		
-		String endPointEmail = null;
+		String fromEmail = null;
 		String fileName = null;
 		
 		if (this.props == null)
@@ -243,15 +239,15 @@ public class DirectEdgeReceiveController  extends BaseController
 		
 		String sampleCcdaDir = props.getProperty("sampleCcdaDir");
 		String delimiter = "@";
-		String fromendpoint = props.getProperty("directFromEndpoint");
+		String hisptoemailaddress = props.getProperty("hisptoemailaddress");
 		String smtphostname = props.getProperty("smtphostname");
 		String smtpport = props.getProperty("smtpport");
 		String enableSSL = props.getProperty("smtpenablessl");
 		response.setRenderParameter("javax.portlet.action", "precannedCCDADirectEdgeReceive");
 		String precannedfile = request.getParameter("precannedfilepath");
 		String serverFilePath = sampleCcdaDir + "/" + precannedfile;
-		endPointEmail = request.getParameter("precannedemail");
-		String domain = endPointEmail.split(delimiter)[1];
+		fromEmail = request.getParameter("fromemail");
+		String domain = fromEmail.split(delimiter)[1];
 		
 		directRecieveResults.setPrecannedResult(new JSONObject());
 
@@ -267,27 +263,30 @@ public class DirectEdgeReceiveController  extends BaseController
 			Properties props = new Properties();
 			
 			props.put("mail.smtp.host", smtphostname);
+			props.put("mail.pop3.host", smtphostname);
 			if(enableSSL.toUpperCase().equals("TRUE")){
 				props.put("mail.smtp.socketFactory.port", smtpport);
 				props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+				props.put("mail.pop3.socketFactory.port","110");
+				props.put("mail.pop3.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
 			}
-			props.put("mail.smtp.auth", "false");
+			props.put("mail.smtp.auth", "true");
 			props.put("mail.smtp.port", smtpport);
-	 		
+			props.put("mail.pop3.port", "110");
+			props.put("mail.pop3.socketFactory.fallback", "false");
+			
+			
 			Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {
 					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(smtpuser, null);
+						return new PasswordAuthentication(smtpuser, "providerpass");
 					}
 				});
-			
-			//Session session = Session.getInstance(props);
  
 			Message message = new MimeMessage(session);
-			
-			message.setFrom(new InternetAddress(fromendpoint));
+			message.setFrom(new InternetAddress(fromEmail));
 			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(endPointEmail));
+					InternetAddress.parse(hisptoemailaddress));
 			message.setSubject("SITE direct email test");
 			
 			Multipart multiPart = new MimeMultipart();  
@@ -305,6 +304,8 @@ public class DirectEdgeReceiveController  extends BaseController
 	        directRecieveResults.getPrecannedResult().put("IsSuccess", "true");
 	        directRecieveResults.getPrecannedResult().put("ErrorMessage", "Mail sent.");
 			statisticsManager.addDirectReceive(domain, false, true, false);
+			
+			searchEmail(session, "sendbrianemail@gmail.com");
 			
 		} catch (MessagingException e) {
 			statisticsManager.addDirectReceive(domain, false, true, true);
@@ -375,6 +376,55 @@ public class DirectEdgeReceiveController  extends BaseController
 		this.statisticsManager = statisticsManager;
 	}  
 	
+	private void searchEmail(Session session, final String keyword) {
+        try {
+            // connects to the message store
+            Store store = session.getStore("pop3");
+            store.connect();
+ 
+            // opens the inbox folder
+            Folder folderInbox = store.getFolder("INBOX");
+            folderInbox.open(Folder.READ_ONLY);
+ 
+            // creates a search criterion
+            SearchTerm searchCondition = new SearchTerm() {
+                @Override
+                public boolean match(Message message) {
+                    try {
+                    	Address[] addresses = message.getFrom();
+                    	for(Address address : addresses) {
+                    		InternetAddress iAddress = (InternetAddress)address;
+                    		if(iAddress.getAddress().equals(keyword)){
+                    			return true;
+                    		}
+                    	}
+                    } catch (MessagingException ex) {
+                        ex.printStackTrace();
+                    }
+                    return false;
+                }
+            };
+ 
+            // performs search through the folder
+            Message[] foundMessages = folderInbox.search(searchCondition);
+ 
+            for (int i = 0; i < foundMessages.length; i++) {
+                Message message = foundMessages[i];
+                String subject = message.getSubject();
+                System.out.println("DEBUG ---> Found message #" + i + ": " + subject);
+            }
+ 
+            // disconnect
+            folderInbox.close(false);
+            store.close();
+        } catch (NoSuchProviderException ex) {
+            System.out.println("No provider.");
+            ex.printStackTrace();
+        } catch (MessagingException ex) {
+            System.out.println("Could not connect to the message store.");
+            ex.printStackTrace();
+        }
+    }
 	
 
 }
