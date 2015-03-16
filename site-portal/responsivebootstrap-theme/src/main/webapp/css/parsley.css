@@ -61,6 +61,27 @@ textarea.parsley-error {
 	margin-top: 1em;
 }
 
+.filled::before {
+  content: "\e101";
+  width: 1em;
+  position: relative;
+  top: 1px;
+  display: inline-block;
+  font-family: 'Glyphicons Halflings';
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 1;
+  float: left;
+  margin-left: -25px;
+  margin-top: 2px;
+}
+
+ul.filled {
+	list-style-type:none;
+	margin-left:25px;
+}
+
 /*
 .infoArea {
 	
