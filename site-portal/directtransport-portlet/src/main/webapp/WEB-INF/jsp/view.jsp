@@ -222,7 +222,7 @@
 								<label for="precannedemail">Enter Your Endpoint Name:</label><br />
 								<input id="precannedemail" class="form-control"
 									data-parsley-required 
-									data-parsley-required-message="End point is required!" 
+									data-parsley-required-message="End point is required." 
 									data-parsley-email 
 									data-parsley-type-message="End point format is invalid (hint:example@test.org)"
 									name="precannedemail"
@@ -283,7 +283,7 @@
 								<input id="ccdauploademail"
 									class="form-control"
 									data-parsley-required 
-									data-parsley-required-message="End point is required!" 
+									data-parsley-required-message="End point is required." 
 									data-parsley-email 
 									data-parsley-type-message="End point format is invalid (hint:example@test.org)"
 									name="ccdauploademail"
@@ -362,7 +362,7 @@
 						<label for="directAddress">Enter Direct Address or Domain:</label><br />
 						<input id="directAddress" class="form-control"
 							name="directAddress" placeholder="direct email address or domain"
-							style="display: inline;" type="text" tabindex="1" data-parsley-required/>
+							style="display: inline;" type="text" tabindex="1" data-parsley-required data-parsley-required-message="This field is required."/>
 					</div>
 					<div id="directCertInfoArea" class="infoArea"></div>
 				</div>

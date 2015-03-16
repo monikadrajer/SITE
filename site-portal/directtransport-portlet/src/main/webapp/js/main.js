@@ -483,7 +483,7 @@ $(function() {
 	$("button#getdc-reset").click(function() {
 		$('form#form-getdc').parsley().reset();
 		
-		// And empty the accordian
+		$('#directCertInfoArea').children('.filled').removeClass('filled');
 		testcaseHostingResultsAccordion.empty();
 	});
 

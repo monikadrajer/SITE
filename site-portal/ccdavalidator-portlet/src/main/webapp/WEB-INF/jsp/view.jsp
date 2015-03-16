@@ -502,7 +502,7 @@
 													<label for="CCDAReferenceCEHRTFileupload">Upload C-CDA File:</label><br/>
 													<span class="btn btn-success fileinput-button" id="CCDAReferenceCEHRTFileupload-btn"> <i
 															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
-															<input id="CCDAReferenceCEHRTFileupload" type="file" name="generatedFile"  data-parsley-generatedmaxsize="3" data-parsley-filetype="xml" data-parsley-required data-parsley-trigger="change" data-parsley-required data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
+															<input id="CCDAReferenceCEHRTFileupload" type="file" name="generatedFile"  data-parsley-generatedmaxsize="3" data-parsley-filetype="xml" data-parsley-trigger="change" data-parsley-required data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
 															
 													</span>
 													<div id="CCDACEHRTReferenceFiles"></div>
