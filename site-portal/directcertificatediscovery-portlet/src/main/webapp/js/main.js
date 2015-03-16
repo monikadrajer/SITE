@@ -70,6 +70,10 @@ $(function() {
     	
     	// Reset the validation errors
     	$('form#form-testcases-hosting').parsley().reset();
+    	$('form#form-testcases-hosting').children('#testcase-info')
+    												.children('.form-group')
+    												.children('.infoArea')
+    												.children('.filled').removeClass('filled');
     	
         testcaseHostingDirectAddr.val("");
         testcasesHostingSelect.val("");
@@ -139,6 +143,10 @@ $(function() {
         
         // Reset the validation errors
     	$('form#form-testcases-discovery-mail-mapping').parsley().reset();
+    	
+    	$('#form-testcases-discovery-mail-mapping').children('.form-group')
+													.children('.infoArea')
+													.children('.filled').removeClass('filled');
     });
 	
 	/*
