@@ -142,7 +142,7 @@
 								class="glyphicon glyphicon-plus"></i>&nbsp;<span>Select a
 									Certificate...</span> <!-- The file input field used as target for the file upload widget -->
 								<input id="anchoruploadfile" type="file" name="anchoruploadfile"
-								data-parsley-required data-parsley-trigger="change" data-parsley-trustfiletypes data-parsley-anchormaxsize="3"
+								data-parsley-required data-parsley-required-message="This field is required." data-parsley-trigger="change" data-parsley-trustfiletypes data-parsley-anchormaxsize="3"
 								tabindex="1" />
 							</span>
 							<div id="anchoruploadfiles" class="files"></div>
