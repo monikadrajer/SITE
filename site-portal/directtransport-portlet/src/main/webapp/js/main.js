@@ -23,7 +23,7 @@ $(function() {
 		}
 		
 		return istrue;
-	},32).addMessage('en','trustfiletypes','The selected certificate file must be a binary or Base64 encoded file file (.cer, .crt, .der, or .pem).');
+	},32).addMessage('en','trustfiletypes','The selected certificate file must be a binary or Base64 encoded file (.cer, .crt, .der, or .pem).');
 	
 	
 	// Parsley validator to validate xml extension.
