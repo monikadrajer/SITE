@@ -1,4 +1,4 @@
-package org.sitenv.portlets.directtransport.controllers;
+package org.sitenv.portlets.smtpdirectedgetransport.controllers;
 
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;

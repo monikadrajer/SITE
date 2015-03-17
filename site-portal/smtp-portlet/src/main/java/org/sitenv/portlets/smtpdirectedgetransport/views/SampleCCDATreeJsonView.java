@@ -1,4 +1,4 @@
-package org.sitenv.portlets.directtransport.views;
+package org.sitenv.portlets.smtpdirectedgetransport.views;
 
 import java.util.Map;
 
@@ -6,16 +6,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
-@Component("genericResultJsonView")
-public class GenericResultJsonView extends AbstractView {
+
+@Component("sampleCCDATreeJsonView")
+public class SampleCCDATreeJsonView extends AbstractView {
 	
-	private Logger logger = Logger.getLogger(GenericResultJsonView.class);
+	private Logger logger = Logger.getLogger(SampleCCDATreeJsonView.class);
 	
-	public GenericResultJsonView() {
+	public SampleCCDATreeJsonView() {
 		super();
 		
 		setContentType("text/plain");
@@ -26,17 +26,11 @@ public class GenericResultJsonView extends AbstractView {
             throws Exception {
     logger.info("Resolving ajax request view - " + map);
     
-    JSONObject jsonObj = new JSONObject();
-    
-    jsonObj.put("files", map.get("files"));
-    jsonObj.put("body", map.get("result"));
-    
-    logger.info(jsonObj.toString());
-
+   
     logger.info("content Type = " + getContentType());
     response.setContentType("text/plain");
     response.setCharacterEncoding("UTF-8");
-    response.getWriter().write(jsonObj.toString());
+    response.getWriter().write(map.get("jsonRoot").toString());
     response.getWriter().flush();
     }
 

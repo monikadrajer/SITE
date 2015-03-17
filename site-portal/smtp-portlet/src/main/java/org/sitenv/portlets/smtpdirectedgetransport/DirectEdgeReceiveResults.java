@@ -1,9 +1,9 @@
-package org.sitenv.portlets.directtransport;
+package org.sitenv.portlets.smtpdirectedgetransport;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-public interface DirectReceiveResults {
+public interface DirectEdgeReceiveResults {
 
 	public JSONArray getFileJson();
 	public void setFileJson(JSONArray fileJson);
@@ -11,5 +11,6 @@ public interface DirectReceiveResults {
 	public void setUploadResult(JSONObject uploadResult);
 	public JSONObject getPrecannedResult();
 	public void setPrecannedResult(JSONObject precannedResult);
-
+	public JSONObject getSearchResult();
+	public void setSearchResult(JSONObject searchResult);
 }

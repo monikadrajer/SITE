@@ -1,4 +1,4 @@
-package org.sitenv.portlets.directtransport;
+package org.sitenv.portlets.smtpdirectedgetransport;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.context.annotation.Scope;
@@ -6,16 +6,17 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Service;
 
 
-@Service("DirectReceiveService")
+@Service("DirectEdgeReceiveService")
 @Scope(value="request",proxyMode= ScopedProxyMode.INTERFACES)
-public class DirectReceiveResultsImpl implements DirectReceiveResults {
+public class DirectEdgeReceiveResultsImpl implements DirectEdgeReceiveResults {
 
 	
 	private JSONArray fileJson = null;
 	private JSONObject uploadResult = null;
 	private JSONObject precannedResult = null;
+	private JSONObject searchResult = null;
 	
-	public DirectReceiveResultsImpl(){}
+	public DirectEdgeReceiveResultsImpl(){}
 
 	public JSONArray getFileJson() {
 		return fileJson;
@@ -39,6 +40,14 @@ public class DirectReceiveResultsImpl implements DirectReceiveResults {
 
 	public void setPrecannedResult(JSONObject precannedResult) {
 		this.precannedResult = precannedResult;
+	}
+
+	public JSONObject getSearchResult() {
+		return searchResult;
+	}
+
+	public void setSearchResult(JSONObject searchResult) {
+		this.searchResult = searchResult;
 	}
 
 }
