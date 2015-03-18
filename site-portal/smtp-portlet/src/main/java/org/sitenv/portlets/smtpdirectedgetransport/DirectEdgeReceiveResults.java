@@ -11,6 +11,6 @@ public interface DirectEdgeReceiveResults {
 	public void setUploadResult(JSONObject uploadResult);
 	public JSONObject getPrecannedResult();
 	public void setPrecannedResult(JSONObject precannedResult);
-	public JSONObject getSearchResult();
-	public void setSearchResult(JSONObject searchResult);
+	public JSONArray getSearchResult();
+	public void setSearchResult(JSONArray searchResult);
 }

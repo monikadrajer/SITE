@@ -14,7 +14,7 @@ public class DirectEdgeReceiveResultsImpl implements DirectEdgeReceiveResults {
 	private JSONArray fileJson = null;
 	private JSONObject uploadResult = null;
 	private JSONObject precannedResult = null;
-	private JSONObject searchResult = null;
+	private JSONArray searchResult = null;
 	
 	public DirectEdgeReceiveResultsImpl(){}
 
@@ -42,11 +42,11 @@ public class DirectEdgeReceiveResultsImpl implements DirectEdgeReceiveResults {
 		this.precannedResult = precannedResult;
 	}
 
-	public JSONObject getSearchResult() {
+	public JSONArray getSearchResult() {
 		return searchResult;
 	}
 
-	public void setSearchResult(JSONObject searchResult) {
+	public void setSearchResult(JSONArray searchResult) {
 		this.searchResult = searchResult;
 	}
 

@@ -86,13 +86,38 @@ function unblockDirectReceiveWidget()
     	window.directReceiveWdgt.unblock();
 }
 
+function blockSmtpSearchWidget()
+{
+	var ajaximgpath = window.currentContextPath + "/images/ajax-loader.gif";
+	window.smtpSearchWdgt = $('#smtpsearchwidget  .well');
+	window.smtpSearchWdgt.block({ 
+		css: { 
+	            border: 'none', 
+	            padding: '15px', 
+	            backgroundColor: '#000', 
+	            '-webkit-border-radius': '10px', 
+	            '-moz-border-radius': '10px', 
+	            opacity: .5, 
+	            color: '#fff' 
+		},
+		message: '<div class="progressorpanel">' +
+				 '<img src="'+ ajaximgpath + '" alt="loading">'+
+				 '<div class="lbl">Searching...</div></div>',
+	});
+}
+
+function unblockSmtpSearchWidget()
+{
+	if(window.smtpSearchWdgt)
+    	window.smtpSearchWdgt.unblock();
+}
+
 function precannedRequired(field, rules, i, options){
 	if($('#precannedfilepath').val()== '')
 	{
 		return "Please select a precanned C-CDA sample";
 	}
 }
-
 
 $(function() {
 	
@@ -317,9 +342,80 @@ $(function() {
 		});
 	});
 	
-	
-	
-	
-	
+	$("#smtpsearchsubmit").click(function(e){
+	    
+		var jform = $('#smtpsearchform');
+		jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
+		if(jform.validationEngine('validate'))
+		{
+			$('#smtpsearchform .formError').hide(0);
+			//block ui..
+			blockSmtpSearchWidget();
+		    $.ajax({
+		        url: $('#smtpsearchform').attr('action'),
+		        type: 'POST',
+		        data: $('#smtpsearchform').serializefiles(),
+		        success: function(data){
+		        	var results = JSON.parse(data);
+		        	var iconurl = (results.body.IsSuccess == "true")? window.currentContextPath + "/images/icn_alert_success.png" :
+		        									window.currentContextPath + "/images/icn_alert_error.png" ;
+		        	
+		        	$('#smtpsearchwidget .blockMsg .progressorpanel img').attr('src',iconurl);
+		        	$('#smtpsearchwidget .blockMsg .progressorpanel .lbl').text(results.body.ErrorMessage);
+
+		        	if(window.smtpSearchWdgt)
+		        	{
+		        		window.smtpSearchTimeout = setTimeout(function(){
+		        				window.smtpSearchWdgt.unbind("click");
+		        				window.smtpSearchWdgt.unblock();
+		        			},10000);
+		        		
+		        		window.smtpSearchWdgt.bind("click", function() { 
+		        			window.smtpSearchWdgt.unbind("click");
+		        			clearTimeout(window.smtpSearchTimeout);
+		        			window.smtpSearchWdgt.unblock(); 
+		        			window.smtpSearchWdgt.attr('title','Click to hide this message.').click($.unblockUI); 
+			            });
+		        	}
+		        	
+		        	Liferay.Portlet.refresh("#p_p_id_Statistics_WAR_siteportalstatisticsportlet_"); // refresh the counts
+		        	
+		        },
+		        
+		        error: function (request, status, error) {
+		        	var iconurl = window.currentContextPath + "/images/icn_alert_error.png" ;
+					$('#smtpsearchwidget .blockMsg .progressorpanel img').attr('src',iconurl);
+		        	$('#smtpsearchwidget .blockMsg .progressorpanel .lbl').text('Encountered and error while searching.');
+					
+					if(window.smtpSearchWdgt)
+		        	{
+		        		window.smtpSearchTimeout = setTimeout(function(){
+		        				window.smtpSearchWdgt.unbind("click");
+		        				window.smtpSearchWdgt.unblock();
+		        			},10000);
+		        		
+		        		
+		        		window.smtpSearchWdgt.bind("click", function() { 
+		        			window.smtpSearchWdgt.unbind("click");
+		        			clearTimeout(window.smtpSearchTimeout);
+		        			window.smtpSearchWdgt.unblock(); 
+		        			window.smtpSearchWdgt.attr('title','Click to hide this message.').click($.unblockUI); 
+			            });
+		        		
+		        	}
+		        },
+		        //Options to tell JQuery not to process data or worry about content-type
+		        cache: false,
+		        contentType: false,
+		        processData: false
+		    });
+		}
+		else
+		{
+			$('#smtpsearchform .formError').show(0);
+			$('#smtpsearchform .precannedfilepathformError').prependTo('#precannederrorlock');
+		}
+		return false;
+	});
 
 });
