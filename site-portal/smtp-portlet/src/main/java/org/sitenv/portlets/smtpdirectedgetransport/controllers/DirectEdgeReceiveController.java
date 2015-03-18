@@ -1,10 +1,12 @@
 package org.sitenv.portlets.smtpdirectedgetransport.controllers;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +16,7 @@ import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
 import javax.mail.Address;
+import javax.mail.BodyPart;
 import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -60,67 +63,56 @@ public class DirectEdgeReceiveController  extends BaseController
 	private static final String CUSTOMCCDAFILE_FLDNAME = "uploadccdafilecontent";
 	private static final String ENCRYPTEDKEY = "sitplatform@1234";
 	private static final long serialVersionUID = 1L;
-	
+
 	@Autowired
 	private DirectEdgeReceiveResults directEdgeRecieveResults;
 	@Autowired
 	private StatisticsManager statisticsManager;
-	
+
 	@ActionMapping(params = "javax.portlet.action=uploadCCDADirectEdgeReceive")
 	public void uploadCCDADirectEdgeReceive(MultipartActionRequest request, ActionResponse response) throws IOException, JSONException  {
-		
+
 		Boolean uploadSuccess = false;
-		
+
 		String endPointEmail = null;
 		String fileName = null;
-		
+
 		if (this.props == null)
 		{
 			this.loadProperties();
 		}
-		
-		String delimiter = "@";
 
-		
+		String delimiter = "@";
 		String fromendpoint = props.getProperty("directFromEndpoint");
-		
 		String smtphostname = props.getProperty("smtphostname");
 		String smtpport = props.getProperty("smtpport");
 		String smtpuser = props.getProperty("smtpusername");
 		//String smtppswrd = FileUtils.readFileToString(new File(props.getProperty("smtppswdPath")));
 		String smtppswrd = "providerpass";
 		String enableSSL = props.getProperty("smtpenablessl");
-	
+
 		response.setRenderParameter("javax.portlet.action", "uploadCCDADirectEdgeReceive");
 		MultipartFile file = request.getFile("ccdauploadfile");
-		
+
 		endPointEmail = request.getParameter("ccdauploademail");
 		String domain = endPointEmail.split(delimiter)[1];
-		
+
 		//fileJson = new JSONArray();
 		directEdgeRecieveResults.setFileJson(new JSONArray());
-		
 		directEdgeRecieveResults.setUploadResult(new JSONObject());
-		
-		
-		
 		try{
-			
 			JSONObject jsono = new JSONObject();
 			jsono.put("name", file.getOriginalFilename());
 			jsono.put("size", file.getSize());
 
 			directEdgeRecieveResults.getFileJson().put(jsono);
-			
 			fileName = new File(file.getOriginalFilename()).getName();
-			
+
 			if (file.getSize() > MAX_FILE_SIZE)
 			{
 				throw new FileUploadException("Uploaded file exceeded maxinum number of bytes.");
 			}
-			
 			uploadSuccess = true;
-			
 		} catch (FileUploadException e) {
 			if(e.getMessage().endsWith("bytes.")) {
 				statisticsManager.addDirectReceive(domain, true, false, true);
@@ -132,31 +124,26 @@ public class DirectEdgeReceiveController  extends BaseController
 				statisticsManager.addDirectReceive(domain, true, false, true);
 				directEdgeRecieveResults.getUploadResult().put("IsSuccess", "false");
 				directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "There was an error uploading the file: " + e.getMessage());
-				
+
 			}
 		} catch (Exception e) {
 			statisticsManager.addDirectReceive(domain, true, false, true);
 			directEdgeRecieveResults.getUploadResult().put("IsSuccess", "false");
 			directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "There was an error saving the file: " + e.getMessage());
 		}
-		
+
 		if(uploadSuccess)
 		{
 			try {
-				
+
 				MimeBodyPart ccdaAttachment = new MimeBodyPart();  
-				
-				
 				DataSource ccdaFile = new InputStreamDataSource(fileName, "text/plain; charset=UTF-8", file.getInputStream());
 				ccdaAttachment.setDataHandler(new DataHandler(ccdaFile));  
-			    ccdaAttachment.setFileName(fileName); 
-				
+				ccdaAttachment.setFileName(fileName); 
+
 				Properties props = new Properties();
-				
 				//decrypt the password.
-				
 				//smtppswrd = new DesEncrypter(ENCRYPTEDKEY).decrypt(smtppswrd);
-				
 				props.put("mail.smtp.host", smtphostname);
 				if(enableSSL.toUpperCase().equals("TRUE")){
 					props.put("mail.smtp.socketFactory.port", smtpport);
@@ -164,55 +151,54 @@ public class DirectEdgeReceiveController  extends BaseController
 				}
 				props.put("mail.smtp.auth", "true");
 				props.put("mail.smtp.port", smtpport);
-		 		
-				
+
 				//java is stupid... java doesn't have true closure.
 				final String user = smtpuser;
 				final String passord = smtppswrd;
-				
+
 				Session session = Session.getInstance(props,
-					new javax.mail.Authenticator() {
-						protected PasswordAuthentication getPasswordAuthentication() {
-							return new PasswordAuthentication(user, passord);
-						}
-					});
-	 
+						new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication(user, passord);
+					}
+				});
+
 				Message message = new MimeMessage(session);
-				
+
 				message.setFrom(new InternetAddress(fromendpoint));
 				message.setRecipients(Message.RecipientType.TO,
 						InternetAddress.parse(endPointEmail));
 				message.setSubject("SITE direct email test");
-				
+
 				Multipart multiPart = new MimeMultipart();  
-				  
-		        MimeBodyPart messageText = new MimeBodyPart();  
-		        messageText.setContent("Dear User," + "\r\nAttached is the C-CDA document you have selected.", "text/plain");  
-		        multiPart.addBodyPart(messageText);  
-		        
-		        multiPart.addBodyPart(ccdaAttachment);  
-		  
-		        message.setContent(multiPart);  
-		        
-		        Transport.send(message);
-	 
-		        directEdgeRecieveResults.getUploadResult().put("IsSuccess", "true");
-		        directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "Mail sent.");
+
+				MimeBodyPart messageText = new MimeBodyPart();  
+				messageText.setContent("Dear User," + "\r\nAttached is the C-CDA document you have selected.", "text/plain");  
+				multiPart.addBodyPart(messageText);  
+
+				multiPart.addBodyPart(ccdaAttachment);  
+
+				message.setContent(multiPart);  
+
+				Transport.send(message);
+
+				directEdgeRecieveResults.getUploadResult().put("IsSuccess", "true");
+				directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "Mail sent.");
 				statisticsManager.addDirectReceive(domain, true, false, false);
-				
+
 			} catch (MessagingException e) {
 				statisticsManager.addDirectReceive(domain, true, false, true);
 				directEdgeRecieveResults.getUploadResult().put("IsSuccess", "false");
 				directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "Failed to send email due to eror: " + e.getMessage());
-				
+
 				e.printStackTrace();
-				
+
 			} 
-			
-			
+
+
 		}
 	}
-	
+
 	@RequestMapping(params = "javax.portlet.action=uploadCCDADirectEdgeReceive")
 	public ModelAndView processUploadCCDADirectEdgeReceive(RenderRequest request, Model model)
 			throws IOException {
@@ -221,17 +207,17 @@ public class DirectEdgeReceiveController  extends BaseController
 		map.put("result", directEdgeRecieveResults.getUploadResult());
 		return new ModelAndView("genericResultJsonView", map);
 	}
-	
+
 	@ActionMapping(params = "javax.portlet.action=precannedCCDADirectEdgeReceive")
 	public void precannedCCDADirectEdgeReceive(ActionRequest request, ActionResponse response) throws IOException, JSONException {
 		String fromEmail = null;
 		String fileName = null;
-		
+
 		if (this.props == null)
 		{
 			this.loadProperties();
 		}
-		
+
 		String sampleCcdaDir = props.getProperty("sampleCcdaDir");
 		String delimiter = "@";
 		String hisptoemailaddress = props.getProperty("hisptoemailaddress");
@@ -243,19 +229,19 @@ public class DirectEdgeReceiveController  extends BaseController
 		String serverFilePath = sampleCcdaDir + "/" + precannedfile;
 		fromEmail = request.getParameter("fromemail");
 		String domain = fromEmail.split(delimiter)[1];
-		
+
 		directEdgeRecieveResults.setPrecannedResult(new JSONObject());
 		try {
 			final String smtpuser = props.getProperty("smtpusername");
 			//final String smtppswrd = FileUtils.readFileToString(new File(props.getProperty("smtppswdPath")));
 			//final String decyptedPass = new DesEncrypter(ENCRYPTEDKEY).decrypt(smtppswrd);
 			MimeBodyPart ccdaAttachment = new MimeBodyPart();  
-			
+
 			DataSource ccdaFile = new FileDataSource(serverFilePath);  
-	        ccdaAttachment.setDataHandler(new DataHandler(ccdaFile));  
-	        ccdaAttachment.setFileName(ccdaFile.getName()); 
+			ccdaAttachment.setDataHandler(new DataHandler(ccdaFile));  
+			ccdaAttachment.setFileName(ccdaFile.getName()); 
 			Properties props = new Properties();
-			
+
 			props.put("mail.smtp.host", smtphostname);
 			props.put("mail.pop3.host", smtphostname);
 			if(enableSSL.toUpperCase().equals("TRUE")){
@@ -268,34 +254,34 @@ public class DirectEdgeReceiveController  extends BaseController
 			props.put("mail.smtp.port", smtpport);
 			props.put("mail.pop3.port", "110");
 			props.put("mail.pop3.socketFactory.fallback", "false");
-			
+
 			Session session = Session.getInstance(props,
-				new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(smtpuser, "providerpass");
-					}
-				});
- 
+					new javax.mail.Authenticator() {
+				protected PasswordAuthentication getPasswordAuthentication() {
+					return new PasswordAuthentication(smtpuser, "providerpass");
+				}
+			});
+
 			Message message = new MimeMessage(session);
 			message.setFrom(new InternetAddress(fromEmail));
 			message.setRecipients(Message.RecipientType.TO,
 					InternetAddress.parse(hisptoemailaddress));
 			message.setSubject("SITE direct email test");
-			
+
 			Multipart multiPart = new MimeMultipart();  
-			  
-	        MimeBodyPart messageText = new MimeBodyPart();  
-	        messageText.setContent("Dear User," + "\r\nAttached is the C-CDA document you have selected.", "text/plain");  
-	        multiPart.addBodyPart(messageText);  
-	        
-	        multiPart.addBodyPart(ccdaAttachment);  
-	  
-	        message.setContent(multiPart);  
-	        
-	        Transport.send(message);
- 
-	        directEdgeRecieveResults.getPrecannedResult().put("IsSuccess", "true");
-	        directEdgeRecieveResults.getPrecannedResult().put("ErrorMessage", "Mail sent.");
+
+			MimeBodyPart messageText = new MimeBodyPart();  
+			messageText.setContent("Dear User," + "\r\nAttached is the C-CDA document you have selected.", "text/plain");  
+			multiPart.addBodyPart(messageText);  
+
+			multiPart.addBodyPart(ccdaAttachment);  
+
+			message.setContent(multiPart);  
+
+			Transport.send(message);
+
+			directEdgeRecieveResults.getPrecannedResult().put("IsSuccess", "true");
+			directEdgeRecieveResults.getPrecannedResult().put("ErrorMessage", "Mail sent.");
 			statisticsManager.addDirectReceive(domain, false, true, false);
 		} catch (MessagingException e) {
 			statisticsManager.addDirectReceive(domain, false, true, true);
@@ -304,7 +290,7 @@ public class DirectEdgeReceiveController  extends BaseController
 			e.printStackTrace();
 		}		
 	}
-	
+
 	@RequestMapping(params = "javax.portlet.action=precannedCCDADirectEdgeReceive")
 	public ModelAndView processPrecannedCCDADirectEdgeReceive(RenderRequest request, Model model)
 			throws IOException {
@@ -324,81 +310,74 @@ public class DirectEdgeReceiveController  extends BaseController
 		String smtpport = props.getProperty("smtpport");
 		String enableSSL = props.getProperty("smtpenablessl");
 		response.setRenderParameter("javax.portlet.action", "smtpSearch");
-			final String smtpuser = props.getProperty("smtpusername");
-			Properties props = new Properties();
-			
-			props.put("mail.smtp.host", smtphostname);
-			props.put("mail.pop3.host", smtphostname);
-			if(enableSSL.toUpperCase().equals("TRUE")){
-				props.put("mail.smtp.socketFactory.port", smtpport);
-				props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-				props.put("mail.pop3.socketFactory.port","110");
-				props.put("mail.pop3.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-			}
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.port", smtpport);
-			props.put("mail.pop3.port", "110");
-			props.put("mail.pop3.socketFactory.fallback", "false");
-			
-			
-			Session session = Session.getInstance(props,
+		final String smtpuser = props.getProperty("smtpusername");
+		Properties props = new Properties();
+
+		props.put("mail.smtp.host", smtphostname);
+		props.put("mail.pop3.host", smtphostname);
+		if(enableSSL.toUpperCase().equals("TRUE")){
+			props.put("mail.smtp.socketFactory.port", smtpport);
+			props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+			props.put("mail.pop3.socketFactory.port","110");
+			props.put("mail.pop3.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		}
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", smtpport);
+		props.put("mail.pop3.port", "110");
+		props.put("mail.pop3.socketFactory.fallback", "false");
+
+		Session session = Session.getInstance(props,
 				new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(smtpuser, "providerpass");
-					}
-				});
- 
-			JSONArray messageJsonArray = searchEmail(session, request.getParameter("smtpsearchinput"));
-	        directEdgeRecieveResults.setSearchResult(messageJsonArray);
-			//statisticsManager.addDirectReceive(domain, false, true, false);
-		
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(smtpuser, "providerpass");
+			}
+		});
+
+		JSONArray messageJsonArray = searchEmail(session, request.getParameter("smtpsearchinput"));
+		directEdgeRecieveResults.setSearchResult(messageJsonArray);
+		//statisticsManager.addDirectReceive(domain, false, true, false);
+
 	}
-	
+
 	@RequestMapping(params = "javax.portlet.action=smtpSearch")
 	public ModelAndView processSMTPSearch(RenderRequest request, Model model)
 			throws IOException {
 		Map map = new HashMap();
-		map.put("files", null);
-		map.put("result", directEdgeRecieveResults.getSearchResult());
-		return new ModelAndView("genericResultJsonView", map);
+		map.put("searchResults", directEdgeRecieveResults.getSearchResult());
+		return new ModelAndView("directEdgeSMTPSearchResultsJsonView", map);
 	}
-	
+
 	private class InputStreamDataSource implements DataSource {  
-		   
-        private String name;  
-        private String contentType;  
-        private ByteArrayOutputStream baos;  
-          
-        InputStreamDataSource(String name, String contentType, InputStream inputStream) throws IOException {  
-            
-        	this.name = name;  
-            this.contentType = contentType;  
-              
-            baos = new ByteArrayOutputStream();  
-              
-            int read;  
-            byte[] buff = new byte[2024];  
-            while((read = inputStream.read(buff)) != -1) {  
-                baos.write(buff, 0, read);  
-            }  
-        }  
-          
-        public String getContentType() {  
-            return contentType;  
-        }  
-   
-        public InputStream getInputStream() throws IOException {  
-            return new ByteArrayInputStream(baos.toByteArray());  
-        }  
-   
-        public String getName() {  
-            return name;  
-        }  
-   
-        public OutputStream getOutputStream() throws IOException {  
-            throw new IOException("Cannot write to this read-only resource");  
-        }  
-    }
+		private String name;  
+		private String contentType;  
+		private ByteArrayOutputStream baos;  
+		InputStreamDataSource(String name, String contentType, InputStream inputStream) throws IOException {  
+			this.name = name;  
+			this.contentType = contentType;  
+			baos = new ByteArrayOutputStream();  
+			int read;  
+			byte[] buff = new byte[2024];  
+			while((read = inputStream.read(buff)) != -1) {  
+				baos.write(buff, 0, read);  
+			}  
+		}  
+
+		public String getContentType() {  
+			return contentType;  
+		}  
+
+		public InputStream getInputStream() throws IOException {  
+			return new ByteArrayInputStream(baos.toByteArray());  
+		}  
+
+		public String getName() {  
+			return name;  
+		}  
+
+		public OutputStream getOutputStream() throws IOException {  
+			throw new IOException("Cannot write to this read-only resource");  
+		}  
+	}
 
 	public StatisticsManager getStatisticsManager() {
 		return statisticsManager;
@@ -407,64 +386,102 @@ public class DirectEdgeReceiveController  extends BaseController
 	public void setStatisticsManager(StatisticsManager statisticsManager) {
 		this.statisticsManager = statisticsManager;
 	}  
-	
+
 	private JSONArray searchEmail(Session session, final String keyword) {
 		JSONArray messageJSONArray = new JSONArray();
-        try {
-            // connects to the message store
-            Store store = session.getStore("pop3");
-            store.connect();
- 
-            // opens the inbox folder
-            Folder folderInbox = store.getFolder("INBOX");
-            folderInbox.open(Folder.READ_ONLY);
- 
-            // creates a search criterion
-            SearchTerm searchCondition = new SearchTerm() {
-                @Override
-                public boolean match(Message message) {
-                    try {
-                    	Address[] addresses = message.getFrom();
-                    	for(Address address : addresses) {
-                    		InternetAddress iAddress = (InternetAddress)address;
-                    		if(iAddress.getAddress().equals(keyword)){
-                    			return true;
-                    		}
-                    	}
-                    } catch (MessagingException ex) {
-                        ex.printStackTrace();
-                    }
-                    return false;
-                }
-            };
+		try {
+			// connects to the message store
+			Store store = session.getStore("pop3");
+			store.connect();
 
-            // performs search through the folder
-            Message[] foundMessages = folderInbox.search(searchCondition);
-            if(foundMessages.length > 0) {
-            	for (int i = 0; i < foundMessages.length; i++) {
-                    Message message = foundMessages[i];
-                    JSONObject messageJsonObject = new JSONObject();
-                    try {
-						messageJsonObject.put("subject", message.getSubject());
-						messageJsonObject.put("from", keyword);
-						messageJSONArray.put(messageJsonObject);
+			// opens the inbox folder
+			Folder folderInbox = store.getFolder("INBOX");
+			folderInbox.open(Folder.READ_ONLY);
+
+			// creates a search criterion
+			SearchTerm searchCondition = new SearchTerm() {
+				@Override
+				public boolean match(Message message) {
+					try {
+						Address[] addresses = message.getFrom();
+						for(Address address : addresses) {
+							InternetAddress iAddress = (InternetAddress)address;
+							if(iAddress.getAddress().equals(keyword)){
+								return true;
+							}
+						}
+					} catch (MessagingException ex) {
+						ex.printStackTrace();
+					}
+					return false;
+				}
+			};
+
+			// performs search through the folder
+			Message[] foundMessages = folderInbox.search(searchCondition);
+			if(foundMessages.length > 0) {
+				for (int i = 0; i < foundMessages.length; i++) {
+					Message message = foundMessages[i];
+					JSONObject messageJsonObject = new JSONObject();
+					try {
+						messageJsonObject.put("messageSubject", message.getSubject());
+						messageJsonObject.put("messageFrom", keyword);
+						messageJsonObject.put("messageReceivedDate", message.getReceivedDate());
+						messageJsonObject.put("messageSentDate", message.getSentDate());
+						Multipart mp;
+						try {
+							mp = (Multipart) message.getContent();
+							for (int j = 0; j < mp.getCount(); j++) {
+								BodyPart b = mp.getBodyPart(j);
+								if(b.getDisposition() == null || b.getDisposition().equalsIgnoreCase(b.INLINE)) {
+									messageJsonObject.put("messageBody", b.getContent());
+								}else if(b.getDescription() == null || b.getDisposition().equalsIgnoreCase(b.ATTACHMENT)) {
+									messageJsonObject.put("attachmentName", b.getFileName());
+									messageJsonObject.put("attachmentBody", convertInputStreamToJSONObject((InputStream)b.getContent()));
+								}
+							}
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 					} catch (JSONException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-                }
-            }
-            // disconnect
-            folderInbox.close(false);
-            store.close();
-        } catch (NoSuchProviderException ex) {
-            System.out.println("No provider.");
-            ex.printStackTrace();
-            
-        } catch (MessagingException ex) {
-            System.out.println("Could not connect to the message store.");
-            ex.printStackTrace();
-        }
-        return messageJSONArray;
-    }
+					messageJSONArray.put(messageJsonObject);
+				}
+			}
+			// disconnect
+			folderInbox.close(false);
+			store.close();
+		} catch (NoSuchProviderException ex) {
+			System.out.println("No provider.");
+			ex.printStackTrace();
+
+		} catch (MessagingException ex) {
+			System.out.println("Could not connect to the message store.");
+			ex.printStackTrace();
+		}
+		return messageJSONArray;
+	}
+
+	private String convertInputStreamToJSONObject(InputStream inputStream)
+			throws JSONException {
+		BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
+		String line = "";
+		String result = "";
+		try {
+			while((line = bufferedReader.readLine()) != null)
+				result += line;
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+
+		try {
+			inputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return result; 
+	}
 }

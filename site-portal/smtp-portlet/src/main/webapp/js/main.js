@@ -357,11 +357,11 @@ $(function() {
 		        data: $('#smtpsearchform').serializefiles(),
 		        success: function(data){
 		        	var results = JSON.parse(data);
-		        	var iconurl = (results.body.IsSuccess == "true")? window.currentContextPath + "/images/icn_alert_success.png" :
+		        	var iconurl = (results.searchResults.length > 0)? window.currentContextPath + "/images/icn_alert_success.png" :
 		        									window.currentContextPath + "/images/icn_alert_error.png" ;
 		        	
 		        	$('#smtpsearchwidget .blockMsg .progressorpanel img').attr('src',iconurl);
-		        	$('#smtpsearchwidget .blockMsg .progressorpanel .lbl').text(results.body.ErrorMessage);
+		        	$('#smtpsearchwidget .blockMsg .progressorpanel .lbl').text("found " + results.searchResults.length + " results");
 
 		        	if(window.smtpSearchWdgt)
 		        	{
@@ -380,8 +380,38 @@ $(function() {
 		        	
 		        	Liferay.Portlet.refresh("#p_p_id_Statistics_WAR_siteportalstatisticsportlet_"); // refresh the counts
 		        	
+		        	if(results.searchResults.length > 0){
+		        		var count = 0;
+		        		var tabHtml1 = '<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">';
+		        		$.each(results.searchResults, function(key,value) {
+		        			var messageSubject = value.messageSubject;
+		        			var messageFrom = value.messageFrom;
+		        			var messageBody = value.messageBody;
+		        			var messageSentDate = value.messageSentDate;
+		        			var messageReceivedDate = value.messageReceivedDate;
+		        			var attachmentName = value.attachmentName;
+		        			var attachmentBody = value.attachmentBody;
+		        			tabHtml1 += '<div class="panel panel-default" id="accordion'+count+'">';
+		        			tabHtml1 += ' <div class="panel-heading" role="tab" id="heading'+count+'">';
+		        			tabHtml1 += '  <h4 class="panel-title">';
+		        			tabHtml1 += '    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#accordion'+count+'collapse" aria-expanded="false" aria-controls="accordion'+count+'collapse" >';
+		        			tabHtml1 += '<span><strong>DATE SENT: </strong>' + messageSentDate + '</span><span class="pull-right"><strong> ATTACHMENT NAME: </strong>' + attachmentName + '</span>';
+		        			tabHtml1 += '    </a>';
+		        			tabHtml1 += '  </h4>';
+		        			tabHtml1 += ' </div>';
+		        			tabHtml1 += ' <div id="accordion'+count+'collapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading'+count+'">';
+		        			tabHtml1 += '	<div class="panel-body">' + attachmentBody + '</div>';
+		        			tabHtml1 += ' </div>';
+		        			tabHtml1 += '</div>';
+
+		        			count++;
+		        		}); 
+	        			tabHtml1 += "</div>";
+		        		
+		        		$("#SMTPSearchResult").html(tabHtml1);
+			        	$("#resultsDialog").modal("show");
+		        	}
 		        },
-		        
 		        error: function (request, status, error) {
 		        	var iconurl = window.currentContextPath + "/images/icn_alert_error.png" ;
 					$('#smtpsearchwidget .blockMsg .progressorpanel img').attr('src',iconurl);
