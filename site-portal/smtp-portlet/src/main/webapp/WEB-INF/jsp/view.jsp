@@ -175,7 +175,7 @@
   			<div id="uploadFormWrapper">
 			<form id="ccdauploadform" action="${uploadCCDADirectEdgeReceive}" method="POST" enctype="multipart/form-data">
 				<p>
-					<label for="ccdauploademail">Enter Your Endpoint Name:</label><br/>
+					<label for="ccdauploademail">Enter Your From Address:</label><br/>
 					 <input id="ccdauploademail"
 						class="validate[required,custom[email]] form-control"
 						data-errormessage-value-missing="end point is required!"

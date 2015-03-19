@@ -22,10 +22,12 @@ import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
 import javax.mail.NoSuchProviderException;
+import javax.mail.Part;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.Store;
 import javax.mail.Transport;
+import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
@@ -56,48 +58,40 @@ import org.springframework.web.portlet.multipart.MultipartActionRequest;
 @RequestMapping("VIEW")
 public class DirectEdgeReceiveController  extends BaseController
 {
-	private static final int THRESHOLD_SIZE = 1024 * 1024 * 3;    // 3MB
 	private static final int MAX_FILE_SIZE = 1024 * 1024 * 10;    // 10MB 
-	private static final int REQUEST_SIZE = 1024 * 1024 * 11;    // 11MB
-	private static final String SERVERFILEPATH_FLDNAME = "precannedfilepath";
-	private static final String CUSTOMCCDAFILE_FLDNAME = "uploadccdafilecontent";
 	private static final String ENCRYPTEDKEY = "sitplatform@1234";
-	private static final long serialVersionUID = 1L;
-
+	private static final String delimiter = "@";
+	private String hisptoemailaddress;
 	@Autowired
 	private DirectEdgeReceiveResults directEdgeRecieveResults;
 	@Autowired
 	private StatisticsManager statisticsManager;
 
-	@ActionMapping(params = "javax.portlet.action=uploadCCDADirectEdgeReceive")
-	public void uploadCCDADirectEdgeReceive(MultipartActionRequest request, ActionResponse response) throws IOException, JSONException  {
-
-		Boolean uploadSuccess = false;
-
-		String endPointEmail = null;
-		String fileName = null;
-
+	{
 		if (this.props == null)
 		{
-			this.loadProperties();
+			try {
+				this.loadProperties();
+				configureMailProperties();
+				hisptoemailaddress = props.getProperty("hisptoemailaddress");
+			} catch (IOException e) {
+				throw new ExceptionInInitializerError(e);
+			}
 		}
+	}
 
-		String delimiter = "@";
-		String fromendpoint = props.getProperty("directFromEndpoint");
-		String smtphostname = props.getProperty("smtphostname");
-		String smtpport = props.getProperty("smtpport");
-		String smtpuser = props.getProperty("smtpusername");
+	@ActionMapping(params = "javax.portlet.action=uploadCCDADirectEdgeReceive")
+	public void uploadCCDADirectEdgeReceive(MultipartActionRequest request, ActionResponse response) throws IOException, JSONException  {
+		Boolean uploadSuccess = false;
+		String fileName = null;
 		//String smtppswrd = FileUtils.readFileToString(new File(props.getProperty("smtppswdPath")));
 		String smtppswrd = "providerpass";
-		String enableSSL = props.getProperty("smtpenablessl");
-
+		
 		response.setRenderParameter("javax.portlet.action", "uploadCCDADirectEdgeReceive");
 		MultipartFile file = request.getFile("ccdauploadfile");
+		String fromEmail = request.getParameter("ccdauploademail");
+		String domain = fromEmail.split(delimiter)[1];
 
-		endPointEmail = request.getParameter("ccdauploademail");
-		String domain = endPointEmail.split(delimiter)[1];
-
-		//fileJson = new JSONArray();
 		directEdgeRecieveResults.setFileJson(new JSONArray());
 		directEdgeRecieveResults.setUploadResult(new JSONObject());
 		try{
@@ -107,7 +101,6 @@ public class DirectEdgeReceiveController  extends BaseController
 
 			directEdgeRecieveResults.getFileJson().put(jsono);
 			fileName = new File(file.getOriginalFilename()).getName();
-
 			if (file.getSize() > MAX_FILE_SIZE)
 			{
 				throw new FileUploadException("Uploaded file exceeded maxinum number of bytes.");
@@ -124,7 +117,6 @@ public class DirectEdgeReceiveController  extends BaseController
 				statisticsManager.addDirectReceive(domain, true, false, true);
 				directEdgeRecieveResults.getUploadResult().put("IsSuccess", "false");
 				directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "There was an error uploading the file: " + e.getMessage());
-
 			}
 		} catch (Exception e) {
 			statisticsManager.addDirectReceive(domain, true, false, true);
@@ -134,74 +126,23 @@ public class DirectEdgeReceiveController  extends BaseController
 
 		if(uploadSuccess)
 		{
-			try {
-
-				MimeBodyPart ccdaAttachment = new MimeBodyPart();  
-				DataSource ccdaFile = new InputStreamDataSource(fileName, "text/plain; charset=UTF-8", file.getInputStream());
-				ccdaAttachment.setDataHandler(new DataHandler(ccdaFile));  
-				ccdaAttachment.setFileName(fileName); 
-
-				Properties props = new Properties();
-				//decrypt the password.
-				//smtppswrd = new DesEncrypter(ENCRYPTEDKEY).decrypt(smtppswrd);
-				props.put("mail.smtp.host", smtphostname);
-				if(enableSSL.toUpperCase().equals("TRUE")){
-					props.put("mail.smtp.socketFactory.port", smtpport);
-					props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-				}
-				props.put("mail.smtp.auth", "true");
-				props.put("mail.smtp.port", smtpport);
-
-				//java is stupid... java doesn't have true closure.
-				final String user = smtpuser;
-				final String passord = smtppswrd;
-
-				Session session = Session.getInstance(props,
-						new javax.mail.Authenticator() {
-					protected PasswordAuthentication getPasswordAuthentication() {
-						return new PasswordAuthentication(user, passord);
-					}
-				});
-
-				Message message = new MimeMessage(session);
-
-				message.setFrom(new InternetAddress(fromendpoint));
-				message.setRecipients(Message.RecipientType.TO,
-						InternetAddress.parse(endPointEmail));
-				message.setSubject("SITE direct email test");
-
-				Multipart multiPart = new MimeMultipart();  
-
-				MimeBodyPart messageText = new MimeBodyPart();  
-				messageText.setContent("Dear User," + "\r\nAttached is the C-CDA document you have selected.", "text/plain");  
-				multiPart.addBodyPart(messageText);  
-
-				multiPart.addBodyPart(ccdaAttachment);  
-
-				message.setContent(multiPart);  
-
+			try {  
+				DataSource ccdaFile = new InputStreamDataSource(fileName, "text/plain; charset=UTF-8", file.getInputStream());			
+				Message message = createMessage(hisptoemailaddress, fromEmail, fileName, ccdaFile);  
 				Transport.send(message);
-
 				directEdgeRecieveResults.getUploadResult().put("IsSuccess", "true");
 				directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "Mail sent.");
 				statisticsManager.addDirectReceive(domain, true, false, false);
-
 			} catch (MessagingException e) {
 				statisticsManager.addDirectReceive(domain, true, false, true);
 				directEdgeRecieveResults.getUploadResult().put("IsSuccess", "false");
 				directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "Failed to send email due to eror: " + e.getMessage());
-
-				e.printStackTrace();
-
 			} 
-
-
 		}
 	}
 
 	@RequestMapping(params = "javax.portlet.action=uploadCCDADirectEdgeReceive")
-	public ModelAndView processUploadCCDADirectEdgeReceive(RenderRequest request, Model model)
-			throws IOException {
+	public ModelAndView processUploadCCDADirectEdgeReceive(RenderRequest request, Model model){
 		Map map = new HashMap();
 		map.put("files", directEdgeRecieveResults.getFileJson());
 		map.put("result", directEdgeRecieveResults.getUploadResult());
@@ -210,87 +151,27 @@ public class DirectEdgeReceiveController  extends BaseController
 
 	@ActionMapping(params = "javax.portlet.action=precannedCCDADirectEdgeReceive")
 	public void precannedCCDADirectEdgeReceive(ActionRequest request, ActionResponse response) throws IOException, JSONException {
-		String fromEmail = null;
-		String fileName = null;
-
-		if (this.props == null)
-		{
-			this.loadProperties();
-		}
-
 		String sampleCcdaDir = props.getProperty("sampleCcdaDir");
-		String delimiter = "@";
-		String hisptoemailaddress = props.getProperty("hisptoemailaddress");
-		String smtphostname = props.getProperty("smtphostname");
-		String smtpport = props.getProperty("smtpport");
-		String enableSSL = props.getProperty("smtpenablessl");
 		response.setRenderParameter("javax.portlet.action", "precannedCCDADirectEdgeReceive");
 		String precannedfile = request.getParameter("precannedfilepath");
 		String serverFilePath = sampleCcdaDir + "/" + precannedfile;
-		fromEmail = request.getParameter("fromemail");
+		String fromEmail = request.getParameter("fromemail");
 		String domain = fromEmail.split(delimiter)[1];
-
 		directEdgeRecieveResults.setPrecannedResult(new JSONObject());
 		try {
-			final String smtpuser = props.getProperty("smtpusername");
 			//final String smtppswrd = FileUtils.readFileToString(new File(props.getProperty("smtppswdPath")));
 			//final String decyptedPass = new DesEncrypter(ENCRYPTEDKEY).decrypt(smtppswrd);
-			MimeBodyPart ccdaAttachment = new MimeBodyPart();  
-
 			DataSource ccdaFile = new FileDataSource(serverFilePath);  
-			ccdaAttachment.setDataHandler(new DataHandler(ccdaFile));  
-			ccdaAttachment.setFileName(ccdaFile.getName()); 
-			Properties props = new Properties();
-
-			props.put("mail.smtp.host", smtphostname);
-			props.put("mail.pop3.host", smtphostname);
-			if(enableSSL.toUpperCase().equals("TRUE")){
-				props.put("mail.smtp.socketFactory.port", smtpport);
-				props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-				props.put("mail.pop3.socketFactory.port","110");
-				props.put("mail.pop3.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-			}
-			props.put("mail.smtp.auth", "true");
-			props.put("mail.smtp.port", smtpport);
-			props.put("mail.pop3.port", "110");
-			props.put("mail.pop3.socketFactory.fallback", "false");
-
-			Session session = Session.getInstance(props,
-					new javax.mail.Authenticator() {
-				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication(smtpuser, "providerpass");
-				}
-			});
-
-			Message message = new MimeMessage(session);
-			message.setFrom(new InternetAddress(fromEmail));
-			message.setRecipients(Message.RecipientType.TO,
-					InternetAddress.parse(hisptoemailaddress));
-			message.setSubject("SITE direct email test");
-
-			Multipart multiPart = new MimeMultipart();  
-
-			MimeBodyPart messageText = new MimeBodyPart();  
-			messageText.setContent("Dear User," + "\r\nAttached is the C-CDA document you have selected.", "text/plain");  
-			multiPart.addBodyPart(messageText);  
-
-			multiPart.addBodyPart(ccdaAttachment);  
-
-			message.setContent(multiPart);  
-
+			Message message = createMessage(hisptoemailaddress, fromEmail, ccdaFile.getName(), ccdaFile);
 			Transport.send(message);
-
-			directEdgeRecieveResults.getPrecannedResult().put("IsSuccess", "true");
-			directEdgeRecieveResults.getPrecannedResult().put("ErrorMessage", "Mail sent.");
+			setResultMessage(true, "MailSent");
 			statisticsManager.addDirectReceive(domain, false, true, false);
 		} catch (MessagingException e) {
+			setResultMessage(false, "Failed to send email due to eror: " + e.getMessage());
 			statisticsManager.addDirectReceive(domain, false, true, true);
-			directEdgeRecieveResults.getPrecannedResult().put("IsSuccess", "false");
-			directEdgeRecieveResults.getPrecannedResult().put("ErrorMessage", "Failed to send email due to eror: " + e.getMessage());
-			e.printStackTrace();
 		}		
 	}
-
+	
 	@RequestMapping(params = "javax.portlet.action=precannedCCDADirectEdgeReceive")
 	public ModelAndView processPrecannedCCDADirectEdgeReceive(RenderRequest request, Model model)
 			throws IOException {
@@ -302,49 +183,33 @@ public class DirectEdgeReceiveController  extends BaseController
 
 	@ActionMapping(params = "javax.portlet.action=smtpSearch")
 	public void smtpSearch(ActionRequest request, ActionResponse response) throws IOException, JSONException {	
-		if (this.props == null)
-		{
-			this.loadProperties();
-		}
-		String smtphostname = props.getProperty("smtphostname");
-		String smtpport = props.getProperty("smtpport");
-		String enableSSL = props.getProperty("smtpenablessl");
 		response.setRenderParameter("javax.portlet.action", "smtpSearch");
-		final String smtpuser = props.getProperty("smtpusername");
-		Properties props = new Properties();
-
-		props.put("mail.smtp.host", smtphostname);
-		props.put("mail.pop3.host", smtphostname);
-		if(enableSSL.toUpperCase().equals("TRUE")){
-			props.put("mail.smtp.socketFactory.port", smtpport);
-			props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
-			props.put("mail.pop3.socketFactory.port","110");
-			props.put("mail.pop3.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-		}
-		props.put("mail.smtp.auth", "true");
-		props.put("mail.smtp.port", smtpport);
-		props.put("mail.pop3.port", "110");
-		props.put("mail.pop3.socketFactory.fallback", "false");
-
-		Session session = Session.getInstance(props,
-				new javax.mail.Authenticator() {
-			protected PasswordAuthentication getPasswordAuthentication() {
-				return new PasswordAuthentication(smtpuser, "providerpass");
-			}
-		});
-
+		Session session = getEmailSession(props);
 		JSONArray messageJsonArray = searchEmail(session, request.getParameter("smtpsearchinput"));
 		directEdgeRecieveResults.setSearchResult(messageJsonArray);
 		//statisticsManager.addDirectReceive(domain, false, true, false);
-
 	}
 
 	@RequestMapping(params = "javax.portlet.action=smtpSearch")
 	public ModelAndView processSMTPSearch(RenderRequest request, Model model)
 			throws IOException {
-		Map map = new HashMap();
+		Map<String, JSONArray> map = new HashMap<String, JSONArray>();
 		map.put("searchResults", directEdgeRecieveResults.getSearchResult());
 		return new ModelAndView("directEdgeSMTPSearchResultsJsonView", map);
+	}
+	
+	private Message createEmptyTestMessage(String fromEmail, String hisptoemailaddress) throws MessagingException, AddressException {
+		Message message = new MimeMessage(this.getEmailSession(props));
+		message.setFrom(new InternetAddress(fromEmail));
+		message.setRecipients(Message.RecipientType.TO,
+				InternetAddress.parse(hisptoemailaddress));
+		message.setSubject("SITE direct email test");
+		return message;
+	}
+
+	private void setResultMessage(boolean isSuccess, String message) throws JSONException {
+		directEdgeRecieveResults.getPrecannedResult().put("IsSuccess", Boolean.toString(isSuccess));
+		directEdgeRecieveResults.getPrecannedResult().put("ErrorMessage", message);
 	}
 
 	private class InputStreamDataSource implements DataSource {  
@@ -433,11 +298,16 @@ public class DirectEdgeReceiveController  extends BaseController
 							mp = (Multipart) message.getContent();
 							for (int j = 0; j < mp.getCount(); j++) {
 								BodyPart b = mp.getBodyPart(j);
-								if(b.getDisposition() == null || b.getDisposition().equalsIgnoreCase(b.INLINE)) {
+								if(b.getDisposition() == null || b.getDisposition().equalsIgnoreCase(Part.INLINE)) {
 									messageJsonObject.put("messageBody", b.getContent());
-								}else if(b.getDescription() == null || b.getDisposition().equalsIgnoreCase(b.ATTACHMENT)) {
+								}else if(b.getDescription() == null || b.getDisposition().equalsIgnoreCase(Part.ATTACHMENT)) {
 									messageJsonObject.put("attachmentName", b.getFileName());
-									messageJsonObject.put("attachmentBody", convertInputStreamToJSONObject((InputStream)b.getContent()));
+									if(b.getContent() instanceof String) {
+										messageJsonObject.put("attachmentBody", b.getContent());
+									}else {
+										messageJsonObject.put("attachmentBody", convertInputStreamToString((InputStream)b.getContent()));
+									}
+									
 								}
 							}
 						} catch (IOException e) {
@@ -465,8 +335,7 @@ public class DirectEdgeReceiveController  extends BaseController
 		return messageJSONArray;
 	}
 
-	private String convertInputStreamToJSONObject(InputStream inputStream)
-			throws JSONException {
+	private String convertInputStreamToString(InputStream inputStream) throws JSONException {
 		BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
 		String line = "";
 		String result = "";
@@ -483,5 +352,58 @@ public class DirectEdgeReceiveController  extends BaseController
 			e.printStackTrace();
 		}
 		return result; 
+	}
+
+	private void configureMailProperties() {
+		props.put("mail.smtp.host", props.getProperty("smtphostname"));
+		props.put("mail.pop3.host", props.getProperty("smtphostname"));
+		if(Boolean.valueOf(props.getProperty("smtpenablessl"))){
+			props.put("mail.smtp.socketFactory.port", props.getProperty("smtpport"));
+			props.put("mail.smtp.socketFactory.class","javax.net.ssl.SSLSocketFactory");
+			props.put("mail.pop3.socketFactory.port","110");
+			props.put("mail.pop3.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+		}
+		props.put("mail.smtp.auth", "true");
+		props.put("mail.smtp.port", props.getProperty("smtpport"));
+		props.put("mail.pop3.port", "110");
+		props.put("mail.pop3.socketFactory.fallback", "false");
+	}
+
+	private Session getEmailSession(Properties props) {
+		final String smtpuser = props.getProperty("smtpusername");
+		return Session.getInstance(props,
+				new javax.mail.Authenticator() {
+			@Override
+			protected PasswordAuthentication getPasswordAuthentication() {
+				return new PasswordAuthentication(smtpuser, "providerpass");
+			}
+		});
+	}
+	
+	private Message createMessage(String toAddress, String fromEmail,
+			String fileName, DataSource dataSource) throws MessagingException,
+			AddressException {
+		MimeBodyPart ccdaAttachment = setMessageAttachment(fileName, dataSource); 
+		Message message = createEmptyTestMessage(fromEmail, toAddress);
+		Multipart multiPart = new MimeMultipart();  
+		setTestMessageBodyText(multiPart);  
+		multiPart.addBodyPart(ccdaAttachment);  
+		message.setContent(multiPart);
+		return message;
+	}
+
+	private MimeBodyPart setMessageAttachment(String fileName,
+			DataSource ccdaFile) throws MessagingException {
+		MimeBodyPart ccdaAttachment = new MimeBodyPart();
+		ccdaAttachment.setDataHandler(new DataHandler(ccdaFile));  
+		ccdaAttachment.setFileName(fileName);
+		return ccdaAttachment;
+	}
+
+	private void setTestMessageBodyText(Multipart multiPart)
+			throws MessagingException {
+		MimeBodyPart messageText = new MimeBodyPart();  
+		messageText.setContent("Dear User," + "\r\nAttached is the C-CDA document you have selected.", "text/plain");  
+		multiPart.addBodyPart(messageText);
 	}
 }
