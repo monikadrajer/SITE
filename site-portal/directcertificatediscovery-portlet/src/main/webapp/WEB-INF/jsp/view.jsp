@@ -30,11 +30,11 @@
 </script>
 <div class="panel panel-default" id="panel_hosting">
 	<div class="panel-heading">
-		<h3 class="panel-title">Hosting - Verify your certificate can be
-			discovered</h3>
+		<h2 class="panel-title">Hosting - Verify your certificate can be
+			discovered</h2>
 	</div>
 	<div class="panel-body">
-		<h4>Directions</h4>
+		<div class="directions">Directions</div>
 		<p>Step 1: Determine the required test cases for your SUT (System
 			Under Test). Notice that there are two options for storage of
 			address-bound and domain-bound certificates.</p>
@@ -110,11 +110,10 @@
 				<div id="testcase-results" class="input-group-small hide"
 					aria-hidden="true">
 					<div class="form-group">
-						<div>
-							<span class="form-cell form-cell-label"> <label class="">
+						<div class="directions">
+							<span class="form-cell form-cell-label">
 									<span
 									class="glyphicon glyphicon-certificate glyphicon-type-info"></span>Results
-							</label>
 							</span>
 						</div>
 					</div>
@@ -127,10 +126,10 @@
 
 <div class="panel panel-default" id="panel_discovery">
 	<div class="panel-heading">
-		<h3 class="panel-title">Discover DCDT's Certificates</h3>
+		<h2 class="panel-title">Discover DCDT's Certificates</h2>
 	</div>
 	<div class="panel-body">
-		<h4>Directions</h4>
+		<div class="directions">Directions</div>
 		
 		
 		<p>Step 1: Download the Testing Tool's trust anchor.</p>

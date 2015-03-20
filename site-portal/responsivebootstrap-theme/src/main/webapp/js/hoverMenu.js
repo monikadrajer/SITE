@@ -20,5 +20,12 @@ $('.nav .dropdown-parent a').click(function(){
 	$('.dropdown-menu').stop(true, true).delay(100).slideUp();
  });
 
+	$('.nav>li>a').focus(function(){
+		if ($(window).width() >= 768) {
+			$('.dropdown-menu').stop(true, true).delay(100).slideUp();
+			$(this).parent().find('.dropdown-menu').first().stop(true, true).delay(250).slideDown();
+		}
+	});
+
  
 });

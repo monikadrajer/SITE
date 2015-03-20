@@ -357,6 +357,7 @@ $(function() {
 		    			        			var codeWrapper = document.createElement('div');
 		    			        			    	    	
 		    			        			var codeEle = document.createElement("code");
+		    			        			$(codeEle).addClass("codeWrap");
 		    			        			$('#receiveaccordion .panel-body').html(codeWrapper);
 		    			        			    	    	
 		    			        			$('#receiveaccordion .panel-body div').addClass("well");
@@ -364,8 +365,8 @@ $(function() {
 		    			        			    	    	
 		    			        			    	    	
 		    			        			$('#receiveaccordion .panel-body .well').html(codeEle);
+		    			        		
 		    			        			    	    	
-		    			        			$('#receiveaccordion .panel-body .well code').css("white-space", "pre");
 		    			        			    	    	
 		    			        			$('#receiveaccordion .panel-body .well code').text(results.body.xdrResponse);
 		    			        			  
@@ -610,7 +611,7 @@ $(function() {
 	        			    	    		
 	        			    	    		$(codeWrapper2).append(codeEle2);
 		        			    	    	
-		        			    	    	$(codeEle2).css("white-space", "pre");
+		        			    	    	$(codeEle2).addClass("codeWrap");
 		        			    	    	
 		        			    	    	$(codeEle2).text(results.responseContent);
 	        			    	    	}
@@ -621,7 +622,7 @@ $(function() {
 	        			    	    	
 	        			    	    	$(codeWrapper).append(codeEle);
 	        			    	    	
-	        			    	    	$(codeEle).css("white-space", "pre");
+	        			    	    	$(codeEle).addClass("codeWrap");
 	        			    	    	
 	        			    	    	$(codeEle).text(results.requestContent);
 	        			    	    	

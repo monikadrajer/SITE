@@ -112,6 +112,7 @@ $(function() {
 			var codeWrapper = document.createElement('div');
 			    	    	
 			var codeEle = document.createElement("code");
+			$(codeEle).addClass("codeWrap");
 			$('#receiveaccordion .panel-body').html(codeWrapper);
 			    	    	
 			$('#receiveaccordion .panel-body div').addClass("well");
@@ -120,7 +121,6 @@ $(function() {
 			    	    	
 			$('#receiveaccordion .panel-body .well').html(codeEle);
 			    	    	
-			$('#receiveaccordion .panel-body .well code').css("white-space", "pre");
 			    	    	
 			$('#receiveaccordion .panel-body .well code').text(results.xdrResponse);
 			  

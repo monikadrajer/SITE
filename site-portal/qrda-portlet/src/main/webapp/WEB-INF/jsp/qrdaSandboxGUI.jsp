@@ -19,7 +19,7 @@
 </noscript>
 
 <div class="panel panel-default" id="qrdaWidget">
-      <div class="panel-heading"><h3 class="panel-title">Schematron Validator</h3></div>
+      <div class="panel-heading"><h2 class="panel-title">Schematron Validator</h2></div>
   		<div class="panel-body">
 		<p>
 			1.Select QRDA Category I or III for validating your input file
