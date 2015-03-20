@@ -126,7 +126,7 @@
   				<div id="precannedFormWrapper">
 			<form id="precannedForm"  action="${precannedCCDADirectEdgeReceive}" method="POST">
 				<p>
-				<label for="fromemail">Enter From Address:</label><br/>
+				<label for="fromemail">Enter Edge System From Address:</label><br/>
 					<input id="fromemail"
 						class="validate[required,custom[email]] form-control" 
 						data-errormessage-value-missing="end point is required!"
@@ -175,13 +175,13 @@
   			<div id="uploadFormWrapper">
 			<form id="ccdauploadform" action="${uploadCCDADirectEdgeReceive}" method="POST" enctype="multipart/form-data">
 				<p>
-					<label for="ccdauploademail">Enter Your From Address:</label><br/>
+					<label for="ccdauploademail">Enter Edge System From Address:</label><br/>
 					 <input id="ccdauploademail"
 						class="validate[required,custom[email]] form-control"
 						data-errormessage-value-missing="end point is required!"
 						data-errormessage-custom-error="end point format is invalid (hint:example@test.org)"
 						name="ccdauploademail"
-						placeholder="recipient direct email address"
+						placeholder="from email address"
 						style="display: inline;" type="text"  tabindex="1"/>
 				</p>
 				<br />
