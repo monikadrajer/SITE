@@ -1,4 +1,4 @@
-package org.sitenv.portlets.directtransport.models;
+package org.sitenv.portlets.smtpdirectedgetransport.models;
 
 public class SampleCCDAData {
 	private String title;

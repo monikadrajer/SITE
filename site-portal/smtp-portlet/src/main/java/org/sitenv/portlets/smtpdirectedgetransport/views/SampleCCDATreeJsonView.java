@@ -1,4 +1,4 @@
-package org.sitenv.portlets.directtransport.views;
+package org.sitenv.portlets.smtpdirectedgetransport.views;
 
 import java.util.Map;
 

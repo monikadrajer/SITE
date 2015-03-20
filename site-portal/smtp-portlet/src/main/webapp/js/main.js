@@ -86,13 +86,38 @@ function unblockDirectReceiveWidget()
     	window.directReceiveWdgt.unblock();
 }
 
+function blockSmtpSearchWidget()
+{
+	var ajaximgpath = window.currentContextPath + "/images/ajax-loader.gif";
+	window.smtpSearchWdgt = $('#smtpsearchwidget  .well');
+	window.smtpSearchWdgt.block({ 
+		css: { 
+	            border: 'none', 
+	            padding: '15px', 
+	            backgroundColor: '#000', 
+	            '-webkit-border-radius': '10px', 
+	            '-moz-border-radius': '10px', 
+	            opacity: .5, 
+	            color: '#fff' 
+		},
+		message: '<div class="progressorpanel">' +
+				 '<img src="'+ ajaximgpath + '" alt="loading">'+
+				 '<div class="lbl">Searching...</div></div>',
+	});
+}
+
+function unblockSmtpSearchWidget()
+{
+	if(window.smtpSearchWdgt)
+    	window.smtpSearchWdgt.unblock();
+}
+
 function precannedRequired(field, rules, i, options){
 	if($('#precannedfilepath').val()== '')
 	{
 		return "Please select a precanned C-CDA sample";
 	}
 }
-
 
 $(function() {
 	
@@ -317,9 +342,110 @@ $(function() {
 		});
 	});
 	
-	
-	
-	
-	
+	$("#smtpsearchsubmit").click(function(e){
+	    
+		var jform = $('#smtpsearchform');
+		jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
+		if(jform.validationEngine('validate'))
+		{
+			$('#smtpsearchform .formError').hide(0);
+			//block ui..
+			blockSmtpSearchWidget();
+		    $.ajax({
+		        url: $('#smtpsearchform').attr('action'),
+		        type: 'POST',
+		        data: $('#smtpsearchform').serializefiles(),
+		        success: function(data){
+		        	var results = JSON.parse(data);
+		        	var iconurl = (results.searchResults.length > 0)? window.currentContextPath + "/images/icn_alert_success.png" :
+		        									window.currentContextPath + "/images/icn_alert_error.png" ;
+		        	
+		        	$('#smtpsearchwidget .blockMsg .progressorpanel img').attr('src',iconurl);
+		        	$('#smtpsearchwidget .blockMsg .progressorpanel .lbl').text("found " + results.searchResults.length + " results");
+
+		        	if(window.smtpSearchWdgt)
+		        	{
+		        		window.smtpSearchTimeout = setTimeout(function(){
+		        				window.smtpSearchWdgt.unbind("click");
+		        				window.smtpSearchWdgt.unblock();
+		        			},10000);
+		        		
+		        		window.smtpSearchWdgt.bind("click", function() { 
+		        			window.smtpSearchWdgt.unbind("click");
+		        			clearTimeout(window.smtpSearchTimeout);
+		        			window.smtpSearchWdgt.unblock(); 
+		        			window.smtpSearchWdgt.attr('title','Click to hide this message.').click($.unblockUI); 
+			            });
+		        	}
+		        	
+		        	Liferay.Portlet.refresh("#p_p_id_Statistics_WAR_siteportalstatisticsportlet_"); // refresh the counts
+		        	
+		        	if(results.searchResults.length > 0){
+		        		var count = 0;
+		        		var tabHtml1 = '<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">';
+		        		$.each(results.searchResults, function(key,value) {
+		        			var messageSubject = value.messageSubject;
+		        			var messageFrom = value.messageFrom;
+		        			var messageBody = value.messageBody;
+		        			var messageSentDate = value.messageSentDate;
+		        			var messageReceivedDate = value.messageReceivedDate;
+		        			var attachmentName = value.attachmentName;
+		        			var attachmentBody = value.attachmentBody;
+		        			tabHtml1 += '<div class="panel panel-default" id="accordion'+count+'">';
+		        			tabHtml1 += ' <div class="panel-heading" role="tab" id="heading'+count+'">';
+		        			tabHtml1 += '  <h4 class="panel-title">';
+		        			tabHtml1 += '    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#accordion'+count+'collapse" aria-expanded="false" aria-controls="accordion'+count+'collapse" >';
+		        			tabHtml1 += '<span><strong>DATE SENT: </strong>' + messageSentDate + '</span><span class="pull-right"><strong> ATTACHMENT NAME: </strong>' + attachmentName + '</span>';
+		        			tabHtml1 += '    </a>';
+		        			tabHtml1 += '  </h4>';
+		        			tabHtml1 += ' </div>';
+		        			tabHtml1 += ' <div id="accordion'+count+'collapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading'+count+'">';
+		        			tabHtml1 += '	<div class="panel-body">' + attachmentBody + '</div>';
+		        			tabHtml1 += ' </div>';
+		        			tabHtml1 += '</div>';
+
+		        			count++;
+		        		}); 
+	        			tabHtml1 += "</div>";
+		        		
+		        		$("#SMTPSearchResult").html(tabHtml1);
+			        	$("#resultsDialog").modal("show");
+		        	}
+		        },
+		        error: function (request, status, error) {
+		        	var iconurl = window.currentContextPath + "/images/icn_alert_error.png" ;
+					$('#smtpsearchwidget .blockMsg .progressorpanel img').attr('src',iconurl);
+		        	$('#smtpsearchwidget .blockMsg .progressorpanel .lbl').text('Encountered and error while searching.');
+					
+					if(window.smtpSearchWdgt)
+		        	{
+		        		window.smtpSearchTimeout = setTimeout(function(){
+		        				window.smtpSearchWdgt.unbind("click");
+		        				window.smtpSearchWdgt.unblock();
+		        			},10000);
+		        		
+		        		
+		        		window.smtpSearchWdgt.bind("click", function() { 
+		        			window.smtpSearchWdgt.unbind("click");
+		        			clearTimeout(window.smtpSearchTimeout);
+		        			window.smtpSearchWdgt.unblock(); 
+		        			window.smtpSearchWdgt.attr('title','Click to hide this message.').click($.unblockUI); 
+			            });
+		        		
+		        	}
+		        },
+		        //Options to tell JQuery not to process data or worry about content-type
+		        cache: false,
+		        contentType: false,
+		        processData: false
+		    });
+		}
+		else
+		{
+			$('#smtpsearchform .formError').show(0);
+			$('#smtpsearchform .precannedfilepathformError').prependTo('#precannederrorlock');
+		}
+		return false;
+	});
 
 });

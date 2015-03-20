@@ -1,4 +1,4 @@
-package org.sitenv.portlets.directtransport.views;
+package org.sitenv.portlets.smtpdirectedgetransport.views;
 
 import java.util.Map;
 
@@ -10,12 +10,12 @@ import org.json.JSONObject;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.AbstractView;
 
-@Component("genericResultJsonView")
-public class GenericResultJsonView extends AbstractView {
+@Component("directEdgeSMTPSearchResultsJsonView")
+public class DirectEdgeSMTPSearchResultsJsonView extends AbstractView {
 	
-	private Logger logger = Logger.getLogger(GenericResultJsonView.class);
+	private Logger logger = Logger.getLogger(DirectEdgeSMTPSearchResultsJsonView.class);
 	
-	public GenericResultJsonView() {
+	public DirectEdgeSMTPSearchResultsJsonView() {
 		super();
 		
 		setContentType("text/plain");
@@ -27,9 +27,7 @@ public class GenericResultJsonView extends AbstractView {
     logger.info("Resolving ajax request view - " + map);
     
     JSONObject jsonObj = new JSONObject();
-    
-    jsonObj.put("files", map.get("files"));
-    jsonObj.put("body", map.get("result"));
+    jsonObj.put("searchResults", map.get("searchResults"));
     
     logger.info(jsonObj.toString());
 

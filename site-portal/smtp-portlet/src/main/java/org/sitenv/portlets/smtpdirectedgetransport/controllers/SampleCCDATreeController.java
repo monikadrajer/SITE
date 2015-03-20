@@ -1,4 +1,4 @@
-package org.sitenv.portlets.directtransport.controllers;
+package org.sitenv.portlets.smtpdirectedgetransport.controllers;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,7 +13,7 @@ import javax.portlet.RenderRequest;
 
 import org.apache.log4j.Logger;
 import org.sitenv.common.utilities.controller.BaseController;
-import org.sitenv.portlets.directtransport.models.SampleCCDATreeNode;
+import org.sitenv.portlets.smtpdirectedgetransport.models.SampleCCDATreeNode;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
