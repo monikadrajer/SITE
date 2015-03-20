@@ -42,7 +42,7 @@
 <div class="panel-group" id="accordion<%=i%>">
 <div class="panel panel-default <%= (wrapper.getStatus().equals("PASSED")) ? "panel-success" : "panel-danger" %>">
     <div class="panel-heading">
-    <h3 class="panel-title">
+    <h2 class="panel-title">
     <% if (wrapper.getStatus().equals("PASSED")) { %>
     	<span class="glyphicon glyphicon-ok"></span>
     	<% } else { %>
@@ -52,7 +52,7 @@
        		<%= SingleTestServlet.testCaseRealNames.get(wrapper.getName()) %> 
        		<span class="label <%= (wrapper.getStatus().equals("PASSED")) ? "label-success" : "label-danger" %>" style="float: right; padding: .4em .6em .3em; width: 75px;"><%= wrapper.getStatus() %></span>
 		</a>
-    </h3>
+    </h2>
     </div>
     <div id="collapse<%=i%>" class="panel-collapse collapse">
       	<div class="panel-body">

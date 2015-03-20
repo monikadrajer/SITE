@@ -6,18 +6,18 @@
 
 
 <div class="panel panel-default" id="ccdaStatistics">
-    <div class="panel-heading"><h3 class="panel-title">C-CDA Statistics</h3></div>
+    <div class="panel-heading"><h2 class="panel-title">C-CDA Statistics</h2></div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th style="width:65%"></th>
+						<td style="width:65%"></td>
 						<th>Total Count</th>
 					</tr>
 				</thread>
 				<tbody>
 					<tr>
-						<td>C-CDA Validations</td>
+						<th>C-CDA Validations</th>
 						<td>${ccdaLogCountData }</td>
 					</tr>
 				</tbody>

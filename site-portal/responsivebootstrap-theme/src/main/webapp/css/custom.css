@@ -125,17 +125,17 @@ header .navbar .navbar-fixed-top {
 	display: none;
 }
 
-nav.nav li {
+div.nav li {
 	margin-left: 6px;
 	display: inline-block;
 }
 
-nav.nav li ul.social {
+div.nav li ul.social {
 	height: 20px;
 	margin-top: 7px;
 }
 
-nav.nav li img {
+div.nav li img {
 	width: 20px;
 	height: 20px;
 	border-radius: 2px;
@@ -402,6 +402,12 @@ ul,ol {
 h2 {
 	margin-top: 10px;
 	margin-bottom: 10px;
+	font-size: x-large;
+}
+
+.directions {
+	font-weight:bold; 
+	font-size:larger;
 }
 
 .portlet-content,.portlet-minimized .portlet-content-container {
@@ -603,6 +609,11 @@ div.thumbnail.active {
 	}
 	.navbar-brand {
 		display: block;
+	}
+	.nav .dropdown-menu {
+		display: block;
+  		position: relative;
+  		float: none;
 	}
 }
 

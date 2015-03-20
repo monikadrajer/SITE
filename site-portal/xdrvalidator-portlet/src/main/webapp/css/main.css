@@ -205,6 +205,10 @@ text-decoration: underline;
 .well code {
 color: inherit;
 white-space: pre;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
 background-color: transparent;
 }
 
@@ -219,4 +223,14 @@ background-color: transparent;
 
 .collapsed #precannedOptionalHeaderSpan::before, .collapsed #uploadOptionalHeaderSpan::before {
 	content: "\e159";
+}
+
+
+.codeWrap
+{
+	white-space: pre;
+	white-space: pre-wrap;
+	white-space: -moz-pre-wrap;
+	white-space: -pre-wrap;
+	white-space: -o-pre-wrap;
 }
