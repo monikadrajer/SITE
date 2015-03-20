@@ -60,7 +60,7 @@
 </script>
 
 <div class="panel panel-default" id="smtpsearchwidget">
-	<div class="panel-heading"><h3 class="panel-title">Validate messages sent via SMTP are being received</h3></div>
+	<div class="panel-heading"><h2 class="panel-title">Validate messages sent via SMTP are being received</h2></div>
 	<div class="panel-body">
 			In order to verify your messages sent via SMTP are being received by SITE
 			<ul>
@@ -76,7 +76,7 @@
 		<br/>
 		<div class="well">
 			<form id="smtpsearchform"  action="${smtpSearch}" method="POST">
-			<label for="requestListGrouping">Enter address to search:</label>
+			<label for="smtpsearchinput">Enter address to search:</label>
 				<input type="text" name="smtpsearchinput" id="smtpsearchinput" class="validate[custom[email]] form-control" tabindex="1"/>
 				
 			<hr />
@@ -90,20 +90,20 @@
 </div>
 
 <div class="panel panel-default" id="directreceivewidget">
-      <div class="panel-heading"><h3 class="panel-title">Send SMTP message to the test tool</h3></div>
+      <div class="panel-heading"><h2 class="panel-title">Send SMTP message to the test tool</h2></div>
   		<div class="panel-body">
 			<p>
 				You can use this tool to send an SMTP message to the Direct Edge Test Tool per the below instructions. Or you can send an SMTP message to provider1@edge.direct.sitenv.org from your system.
 				<ul>
 					<li>
-						<u>Enter your from address:</u> The email address that represents a message from your Direct Edge system.
+						<span style="font-weight:bold;">Enter your from address:</span> The email address that represents a message from your Direct Edge system.
 					</li>
 					<li>
-						<u>Choose your own content:</u> Developers can use their own files as the payload of the Direct message sent from the Sandbox. 
+						<span style="font-weight:bold;">Choose your own content:</span> Developers can use their own files as the payload of the Direct message sent from the Sandbox. 
 									This provides the ability to verify the file they chosen and that the contents were decrypted appropriately.
 					</li>
 					<li>
-						<u>Choose pre-canned content:</u> Provides a list of files that you can choose from as the payload of the Direct message.
+						<span style="font-weight:bold;">Choose pre-canned content:</span> Provides a list of files that you can choose from as the payload of the Direct message.
 					</li>
 					<li>
 						Once the above fields are populated, hit the send message button.<br/>
@@ -141,7 +141,7 @@
 				<div id="precannederrorlock" style="position: relative;">
 					<div class="row">
 					<div class="col-md-12">
-					<label for="dLabel">Select a Precanned Sample C-CDA File to Send:</label><br/>
+					<div style="display: inline-block; margin-bottom: 5px; font-weight: bold;">Select a Precanned Sample C-CDA File to Send:</div><br/>
 									<div class="dropdown">
 										<button id="dLabel" data-toggle="dropdown"
 											class="btn btn-success dropdown-toggle validate[funcCall[precannedRequired]]" type="button" 	tabindex="1">
@@ -224,7 +224,7 @@
 		<div class="modal-content">
 			<div class="modal-header">
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-				<h4>SMTP Search Results</h4>
+				<h1 style="font-size: 2em;margin-top: 0px;">SMTP Search Results</h1>
 			</div>
 			<div class="modal-body" id="SMTPSearchResult"></div>
 			<div class="modal-footer">
