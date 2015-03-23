@@ -62,13 +62,13 @@
 </script>
 
 <div class="panel panel-default" id="anchoruploadwidget">
-      <div class="panel-heading"><h3 class="panel-title">Trust Anchor Exchange</h3></div>
+      <div class="panel-heading"><h2 class="panel-title">Trust Anchor Exchange</h2></div>
   		<div class="panel-body">
 				
 			<span>Trust Anchor Exchange can be accomplished via two different mechanisms.</span>
 			<ol>
 				<li>
-	  				<span style="text-decoration: underline;">
+	  				<span style="font-weight:bold;">
 	  					Trust Anchor Exchange using BlueButton Trust Bundles:
 					</span>
 					<ul>
@@ -84,7 +84,7 @@
 					</ul>
 				</li>
 				<li>
-					<span style="text-decoration: underline;">
+					<span style="font-weight: bold;">
 	  					Trust Anchor Exchange using "SITE Upload Trust Anchor":
 					</span>
 					<ul>
@@ -140,7 +140,7 @@
 </div>
 
 <div class="panel panel-default" id="anchoruploadwidget">
-      <div class="panel-heading"><h3 class="panel-title">Direct Send</h3></div>
+      <div class="panel-heading"><h2 class="panel-title">Direct Send</h2></div>
   		<div class="panel-body">
 
 
@@ -157,7 +157,7 @@
 </div>
 
 <div class="panel panel-default" id="directreceivewidget">
-      <div class="panel-heading"><h3 class="panel-title">Direct Receive</h3></div>
+      <div class="panel-heading"><h2 class="panel-title">Direct Receive</h2></div>
   		<div class="panel-body">
 
 
@@ -166,14 +166,14 @@
 				
 				<ul>
 					<li>
-						<u>Choose your own content:</u> Developers can use their own files as the payload of the Direct message sent from the Sandbox. 
+						<span style="font-weight: bold;">Choose your own content:</span> Developers can use their own files as the payload of the Direct message sent from the Sandbox. 
 									This provides the ability to verify the file they chosen and that the contents were decrypted appropriately.
 					</li>
 					<li>
-						<u>Choose pre-canned content:</u> Provides a list of files that you can choose from as the payload of the Direct message.
+						<span style="font-weight: bold;">Choose pre-canned content:</span> Provides a list of files that you can choose from as the payload of the Direct message.
 					</li>
 					<li>
-						<u>Enter your end point name:</u> The name of the Direct address where you would like to receive the message. Ensure that the Trust Anchor corresponding to the end point has already been uploaded.
+						<span style="font-weight: bold;">Enter your end point name:</span> The name of the Direct address where you would like to receive the message. Ensure that the Trust Anchor corresponding to the end point has already been uploaded.
 					</li>
 					<li>
 						Once the above fields are populated, hit the send message button.<br/>
@@ -211,7 +211,7 @@
 				<div id="precannederrorlock" style="position: relative;">
 					<div class="row">
 					<div class="col-md-12">
-					<label for="dLabel">Select a Precanned Sample C-CDA File to Send:</label><br/>
+					<div style="display: inline-block; margin-bottom: 5px; font-weight: bold;">Select a Precanned Sample C-CDA File to Send:</div><br/>
 									<div class="dropdown">
 										<button id="dLabel" data-toggle="dropdown"
 											class="btn btn-success dropdown-toggle validate[funcCall[precannedRequired]]" type="button" 	tabindex="1">
