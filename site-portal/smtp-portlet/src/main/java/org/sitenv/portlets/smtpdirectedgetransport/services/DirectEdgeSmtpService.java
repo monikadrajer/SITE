@@ -1,5 +1,6 @@
 package org.sitenv.portlets.smtpdirectedgetransport.services;
 
+import java.util.List;
 import java.util.Properties;
 
 import javax.mail.Message;
@@ -17,8 +18,7 @@ public class DirectEdgeSmtpService extends SmtpService{
 		sendMessage(message);
 	}
 
-	public void getMessagesByFromAddress(Properties props, String fromAddress) {	
+	public List<SimpleEmailMessageAttributes> getMessagesByFromAddress(Properties props, String fromAddress) throws MessagingException {	
+		return searchEmail(props, fromAddress);
 	}
-
-
 }

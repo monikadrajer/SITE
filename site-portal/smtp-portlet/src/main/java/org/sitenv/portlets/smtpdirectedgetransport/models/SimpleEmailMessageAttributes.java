@@ -4,6 +4,8 @@ package org.sitenv.portlets.smtpdirectedgetransport.models;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+
 public class SimpleEmailMessageAttributes {
 	private String to;
 	private String from;
@@ -63,5 +65,10 @@ public class SimpleEmailMessageAttributes {
 	}
 	public boolean hasAttachment() {
 		return !attachmentName.isEmpty();
+	}
+	
+	@Override
+	public String toString(){
+	    return ReflectionToStringBuilder.toString(this);
 	}
 }
