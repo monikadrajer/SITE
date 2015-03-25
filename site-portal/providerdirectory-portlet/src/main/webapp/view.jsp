@@ -35,7 +35,7 @@
 	
 	<div class="directions">Directions</div>
 	<ol>
-		<li>Import the test data provided following <a href="https://github.com/siteadmin/pdti">these instructions</a></li>
+		<li>Import the test data provided following <a href="https://github.com/siteadmin/pdti" tabindex="1">these instructions</a></li>
 		<li>Once the data is imported into the directory, enter your WSDL below.</li>
 		<li>Specify you based DN</li>
 		<li>Select the test case and execute</li>

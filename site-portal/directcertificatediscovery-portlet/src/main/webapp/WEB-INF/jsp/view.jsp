@@ -135,7 +135,7 @@
 		<p>Step 1: Download the Testing Tool's trust anchor.</p>
 		<p style="margin-left: 15px;">
 			<a href="http://demo.direct-test.com/dcdt-web/discovery/anchor"
-				target="_blank">Download Trust Anchor</a>
+				target="_blank" tabindex="1">Download Trust Anchor</a>
 		</p>
 		<p>Step 2: Upload the anchor to your Direct instance. This will allow you to send messages to our tool.</p>
 		<p>Step 3: Using the form below, map the Direct email address from which you will be sending messages to a non-Direct email address that will receive a regular email containing test results. This email address should be able to receive plain text messages. Make sure you have access to the recipient email address in order to verify the receipt of the messages.</p>
