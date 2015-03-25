@@ -242,6 +242,8 @@ public class XdrValidatorSendController extends BaseController {
                 	fileNames.add(fileName.replace("Request_", "").replace(".xml", ""));
                 }
             }
+            
+            
 			
 		} 
 		catch (JSchException e) 
@@ -264,7 +266,9 @@ public class XdrValidatorSendController extends BaseController {
 		
 		if (fileNames != null) {
 			Collections.sort(fileNames, Collections.reverseOrder());
-		}
+			
+			fileNames = new ArrayList<String>(fileNames.subList(0, (fileNames.size() < 10) ? fileNames.size() : 10 ));
+        }
 		
 		return fileNames;
 	}
