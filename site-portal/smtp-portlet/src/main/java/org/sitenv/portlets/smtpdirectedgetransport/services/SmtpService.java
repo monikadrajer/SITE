@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import javax.activation.DataHandler;
+import javax.activation.DataSource;
 import javax.mail.Address;
 import javax.mail.BodyPart;
 import javax.mail.Folder;
@@ -39,7 +41,7 @@ public abstract class SmtpService {
 		messageText.setContent(emailMessageAttributes.getMessageBody(), "text/plain");  
 		multiPart.addBodyPart(messageText);
 		if(emailMessageAttributes.hasAttachment()) {
-			MimeBodyPart ccdaAttachment = createMessageAttachment(emailMessageAttributes.getAttachmentName(), emailMessageAttributes.getAttachment());    
+			MimeBodyPart ccdaAttachment = createMessageAttachment(emailMessageAttributes.getAttachmentName(), emailMessageAttributes.getAttachment(), emailMessageAttributes.getAttachmentContentType());    
 			multiPart.addBodyPart(ccdaAttachment);
 		}
 		message.setContent(multiPart);
@@ -56,9 +58,9 @@ public abstract class SmtpService {
 		});
 	}
 
-	protected MimeBodyPart createMessageAttachment(String fileName, byte[] attachment) throws MessagingException {
+	protected MimeBodyPart createMessageAttachment(String fileName, DataSource attachment, String contentType) throws MessagingException {
 		MimeBodyPart attachmentBodyPart = new MimeBodyPart();
-		attachmentBodyPart.setContent(new String(attachment), "text/plain; charset=UTF-8");
+		attachmentBodyPart.setDataHandler(new DataHandler(attachment));  
 		attachmentBodyPart.setFileName(fileName);
 		return attachmentBodyPart;
 	}
@@ -93,8 +95,8 @@ public abstract class SmtpService {
 							messageAttributes.setMessageBody((String)b.getContent());
 						}else if(b.getDescription() == null || b.getDisposition().equalsIgnoreCase(Part.ATTACHMENT)) {
 							messageAttributes.setAttachmentName(b.getFileName());
-							messageAttributes.setAttachment(b.getContent().toString().getBytes());
-							
+							messageAttributes.setAttachment(b.getDataHandler().getDataSource());
+							messageAttributes.setAttachmentContentType(b.getContentType());
 						}
 					}
 				} catch (IOException e) {

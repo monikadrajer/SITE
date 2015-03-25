@@ -1,29 +1,17 @@
 package org.sitenv.portlets.smtpdirectedgetransport.controllers;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.io.InputStreamReader;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Properties;
 
+import javax.activation.DataSource;
 import javax.activation.FileDataSource;
-import javax.mail.Address;
-import javax.mail.BodyPart;
-import javax.mail.Folder;
-import javax.mail.Message;
 import javax.mail.MessagingException;
-import javax.mail.Multipart;
-import javax.mail.NoSuchProviderException;
-import javax.mail.Part;
-import javax.mail.PasswordAuthentication;
-import javax.mail.Session;
-import javax.mail.Store;
-import javax.mail.internet.InternetAddress;
-import javax.mail.search.SearchTerm;
+import javax.mail.util.ByteArrayDataSource;
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.RenderRequest;
@@ -48,11 +36,9 @@ import org.springframework.web.portlet.ModelAndView;
 import org.springframework.web.portlet.bind.annotation.ActionMapping;
 import org.springframework.web.portlet.multipart.MultipartActionRequest;
 
-import com.google.gson.Gson;
-
 @Controller
 @RequestMapping("VIEW")
-public class DirectEdgeReceiveController  extends BaseController
+public class DirectEdgeReceiveController extends BaseController
 {
 	private static final int MAX_FILE_SIZE = 1024 * 1024 * 10;    // 10MB 
 	private static final String ENCRYPTEDKEY = "sitplatform@1234";
@@ -120,8 +106,10 @@ public class DirectEdgeReceiveController  extends BaseController
 		if(uploadSuccess)
 		{
 			try {  
+				//DataSource ccdaFile = new InputStreamDataSource(fileName, "text/plain; charset=UTF-8", file.getInputStream());
 				attachmentInputStream = file.getInputStream();
-				SimpleEmailMessageAttributes emailAttributes = populateCCDAMessageAttributes(fileName, fromEmail, IOUtils.toByteArray(attachmentInputStream));
+				DataSource ccdaFile = new ByteArrayDataSource(attachmentInputStream, "text/plain; charset=UTF-8");
+				SimpleEmailMessageAttributes emailAttributes = populateCCDAMessageAttributes(fileName, fromEmail, ccdaFile, file.getContentType());
 				directEdgeSmtpService.sendEmail(props, emailAttributes);
 				directEdgeRecieveResults.getUploadResult().put("IsSuccess", "true");
 				directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "Mail sent.");
@@ -138,7 +126,7 @@ public class DirectEdgeReceiveController  extends BaseController
 
 	@RequestMapping(params = "javax.portlet.action=uploadCCDADirectEdgeReceive")
 	public ModelAndView processUploadCCDADirectEdgeReceive(RenderRequest request, Model model){
-		Map map = new HashMap();
+		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("files", directEdgeRecieveResults.getFileJson());
 		map.put("result", directEdgeRecieveResults.getUploadResult());
 		return new ModelAndView("genericResultJsonView", map);
@@ -155,8 +143,9 @@ public class DirectEdgeReceiveController  extends BaseController
 		try {
 			//final String smtppswrd = FileUtils.readFileToString(new File(props.getProperty("smtppswdPath")));
 			//final String decyptedPass = new DesEncrypter(ENCRYPTEDKEY).decrypt(smtppswrd);
-			attachmentInputStream = new FileDataSource(serverFilePath).getInputStream();
-			SimpleEmailMessageAttributes emailAttributes = populateCCDAMessageAttributes(precannedfile, fromEmail, IOUtils.toByteArray(attachmentInputStream));
+			FileDataSource fileDataSource = new FileDataSource(serverFilePath);
+			attachmentInputStream = fileDataSource.getInputStream();
+			SimpleEmailMessageAttributes emailAttributes = populateCCDAMessageAttributes(precannedfile, fromEmail, fileDataSource, fileDataSource.getContentType());
 			directEdgeSmtpService.sendEmail(props, emailAttributes);
 			setResultMessage(true, "MailSent");
 			statisticsManager.addDirectReceive(domain, false, true, false);
@@ -171,7 +160,7 @@ public class DirectEdgeReceiveController  extends BaseController
 	@RequestMapping(params = "javax.portlet.action=precannedCCDADirectEdgeReceive")
 	public ModelAndView processPrecannedCCDADirectEdgeReceive(RenderRequest request, Model model)
 			throws IOException {
-		Map map = new HashMap();
+		Map<String, JSONObject> map = new HashMap<String, JSONObject>();
 		map.put("files", null);
 		map.put("result", directEdgeRecieveResults.getPrecannedResult());
 		return new ModelAndView("genericResultJsonView", map);
@@ -180,16 +169,23 @@ public class DirectEdgeReceiveController  extends BaseController
 	@ActionMapping(params = "javax.portlet.action=smtpSearch")
 	public void smtpSearch(ActionRequest request, ActionResponse response, @RequestParam("smtpsearchinput") final String searchKeyWord) throws IOException, JSONException {	
 		response.setRenderParameter("javax.portlet.action", "smtpSearch");
-		List<SimpleEmailMessageAttributes> searchResults = new ArrayList<SimpleEmailMessageAttributes>();
+		JSONArray searchResults = new JSONArray();
 		try {
-			searchResults = directEdgeSmtpService.searchEmail(props, searchKeyWord);
+			for(SimpleEmailMessageAttributes searchResult : directEdgeSmtpService.searchEmail(props, searchKeyWord)) {
+				JSONObject messageResult = new JSONObject();
+				messageResult.put("messageSubject", searchResult.getMessageSubject());
+				messageResult.put("messageFrom", searchKeyWord);
+				messageResult.put("messageReceivedDate", searchResult.getRecievedDate());
+				messageResult.put("messageSentDate", searchResult.getSentDate());
+				messageResult.put("messageBody", searchResult.getMessageBody());
+				messageResult.put("attachmentName", searchResult.getAttachmentName());
+				messageResult.put("attachmentBody", convertInputStreamToString(searchResult.getAttachment(), searchResult.getAttachmentContentType()));
+				searchResults.put(messageResult);
+			}
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
-		//directEdgeRecieveResults.setSearchResult(messageJsonArray);
-		Gson gson = new Gson();
-		String json = gson.toJson(searchResults);
-		directEdgeRecieveResults.setSearchResult(new JSONArray(json));
+		directEdgeRecieveResults.setSearchResult(searchResults);
 		//statisticsManager.addDirectReceive(domain, false, true, false);
 	}
 
@@ -202,9 +198,10 @@ public class DirectEdgeReceiveController  extends BaseController
 	}
 	
 	private SimpleEmailMessageAttributes populateCCDAMessageAttributes(
-			String fileName, String fromEmail, byte[] ccdaFile) {
+			String fileName, String fromEmail, DataSource ccdaFile, String contentType) throws IOException {
 		SimpleEmailMessageAttributes emailAttributes = new SimpleEmailMessageAttributes();
 		emailAttributes.setAttachment(ccdaFile);
+		emailAttributes.setAttachmentContentType(contentType);
 		emailAttributes.setAttachmentName(fileName);
 		emailAttributes.setMessageSubject(cannedMessageSubject);
 		emailAttributes.setFrom(fromEmail);
@@ -226,5 +223,20 @@ public class DirectEdgeReceiveController  extends BaseController
 		this.statisticsManager = statisticsManager;
 	}  
 
+	private String convertInputStreamToString(DataSource attachment, String charset) throws IOException {
+		InputStreamReader inputStreamReader = new InputStreamReader(attachment.getInputStream(), "UTF-8");
+		BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+		String line = "";
+		String result = "";
+		try {
+			while((line = bufferedReader.readLine()) != null)
+				result += line;
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+		IOUtils.closeQuietly(bufferedReader);
+		IOUtils.closeQuietly(inputStreamReader);
+		return result; 
+	}
 	
 }

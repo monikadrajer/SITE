@@ -4,6 +4,8 @@ package org.sitenv.portlets.smtpdirectedgetransport.models;
 
 import java.util.Date;
 
+import javax.activation.DataSource;
+
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 public class SimpleEmailMessageAttributes {
@@ -12,7 +14,8 @@ public class SimpleEmailMessageAttributes {
 	private String messageSubject;
 	private String messageBody;
 	private String attachmentName;
-	private byte[] attachment;
+	private DataSource attachment;
+	private String attachmentContentType;
 	private Date recievedDate;
 	private Date sentDate;
 	public String getTo() {
@@ -45,10 +48,10 @@ public class SimpleEmailMessageAttributes {
 	public void setAttachmentName(String attachmentName) {
 		this.attachmentName = attachmentName;
 	}
-	public byte[] getAttachment() {
+	public DataSource getAttachment() {
 		return attachment;
 	}
-	public void setAttachment(byte[] attachment) {
+	public void setAttachment(DataSource attachment) {
 		this.attachment = attachment;
 	}
 	public Date getRecievedDate() {
@@ -65,6 +68,12 @@ public class SimpleEmailMessageAttributes {
 	}
 	public boolean hasAttachment() {
 		return !attachmentName.isEmpty();
+	}
+	public String getAttachmentContentType() {
+		return attachmentContentType;
+	}
+	public void setAttachmentContentType(String attachmentContentType) {
+		this.attachmentContentType = attachmentContentType;
 	}
 	
 	@Override
