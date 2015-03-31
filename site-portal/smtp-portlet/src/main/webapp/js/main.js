@@ -389,8 +389,9 @@ $(function() {
 		        			var messageBody = value.messageBody;
 		        			var messageSentDate = value.messageSentDate;
 		        			var messageReceivedDate = value.messageReceivedDate;
-		        			var attachmentName = value.attachmentName;
-		        			var attachmentBody = value.attachmentBody;
+		        			var attachments = value.attachments;
+		        			var attachmentName = attachments[0].attachmentName;
+		        			var attachmentBody = attachments[0].attachmentBody;
 		        			tabHtml1 += '<div class="panel panel-default" id="accordion'+count+'">';
 		        			tabHtml1 += ' <div class="panel-heading" role="tab" id="heading'+count+'">';
 		        			tabHtml1 += '  <h4 class="panel-title">';
