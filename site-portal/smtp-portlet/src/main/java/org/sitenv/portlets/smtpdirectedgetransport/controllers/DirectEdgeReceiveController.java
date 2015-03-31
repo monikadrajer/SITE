@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.activation.DataSource;
@@ -24,6 +26,7 @@ import org.json.JSONObject;
 import org.sitenv.common.statistics.manager.StatisticsManager;
 import org.sitenv.common.utilities.controller.BaseController;
 import org.sitenv.portlets.smtpdirectedgetransport.DirectEdgeReceiveResults;
+import org.sitenv.portlets.smtpdirectedgetransport.models.SimpleEmailMessageAttachmentAttributes;
 import org.sitenv.portlets.smtpdirectedgetransport.models.SimpleEmailMessageAttributes;
 import org.sitenv.portlets.smtpdirectedgetransport.services.DirectEdgeSmtpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -178,8 +181,17 @@ public class DirectEdgeReceiveController extends BaseController
 				messageResult.put("messageReceivedDate", searchResult.getRecievedDate());
 				messageResult.put("messageSentDate", searchResult.getSentDate());
 				messageResult.put("messageBody", searchResult.getMessageBody());
-				messageResult.put("attachmentName", searchResult.getAttachmentName());
-				messageResult.put("attachmentBody", convertInputStreamToString(searchResult.getAttachment(), searchResult.getAttachmentContentType()));
+				if(searchResult.hasAttachment()) {
+					JSONArray messageAttachments = new JSONArray();
+					for(SimpleEmailMessageAttachmentAttributes attachmentAttributes : searchResult.getAttachments()) {
+						JSONObject attachment = new JSONObject();
+						attachment.put("attachmentName", attachmentAttributes.getAttachmentName());
+						attachment.put("attachmentBody", convertInputStreamToString(attachmentAttributes.getAttachment(), attachmentAttributes.getAttachmentContentType()));
+						messageAttachments.put(attachment);
+					}
+					messageResult.put("attachments", messageAttachments);
+				}
+				
 				searchResults.put(messageResult);
 			}
 		} catch (MessagingException e) {
@@ -200,9 +212,13 @@ public class DirectEdgeReceiveController extends BaseController
 	private SimpleEmailMessageAttributes populateCCDAMessageAttributes(
 			String fileName, String fromEmail, DataSource ccdaFile, String contentType) throws IOException {
 		SimpleEmailMessageAttributes emailAttributes = new SimpleEmailMessageAttributes();
-		emailAttributes.setAttachment(ccdaFile);
-		emailAttributes.setAttachmentContentType(contentType);
-		emailAttributes.setAttachmentName(fileName);
+		List<SimpleEmailMessageAttachmentAttributes> attachments = new ArrayList<SimpleEmailMessageAttachmentAttributes>();
+		SimpleEmailMessageAttachmentAttributes attachmentAttributes = new SimpleEmailMessageAttachmentAttributes();
+		attachmentAttributes.setAttachment(ccdaFile);
+		attachmentAttributes.setAttachmentContentType(contentType);
+		attachmentAttributes.setAttachmentContentType(contentType);
+		attachments.add(attachmentAttributes);
+		emailAttributes.setAttachments(attachments);
 		emailAttributes.setMessageSubject(cannedMessageSubject);
 		emailAttributes.setFrom(fromEmail);
 		emailAttributes.setTo(hisptoemailaddress);
