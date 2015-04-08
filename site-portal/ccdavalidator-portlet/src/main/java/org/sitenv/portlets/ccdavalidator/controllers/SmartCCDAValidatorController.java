@@ -93,6 +93,7 @@ public class SmartCCDAValidatorController extends BaseController {
 			int code = relayResponse.getStatusLine().getStatusCode();
 			if (code != 200) {
 				// do the error handling.
+				logger.error("Could not call smart CCDA - status: " + relayResponse.getStatusLine().getStatusCode() + " Reason: " + relayResponse.getStatusLine().getReasonPhrase());
 				throw new Exception("Could not Relay Request to Remote Service.");
 			}
 			
@@ -104,7 +105,7 @@ public class SmartCCDAValidatorController extends BaseController {
 			code = getRubricResponse.getStatusLine().getStatusCode();
 			if (code != 200) {
 				// do the error handling.
-
+				logger.error("Could not call smart CCDA rubric - status: " + getRubricResponse.getStatusLine().getStatusCode() + " Reason: " + getRubricResponse.getStatusLine().getReasonPhrase());
 				throw new Exception("Could not Relay Request to Remote Rubric Service.");
 			}
 			
