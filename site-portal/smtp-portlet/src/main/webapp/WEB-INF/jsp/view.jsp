@@ -60,18 +60,22 @@
 </script>
 
 <div class="panel panel-default" id="smtpsearchwidget">
-	<div class="panel-heading"><h2 class="panel-title">Validate messages sent via SMTP are being received</h2></div>
+	<div class="panel-heading"><h2 class="panel-title">Test ability to send SMTP messages from your system</h2></div>
 	<div class="panel-body">
-			In order to verify your messages sent via SMTP are being received by SITE
+			In order to test the ability of your system to send SMTP messages in the context of Direct Edge protocols, please follow these instructions:
 			<ul>
-				<li>Send SMTP messages from your implementation to:
+				<li>Send messages from your system to the following endpoint
 					<ul>
 						<li>
 							provider1@edgedirect.sitenv.org
 						</li>			
 					</ul>
 				</li>
-				<li>Search messages received by site using the 'FROM' address that represents a message from your Direct Edge system</li>
+				<li>To confirm that the SITE SMTP Edge test tool received your message, enter the "FROM" mail address that was used by your system to send the messages in the Search box below.
+					<ul>
+						<li>If the messages were successfully received, they will show up in a pop-up window, else it will display "no messages found."
+					</ul>
+				</li>
 			</ul>
 		<br/>
 		<div class="well">
@@ -90,24 +94,22 @@
 </div>
 
 <div class="panel panel-default" id="directreceivewidget">
-      <div class="panel-heading"><h2 class="panel-title">Send SMTP message to the test tool</h2></div>
+      <div class="panel-heading"><h2 class="panel-title">Send SMTP messages to your system</h2></div>
   		<div class="panel-body">
 			<p>
-				You can use this tool to send an SMTP message to the Direct Edge Test Tool per the below instructions. Or you can send an SMTP message to provider1@edge.direct.sitenv.org from your system.
+				In order to test the ability of your system to receive SMTP messages in the context of Direct Edge protocols, please follow these instructions:
 				<ul>
 					<li>
-						<span style="font-weight:bold;">Enter your from address:</span> The email address that represents a message from your Direct Edge system.
+						<span style="font-weight:bold;">Enter your from address:</span> The email address in your system which is setup to receive messages via Direct SMTP Edge Protocol.
 					</li>
 					<li>
-						<span style="font-weight:bold;">Choose your own content:</span> Developers can use their own files as the payload of the Direct message sent from the Sandbox. 
-									This provides the ability to verify the file they chosen and that the contents were decrypted appropriately.
+						<span style="font-weight:bold;">Choose your own content:</span> Developers can use their own files as the payload of the SMTP message sent from the test tool. This provides the ability to verify the file chosen was received and processed correctly by your system.
 					</li>
 					<li>
-						<span style="font-weight:bold;">Choose pre-canned content:</span> Provides a list of files that you can choose from as the payload of the Direct message.
+						<span style="font-weight:bold;">Choose pre-canned content:</span> Provides a list of pre-formatted files from which you can choose as the payload of the Direct message.
 					</li>
 					<li>
-						Once the above fields are populated, hit the send message button.<br/>
-						You can validate the message was received by using the lookup tool in the above form.		
+						Once the above fields are populated, hit the Send Message button.
 					</li>
 				</ul>
 			</p>
