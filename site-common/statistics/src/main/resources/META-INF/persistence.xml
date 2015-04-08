@@ -25,6 +25,8 @@
 		<class>org.sitenv.common.statistics.entity.AggregateWeeklyCountsEntity</class>
 		<class>org.sitenv.common.statistics.entity.DcdtHostingVerificationEntity</class>
 		<class>org.sitenv.common.statistics.entity.DirectLogCountsEntity</class>
+		<class>org.sitenv.common.statistics.entity.XdrReceiveEntity</class>
+		<class>org.sitenv.common.statistics.entity.XdrSendSearchEntity</class>
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />

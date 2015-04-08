@@ -88,6 +88,7 @@ public class XdrValidationController extends BaseController {
 		else
 		{
 			xdrResponse = XDR.sendValidMinimalXDRMessage(endpoint, encodedFile, file.getName(), toDirectAddress, fromDirectAddress, endpoint);
+			
 		}
 		logger.info(xdrResponse);
 		
@@ -107,11 +108,11 @@ public class XdrValidationController extends BaseController {
 				jsonResponseBody.put("ErrorMessage", "Message Sent Successfully!");
 				jsonResponseBody.put("xdrResponse", xdrResponse);
 				
-				
+				statisticsManager.addXdrReceive(endpoint, fromDirectAddress, toDirectAddress, messageType, false, true, false);
 
 		} catch (Exception e) {
 			//statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true);
-			
+			statisticsManager.addXdrReceive(endpoint, fromDirectAddress, toDirectAddress, messageType, false, false, true);
 			throw new RuntimeException(e);
 		} 
 		
@@ -169,12 +170,15 @@ public class XdrValidationController extends BaseController {
 		if (precannedMessageType.equalsIgnoreCase("full")) 
 		{
 			xdrResponse = XDR.sendValidFullXDRMessage(endpoint, base64String, ccdaFile.getName(), toDirectAddress, fromDirectAddress, endpoint);
-		}
+			}
 		else
 		{
 			xdrResponse = XDR.sendValidMinimalXDRMessage(endpoint, base64String, ccdaFile.getName(), toDirectAddress, fromDirectAddress, endpoint);
 		}
 		logger.info(xdrResponse);
+		
+		
+		
 		
 		try {
 
@@ -189,12 +193,12 @@ public class XdrValidationController extends BaseController {
 				jsonResponseBody.put("ErrorMessage", "Message Sent Successfully!");
 				jsonResponseBody.put("xdrResponse", xdrResponse);
 				
-				
+				statisticsManager.addXdrReceive(endpoint, fromDirectAddress, toDirectAddress, precannedMessageType, true, false, false);
 				
 
 		} catch (Exception e) {
 			//statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true);
-			
+			statisticsManager.addXdrReceive(endpoint, fromDirectAddress, toDirectAddress, precannedMessageType, false, false, true);
 			throw new RuntimeException(e);
 		} 
 		
