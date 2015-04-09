@@ -83,4 +83,8 @@ public interface StatisticsManager {
 	
 	public Long getCcdaLogCounts();
 	
+	public void addXdrReceive(String wsdl, String from,	String to, String messageType, Boolean precanned, Boolean uploaded, Boolean hasErrors);
+	
+	public void addXdrSendSearch(String value, Boolean hasErrors);
+	
 }

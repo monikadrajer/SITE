@@ -10,6 +10,7 @@ import org.sitenv.common.statistics.dao.DcdtHostingVerificationDAO;
 import org.sitenv.common.statistics.dao.DirectTransmissionDAO;
 import org.sitenv.common.statistics.dao.PdtiTestDAO;
 import org.sitenv.common.statistics.dao.QrdaValidationDAO;
+import org.sitenv.common.statistics.dao.XdrTransmissionDAO;
 import org.sitenv.common.statistics.dto.AggregateWeeklyCounts;
 import org.sitenv.common.statistics.dto.CcdaWeeklyCounts;
 import org.sitenv.common.statistics.dto.DirectLogCounts;
@@ -53,6 +54,9 @@ public class StatisticsManagerImpl implements StatisticsManager {
 	
 	@Autowired
 	private DcdtHostingVerificationDAO dcdtHostingVerificationDAO;
+	
+	@Autowired
+	private XdrTransmissionDAO xdrTransmissionDAO;
 
 
 	@Transactional
@@ -348,6 +352,37 @@ public class StatisticsManagerImpl implements StatisticsManager {
 	
 	
 
+	public CcdaServiceDAO getCcdaServiceDAO() {
+		return ccdaServiceDAO;
+	}
+
+
+	public void setCcdaServiceDAO(CcdaServiceDAO ccdaServiceDAO) {
+		this.ccdaServiceDAO = ccdaServiceDAO;
+	}
+
+
+	public DcdtHostingVerificationDAO getDcdtHostingVerificationDAO() {
+		return dcdtHostingVerificationDAO;
+	}
+
+
+	public void setDcdtHostingVerificationDAO(
+			DcdtHostingVerificationDAO dcdtHostingVerificationDAO) {
+		this.dcdtHostingVerificationDAO = dcdtHostingVerificationDAO;
+	}
+
+
+	public XdrTransmissionDAO getXdrTransmissionDAO() {
+		return xdrTransmissionDAO;
+	}
+
+
+	public void setXdrTransmissionDAO(XdrTransmissionDAO xdrTransmissionDAO) {
+		this.xdrTransmissionDAO = xdrTransmissionDAO;
+	}
+
+
 	public AggregateDAO getAggregateDAO() {
 		return aggregateDAO;
 	}
@@ -360,6 +395,20 @@ public class StatisticsManagerImpl implements StatisticsManager {
 	public Long getCcdaLogCounts() {
 		return this.ccdaValidationDAO.getCcdaLogCounts();
 		
+	}
+
+	@Transactional
+	public void addXdrReceive(String wsdl, String from, String to,
+			String messageType, Boolean precanned, Boolean uploaded,
+			Boolean hasErrors) {
+
+		xdrTransmissionDAO.createXdrReceive(wsdl, from, to, messageType, precanned, uploaded, hasErrors);
+		
+	}
+
+	@Transactional
+	public void addXdrSendSearch(String value, Boolean hasErrors) {
+		xdrTransmissionDAO.createXdrSendSearch(value, hasErrors);
 	}
 	
 	
