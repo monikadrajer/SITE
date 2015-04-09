@@ -24,6 +24,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
+import org.sitenv.common.statistics.manager.StatisticsManager;
 import org.sitenv.common.utilities.controller.BaseController;
 import org.sitenv.portlets.xdrvalidator.models.XdrSendGetRequestResults;
 import org.sitenv.portlets.xdrvalidator.models.XdrSendRequestListResults;
@@ -53,6 +54,9 @@ public class XdrValidatorSendController extends BaseController {
 	
 	@Autowired
 	private XdrSendRequestListResults xdrSendRequestListResults;
+	
+	@Autowired
+	private StatisticsManager statisticsManager;
 	
 	
 	@ActionMapping(params = "javax.portlet.action=xdrSendGetRequestList")
@@ -244,15 +248,17 @@ public class XdrValidatorSendController extends BaseController {
             }
             
             
-			
+			statisticsManager.addXdrSendSearch(requestLookup.toUpperCase(), false);
 		} 
 		catch (JSchException e) 
 		{
 			logger.error(e);
+			statisticsManager.addXdrSendSearch(requestLookup.toUpperCase(), true);
 		}
 		catch (SftpException e) 
 		{
 			logger.error(e);
+			statisticsManager.addXdrSendSearch(requestLookup.toUpperCase(), true);
 		}
 		finally
 		{
@@ -340,6 +346,14 @@ public class XdrValidatorSendController extends BaseController {
 			return strFileContents.toString();
 		else
 			return null;
+	}
+
+	public StatisticsManager getStatisticsManager() {
+		return statisticsManager;
+	}
+
+	public void setStatisticsManager(StatisticsManager statisticsManager) {
+		this.statisticsManager = statisticsManager;
 	}
 	
 	
