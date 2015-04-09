@@ -216,7 +216,7 @@ public class DirectEdgeReceiveController extends BaseController
 		SimpleEmailMessageAttachmentAttributes attachmentAttributes = new SimpleEmailMessageAttachmentAttributes();
 		attachmentAttributes.setAttachment(ccdaFile);
 		attachmentAttributes.setAttachmentContentType(contentType);
-		attachmentAttributes.setAttachmentContentType(contentType);
+		attachmentAttributes.setAttachmentName(fileName);
 		attachments.add(attachmentAttributes);
 		emailAttributes.setAttachments(attachments);
 		emailAttributes.setMessageSubject(cannedMessageSubject);
