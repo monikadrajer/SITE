@@ -2,6 +2,7 @@ package org.sitenv.portlets.smtpdirectedgetransport.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -113,6 +114,8 @@ public abstract class SmtpService {
 		}
 		folderInbox.close(false);
 		store.close();
+		Collections.sort(searchResults);
+		Collections.reverse(searchResults);
 		return searchResults;
 	}
 

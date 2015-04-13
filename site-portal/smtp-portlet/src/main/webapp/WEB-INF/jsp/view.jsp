@@ -81,7 +81,9 @@
 		<div class="well">
 			<form id="smtpsearchform"  action="${smtpSearch}" method="POST">
 			<label for="smtpsearchinput">Enter address to search:</label>
-				<input type="text" name="smtpsearchinput" id="smtpsearchinput" class="validate[custom[email]] form-control" tabindex="1"/>
+				<input type="text" name="smtpsearchinput" id="smtpsearchinput" class="validate[required,custom[email]] form-control" 
+						data-errormessage-value-missing="from address is required!"
+						data-errormessage-custom-error="from address format is invalid (hint:example@test.org)" tabindex="1"/>
 				
 			<hr />
 				<button id="smtpsearchsubmit" type="submit"
@@ -131,8 +133,8 @@
 				<label for="fromemail">Enter Edge System From Address:</label><br/>
 					<input id="fromemail"
 						class="validate[required,custom[email]] form-control" 
-						data-errormessage-value-missing="end point is required!"
-						data-errormessage-custom-error="end point format is invalid (hint:example@test.org)"
+						data-errormessage-value-missing="from address is required!"
+						data-errormessage-custom-error="from address format is invalid (hint:example@test.org)"
 						name="fromemail"
 						placeholder="from email address"
 						style="display: inline;" type="text"  tabindex="1"/>
