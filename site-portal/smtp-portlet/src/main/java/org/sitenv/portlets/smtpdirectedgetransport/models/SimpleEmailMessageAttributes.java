@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
-public class SimpleEmailMessageAttributes {
+public class SimpleEmailMessageAttributes  implements Comparable<SimpleEmailMessageAttributes>{
 	private String to;
 	private String from;
 	private String messageSubject;
@@ -65,5 +65,9 @@ public class SimpleEmailMessageAttributes {
 	@Override
 	public String toString(){
 	    return ReflectionToStringBuilder.toString(this);
+	}
+	
+	public int compareTo(SimpleEmailMessageAttributes o) {
+		return getSentDate().compareTo(o.getSentDate());
 	}
 }
