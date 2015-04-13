@@ -1,8 +1,6 @@
 package org.sitenv.common.statistics.dao.impl;
 
 import org.sitenv.common.statistics.dao.XdrTransmissionDAO;
-import org.sitenv.common.statistics.entity.DirectReceiveEntity;
-import org.sitenv.common.statistics.entity.DirectTrustUploadEntity;
 import org.sitenv.common.statistics.entity.XdrReceiveEntity;
 import org.sitenv.common.statistics.entity.XdrSendSearchEntity;
 import org.springframework.stereotype.Repository;

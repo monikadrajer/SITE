@@ -361,7 +361,12 @@ $(function() {
 		        									window.currentContextPath + "/images/icn_alert_error.png" ;
 		        	
 		        	$('#smtpsearchwidget .blockMsg .progressorpanel img').attr('src',iconurl);
-		        	$('#smtpsearchwidget .blockMsg .progressorpanel .lbl').text("found " + results.searchResults.length + " results");
+		        	if(results.searchResults.length > 0){
+		        		$('#smtpsearchwidget .blockMsg .progressorpanel .lbl').text("found " + results.searchResults.length + " results");
+		        	}else{
+		        		$('#smtpsearchwidget .blockMsg .progressorpanel .lbl').text("no messages found.");
+		        	}
+		        	
 
 		        	if(window.smtpSearchWdgt)
 		        	{
