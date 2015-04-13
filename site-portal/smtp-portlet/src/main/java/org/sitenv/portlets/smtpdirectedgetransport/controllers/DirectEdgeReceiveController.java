@@ -100,7 +100,7 @@ public class DirectEdgeReceiveController extends BaseController
 						"Please return to the previous page and select a file that is less than "
 						+ MAX_FILE_SIZE / 1024 / 1024 + "MB(s).");
 			} else {
-				statisticsManager.addDirectReceive(domain, true, false, true);
+				statisticsManager.addSMTPReceive(domain, fromEmail, hisptoemailaddress, true, false, true);
 				directEdgeRecieveResults.getUploadResult().put("IsSuccess", "false");
 				directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "There was an error uploading the file: " + e.getMessage());
 			}
@@ -116,9 +116,9 @@ public class DirectEdgeReceiveController extends BaseController
 				directEdgeSmtpService.sendEmail(props, emailAttributes);
 				directEdgeRecieveResults.getUploadResult().put("IsSuccess", "true");
 				directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "Mail sent.");
-				statisticsManager.addDirectReceive(domain, true, false, false);
+				statisticsManager.addSMTPReceive(domain, fromEmail, hisptoemailaddress, true, false, false);
 			} catch (MessagingException e) {
-				statisticsManager.addDirectReceive(domain, true, false, true);
+				statisticsManager.addSMTPReceive(domain, fromEmail, hisptoemailaddress, true, false, true);
 				directEdgeRecieveResults.getUploadResult().put("IsSuccess", "false");
 				directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "Failed to send email due to eror: " + e.getMessage());
 			}finally {
@@ -151,10 +151,10 @@ public class DirectEdgeReceiveController extends BaseController
 			SimpleEmailMessageAttributes emailAttributes = populateCCDAMessageAttributes(precannedfile, fromEmail, fileDataSource, fileDataSource.getContentType());
 			directEdgeSmtpService.sendEmail(props, emailAttributes);
 			setResultMessage(true, "MailSent");
-			statisticsManager.addDirectReceive(domain, false, true, false);
+			statisticsManager.addSMTPReceive(domain, fromEmail, hisptoemailaddress, false, true, false);
 		} catch (MessagingException e) {
 			setResultMessage(false, "Failed to send email due to eror: " + e.getMessage());
-			statisticsManager.addDirectReceive(domain, false, true, true);
+			statisticsManager.addSMTPReceive(domain, fromEmail, hisptoemailaddress, false, true, true);
 		}finally {
 			IOUtils.closeQuietly(attachmentInputStream);
 		}
@@ -195,10 +195,11 @@ public class DirectEdgeReceiveController extends BaseController
 				searchResults.put(messageResult);
 			}
 		} catch (MessagingException e) {
+			statisticsManager.addSMTPSendSearch(searchKeyWord, true);
 			e.printStackTrace();
 		}
 		directEdgeRecieveResults.setSearchResult(searchResults);
-		//statisticsManager.addDirectReceive(domain, false, true, false);
+		statisticsManager.addSMTPSendSearch(searchKeyWord, false);
 	}
 
 	@RequestMapping(params = "javax.portlet.action=smtpSearch")
