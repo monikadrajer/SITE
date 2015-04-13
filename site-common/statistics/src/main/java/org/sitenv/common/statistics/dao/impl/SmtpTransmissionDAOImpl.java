@@ -16,6 +16,7 @@ public class SmtpTransmissionDAOImpl extends BaseDAOImpl implements SmtpTransmis
 		entity.setPrecanned(precanned);
 		entity.setTo(to);
 		entity.setUploaded(uploaded);
+		entity.setDomain(domain);
 		entityManager.persist(entity);
 	}
 
