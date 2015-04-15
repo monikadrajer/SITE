@@ -10,6 +10,8 @@ import org.sitenv.common.statistics.dto.GoogleAnalyticsData;
 import org.sitenv.common.statistics.dto.PdtiTestCase;
 import org.sitenv.common.statistics.dto.PdtiWeeklyCounts;
 import org.sitenv.common.statistics.dto.QrdaWeeklyCounts;
+import org.sitenv.common.statistics.dto.SmtpSearchLogCounts;
+import org.sitenv.common.statistics.dto.SmtpWeeklyCounts;
 
 public interface StatisticsManager {
 
@@ -88,7 +90,9 @@ public interface StatisticsManager {
 	public void addXdrSendSearch(String value, Boolean hasErrors);
 
 	public void addSMTPReceive(String domain, String from, String to, Boolean precanned, Boolean uploaded, Boolean hasErrors);
-
 	public void addSMTPSendSearch(String value, Boolean hasErrors);
+	public SmtpSearchLogCounts getSmtpSendLogCount();
+	public Long getSuccessfulSmtpReceiveCount(Integer numberOfDays);
+	public List<SmtpWeeklyCounts> getSmtpWeeklyCounts(Integer smallWeeklyStatisticsLimit, boolean b);
 
 }

@@ -28,7 +28,9 @@
 		<class>org.sitenv.common.statistics.entity.XdrReceiveEntity</class>
 		<class>org.sitenv.common.statistics.entity.XdrSendSearchEntity</class>
 		<class>org.sitenv.common.statistics.entity.SmtpReceiveEntity</class>
-		<class>org.sitenv.common.statistics.entity.SmtpSendSearchEntity</class>
+		<class>org.sitenv.common.statistics.entity.SmtpSearchEntity</class>
+		<class>org.sitenv.common.statistics.entity.SmtpLogCountsEntity</class>
+		<class>org.sitenv.common.statistics.entity.SmtpWeeklyCountsEntity</class>
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />

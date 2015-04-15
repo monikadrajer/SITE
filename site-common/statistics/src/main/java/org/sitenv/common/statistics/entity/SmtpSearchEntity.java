@@ -13,8 +13,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 @Entity
-@Table(name="smtp_send_search")
-public class SmtpSendSearchEntity {
+@Table(name="smtp_search")
+public class SmtpSearchEntity {
 
 	
 	@Id
@@ -33,7 +33,7 @@ public class SmtpSendSearchEntity {
 	@Column(name="search_value")
 	private String value;
 
-	public SmtpSendSearchEntity(Long id, Date timestamp, Boolean error,
+	public SmtpSearchEntity(Long id, Date timestamp, Boolean error,
 			String value) {
 		super();
 		this.id = id;
@@ -41,15 +41,10 @@ public class SmtpSendSearchEntity {
 		this.error = error;
 		this.value = value;
 	}
-	
-	
 
-	public SmtpSendSearchEntity() {
+	public SmtpSearchEntity() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
-
-
 
 	@Override
 	public int hashCode() {
@@ -71,7 +66,7 @@ public class SmtpSendSearchEntity {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		SmtpSendSearchEntity other = (SmtpSendSearchEntity) obj;
+		SmtpSearchEntity other = (SmtpSearchEntity) obj;
 		if (error == null) {
 			if (other.error != null)
 				return false;

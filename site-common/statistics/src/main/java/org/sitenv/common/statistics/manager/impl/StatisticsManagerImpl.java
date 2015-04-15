@@ -20,6 +20,8 @@ import org.sitenv.common.statistics.dto.GoogleAnalyticsData;
 import org.sitenv.common.statistics.dto.PdtiTestCase;
 import org.sitenv.common.statistics.dto.PdtiWeeklyCounts;
 import org.sitenv.common.statistics.dto.QrdaWeeklyCounts;
+import org.sitenv.common.statistics.dto.SmtpSearchLogCounts;
+import org.sitenv.common.statistics.dto.SmtpWeeklyCounts;
 import org.sitenv.common.statistics.googleanalytics.GAStatistics;
 import org.sitenv.common.statistics.jira.JiraStatistics;
 import org.sitenv.common.statistics.manager.StatisticsManager;
@@ -410,7 +412,22 @@ public class StatisticsManagerImpl implements StatisticsManager {
 
 	@Transactional
 	public void addSMTPSendSearch(String value, Boolean hasErrors) {
-		smtpTransmissionDAO.createSMTPSendSearch(value, hasErrors);
+		smtpTransmissionDAO.createSMTPSearch(value, hasErrors);
+	}
+
+	@Transactional
+	public SmtpSearchLogCounts getSmtpSendLogCount() {
+		return smtpTransmissionDAO.getSmtpSearchLogCount();
+	}
+
+
+	public Long getSuccessfulSmtpReceiveCount(Integer numberOfDays) {
+		return smtpTransmissionDAO.getSmtpReceiveCount(false, numberOfDays);
+	}
+
+
+	public List<SmtpWeeklyCounts> getSmtpWeeklyCounts(Integer numOfWeeks, boolean send) {
+		return smtpTransmissionDAO.getSmtpWeeklyCounts(numOfWeeks, send);
 	}
 	
 	
