@@ -12,6 +12,7 @@ import javax.portlet.RenderResponse;
 import org.apache.log4j.Logger;
 import org.sitenv.common.statistics.dto.DirectLogCounts;
 import org.sitenv.common.statistics.dto.GoogleAnalyticsData;
+import org.sitenv.common.statistics.dto.SmtpSearchLogCounts;
 import org.sitenv.common.statistics.manager.StatisticsManager;
 import org.sitenv.common.utilities.controller.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,6 +85,10 @@ public class StatisticsController extends BaseController {
 		{
 			modelAndView.setViewName("direct");
 		}
+		else if (page.equals("smtp-stats"))
+		{
+			modelAndView.setViewName("smtp");
+		}
 		else if (page.equals("direct-counts"))
 		{
 			Long directReceiveSeed = Long.parseLong(props.getProperty("directReceiveStatisticsSeed"));
@@ -101,6 +106,18 @@ public class StatisticsController extends BaseController {
 			modelAndView.addObject("directReceiveCountData", directReceiveCount);
 		
 			modelAndView.setViewName("directCounts");
+		}
+		else if (page.equals("smtp-counts"))
+		{
+			Long smtpReceiveSeed = Long.parseLong(props.getProperty("smtpReceiveStatisticsSeed"));
+			SmtpSearchLogCounts sendData = statisticsManager.getSmtpSendLogCount();
+			Long smtpSearchCount = sendData.getTotalSmtpSearchCount().longValue();
+			modelAndView.addObject("smtpSearchCountData", smtpSearchCount);	
+			Long smtpReceiveCount = statisticsManager.getSuccessfulSmtpReceiveCount(null);
+			smtpReceiveCount += smtpReceiveSeed;
+			
+			modelAndView.addObject("smtpReceiveCountData", smtpReceiveCount);
+			modelAndView.setViewName("smtpCounts");
 		}
 		else if (page.equals("ccda-log-counts"))
 		{
