@@ -361,7 +361,12 @@ $(function() {
 		        									window.currentContextPath + "/images/icn_alert_error.png" ;
 		        	
 		        	$('#smtpsearchwidget .blockMsg .progressorpanel img').attr('src',iconurl);
-		        	$('#smtpsearchwidget .blockMsg .progressorpanel .lbl').text("found " + results.searchResults.length + " results");
+		        	if(results.searchResults.length > 0){
+		        		$('#smtpsearchwidget .blockMsg .progressorpanel .lbl').text("found " + results.searchResults.length + " results");
+		        	}else{
+		        		$('#smtpsearchwidget .blockMsg .progressorpanel .lbl').text("no messages found.");
+		        	}
+		        	
 
 		        	if(window.smtpSearchWdgt)
 		        	{
@@ -387,15 +392,16 @@ $(function() {
 		        			var messageSubject = value.messageSubject;
 		        			var messageFrom = value.messageFrom;
 		        			var messageBody = value.messageBody;
-		        			var messageSentDate = value.messageSentDate;
+		        			var messageSentDate = new Date(value.messageSentDate);
 		        			var messageReceivedDate = value.messageReceivedDate;
-		        			var attachmentName = value.attachmentName;
-		        			var attachmentBody = value.attachmentBody;
+		        			var attachments = value.attachments;
+		        			var attachmentName = attachments[0].attachmentName;
+		        			var attachmentBody = attachments[0].attachmentBody;
 		        			tabHtml1 += '<div class="panel panel-default" id="accordion'+count+'">';
 		        			tabHtml1 += ' <div class="panel-heading" role="tab" id="heading'+count+'">';
 		        			tabHtml1 += '  <h4 class="panel-title">';
 		        			tabHtml1 += '    <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#accordion'+count+'collapse" aria-expanded="false" aria-controls="accordion'+count+'collapse" >';
-		        			tabHtml1 += '<span><strong>DATE SENT: </strong>' + messageSentDate + '</span><span class="pull-right"><strong> ATTACHMENT NAME: </strong>' + attachmentName + '</span>';
+		        			tabHtml1 += '<div class="clearfix"><div class="col-lg-2"><strong>DATE SENT: </strong>' + messageSentDate.toLocaleString() + '</div><div  class="col-lg-10"><strong> ATTACHMENT NAME: </strong>' + attachmentName + '</div></div>';
 		        			tabHtml1 += '    </a>';
 		        			tabHtml1 += '  </h4>';
 		        			tabHtml1 += ' </div>';

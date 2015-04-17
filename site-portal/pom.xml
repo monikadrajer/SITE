@@ -102,10 +102,10 @@
     	<module>qrda-portlet</module>
     	<module>providerdirectory-portlet</module>
     	<module>providerdirectory-servlet</module>
-    	<module>responsivebootstrap-theme</module>
-    	<module>responsivebootstrap-portlet-layouttpl</module>
     	<module>statistics-portlet</module>
     	<module>xdrvalidator-portlet</module>
-    <module>directcertificatediscovery-portlet</module>
-  </modules>
+    	<module>directcertificatediscovery-portlet</module>
+    	<module>responsivebootstrap-theme</module>
+    	<module>responsivebootstrap-portlet-layouttpl</module>
+  	</modules>
 </project>

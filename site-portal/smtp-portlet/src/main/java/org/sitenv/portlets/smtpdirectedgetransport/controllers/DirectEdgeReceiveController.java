@@ -5,7 +5,9 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.activation.DataSource;
@@ -24,6 +26,7 @@ import org.json.JSONObject;
 import org.sitenv.common.statistics.manager.StatisticsManager;
 import org.sitenv.common.utilities.controller.BaseController;
 import org.sitenv.portlets.smtpdirectedgetransport.DirectEdgeReceiveResults;
+import org.sitenv.portlets.smtpdirectedgetransport.models.SimpleEmailMessageAttachmentAttributes;
 import org.sitenv.portlets.smtpdirectedgetransport.models.SimpleEmailMessageAttributes;
 import org.sitenv.portlets.smtpdirectedgetransport.services.DirectEdgeSmtpService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,7 +100,7 @@ public class DirectEdgeReceiveController extends BaseController
 						"Please return to the previous page and select a file that is less than "
 						+ MAX_FILE_SIZE / 1024 / 1024 + "MB(s).");
 			} else {
-				statisticsManager.addDirectReceive(domain, true, false, true);
+				statisticsManager.addSMTPReceive(domain, fromEmail, hisptoemailaddress, true, false, true);
 				directEdgeRecieveResults.getUploadResult().put("IsSuccess", "false");
 				directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "There was an error uploading the file: " + e.getMessage());
 			}
@@ -113,9 +116,9 @@ public class DirectEdgeReceiveController extends BaseController
 				directEdgeSmtpService.sendEmail(props, emailAttributes);
 				directEdgeRecieveResults.getUploadResult().put("IsSuccess", "true");
 				directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "Mail sent.");
-				statisticsManager.addDirectReceive(domain, true, false, false);
+				statisticsManager.addSMTPReceive(domain, fromEmail, hisptoemailaddress, true, false, false);
 			} catch (MessagingException e) {
-				statisticsManager.addDirectReceive(domain, true, false, true);
+				statisticsManager.addSMTPReceive(domain, fromEmail, hisptoemailaddress, true, false, true);
 				directEdgeRecieveResults.getUploadResult().put("IsSuccess", "false");
 				directEdgeRecieveResults.getUploadResult().put("ErrorMessage", "Failed to send email due to eror: " + e.getMessage());
 			}finally {
@@ -148,10 +151,10 @@ public class DirectEdgeReceiveController extends BaseController
 			SimpleEmailMessageAttributes emailAttributes = populateCCDAMessageAttributes(precannedfile, fromEmail, fileDataSource, fileDataSource.getContentType());
 			directEdgeSmtpService.sendEmail(props, emailAttributes);
 			setResultMessage(true, "MailSent");
-			statisticsManager.addDirectReceive(domain, false, true, false);
+			statisticsManager.addSMTPReceive(domain, fromEmail, hisptoemailaddress, false, true, false);
 		} catch (MessagingException e) {
 			setResultMessage(false, "Failed to send email due to eror: " + e.getMessage());
-			statisticsManager.addDirectReceive(domain, false, true, true);
+			statisticsManager.addSMTPReceive(domain, fromEmail, hisptoemailaddress, false, true, true);
 		}finally {
 			IOUtils.closeQuietly(attachmentInputStream);
 		}
@@ -178,15 +181,25 @@ public class DirectEdgeReceiveController extends BaseController
 				messageResult.put("messageReceivedDate", searchResult.getRecievedDate());
 				messageResult.put("messageSentDate", searchResult.getSentDate());
 				messageResult.put("messageBody", searchResult.getMessageBody());
-				messageResult.put("attachmentName", searchResult.getAttachmentName());
-				messageResult.put("attachmentBody", convertInputStreamToString(searchResult.getAttachment(), searchResult.getAttachmentContentType()));
+				if(searchResult.hasAttachment()) {
+					JSONArray messageAttachments = new JSONArray();
+					for(SimpleEmailMessageAttachmentAttributes attachmentAttributes : searchResult.getAttachments()) {
+						JSONObject attachment = new JSONObject();
+						attachment.put("attachmentName", attachmentAttributes.getAttachmentName());
+						attachment.put("attachmentBody", convertInputStreamToString(attachmentAttributes.getAttachment(), attachmentAttributes.getAttachmentContentType()));
+						messageAttachments.put(attachment);
+					}
+					messageResult.put("attachments", messageAttachments);
+				}
+				
 				searchResults.put(messageResult);
 			}
 		} catch (MessagingException e) {
+			statisticsManager.addSMTPSendSearch(searchKeyWord, true);
 			e.printStackTrace();
 		}
 		directEdgeRecieveResults.setSearchResult(searchResults);
-		//statisticsManager.addDirectReceive(domain, false, true, false);
+		statisticsManager.addSMTPSendSearch(searchKeyWord, false);
 	}
 
 	@RequestMapping(params = "javax.portlet.action=smtpSearch")
@@ -200,9 +213,13 @@ public class DirectEdgeReceiveController extends BaseController
 	private SimpleEmailMessageAttributes populateCCDAMessageAttributes(
 			String fileName, String fromEmail, DataSource ccdaFile, String contentType) throws IOException {
 		SimpleEmailMessageAttributes emailAttributes = new SimpleEmailMessageAttributes();
-		emailAttributes.setAttachment(ccdaFile);
-		emailAttributes.setAttachmentContentType(contentType);
-		emailAttributes.setAttachmentName(fileName);
+		List<SimpleEmailMessageAttachmentAttributes> attachments = new ArrayList<SimpleEmailMessageAttachmentAttributes>();
+		SimpleEmailMessageAttachmentAttributes attachmentAttributes = new SimpleEmailMessageAttachmentAttributes();
+		attachmentAttributes.setAttachment(ccdaFile);
+		attachmentAttributes.setAttachmentContentType(contentType);
+		attachmentAttributes.setAttachmentName(fileName);
+		attachments.add(attachmentAttributes);
+		emailAttributes.setAttachments(attachments);
 		emailAttributes.setMessageSubject(cannedMessageSubject);
 		emailAttributes.setFrom(fromEmail);
 		emailAttributes.setTo(hisptoemailaddress);

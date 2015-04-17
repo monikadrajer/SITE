@@ -2,6 +2,7 @@ package org.sitenv.portlets.smtpdirectedgetransport.services;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -25,6 +26,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.search.SearchTerm;
 
+import org.sitenv.portlets.smtpdirectedgetransport.models.SimpleEmailMessageAttachmentAttributes;
 import org.sitenv.portlets.smtpdirectedgetransport.models.SimpleEmailMessageAttributes;
 
 public abstract class SmtpService {
@@ -41,8 +43,10 @@ public abstract class SmtpService {
 		messageText.setContent(emailMessageAttributes.getMessageBody(), "text/plain");  
 		multiPart.addBodyPart(messageText);
 		if(emailMessageAttributes.hasAttachment()) {
-			MimeBodyPart ccdaAttachment = createMessageAttachment(emailMessageAttributes.getAttachmentName(), emailMessageAttributes.getAttachment(), emailMessageAttributes.getAttachmentContentType());    
-			multiPart.addBodyPart(ccdaAttachment);
+			for(SimpleEmailMessageAttachmentAttributes attachmentAttributes : emailMessageAttributes.getAttachments()) {
+				MimeBodyPart ccdaAttachment = createMessageAttachment(attachmentAttributes.getAttachmentName(), attachmentAttributes.getAttachment(), attachmentAttributes.getAttachmentContentType());    
+				multiPart.addBodyPart(ccdaAttachment);
+			}
 		}
 		message.setContent(multiPart);
 		return message;
@@ -77,11 +81,11 @@ public abstract class SmtpService {
 		Folder folderInbox = openInbox(store);
 		SearchTerm searchCondition = createSearchCriterion(keyword);
 		Message[] foundMessages = folderInbox.search(searchCondition);
-
 		if(foundMessages.length > 0) {
 			for (int i = 0; i < foundMessages.length; i++) {
 				Message message = foundMessages[i];
 				SimpleEmailMessageAttributes messageAttributes = new SimpleEmailMessageAttributes();
+				List<SimpleEmailMessageAttachmentAttributes> attachments = new ArrayList<SimpleEmailMessageAttachmentAttributes>();
 				messageAttributes.setMessageSubject(message.getSubject());
 				messageAttributes.setFrom(keyword);
 				messageAttributes.setRecievedDate(message.getReceivedDate());
@@ -92,21 +96,26 @@ public abstract class SmtpService {
 					for (int j = 0; j < mp.getCount(); j++) {
 						BodyPart b = mp.getBodyPart(j);
 						if(b.getDisposition() == null || b.getDisposition().equalsIgnoreCase(Part.INLINE)) {
-							messageAttributes.setMessageBody((String)b.getContent());
+							messageAttributes.setMessageBody(b.getContent().toString());
 						}else if(b.getDescription() == null || b.getDisposition().equalsIgnoreCase(Part.ATTACHMENT)) {
-							messageAttributes.setAttachmentName(b.getFileName());
-							messageAttributes.setAttachment(b.getDataHandler().getDataSource());
-							messageAttributes.setAttachmentContentType(b.getContentType());
+							SimpleEmailMessageAttachmentAttributes attachmentAttributes = new SimpleEmailMessageAttachmentAttributes();
+							attachmentAttributes.setAttachmentName(b.getFileName());
+							attachmentAttributes.setAttachment(b.getDataHandler().getDataSource());
+							attachmentAttributes.setAttachmentContentType(b.getContentType());
+							attachments.add(attachmentAttributes);
 						}
 					}
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
+				messageAttributes.setAttachments(attachments);
 				searchResults.add(messageAttributes);
 			}
 		}
 		folderInbox.close(false);
 		store.close();
+		Collections.sort(searchResults);
+		Collections.reverse(searchResults);
 		return searchResults;
 	}
 
