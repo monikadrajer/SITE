@@ -22,6 +22,10 @@
 		<class>org.sitenv.common.statistics.entity.DirectWeeklyCountsEntity</class>
 		<class>org.sitenv.common.statistics.entity.AggregateWeeklyCountsEntity</class>
 		<class>org.sitenv.common.statistics.entity.DirectLogCountsEntity</class>
+		<class>org.sitenv.common.statistics.entity.SmtpWeeklyCountsEntity</class>
+		<class>org.sitenv.common.statistics.entity.SmtpLogCountsEntity</class>
+		<class>org.sitenv.common.statistics.entity.SmtpReceiveEntity</class>
+		<class>org.sitenv.common.statistics.entity.SmtpSearchEntity</class>
 		<properties>
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />

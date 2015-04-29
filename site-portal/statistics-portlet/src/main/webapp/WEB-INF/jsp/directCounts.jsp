@@ -20,22 +20,22 @@
 
 
 <div class="panel panel-default" id="directStatistics">
-    <div class="panel-heading"><h3 class="panel-title">Direct Statistics</h3></div>
+    <div class="panel-heading"><h2 class="panel-title">Direct Statistics</h2></div>
 		<div class="table-responsive">
 			<table class="table table-striped">
 				<thead>
 					<tr>
-						<th style="width:65%"></th>
+						<td style="width:65%"></td>
 						<th>Total Count</th>
 					</tr>
-				</thread>
+				</thead>
 				<tbody>
 					<tr>
-						<td>Direct Send Messages</td>
-						<td>${directSendCountData }</td>
+						<th>Direct Send Messages</th>
+						<td>${directSendCountData}</td>
 					</tr>
 					<tr>
-						<td>Direct Receive Messages</td>
+						<th>Direct Receive Messages</th>
 						<td>${directReceiveCountData }</td>
 					</tr>
 				</tbody>

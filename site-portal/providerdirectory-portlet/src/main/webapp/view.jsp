@@ -30,12 +30,12 @@
 </script>
 
 <div id="providerDirectoryWidget" class="panel panel-default">
-      <div class="panel-heading"><h3 class="panel-title">Provider Information Directory (Server) Test Cases</h3></div>
+      <div class="panel-heading"><h2 class="panel-title">Provider Information Directory (Server) Test Cases</h2></div>
   		<div class="panel-body">
 	
-	<h4>Directions</h4>
+	<div class="directions">Directions</div>
 	<ol>
-		<li>Import the test data provided following <a href="https://github.com/siteadmin/pdti">these instructions</a></li>
+		<li>Import the test data provided following <a href="https://github.com/siteadmin/pdti" tabindex="1">these instructions</a></li>
 		<li>Once the data is imported into the directory, enter your WSDL below.</li>
 		<li>Specify you based DN</li>
 		<li>Select the test case and execute</li>
@@ -77,7 +77,7 @@
 
 
 <div class="panel panel-default">
-      <div class="panel-heading"><h3 class="panel-title">Provider Directory Client Testing</h3></div>
+      <div class="panel-heading"><h2 class="panel-title">Provider Directory Client Testing</h2></div>
   		<div class="panel-body">
 
 	PD clients that would like to verify their systems are generating conformant PD search requests following the IHE HPD specification can issue requests against the Provider Directory Test Implementation (PDTI) setup at the following WSDL:<br /><br />
@@ -93,7 +93,7 @@ The PDTI has the test data loaded as specified above, and clients can verify the
 				<div class="modal-header">
 					<button type="button" class="close" data-dismiss="modal"
 						aria-hidden="true">&times;</button>
-					<h4>Provider Directory Server Test Results</h4>
+					<h1 style="font-size: 2em; margin-top: 0px;">Provider Directory Server Test Results</h1>
 				</div>
 				<div class="modal-body" id="PDResult">
 				</div>

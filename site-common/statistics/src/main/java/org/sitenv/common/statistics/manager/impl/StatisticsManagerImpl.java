@@ -10,6 +10,8 @@ import org.sitenv.common.statistics.dao.DcdtHostingVerificationDAO;
 import org.sitenv.common.statistics.dao.DirectTransmissionDAO;
 import org.sitenv.common.statistics.dao.PdtiTestDAO;
 import org.sitenv.common.statistics.dao.QrdaValidationDAO;
+import org.sitenv.common.statistics.dao.SmtpTransmissionDAO;
+import org.sitenv.common.statistics.dao.XdrTransmissionDAO;
 import org.sitenv.common.statistics.dto.AggregateWeeklyCounts;
 import org.sitenv.common.statistics.dto.CcdaWeeklyCounts;
 import org.sitenv.common.statistics.dto.DirectLogCounts;
@@ -18,16 +20,14 @@ import org.sitenv.common.statistics.dto.GoogleAnalyticsData;
 import org.sitenv.common.statistics.dto.PdtiTestCase;
 import org.sitenv.common.statistics.dto.PdtiWeeklyCounts;
 import org.sitenv.common.statistics.dto.QrdaWeeklyCounts;
+import org.sitenv.common.statistics.dto.SmtpSearchLogCounts;
+import org.sitenv.common.statistics.dto.SmtpWeeklyCounts;
 import org.sitenv.common.statistics.googleanalytics.GAStatistics;
 import org.sitenv.common.statistics.jira.JiraStatistics;
 import org.sitenv.common.statistics.manager.StatisticsManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-
-
-
 
 @Service
 public class StatisticsManagerImpl implements StatisticsManager {
@@ -50,10 +50,14 @@ public class StatisticsManagerImpl implements StatisticsManager {
 	@Autowired
 	private AggregateDAO aggregateDAO;
 	
-	
 	@Autowired
 	private DcdtHostingVerificationDAO dcdtHostingVerificationDAO;
+	
+	@Autowired
+	private XdrTransmissionDAO xdrTransmissionDAO;
 
+	@Autowired
+	private SmtpTransmissionDAO smtpTransmissionDAO;
 
 	@Transactional
 	public void addDcdtHostingVerification(String testcase, String directAddress, String response) 
@@ -189,7 +193,6 @@ public class StatisticsManagerImpl implements StatisticsManager {
 		
 	}
 	
-	
 	@Transactional
 	public void addDirectReceive(String domain, Boolean uploaded, Boolean precanned,
 			Boolean hasErrors) {
@@ -235,10 +238,6 @@ public class StatisticsManagerImpl implements StatisticsManager {
 		return directTransmissionDAO.getDirectTrustUploadCount(true, numOfDays);
 		
 	}
-	
-	
-	
-	
 	
 	@Transactional
 	public void addPdtiTest(String endpointUrl, List<PdtiTestCase> testCases) {
@@ -344,9 +343,38 @@ public class StatisticsManagerImpl implements StatisticsManager {
 	
 	public GoogleAnalyticsData getGoogleAnalyticsData(String p12CertPath){
 		return GAStatistics.getData(p12CertPath);
+	}	
+
+	public CcdaServiceDAO getCcdaServiceDAO() {
+		return ccdaServiceDAO;
 	}
-	
-	
+
+
+	public void setCcdaServiceDAO(CcdaServiceDAO ccdaServiceDAO) {
+		this.ccdaServiceDAO = ccdaServiceDAO;
+	}
+
+
+	public DcdtHostingVerificationDAO getDcdtHostingVerificationDAO() {
+		return dcdtHostingVerificationDAO;
+	}
+
+
+	public void setDcdtHostingVerificationDAO(
+			DcdtHostingVerificationDAO dcdtHostingVerificationDAO) {
+		this.dcdtHostingVerificationDAO = dcdtHostingVerificationDAO;
+	}
+
+
+	public XdrTransmissionDAO getXdrTransmissionDAO() {
+		return xdrTransmissionDAO;
+	}
+
+
+	public void setXdrTransmissionDAO(XdrTransmissionDAO xdrTransmissionDAO) {
+		this.xdrTransmissionDAO = xdrTransmissionDAO;
+	}
+
 
 	public AggregateDAO getAggregateDAO() {
 		return aggregateDAO;
@@ -360,6 +388,46 @@ public class StatisticsManagerImpl implements StatisticsManager {
 	public Long getCcdaLogCounts() {
 		return this.ccdaValidationDAO.getCcdaLogCounts();
 		
+	}
+
+	@Transactional
+	public void addXdrReceive(String wsdl, String from, String to,
+			String messageType, Boolean precanned, Boolean uploaded,
+			Boolean hasErrors) {
+
+		xdrTransmissionDAO.createXdrReceive(wsdl, from, to, messageType, precanned, uploaded, hasErrors);
+		
+	}
+
+	@Transactional
+	public void addXdrSendSearch(String value, Boolean hasErrors) {
+		xdrTransmissionDAO.createXdrSendSearch(value, hasErrors);
+	}
+
+	@Transactional
+	public void addSMTPReceive(String domain, String from, String to,
+			Boolean precanned, Boolean uploaded, Boolean hasErrors) {
+		smtpTransmissionDAO.createSMTPReceive(domain, from, to, precanned, uploaded, hasErrors);
+	}
+
+	@Transactional
+	public void addSMTPSendSearch(String value, Boolean hasErrors) {
+		smtpTransmissionDAO.createSMTPSearch(value, hasErrors);
+	}
+
+	@Transactional
+	public SmtpSearchLogCounts getSmtpSendLogCount() {
+		return smtpTransmissionDAO.getSmtpSearchLogCount();
+	}
+
+
+	public Long getSuccessfulSmtpReceiveCount(Integer numberOfDays) {
+		return smtpTransmissionDAO.getSmtpReceiveCount(false, numberOfDays);
+	}
+
+
+	public List<SmtpWeeklyCounts> getSmtpWeeklyCounts(Integer numOfWeeks, boolean send) {
+		return smtpTransmissionDAO.getSmtpWeeklyCounts(numOfWeeks, send);
 	}
 	
 	

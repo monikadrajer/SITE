@@ -30,11 +30,11 @@
 </script>
 <div class="panel panel-default" id="panel_hosting">
 	<div class="panel-heading">
-		<h3 class="panel-title">Hosting - Verify your certificate can be
-			discovered</h3>
+		<h2 class="panel-title">Hosting - Verify your certificate can be
+			discovered</h2>
 	</div>
 	<div class="panel-body">
-		<h4>Directions</h4>
+		<div class="directions">Directions</div>
 		<p>Step 1: Determine the required test cases for your SUT (System
 			Under Test). Notice that there are two options for storage of
 			address-bound and domain-bound certificates.</p>
@@ -110,11 +110,10 @@
 				<div id="testcase-results" class="input-group-small hide"
 					aria-hidden="true">
 					<div class="form-group">
-						<div>
-							<span class="form-cell form-cell-label"> <label class="">
+						<div class="directions">
+							<span class="form-cell form-cell-label">
 									<span
 									class="glyphicon glyphicon-certificate glyphicon-type-info"></span>Results
-							</label>
 							</span>
 						</div>
 					</div>
@@ -127,16 +126,16 @@
 
 <div class="panel panel-default" id="panel_discovery">
 	<div class="panel-heading">
-		<h3 class="panel-title">Discover DCDT's Certificates</h3>
+		<h2 class="panel-title">Discover DCDT's Certificates</h2>
 	</div>
 	<div class="panel-body">
-		<h4>Directions</h4>
+		<div class="directions">Directions</div>
 		
 		
 		<p>Step 1: Download the Testing Tool's trust anchor.</p>
 		<p style="margin-left: 15px;">
 			<a href="http://demo.direct-test.com/dcdt-web/discovery/anchor"
-				target="_blank">Download Trust Anchor</a>
+				target="_blank" tabindex="1">Download Trust Anchor</a>
 		</p>
 		<p>Step 2: Upload the anchor to your Direct instance. This will allow you to send messages to our tool.</p>
 		<p>Step 3: Using the form below, map the Direct email address from which you will be sending messages to a non-Direct email address that will receive a regular email containing test results. This email address should be able to receive plain text messages. Make sure you have access to the recipient email address in order to verify the receipt of the messages.</p>
