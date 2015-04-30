@@ -22,96 +22,39 @@ import org.springframework.web.portlet.bind.annotation.ActionMapping;
 
 import com.google.gson.Gson;
 
+
 @Controller
 @RequestMapping("VIEW")
-public class SampleCCDATreeController extends BaseController {
+public class SampleCCDATreeController extends TreeController {
 	
 	private static Logger _log = Logger.getLogger(SampleCCDATreeController.class);
 	
-	private ArrayList<SampleCCDATreeNode> roots = null;
-
-	private void tranverseDir(String path, SampleCCDATreeNode root, int deep)
-			throws IOException {
-		if (this.props == null) {
-			this.loadProperties();
-		}
-
-		File[] files = (new File(path)).listFiles();
-
-		if (files == null)
-			return;
-
-		Arrays.sort(files);
-
-		int count = 1;
-		deep++;
-		for (File file : files) {
-			count++;
-			if (!file.getName().equalsIgnoreCase(".git")
-					&& !file.getName().equalsIgnoreCase("README.md")) {
-
-				if (file.isDirectory()) {
-					String dirPath = file.getCanonicalPath();
-					SampleCCDATreeNode folder = new SampleCCDATreeNode(
-							file.getName(), "folder", "open", String.format(
-									"%d_%d", deep, count), "helloword");
-					folder.getMetadata().setDescription("This is CCDA file 1.");
-					root.addChild(folder);
-					tranverseDir(dirPath, folder, deep);
-				} else {
-					// String dirPath = getRelativePath(file,new
-					// File(CCDAServerRootPath));
-					String dirPath = file.getCanonicalPath();
-					SampleCCDATreeNode folder = new SampleCCDATreeNode(
-							file.getName(), "file", "leaf", String.format(
-									"%d_%d", deep, count), "helloword");
-					folder.getMetadata().setDescription("This is CCDA file 1.");
-					folder.getMetadata().setServerPath(
-							dirPath.replace(props.getProperty("samplesFromVendorsForIncorporation")
-									+ "/", ""));
-					root.addChild(folder);
-				}
-			}
-		}
-
+	@Override
+	public String getControllerName() {
+		return "SampleCCDATree";
 	}
-
+	
 	@ActionMapping(params = "javax.portlet.action=sampleCCDATree")
-	public void response(ActionRequest request, ActionResponse response)
+	public synchronized void CCDASampleResponse(ActionRequest request, ActionResponse response)
 			throws IOException {
 		if (this.props == null) {
 			this.loadProperties();
 		}
-
-		_log.trace("Start get sample CCDAs.");
-		SampleCCDATreeNode root = new SampleCCDATreeNode("Localhost", "root",
-				"open", "1", "helloword");
-		
 		String CCDASampleDir = props.getProperty("samplesFromVendorsForIncorporation");
-		
-		
-		this.tranverseDir(CCDASampleDir, root, 1);
-
-		roots = new ArrayList<SampleCCDATreeNode>();
-		roots.add(root);
-		
-
-		_log.trace("End get sample CCDAs.");
-
+		this.traverseDir(CCDASampleDir);
 		response.setRenderParameter("javax.portlet.action", "sampleCCDATree");
-
 	}
-
+	
+	
 	@RequestMapping(params = "javax.portlet.action=sampleCCDATree")
-	public ModelAndView process(RenderRequest request, Model model)
+	public ModelAndView processVendorCCDA(RenderRequest request, Model model)
 			throws IOException {
 		Map map = new HashMap();
 		
 		Gson gson = new Gson();
-		String json = gson.toJson(roots);
-
+		String json = gson.toJson(this.getTree().getRoots());
 		map.put("jsonRoot", json);
-
+		
 		return new ModelAndView("sampleCCDATreeJsonView", map);
 	}
 

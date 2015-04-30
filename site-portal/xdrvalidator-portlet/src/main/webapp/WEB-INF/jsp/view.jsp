@@ -223,8 +223,9 @@
       	
 			
 				<label for="wsdlLocation">Enter Your Endpoint URL:</label>
-				<input type="text" name="wsdlLocation" id="wsdlLocation" class="validate[required,custom[url]] form-control" tabindex="1"/>
+				<input type="text" name="wsdlLocation" id="wsdlLocation" class="form-control" tabindex="1"/>
 				<br/>
+
 				<div class="panel-group" id="uploadOptional" role="tablist" aria-multiselectable="true">
 				  <div class="panel panel-default">
 				    <div class="panel-heading" role="tab" id="uploadOptionalHeadingOne">
@@ -254,8 +255,7 @@
 				    </div>
 				  </div>
 				</div>
-				
-			
+
 				
 				<br/><br/>
 			
@@ -266,7 +266,7 @@
 						<label for="fileupload">Select a Local C-CDA File to Send:</label><br/>
 						<span class="btn btn-success fileinput-button" id="fileupload-btn"> <i
 								class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload C-CDA...</span>
-								<input id="fileupload" type="file" name="file"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
+								<input id="fileupload" type="file" name="file" tabindex="1"/>
 						</span>
 						<div id="files"></div>
 						
