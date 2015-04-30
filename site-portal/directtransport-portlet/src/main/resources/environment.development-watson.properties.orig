@@ -1,0 +1,31 @@
+<<<<<<< HEAD
+trustBundleFile=C:\\SITE\\temp\\TrustBundle.p7b
+trustAnchorDir=C:\\SITE\\temp\\TrustAnchors
+tempUploadDir=C:\\SITE\\temp
+sampleCcdaDir=C:/SITE/CCDA_GIT/SampleCCDAsForIncorporation/SamplesFromVendors/sample_ccdas
+
+directFromEndpoint=provider1@direct.sitenv.org
+smtphostname=direct.sitenv.org
+smtpport=25
+smtpusername=provider1
+smtppswdPath=C:\\SITE\\directCredentials.txt
+smtpenablessl=false
+
+#serviceContext=http://mbpr.local:8080/delegate
+=======
+trustBundleFile=/Users/chris/Development/tomcat/tomcat-SITE/temp/TrustBundle.p7b
+trustAnchorDir=/Users/chris/Development/tomcat/tomcat-SITE/temp/TrustAnchors
+tempUploadDir=/Users/chris/Development/tomcat/tomcat-SITE/temp
+sampleCcdaDir=/Users/chris/Development/tomcat/tomcat-SITE/temp/sample_ccdas
+
+directFromEndpoint=provider1@direct.sitenv.org
+smtphostname=localhost
+smtpport=25
+smtpusername=provider1
+smtppswdPath=/Users/chris/Development/tomcat/directCredentials.txt
+smtpenablessl=false
+
+serviceContext=http://mbpr.local:8080/delegate
+
+getDcService=http://devccda.sitenv.org/GetDCService
+>>>>>>> debf11dff90c111ffeab279f1f5333add0179055

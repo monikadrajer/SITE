@@ -23,13 +23,14 @@
 
 
 
-<script type="text/javascript">
+<script type="text/javascript" >
 	window.runTestsUrl = "/site-portal-providerdirectory-servlet/GetPDGISingleTest";
 
 	window.currentContextPath = "<%=request.getContextPath()%>";
 </script>
 
 <div id="providerDirectoryWidget" class="panel panel-default">
+
       <div class="panel-heading"><h2 class="panel-title">Provider Information Directory (Server) Test Cases</h2></div>
   		<div class="panel-body">
 	
@@ -41,34 +42,49 @@
 		<li>Select the test case and execute</li>
 	</ol>
      
+
 <div class="well">
   <form action="/site-portal-providerdirectory-servlet/GetPDGISingleTest" name="testForm" method="post" id="providerDirectoryTestForm">
-      
+  
+<div class="form-group">
 <p>
 	  <label for="endpointUrl">Enter Your Endpoint URL:</label>
-      <input id="endpointUrl" name="endpointUrl" type="text" value="" class="validate[required,custom[url]] form-control"  tabindex="1"/>
-</p>
+      <input id="endpointUrl" class="form-control" 
+      name="endpointUrl" type="url"  placeholder="Enter your Endpoint URL here. http:// ..." 
+      data-parsley-required="URL"
+      data-parsley-trigger="change"  />
+      <div id="infoArea1" class="infoArea"></div>
+
+</div>
+
+<div class="form-group">
 <p>      
       <label for="baseDn">Enter Your Base DN:</label>
-      <input id="baseDn" name="baseDn" type="text" value="" class="validate[required] form-control"  tabindex="1"/>
-</p>
-<p>      
+      <input id="baseDn" name="baseDn" type="text"  
+      class="form-control" 
+      placeholder="Enter your base DN here ..." 
+      data-parsley-required="Base DN" 
+      data-parsley-trigger="change"  />
+      <div id="infoArea2" class="infoArea"></div>
+<p></p>
+</div>
+
+<p>
       <label for="testCase">Select a Test Case:</label>
-      <select id="testCase" name="testCase" class="validate[required] form-control"  tabindex="1">
+      <select id="testCase" name="testCase" class="form-control" data-parsley-required="true" tabindex="1" >
         <option value="run_all_test_cases">Run All Test Cases</option>
         <% for (String testCase : SingleTestPortlet.testCaseNames) { %>
         	<option value="<%= testCase %>"><%= SingleTestPortlet.testCaseRealNames.get(testCase) %></option>
         <% } %>
       </select>
 </p>
-<p> 
+<p>
 	<hr/>     
-      <button id="querySubmit" type="submit" class="btn btn-primary start" onclick="return false;"  tabindex="1">
+      <button id="querySubmit" type="submit" class="btn btn-primary start" name="submit"  tabindex="1">
       	<span class="glyphicon glyphicon-ok"></span>
           <span>Run Test Case</span>
       </button>
 
-</p>
   </form> 
 
   </div>
@@ -80,7 +96,7 @@
       <div class="panel-heading"><h2 class="panel-title">Provider Directory Client Testing</h2></div>
   		<div class="panel-body">
 
-	PD clients that would like to verify their systems are generating conformant PD search requests following the IHE HPD specification can issue requests against the Provider Directory Test Implementation (PDTI) setup at the following WSDL:<br /><br />
+	PD clients that would like to verify their systems are generating conformant PD search requests following the ONC Modular Specifications can issue requests against the Provider Directory Test Implementation (PDTI) setup at the following WSDL:<br /><br />
 http://54.201.181.21/pdti-server/ProviderInformationDirectoryService?wsdl<br /><br />
 The PDTI has the test data loaded as specified above, and clients can verify the results, based on their search requests, by manually cross-checking results against the test data.
   </div>

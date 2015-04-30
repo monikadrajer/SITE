@@ -32,39 +32,6 @@ public class DownloadIncorporationController extends BaseController {
 	
 	private static Logger logger = Logger.getLogger(DownloadIncorporationController.class);
 	
-    private static final Map<String, String> negativeTestingCCDAFileNames;
-    static
-    {
-    	negativeTestingCCDAFileNames = new HashMap<String, String>();
-    	negativeTestingCCDAFileNames.put("0", "AllNegativeTestingCCDAs.zip");
-    	negativeTestingCCDAFileNames.put("1", "Ambulatory_IncorrectImmunization.zip");
-    	negativeTestingCCDAFileNames.put("2", "Ambulatory_IncorrectLabResults.zip");
-    	negativeTestingCCDAFileNames.put("3", "Ambulatory_IncorrectProcedures.zip");
-    	negativeTestingCCDAFileNames.put("4", "Ambulatory_IncorrectVitalSigns.zip");
-    	negativeTestingCCDAFileNames.put("5", "Ambulatory_InvalidCS.zip");
-    	negativeTestingCCDAFileNames.put("6", "Ambulatory_invalidDataTypes.zip");
-    	negativeTestingCCDAFileNames.put("7", "Ambulatory_missingMU2elements.zip");
-    	negativeTestingCCDAFileNames.put("8", "Ambulatory_missingNarrative.zip");
-    	negativeTestingCCDAFileNames.put("9", "Inpatient_Code_Not_in_ValueSet.zip");
-    	negativeTestingCCDAFileNames.put("10", "Inpatient_IncorrectAllergies.zip");
-    	negativeTestingCCDAFileNames.put("11", "Inpatient_IncorrectMedication.zip");
-    	negativeTestingCCDAFileNames.put("12", "Inpatient_IncorrectProblems.zip");
-    	negativeTestingCCDAFileNames.put("13", "Inpatient_missingTemplateIds.zip");
-    	negativeTestingCCDAFileNames.put("14", "Inpatient_PooprlyFormed.zip");
-    	negativeTestingCCDAFileNames.put("15", "Inpatient_wrongTemplateIds.zip");
-    	
-    }
-	
-	
-    private static final Map<String, String> referenceCCDAFileNames;
-    static
-    {
-    	referenceCCDAFileNames = new HashMap<String, String>();
-    	//referenceCCDAFileNames.put("0", "BaseCCDA.zip");
-    	referenceCCDAFileNames.put("1", "Ambulatory_Summary-no_errors.zip");
-    	referenceCCDAFileNames.put("2", "Inpatient_Summary-no_errors.zip"); 	
-    }
-    
 	
 	public void copyStream(InputStream in, OutputStream out){
 		byte[] buffer = new byte[1024];
@@ -79,80 +46,6 @@ public class DownloadIncorporationController extends BaseController {
 	}
 	
 	
-	@ResourceMapping("downloadNegativeTesting")
-	public void serveNegativeTestingSamples(ResourceRequest resourceRequest, ResourceResponse res) throws PortletException, IOException {
-		
-		if (this.props == null)
-		{
-			this.loadProperties();
-		}
-		
-		String ccdaVal = resourceRequest.getParameter("getCCDA");
-		
-		String fileName = DownloadIncorporationController.negativeTestingCCDAFileNames.get(ccdaVal);
-		
-		
-		String downloadPath = props.getProperty("CcdasForNegativeTesting") + "/" + fileName;
-		
-		File downloadFile = new File(downloadPath);
-		InputStream in = new FileInputStream(downloadFile);
-		
-		res.setContentType("application/zip");
-		res.addProperty(HttpHeaders.CACHE_CONTROL,
-				"max-age=3600, must-revalidate");
-		res.addProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
-				+ fileName + "\"");
-		// Use this to directly download the file
-		res.addProperty("Set-Cookie", "fileDownload=true; path=/");
-		
-		OutputStream out = res.getPortletOutputStream();
-		
-		copyStream(in, out);
-		out.flush();
-		out.close();
-		in.close();
-		statisticsManager.addReferenceCcdaDownload(fileName);
-		
-	}
-	
-	
-	@ResourceMapping("downloadReferenceIncorporation")
-	public void serveReferenceSamples(ResourceRequest resourceRequest, ResourceResponse res) throws PortletException, IOException {
-		
-		if (this.props == null)
-		{
-			this.loadProperties();
-		}
-		
-		String ccdaVal = resourceRequest.getParameter("getCCDA");
-		
-		String fileName = DownloadIncorporationController.referenceCCDAFileNames.get(ccdaVal);
-		
-		String downloadPath = props.getProperty("referenceCcdasForIncorporation") + "/" + fileName;
-		
-		File downloadFile = new File(downloadPath);
-		InputStream in = new FileInputStream(downloadFile);
-		
-		res.setContentType("application/zip");
-		res.addProperty(HttpHeaders.CACHE_CONTROL,
-				"max-age=3600, must-revalidate");
-		res.addProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
-				+ fileName + "\"");
-		// Use this to directly download the file
-		res.addProperty("Set-Cookie", "fileDownload=true; path=/");
-		
-		
-		OutputStream out = res.getPortletOutputStream();
-		
-		copyStream(in, out);
-		out.flush();
-		out.close();
-		in.close();
-		statisticsManager.addReferenceCcdaDownload(fileName);
-		
-	}
-	
-	
 	@ResourceMapping("downloadVendorIncorporation")
 	public void serveSamplesFromVendors(ResourceRequest resourceRequest, ResourceResponse res) throws PortletException, IOException {
 		
@@ -162,6 +55,196 @@ public class DownloadIncorporationController extends BaseController {
 		}
 		
 		String downloadPath = props.getProperty("samplesFromVendorsForIncorporation") + "/" + resourceRequest.getParameter("incorpfilepath");
+		
+		
+		String[] downloadPathTokens = downloadPath.split("[/\\\\]");
+		String fileName = downloadPathTokens[downloadPathTokens.length-1];
+		
+		
+		File downloadFile = new File(downloadPath);
+		InputStream in = new FileInputStream(downloadFile);
+		
+		res.setContentType("application/xml");
+		res.addProperty(HttpHeaders.CACHE_CONTROL,
+				"max-age=3600, must-revalidate");
+		res.addProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
+				+ fileName + "\"");
+		// Use this to directly download the file
+		res.addProperty("Set-Cookie", "fileDownload=true; path=/");
+		
+		
+		OutputStream out = res.getPortletOutputStream();
+		
+		copyStream(in, out);
+		out.flush();
+		out.close();
+		in.close();
+		statisticsManager.addReferenceCcdaDownload(fileName);
+		
+	}
+	
+
+	@ResourceMapping("downloadReconciledBundle")
+	public void serveReconciledBundle(ResourceRequest resourceRequest, ResourceResponse res) throws PortletException, IOException {
+		
+		if (this.props == null)
+		{
+			this.loadProperties();
+		}
+		
+		String downloadPath = props.getProperty("ReconciledFileBundles") + "/" + resourceRequest.getParameter("reconciledBundleFilepath");
+		
+		
+		String[] downloadPathTokens = downloadPath.split("[/\\\\]");
+		String fileName = downloadPathTokens[downloadPathTokens.length-1];
+		
+		
+		File downloadFile = new File(downloadPath);
+		InputStream in = new FileInputStream(downloadFile);
+		
+		res.setContentType("application/xml");
+		res.addProperty(HttpHeaders.CACHE_CONTROL,
+				"max-age=3600, must-revalidate");
+		res.addProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
+				+ fileName + "\"");
+		// Use this to directly download the file
+		res.addProperty("Set-Cookie", "fileDownload=true; path=/");
+		
+		
+		OutputStream out = res.getPortletOutputStream();
+		
+		copyStream(in, out);
+		out.flush();
+		out.close();
+		in.close();
+		statisticsManager.addReferenceCcdaDownload(fileName);
+		
+	}
+	
+	
+	@ResourceMapping("downloadReferenceIncorpTree")
+	public void serveReferenceIncorpFile(ResourceRequest resourceRequest, ResourceResponse res) throws PortletException, IOException {
+		
+		if (this.props == null)
+		{
+			this.loadProperties();
+		}
+		
+		String downloadPath = props.getProperty("referenceCcdasForIncorporation") + "/" + resourceRequest.getParameter("reconciledBundleFilepath");
+		
+		
+		String[] downloadPathTokens = downloadPath.split("[/\\\\]");
+		String fileName = downloadPathTokens[downloadPathTokens.length-1];
+		
+		
+		File downloadFile = new File(downloadPath);
+		InputStream in = new FileInputStream(downloadFile);
+		
+		res.setContentType("application/xml");
+		res.addProperty(HttpHeaders.CACHE_CONTROL,
+				"max-age=3600, must-revalidate");
+		res.addProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
+				+ fileName + "\"");
+		// Use this to directly download the file
+		res.addProperty("Set-Cookie", "fileDownload=true; path=/");
+		
+		
+		OutputStream out = res.getPortletOutputStream();
+		
+		copyStream(in, out);
+		out.flush();
+		out.close();
+		in.close();
+		statisticsManager.addReferenceCcdaDownload(fileName);
+		
+	}
+	
+	
+	@ResourceMapping("downloadReferenceTestData")
+	public void serveReferenceTestData(ResourceRequest resourceRequest, ResourceResponse res) throws PortletException, IOException {
+		
+		if (this.props == null)
+		{
+			this.loadProperties();
+		}
+		
+		String downloadPath = props.getProperty("ReferenceDownloadFiles") + "/" + resourceRequest.getParameter("referenceDownloadFilepath");
+		
+		
+		String[] downloadPathTokens = downloadPath.split("[/\\\\]");
+		String fileName = downloadPathTokens[downloadPathTokens.length-1];
+		
+		
+		File downloadFile = new File(downloadPath);
+		InputStream in = new FileInputStream(downloadFile);
+		
+		res.setContentType("application/xml");
+		res.addProperty(HttpHeaders.CACHE_CONTROL,
+				"max-age=3600, must-revalidate");
+		res.addProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
+				+ fileName + "\"");
+		// Use this to directly download the file
+		res.addProperty("Set-Cookie", "fileDownload=true; path=/");
+		
+		
+		OutputStream out = res.getPortletOutputStream();
+		
+		copyStream(in, out);
+		out.flush();
+		out.close();
+		in.close();
+		statisticsManager.addReferenceCcdaDownload(fileName);
+		
+	}
+	
+	
+	@ResourceMapping("downloadReferenceTreeIncorporation")
+	public void serveReferenceIncorp(ResourceRequest resourceRequest, ResourceResponse res) throws PortletException, IOException {
+		
+		if (this.props == null)
+		{
+			this.loadProperties();
+		}
+		
+		String downloadPath = props.getProperty("referenceCcdasForIncorporation") + "/" + resourceRequest.getParameter("refIncorpfilepath");
+		
+		
+		String[] downloadPathTokens = downloadPath.split("[/\\\\]");
+		String fileName = downloadPathTokens[downloadPathTokens.length-1];
+		
+		
+		File downloadFile = new File(downloadPath);
+		InputStream in = new FileInputStream(downloadFile);
+		
+		res.setContentType("application/xml");
+		res.addProperty(HttpHeaders.CACHE_CONTROL,
+				"max-age=3600, must-revalidate");
+		res.addProperty(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\""
+				+ fileName + "\"");
+		// Use this to directly download the file
+		res.addProperty("Set-Cookie", "fileDownload=true; path=/");
+		
+		
+		OutputStream out = res.getPortletOutputStream();
+		
+		copyStream(in, out);
+		out.flush();
+		out.close();
+		in.close();
+		statisticsManager.addReferenceCcdaDownload(fileName);
+		
+	}
+	
+	
+	@ResourceMapping("downloadNegativeTestTreeIncorporation")
+	public void serveNegativeTestIncorp(ResourceRequest resourceRequest, ResourceResponse res) throws PortletException, IOException {
+		
+		if (this.props == null)
+		{
+			this.loadProperties();
+		}
+		
+		String downloadPath = props.getProperty("CcdasForNegativeTesting") + "/" + resourceRequest.getParameter("negTestfilepath");
 		
 		
 		String[] downloadPathTokens = downloadPath.split("[/\\\\]");

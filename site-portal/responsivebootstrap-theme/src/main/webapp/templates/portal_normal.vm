@@ -18,6 +18,8 @@
 	
 	<script src="$javascript_folder/vendor/jquery-ui.min.js"></script>
     <script src="$javascript_folder/vendor/bootstrap.min.js"></script>
+	<script src="$javascript_folder/vendor/parsley.js"></script>
+	
 	<script src="$javascript_folder/removeNoJS.js"></script>
 	<script src="$javascript_folder/hoverMenu.js"></script>
 	<script src="$javascript_folder/thumbnailHover.js"></script>
