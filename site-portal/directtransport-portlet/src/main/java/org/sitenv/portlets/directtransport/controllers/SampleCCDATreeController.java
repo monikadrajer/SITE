@@ -56,7 +56,11 @@ public class SampleCCDATreeController extends BaseController {
 							file.getName(), "folder", "open", String.format(
 									"%d_%d", deep, count), "helloword");
 					folder.getMetadata().setDescription("This is CCDA file 1.");
-					root.addChild(folder);
+					if (root == null) {
+						roots.add(folder);
+					} else {
+						root.addChild(folder);
+					}
 					tranverseDir(dirPath, folder, deep);
 				} else {
 					// String dirPath = getRelativePath(file,new
@@ -69,7 +73,11 @@ public class SampleCCDATreeController extends BaseController {
 					folder.getMetadata().setServerPath(
 							dirPath.replace(props.getProperty("sampleCcdaDir")
 									+ "/", ""));
-					root.addChild(folder);
+					if (root == null) {
+						roots.add(folder);
+					} else {
+						root.addChild(folder);
+					}
 				}
 			}
 		}
@@ -87,10 +95,9 @@ public class SampleCCDATreeController extends BaseController {
 		SampleCCDATreeNode root = new SampleCCDATreeNode("Localhost", "root",
 				"open", "1", "helloword");
 		String CCDASampleDir = props.getProperty("sampleCcdaDir");
-		this.tranverseDir(CCDASampleDir, root, 1);
-
 		roots = new ArrayList<SampleCCDATreeNode>();
-		roots.add(root);
+		this.tranverseDir(CCDASampleDir, null, 1);
+
 
 		
 
@@ -112,5 +119,5 @@ public class SampleCCDATreeController extends BaseController {
 
 		return new ModelAndView("sampleCCDATreeJsonView", map);
 	}
-
 }
+

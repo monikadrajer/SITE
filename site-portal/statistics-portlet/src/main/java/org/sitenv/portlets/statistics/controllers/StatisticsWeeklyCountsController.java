@@ -15,6 +15,7 @@ import org.sitenv.common.statistics.dto.CcdaWeeklyCounts;
 import org.sitenv.common.statistics.dto.DirectWeeklyCounts;
 import org.sitenv.common.statistics.dto.PdtiWeeklyCounts;
 import org.sitenv.common.statistics.dto.QrdaWeeklyCounts;
+import org.sitenv.common.statistics.dto.SmtpWeeklyCounts;
 import org.sitenv.common.statistics.manager.StatisticsManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -105,6 +106,31 @@ public class StatisticsWeeklyCountsController {
 		return new ModelAndView("directWeeklyCountsCsvView", map);
 	}
 	
+	@ActionMapping(params = "javax.portlet.action=smtpReceiveWeeklyCounts")
+	public void smtpReceiveWeeklyHandler(ActionRequest request, ActionResponse response)
+			throws IOException {
+		
+		response.setRenderParameter("javax.portlet.action", "smtpReceiveWeeklyCounts");
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(params = "javax.portlet.action=smtpReceiveWeeklyCounts")
+	public ModelAndView processSmtpReceiveWeekly(RenderRequest request, Model model)
+			throws IOException {
+		List<SmtpWeeklyCounts> weeklyCounts = null;
+		
+		weeklyCounts = statisticsManager.getSmtpWeeklyCounts(StatisticsConstants.SMALL_WEEKLY_STATISTICS_LIMIT, false);
+		
+		Map map = new HashMap();
+		
+		
+		map.put("weeklyCounts", weeklyCounts);
+		map.put("titles", "Total Number of Messages Sent,Total Number of Unique Domain Names");
+
+		return new ModelAndView("smtpWeeklyCountsCsvView", map);
+	}
+	
 	@ActionMapping(params = "javax.portlet.action=directSendWeeklyCounts")
 	public void directSendWeeklyHandler(ActionRequest request, ActionResponse response)
 			throws IOException {
@@ -130,6 +156,30 @@ public class StatisticsWeeklyCountsController {
 		return new ModelAndView("directWeeklyCountsCsvView", map);
 	}
 	
+	@ActionMapping(params = "javax.portlet.action=smtpSendWeeklyCounts")
+	public void smtpSendWeeklyHandler(ActionRequest request, ActionResponse response)
+			throws IOException {
+		
+		response.setRenderParameter("javax.portlet.action", "smtpSendWeeklyCounts");
+
+	}
+
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	@RequestMapping(params = "javax.portlet.action=smtpSendWeeklyCounts")
+	public ModelAndView processSmtpSendWeekly(RenderRequest request, Model model)
+			throws IOException {
+		List<SmtpWeeklyCounts> weeklyCounts = null;
+		
+		weeklyCounts = statisticsManager.getSmtpWeeklyCounts(StatisticsConstants.SMALL_WEEKLY_STATISTICS_LIMIT, true);
+		
+		Map map = new HashMap();
+		
+		
+		map.put("weeklyCounts", weeklyCounts);
+		map.put("titles", "Total Number of Messages Received,Total Number of Unique Domain Names");
+
+		return new ModelAndView("smtpWeeklyCountsCsvView", map);
+	}
 	
 	
 	@ActionMapping(params = "javax.portlet.action=qrdaWeeklyCounts")

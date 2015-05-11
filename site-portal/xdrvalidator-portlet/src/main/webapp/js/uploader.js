@@ -15,21 +15,21 @@ $(function() {
 			
 			$('.blockMsg .progressorpanel img').attr('src',iconurl);
         	
-        	$('.blockMsg .progressorpanel .lbl').text('Error uploading file.');
+        	$('.blockMsg .progressorpanel .lbl').text('Error sending XDR message.');
 			
 			if(window.validationpanel)
         	{
-        		window.validationPanelTimeout = setTimeout(function(){
-        				window.anchorUploadWidget.unbind("click");
-        				window.anchorUploadWidget.unblock();
+        		window.xdrUploadTimeout = setTimeout(function(){
+        				window.xdrreceivewidget.unbind("click");
+        				window.xdrreceivewidget.unblock();
         			},10000);
         		
         		
-        		window.validationpanel.bind("click", function() { 
-        			window.anchorUploadWidget.unbind("click");
-        			clearTimeout(window.validationPanelTimeout);
-        			window.anchorUploadWidget.unblock(); 
-        			window.anchorUploadWidget.attr('title','Click to hide this message.').click($.unblockUI); 
+        		window.xdrreceivewidget.bind("click", function() { 
+        			window.xdrreceivewidget.unbind("click");
+        			clearTimeout(window.xdrUploadTimeout);
+        			window.xdrreceivewidget.unblock(); 
+        			window.xdrreceivewidget.attr('title','Click to hide this message.').click($.unblockUI); 
 	            });
         		
         	}
@@ -45,24 +45,24 @@ $(function() {
 			var iconurl = (results.IsSuccess == "true")? window.currentContextPath + "/images/icn_alert_success.png" :
 				window.currentContextPath + "/images/icn_alert_error.png" ;
 			
-			$('#anchoruploadwidget .blockMsg .progressorpanel img').attr('src',iconurl);
+			$('#xdrreceivewidget .blockMsg .progressorpanel img').attr('src',iconurl);
       
         	
-        	$('#anchoruploadwidget .blockMsg .progressorpanel .lbl').text(results.ErrorMessage);
+        	$('#xdrreceivewidget .blockMsg .progressorpanel .lbl').text(results.ErrorMessage);
 			
-			if(window.anchorUploadWidget)
+			if(window.xdrreceivewidget)
         	{
-        		window.anchorUploadTimeout = setTimeout(function(){
-        				window.anchorUploadWidget.unbind("click");
-        				window.anchorUploadWidget.unblock();
+        		window.xdrUploadTimeout = setTimeout(function(){
+        				window.xdrreceivewidget.unbind("click");
+        				window.xdrreceivewidget.unblock();
         			},10000);
         		
         		
-        		window.anchorUploadWidget.bind("click", function() { 
-        			window.anchorUploadWidget.unbind("click");
-        			clearTimeout(window.anchorUploadTimeout);
-        			window.anchorUploadWidget.unblock(); 
-        			window.anchorUploadWidget.attr('title','Click to hide this message.').click($.unblockUI); 
+        		window.xdrreceivewidget.bind("click", function() { 
+        			window.xdrreceivewidget.unbind("click");
+        			clearTimeout(window.xdrUploadTimeout);
+        			window.xdrreceivewidget.unblock(); 
+        			window.xdrreceivewidget.attr('title','Click to hide this message.').click($.unblockUI); 
 	            });
         		
         	}
@@ -77,6 +77,69 @@ $(function() {
 				});
 
 			}, 1000);
+			
+			clearTimeout(window.xdrReceiveUploadTimeout);
+			window.xdrreceivewidget.unblock();
+			var tabHtml1 = ['<title>XDR Receive Response</title>',
+									    '<h1 align="center">XDR Receive Response</h1>',
+									    '<hr/>',
+									    '<hr/>',
+									    '<br/>'].join('\n');
+			
+			tabHtml1 += '<div class="panel-group" id="receiveaccordion" role="tablist" aria-multiselectable="true">';
+			  
+			
+				
+				
+			tabHtml1 += '<div class="panel panel-default" id="xdrreceivepanel">';
+			tabHtml1 += ' <div class="panel-heading" role="tab" id="xdrreceiveheading">';
+			tabHtml1 += '  <h4 class="panel-title">';
+			tabHtml1 += 'XDR Response';
+			tabHtml1 += '  </h4>';
+			tabHtml1 += ' </div>';
+			tabHtml1 += '	<div class="panel-body"></div>';
+			tabHtml1 += '</div>';
+			  
+			
+			tabHtml1 += "</div>";
+			
+			
+			
+			$("#receiveValidationResult .tab-content #receivetabs-1").html(tabHtml1);
+			
+			
+			    	    	
+			var codeWrapper = document.createElement('div');
+			    	    	
+			var codeEle = document.createElement("code");
+			$(codeEle).addClass("codeWrap");
+			$('#receiveaccordion .panel-body').html(codeWrapper);
+			    	    	
+			$('#receiveaccordion .panel-body div').addClass("well");
+			$('#receiveaccordion .panel-body div').css("word-wrap", "break-word");
+			    	    	
+			    	    	
+			$('#receiveaccordion .panel-body .well').html(codeEle);
+			    	    	
+			    	    	
+			$('#receiveaccordion .panel-body .well code').text(results.xdrResponse);
+			  
+			    	 
+			  
+			   
+			
+			$("#xdrReceiveModal").modal("show");
+			
+			
+			//disable smart ccda result tab.
+			$("#receiveModalTabs a[href='#receivetabs-1']").tab("show");
+			
+		    Liferay.Portlet.refresh("#p_p_id_Statistics_WAR_siteportalstatisticsportlet_"); // refresh the counts
+		    
+		    //clean up the links
+		    /*$("#ValidationResult #tabs #tabs-1 b:first, #ValidationResult #tabs #tabs-1 a:first").remove();*/
+		    $("#receiveValidationResult .tab-content #receivetabs-1 hr:lt(4)").remove();
+			
 		},
 		progressall : function(e, data) {
 			var progressval = parseInt(data.loaded / data.total * 100, 10);
@@ -90,7 +153,7 @@ $(function() {
 		    }
 		    else
 		    {
-		    	$('.blockMsg .progressorpanel .lbl').text('Validating...');
+		    	$('.blockMsg .progressorpanel .lbl').text('Sending...');
 		    	$('.blockMsg .progressorpanel .progressor').text('');
 		    }
 		}
@@ -101,7 +164,7 @@ $(function() {
 		data.context = $('<div/>').appendTo('#files');
 		$.each(data.files, function(index, file) {
 
-			var node = $('<p/>').append($('<span/>').text(file.name));
+			var node = $('<span/>').text(file.name);
 
 			node.appendTo(data.context);
 		});
@@ -120,12 +183,16 @@ $(function() {
 				
 				BlockPortletUI();
 				
-				var selectedValue = $("#testCases").val();
+				var selectedValue = $("#messageType").val();
 				
 				data.formData = { };
 				
+				data.formData.wsdlLocation = $("#wsdlLocation").val();
+				data.formData.toDirectAddress = $('#toDirectAddress').val();
+				data.formData.fromDirectAddress = $('#fromDirectAddress').val();
+				
 				if (selectedValue != undefined) {
-					data.formData.testCases = selectedValue;
+					data.formData.messageType = selectedValue;
 				}
 				
 				data.submit();
@@ -160,8 +227,10 @@ $(function() {
 	{
 		$('#XDRValidationForm .formError').hide(0);
 		var urlEndpoint = $('#wsdlLocation').val();
-		var selectedText = $("#testCases :selected").text();
-		$("#testCases option").each(function() {
+		var directFrom = $('#fromDirectAddress').val();
+		var directTo = $('#toDirectAddress').val();
+		var selectedText = $("#messageType :selected").text();
+		$("#messageType option").each(function() {
 			  if($(this).text() == selectedText) {
 			    $(this).attr('selected', 'selected');            
 			  } else {
@@ -171,6 +240,8 @@ $(function() {
 		
 		$('#XDRValidationForm').trigger('reset');
 		$('#wsdlLocation').val(urlEndpoint);
+		$('#fromDirectAddress').val(directFrom);
+		$('#toDirectAddress').val(directTo);
 		$('#formSubmit').unbind("click");
 		
 		$('#files').empty();

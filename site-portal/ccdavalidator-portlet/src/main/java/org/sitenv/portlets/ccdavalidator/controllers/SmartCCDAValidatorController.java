@@ -124,10 +124,10 @@ public class SmartCCDAValidatorController extends BaseController {
 			throws IOException {
 		Map map = new HashMap();
 
-		map.put("smartCcdaResponse", responseObj.getSmartCcdaResponse());//smartCcdaResponse);
-
-		map.put("smartCcdaRubricResponse", responseObj.getSmartCcdaRubricResponse()); //smartCcdaRubricResponse);
-
+		map.put("smartCcdaResponse", responseObj.getSmartCcdaResponse());
+		
+		map.put("smartCcdaRubricResponse", responseObj.getSmartCcdaRubricResponse()); 
+		
 		return new ModelAndView("smartCCDAValidatorJsonView", map);
 	}
 
