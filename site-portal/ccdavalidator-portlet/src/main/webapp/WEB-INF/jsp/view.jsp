@@ -9,6 +9,9 @@
       <%@ page import="com.liferay.portal.service.PortletPreferencesLocalServiceUtil" %>
       <%@ page import="com.liferay.portal.kernel.util.WebKeys" %>
       <%@ page import="com.liferay.portal.kernel.portlet.LiferayWindowState"%>
+      <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+      <%@ taglib uri="http://sitenv.org/tags" prefix="site" %>
+      <%@ page import="org.sitenv.common.utilities.enums.CcdaType"%>
       
       
       
@@ -147,20 +150,7 @@
 					      		
 					      		<div id="ccda_type_radioboxgroup" class="btn-group-vertical">
 					      			<label for="CCDA1_type_val">Select a C-CDA Document Type or MU Stage 2 Objective:</label><br/>
-					      			<select id="CCDA1_type_val" name="CCDA1_type_val" class="form-control" tabindex="1">
-					      				<option value="ClinicalOfficeVisitSummary">Clinical Office Visit Summary - MU2 170.314(e)(2) - Clinical Summary</option>
-					      				<option value="TransitionsOfCareAmbulatorySummaryb2">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Ambulatory Care</option>
-					      				<option value="TransitionsOfCareAmbulatorySummaryb7">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(7) Data Portability - For Ambulatory Care</option>
-					      				<option value="TransitionsOfCareAmbulatorySummaryb1">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(1) Transition of Care Receive - For Ambulatory Care</option>
-					      				<option value="TransitionsOfCareInpatientSummaryb2">Transitions Of Care Inpatient Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Inpatient Care</option>
-					      				<option value="TransitionsOfCareInpatientSummaryb7">Transitions Of Care Inpatient Summary - MU2 170.314(b)(7) Data Portability - For Inpatient Care</option>
-					      				<option value="TransitionsOfCareInpatientSummaryb1">Transitions Of Care Inpatient Summary - MU2 170.314(b)(1) Transition of Care Receive - For Inpatient Care</option>
-					      				<option value="VDTAmbulatorySummary">VDT Ambulatory Summary - MU2 170.314 (e)(1) Ambulatory Summary</option>
-					      				<option value="VDTInpatientSummary">VDT Inpatient Summary - MU2 170.314 (e)(1) Inpatient Summary</option>
-					      				<option value="NonSpecificCCDA">C-CDA R1.1 Document</option>
-					      			</select>
-					      			
-								  	
+					      			<site:ccdaTypesSelector id="CCDA1_type_val" name="CCDA1_type_val" styleClass="form-control" tabIndex="1"/> 	
 								</div>
 								<br/><br/>
 								<noscript><input type="hidden" name="redirect" value="true" /></noscript>
@@ -312,18 +302,7 @@
 										<br/>
 											<div id="CCDAReconciled_type_radioboxgroup" class="btn-group-vertical">
 							      				<label for="CCDAReconciled_type_val">Select a C-CDA Document Type or MU Stage 2 Objective:</label><br/>
-								      			<select id="CCDAReconciled_type_val" name="CCDAReconciled_type_val" class="form-control" tabindex="1">
-								      				<option value="ClinicalOfficeVisitSummary">Clinical Office Visit Summary - MU2 170.314(e)(2) - Clinical Summary</option>
-								      				<option value="TransitionsOfCareAmbulatorySummaryb2">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Ambulatory Care</option>
-								      				<option value="TransitionsOfCareAmbulatorySummaryb7">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(7) Data Portability - For Ambulatory Care</option>
-								      				<option value="TransitionsOfCareAmbulatorySummaryb1">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(1) Transition of Care Receive - For Ambulatory Care</option>
-								      				<option value="TransitionsOfCareInpatientSummaryb2">Transitions Of Care Inpatient Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Inpatient Care</option>
-								      				<option value="TransitionsOfCareInpatientSummaryb7">Transitions Of Care Inpatient Summary - MU2 170.314(b)(7) Data Portability - For Inpatient Care</option>
-								      				<option value="TransitionsOfCareInpatientSummaryb1">Transitions Of Care Inpatient Summary - MU2 170.314(b)(1) Transition of Care Receive - For Inpatient Care</option>
-								      				<option value="VDTAmbulatorySummary">VDT Ambulatory Summary - MU2 170.314 (e)(1) Ambulatory Summary</option>
-								      				<option value="VDTInpatientSummary">VDT Inpatient Summary - MU2 170.314 (e)(1) Inpatient Summary</option>
-								      				<option value="NonSpecificCCDA">C-CDA R1.1 Document</option>
-								      			</select>
+								      			<site:ccdaTypesSelector id="CCDAReconciled_type_val" name="CCDAReconciled_type_val" styleClass="form-control" tabIndex="1"/> 
 											</div>
 										<br/>
 										<br/>	
@@ -458,18 +437,7 @@
 										<br/>
 											<div id="CCDAReference_type_radioboxgroup" class="btn-group-vertical">
 							      			<label for="CCDAReference_type_val">Select a C-CDA Document Type or MU Stage 2 Objective:</label><br/>
-							      			<select id="CCDAReference_type_val" name="CCDAReference_type_val" class="form-control" tabindex="1">
-							      				<option value="ClinicalOfficeVisitSummary">Clinical Office Visit Summary - MU2 170.314(e)(2) - Clinical Summary</option>
-							      				<option value="TransitionsOfCareAmbulatorySummaryb2">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Ambulatory Care</option>
-							      				<option value="TransitionsOfCareAmbulatorySummaryb7">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(7) Data Portability - For Ambulatory Care</option>
-							      				<option value="TransitionsOfCareAmbulatorySummaryb1">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(1) Transition of Care Receive - For Ambulatory Care</option>
-							      				<option value="TransitionsOfCareInpatientSummaryb2">Transitions Of Care Inpatient Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Inpatient Care</option>
-							      				<option value="TransitionsOfCareInpatientSummaryb7">Transitions Of Care Inpatient Summary - MU2 170.314(b)(7) Data Portability - For Inpatient Care</option>
-							      				<option value="TransitionsOfCareInpatientSummaryb1">Transitions Of Care Inpatient Summary - MU2 170.314(b)(1) Transition of Care Receive - For Inpatient Care</option>
-							      				<option value="VDTAmbulatorySummary">VDT Ambulatory Summary - MU2 170.314 (e)(1) Ambulatory Summary</option>
-							      				<option value="VDTInpatientSummary">VDT Inpatient Summary - MU2 170.314 (e)(1) Inpatient Summary</option>
-							      				<option value="NonSpecificCCDA">C-CDA R1.1 Document</option>
-							      			</select>
+							      			<site:ccdaTypesSelector id="CCDAReference_type_val" name="CCDAReference_type_val" styleClass="form-control" tabIndex="1"/> 
 										</div>
 										<br/>
 										<br/>
@@ -564,20 +532,7 @@
 					      		
 					      		<div id="CCDASuper_type_radioboxgroup" class="btn-group-vertical">
 					      			<label for="CCDASuper_type_val">Select a C-CDA Document Type:</label><br/>
-					      			<select id="CCDASuper_type_val" name="CCDASuper_type_val" class="form-control" tabindex="1">
-					      				<option value="ClinicalOfficeVisitSummary">Clinical Office Visit Summary - MU2 170.314(e)(2) - Clinical Summary</option>
-					      				<option value="TransitionsOfCareAmbulatorySummaryb2">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Ambulatory Care</option>
-					      				<option value="TransitionsOfCareAmbulatorySummaryb7">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(7) Data Portability - For Ambulatory Care</option>
-					      				<option value="TransitionsOfCareAmbulatorySummaryb1">Transitions Of Care Ambulatory Summary - MU2 170.314(b)(1) Transition of Care Receive - For Ambulatory Care</option>
-					      				<option value="TransitionsOfCareInpatientSummaryb2">Transitions Of Care Inpatient Summary - MU2 170.314(b)(2) Transition of Care/Referral Summary - For Inpatient Care</option>
-					      				<option value="TransitionsOfCareInpatientSummaryb7">Transitions Of Care Inpatient Summary - MU2 170.314(b)(7) Data Portability - For Inpatient Care</option>
-					      				<option value="TransitionsOfCareInpatientSummaryb1">Transitions Of Care Inpatient Summary - MU2 170.314(b)(1) Transition of Care Receive - For Inpatient Care</option>
-					      				<option value="VDTAmbulatorySummary">VDT Ambulatory Summary - MU2 170.314 (e)(1) Ambulatory Summary</option>
-					      				<option value="VDTInpatientSummary">VDT Inpatient Summary - MU2 170.314 (e)(1) Inpatient Summary</option>
-					      				<option value="NonSpecificCCDA">C-CDA R1.1 Document</option>
-					      			</select>
-					      			
-								  	
+					      			<site:ccdaTypesSelector id="CCDASuper_type_val" name="CCDASuper_type_val" styleClass="form-control" tabIndex="1"/> 
 								</div>
 								<br/><br/>
 								<noscript><input type="hidden" name="redirect" value="true" /></noscript>

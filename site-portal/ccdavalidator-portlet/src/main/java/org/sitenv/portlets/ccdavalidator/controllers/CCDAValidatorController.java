@@ -21,11 +21,10 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.sitenv.common.utilities.controller.BaseController;
 import org.sitenv.common.statistics.manager.StatisticsManager;
+import org.sitenv.common.utilities.controller.BaseController;
 import org.sitenv.portlets.ccdavalidator.JSONResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -49,7 +48,7 @@ public class CCDAValidatorController extends BaseController {
 	@ActionMapping(params = "javax.portlet.action=uploadCCDA1.1")
 	public void responseCCDA1_1(MultipartActionRequest request, ActionResponse response) throws IOException {
 		
-		String ccda_type_value = null;
+		String ccda_type = null;
 		
 		if (this.props == null)
 		{
@@ -71,13 +70,7 @@ public class CCDAValidatorController extends BaseController {
 				
 				responseJSON.getFileJson().put(jsono);
 				
-				ccda_type_value = request.getParameter("ccda_type_val");
-				
-				
-				if(ccda_type_value == null)
-				{
-					ccda_type_value = "";
-				}
+				ccda_type = request.getParameter("ccda_type_val") == null ?  "" : request.getParameter("ccda_type_val");
 				
 				HttpClient client = new DefaultHttpClient();
 				
@@ -91,7 +84,7 @@ public class CCDAValidatorController extends BaseController {
 				entity.addPart("file", new InputStreamBody(file.getInputStream() , file.getOriginalFilename()));
 				
 				// set the CCDA type
-				entity.addPart("type_val",new StringBody(ccda_type_value));
+				entity.addPart("type_val",new StringBody(ccda_type));
 				
 				post.setEntity(entity);
 				
@@ -102,28 +95,22 @@ public class CCDAValidatorController extends BaseController {
 				
 				int code = relayResponse.getStatusLine().getStatusCode();
 				
-				if(code != HttpStatus.SC_OK) 
-				{
+				if(code != HttpStatus.SC_OK) {
 					//do the error handling.
-					statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true, "r1.1");
-				}
-				else
-				{
+					statisticsManager.addCcdaValidation(ccda_type, false, false, false, true, "r1.1");
+				}else{
 					boolean ccdaHasErrors = true, ccdaHasWarnings = true, ccdaHasInfo = true;
 					boolean extendedCcdaHasErrors = true, extendedCcdaHasWarnings = true, extendedCcdaHasInfo = true;
 					
-					
 					String json = handler.handleResponse(relayResponse);
 					JSONObject jsonbody = new JSONObject(json);
-					
 					
 					if (jsonbody.getJSONObject("ccdaResults").has("error") || 
 							jsonbody.getJSONObject("ccdaExtendedResults").has("error")){
 						//TODO: Make sure the UI handles this gracefully.
 						responseJSON.setJSONResponseBody(jsonbody);
-						statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, false, "r1.1");
+						statisticsManager.addCcdaValidation(ccda_type, false, false, false, false, "r1.1");
 					} else {
-						
 						JSONObject ccdaReport = jsonbody.getJSONObject("ccdaResults").getJSONObject("report");
 						ccdaHasErrors = ccdaReport.getBoolean("hasErrors");
 						ccdaHasWarnings = ccdaReport.getBoolean("hasWarnings");
@@ -137,15 +124,14 @@ public class CCDAValidatorController extends BaseController {
 						boolean hasErrors = (ccdaHasErrors || extendedCcdaHasErrors);
 						boolean hasWarnings = (ccdaHasWarnings || extendedCcdaHasWarnings);
 						boolean hasInfo = (ccdaHasInfo || extendedCcdaHasInfo);
-						
-						
+
 						responseJSON.setJSONResponseBody(jsonbody);
-						statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false, "r1.1");
+						statisticsManager.addCcdaValidation(ccda_type, hasErrors, hasWarnings, hasInfo, false, "r1.1");
 					}
 				}
 				
 		} catch (Exception e) {
-			statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true, "r1.1");
+			statisticsManager.addCcdaValidation(ccda_type, false, false, false, true, "r1.1");
 			System.out.println(e.getMessage());
 			throw new RuntimeException(e);
 		}

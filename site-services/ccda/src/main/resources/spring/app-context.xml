@@ -24,7 +24,7 @@
     <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
     -->
 	
-	<!--context:property-placeholder location="classpath:db.properties" / -->
+	<context:property-placeholder location="classpath*:environment.properties" ignore-resource-not-found="false"/>
 	<context:annotation-config />
 	<context:component-scan base-package="org.sitenv" />
 	
@@ -39,6 +39,11 @@
 	
 	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
 		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+	
+	<bean id="ccdaValidationServiceFactory"
+		class="org.springframework.beans.factory.config.ServiceLocatorFactoryBean">
+		<property name="serviceLocatorInterface" value="org.sitenv.services.ccda.service.factory.CcdaValidationServiceFactory"/>
 	</bean>
 
 </beans>
