@@ -1,87 +1,40 @@
 package org.sitenv.services.ccda.service;
 
 import java.io.IOException;
-import java.util.Date;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.mime.MultipartEntity;
-import org.apache.http.entity.mime.content.InputStreamBody;
 import org.apache.http.impl.client.BasicResponseHandler;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.sitenv.services.ccda.data.ValidationData;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
+@Component(value="Vocabulary")
+public class CCDAVocabularyValidationService extends BaseCCDAValidationService {
+	@Value( "${ExtendedCCDAValidationServiceURL}" )
+	private String extendedCCDAValidationServiceURL;
+	
+	@Override
+	public String getServiceLocation() {
+		return extendedCCDAValidationServiceURL;
+	}
 
-abstract class VocabularyCCDAService extends BaseCCDAService {
-
-	
-	
-	private Logger logger = LogManager.getLogger(VocabularyCCDAService.class.getName());
-	
-	
-	abstract public String getValidatorID();
-	abstract public String validate(ValidationData data);
-	
-	
-	public VocabularyCCDAService() throws IOException {}
-	
-	
-	protected JSONObject getVocabularyResult(ValidationData validationData) throws ClientProtocolException, IOException, JSONException
-	{
-		JSONObject json = null;
-		
-		MultipartFile file = validationData.getFile("file");
-			
-		String extendedCcdaURL = null;
-		
-		extendedCcdaURL = this.props.getProperty("ExtendedCCDAValidationServiceURL");
-		
-		HttpClient client = new DefaultHttpClient();
-		HttpPost post = new HttpPost(extendedCcdaURL);
-		
-		MultipartEntity entity = new MultipartEntity();
-			
-		// set the file content
-		entity.addPart("file", new InputStreamBody(file.getInputStream(), 
-				file.getName()));
-		
-		post.setEntity(entity);
-		HttpResponse relayResponse = client.execute(post);	
-		json = handleVocabularyResponse(relayResponse);
-		
-		return json;
+	@Override
+	protected void setValidatorId(String validatorId) {
+		this.validatorId = "";
 	}
 	
-	
-	private JSONObject handleVocabularyResponse(HttpResponse relayResponse) throws JSONException, ClientProtocolException, IOException {
-		
+	@Override
+	protected JSONObject handleCCDAValidationResponse(HttpResponse relayResponse) throws JSONException, ClientProtocolException, IOException {
 		ResponseHandler<String> handler = new BasicResponseHandler();
-		
 		int code = relayResponse.getStatusLine().getStatusCode();
-		
 		JSONObject jsonbody = null;
 		
-		if(code != HttpStatus.SC_OK)
-		{
-			//do the error handling.
-			logger.log(Level.ERROR, "Error while accessing CCDA service: "
-			+ code + ": "
-			+ relayResponse.getStatusLine().getReasonPhrase());
-			
-			jsonbody = new JSONObject("{ \"error\" : {\"message\": Error while accessing Extended CCDA service - "
-			+"\""+code +"-"+relayResponse.getStatusLine().getReasonPhrase() +"\""+"}}");
-		}
-		else
-		{
+		if(code != HttpStatus.SC_OK){
+			jsonbody = handleBadServiceResponse(relayResponse, code);
+		}else{
 			String body = handler.handleResponse(relayResponse);
 			jsonbody = new JSONObject(body);
 			JSONObject report = new JSONObject();
@@ -98,14 +51,13 @@ abstract class VocabularyCCDAService extends BaseCCDAService {
 			report.put("hasWarnings", hasWarnings);
 			report.put("hasInfo", hasInfo);
 			jsonbody.put("report", report);
-			
 		}
 		return jsonbody;
 	}
 	
 	
 	
-	protected void logSuccessOrFailure(JSONObject json, Date requestStart, Date requestFinish){
+	/*protected void logSuccessOrFailure(JSONObject json, Date requestStart, Date requestFinish){
 		String logMessage = "";
 		try {
 			
@@ -117,10 +69,10 @@ abstract class VocabularyCCDAService extends BaseCCDAService {
 			logMessage = "[Success] RequestTime: "+requestStart.toString()+" ResponseTime:"+requestFinish;
 		}
 		logger.info(logMessage);
-	}
+	}*/
 	
 	
-	private JSONObject getError(JSONObject json){
+	/*private JSONObject getError(JSONObject json){
 		JSONObject error = new JSONObject();
 		
 		if (json.has("error")){
@@ -131,10 +83,10 @@ abstract class VocabularyCCDAService extends BaseCCDAService {
 			}
 		}
 		return error;
-	}
+	}*/
 	
 	
-	protected JSONObject writeCcdaAndVocabStatistics(JSONObject ccdaJSON,
+	/*protected JSONObject writeCcdaAndVocabStatistics(JSONObject ccdaJSON,
 			JSONObject vocabCcdaJSON, 
 			String validationType) throws JSONException{
 		
@@ -168,6 +120,6 @@ abstract class VocabularyCCDAService extends BaseCCDAService {
 			recordStatistics(validationType, hasErrors, hasWarnings, hasInfo, false);
 		}
 		return errorJson;
-	}
-	
+	}*/
+
 }
