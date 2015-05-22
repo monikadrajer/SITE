@@ -119,6 +119,13 @@ public abstract class BaseCCDAValidationService implements ValidationService{
 				+ relayResponse.getStatusLine().getReasonPhrase());
 	}
 	
+	private JSONObject createJsonResponseForHttpError(HttpResponse relayResponse, int code) throws JSONException {
+		JSONObject jsonbody;
+		jsonbody = new JSONObject("{ \"error\" : {\"message\": Error while accessing CCDA service - "
+				+"\""+code +"-"+relayResponse.getStatusLine().getReasonPhrase() +"\""+"}}");
+		return jsonbody;
+	}
+	
 	private JSONObject handleServiceResponse(HttpResponse relayResponse,
 			ResponseHandler<String> handler) throws ClientProtocolException,
 			IOException, JSONException {
@@ -141,13 +148,6 @@ public abstract class BaseCCDAValidationService implements ValidationService{
 			handleReturnedValidationResultsForValidationCategory(jsonbody, CcdaValidationCategories.INFO);
 			addPerformance(relayResponse, jsonbody);
 		}
-		return jsonbody;
-	}
-	
-	private JSONObject createJsonResponseForHttpError(HttpResponse relayResponse, int code) throws JSONException {
-		JSONObject jsonbody;
-		jsonbody = new JSONObject("{ \"error\" : {\"message\": Error while accessing CCDA service - "
-				+"\""+code +"-"+relayResponse.getStatusLine().getReasonPhrase() +"\""+"}}");
 		return jsonbody;
 	}
 	
@@ -188,9 +188,7 @@ public abstract class BaseCCDAValidationService implements ValidationService{
 		jsonbody.put("performance", performance_object);
 	}
 
-	public void recordStatistics(String testType, Boolean hasErrors, Boolean hasWarnings, Boolean hasInfo, Boolean hasHttpError){
-		statisticsManager.addCcdaServiceCall(testType, hasErrors, hasWarnings, hasInfo, hasHttpError, validatorId);
-	}
+	
 
 	protected abstract String getServiceLocation();
 
