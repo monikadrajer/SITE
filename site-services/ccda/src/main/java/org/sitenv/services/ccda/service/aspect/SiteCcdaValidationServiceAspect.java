@@ -37,8 +37,6 @@ public class SiteCcdaValidationServiceAspect {
 				// why is this JSON library forcing me to catch this dumb exception if the key is not found?!?!?!
 			}
 		}
-		
-		System.out.println("After method: " + jp.getSignature().getName() + ". Class: " + ccdaValidatorImplementation + " validation type is " + validationType);
 	}
 
 	public void recordStatistics(String testType, Boolean hasErrors, Boolean hasWarnings, Boolean hasInfo, Boolean hasHttpError, String validatorId){
