@@ -1,3 +1,74 @@
+/*
+ * Set up Parsley validators
+ */
+$(function() {
+	
+	// Parsley validator to validate xml extension.
+	window.ParsleyValidator.addValidator('ipOrEmail',function(value,requirement){
+		var re = new RegExp(/^((([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))|(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))$/);	
+		return re.test(value);
+	},32).addMessage('en','ipOrEmail','The endpoint must be a properly formatted email or IP address.');
+	
+	// Parsley validator to validate xml extension.
+	window.ParsleyValidator.addValidator('wsdlUrl',function(value,requirement){
+		var re = new RegExp(/^(https?|ftp):\/\/(((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:)*@)?(((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]))|((([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|\d|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.)+(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])*([a-z]|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])))\.?)(:\d*)?)(\/((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)+(\/(([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)*)*)?)?(\?((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|[\uE000-\uF8FF]|\/|\?)*)?(\#((([a-z]|\d|-|\.|_|~|[\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])|(%[\da-f]{2})|[!\$&'\(\)\*\+,;=]|:|@)|\/|\?)*)?$/i);	
+		return re.test(value);
+	},32).addMessage('en','wsdlUrl','The endpoint must be a properly formatted URL with protocol (e.g. http://sitenv.org/)');
+	
+	// Parsley validator to validate xml extension.
+	window.ParsleyValidator.addValidator('filetype',function(value,requirement){
+		var ext=value.split('.').pop().toLowerCase();
+		return ext === requirement;	
+	},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
+	
+	
+	// parsley Validator to validate the file size
+	window.ParsleyValidator.addValidator('ccdamaxsize',function(value,requirement){
+		var file_size=$('#fileupload')[0].files[0];
+		return file_size.size < requirement*1024*1024;
+	},32).addMessage('en','ccdamaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+	
+	
+});
+
+
+
+
+/*
+ * Parsley Options
+ */
+var dtParsleyOptions = (function() {
+    
+	var parsleyOptions = {
+	        trigger: 'change',
+	        successClass: "has-success",
+	        errorClass: "alert alert-danger",
+	        classHandler: function (el) {
+	        	return el.$element.closest(".form-group").children(".infoArea");
+	        },
+			errorsContainer: function (el) {
+				return el.$element.closest(".form-group").children(".infoArea");
+			},
+			errorsWrapper: '<ul></ul>',
+			errorElem: '<li></li>'
+		};
+
+    return {
+        getOptions : function() {
+        	return parsleyOptions;
+        }
+    };
+
+})();
+
+
+
+
+/*
+ * 	Parsley Validation
+ */
+
+
 (function($) {
 $.fn.serializefiles = function() {
     var obj = $(this);
@@ -268,10 +339,16 @@ $(function() {
 		    			  $("#precannedCCDAsubmit").click(function(e){
 		    				    
 		    					var jform = $('#XDRPrecannedForm');
+		    					
+		    					/*
 		    					jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
 		    					if(jform.validationEngine('validate'))
+		    					{*/
+		    					var parsleyForm = jform.parsley(dtParsleyOptions.getOptions());
+		    					
+		    					if (parsleyForm.validate() === true)
 		    					{
-		    						$('#XDRPrecannedForm .formError').hide(0);
+		    						//$('#XDRPrecannedForm .formError').hide(0);
 		    						
 		    						//block ui..
 		    						BlockPortletUI();
@@ -421,12 +498,12 @@ $(function() {
 		    					        processData: false
 		    					    });
 		    					}
-		    					else
+		    					/*else
 		    					{
 		    						$('#XDRPrecannedForm .formError').show(0);
 		    						
 		    						$('#XDRPrecannedForm .precannedfilepathformError').prependTo('#precannederrorlock');
-		    					}
+		    					}*/
 		    					return false;
 		    				});
 		    			  
@@ -459,8 +536,12 @@ $(function() {
 	$("#xdrSendSearchSubmit").click(function(e){
 	    
 		var jform = $('#XDRSendGetRequestList');
-		jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-		if(jform.validationEngine('validate'))
+		//jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
+		//if(jform.validationEngine('validate'))
+		
+		var parsleyForm = jform.parsley(dtParsleyOptions.getOptions());
+		
+		if (parsleyForm.validate() === true)
 		{
 			$('#XDRSendGetRequestList .formError').hide(0);
 			
@@ -688,12 +769,7 @@ $(function() {
 		        processData: false
 		    });
 		}
-		else
-		{
-			$('#xdrSendSearchSubmit .formError').show(0);
-			
-			$('#xdrSendSearchSubmit .precannedfilepathformError').prependTo('#precannederrorlock');
-		}
+		
 		return false;
 	});
 	
