@@ -366,4 +366,8 @@ div#collapseReference .panel-body {
 	width: 180px;
 }
 
+.panel {
+    border: 0;
+}
+
 

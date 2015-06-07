@@ -104,8 +104,9 @@
       	var sampleCCDATreeURL = '${sampleCCDATree}';
     	
       	var showVocab = '${showVocabulary}';
-      	
     	var showVocabularyValidation = (showVocab === 'true');
+    	
+    	var showDataQualityValidation = '${showDataQualityValidation}';
     	
     	var reconciledCCDATreeURL = '${reconciledCCDATree}';
     	var referenceCCDATreeURL = '${referenceCCDATree}'; 
