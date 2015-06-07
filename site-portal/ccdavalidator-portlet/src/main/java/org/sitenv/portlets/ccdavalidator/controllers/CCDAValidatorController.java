@@ -61,8 +61,7 @@ public class CCDAValidatorController extends BaseController {
 	}
 
 	@RenderMapping()
-	public ModelAndView handleRenderRequest(RenderRequest request,
-			RenderResponse response) throws IOException {
+	public ModelAndView handleRenderRequest(RenderRequest request, RenderResponse response) throws IOException {
 
 		if (props == null) {
 			loadProperties();
@@ -72,45 +71,38 @@ public class CCDAValidatorController extends BaseController {
 
 		modelAndView.setViewName("view");
 
-		modelAndView.addObject("showVocabulary",
-				props.getProperty("showVocabularyValidation"));
-
+		modelAndView.addObject("showVocabulary", props.getProperty("showVocabularyValidation"));
+		modelAndView.addObject("showDataQualityValidation", props.getProperty("showDataQualityValidation"));
 		return modelAndView;
 	}
 
 	@RequestMapping(params = "javax.portlet.action=uploadCCDA1.1")
-	public ModelAndView processCCDA1_1(RenderRequest request, Model model)
-			throws IOException {
+	public ModelAndView processCCDA1_1(RenderRequest request, Model model) throws IOException {
 		return new ModelAndView("cCDAValidatorJsonView", getResultMap());
 	}
 
 	@RequestMapping(params = "javax.portlet.action=uploadCCDA2.0")
-	public ModelAndView processCCDA2_0(RenderRequest request, Model model)
-			throws IOException {
+	public ModelAndView processCCDA2_0(RenderRequest request, Model model) throws IOException {
 		return new ModelAndView("cCDAValidatorJsonView", getResultMap());
 	}
 
 	@RequestMapping(params = "javax.portlet.action=uploadCCDAReconciled")
-	public ModelAndView processCCDAReconciled(RenderRequest request, Model model)
-			throws IOException {
+	public ModelAndView processCCDAReconciled(RenderRequest request, Model model) throws IOException {
 		return new ModelAndView("cCDAValidatorJsonView", getResultMap());
 	}
 
 	@RequestMapping(params = "javax.portlet.action=uploadCCDAReference")
-	public ModelAndView processCCDAReference(RenderRequest request, Model model)
-			throws IOException {
+	public ModelAndView processCCDAReference(RenderRequest request, Model model) throws IOException {
 		return new ModelAndView("cCDAValidatorJsonView", getResultMap());
 	}
 
 	@RequestMapping(params = "javax.portlet.action=uploadCCDASuper")
-	public ModelAndView processCCDASuper(RenderRequest request, Model model)
-			throws IOException {
+	public ModelAndView processCCDASuper(RenderRequest request, Model model) throws IOException {
 		return new ModelAndView("cCDAValidatorJsonView", getResultMap());
 	}
 
 	@ActionMapping(params = "javax.portlet.action=uploadCCDA1.1")
-	public void responseCCDA1_1(MultipartActionRequest request,
-			ActionResponse response) throws IOException {
+	public void responseCCDA1_1(MultipartActionRequest request, ActionResponse response) throws IOException {
 
 		String ccda_type = null;
 
@@ -133,8 +125,7 @@ public class CCDAValidatorController extends BaseController {
 
 			responseJSON.getFileJson().put(jsono);
 
-			ccda_type = request.getParameter("ccda_type_val") == null ? ""
-					: request.getParameter("ccda_type_val");
+			ccda_type = request.getParameter("ccda_type_val") == null ? "" : request.getParameter("ccda_type_val");
 
 			HttpClient client = new DefaultHttpClient();
 
@@ -145,8 +136,7 @@ public class CCDAValidatorController extends BaseController {
 
 			MultipartEntity entity = new MultipartEntity();
 			// set the file content
-			entity.addPart("file", new InputStreamBody(file.getInputStream(),
-					file.getOriginalFilename()));
+			entity.addPart("file", new InputStreamBody(file.getInputStream(), file.getOriginalFilename()));
 
 			// set the CCDA type
 			entity.addPart("type_val", new StringBody(ccda_type));
@@ -162,8 +152,7 @@ public class CCDAValidatorController extends BaseController {
 
 			if (code != HttpStatus.SC_OK) {
 				// do the error handling.
-				statisticsManager.addCcdaValidation(ccda_type, false, false,
-						false, true, "r1.1");
+				statisticsManager.addCcdaValidation(ccda_type, false, false, false, true, "r1.1");
 			} else {
 				boolean ccdaHasErrors = true, ccdaHasWarnings = true, ccdaHasInfo = true;
 				boolean extendedCcdaHasErrors = true, extendedCcdaHasWarnings = true, extendedCcdaHasInfo = true;
@@ -172,50 +161,39 @@ public class CCDAValidatorController extends BaseController {
 				JSONObject jsonbody = new JSONObject(json);
 
 				if (jsonbody.getJSONObject("ccdaResults").has("error")
-						|| jsonbody.getJSONObject("ccdaExtendedResults").has(
-								"error")) {
+						|| jsonbody.getJSONObject("ccdaExtendedResults").has("error")) {
 					// TODO: Make sure the UI handles this gracefully.
 					responseJSON.setJSONResponseBody(jsonbody);
-					statisticsManager.addCcdaValidation(ccda_type, false,
-							false, false, false, "r1.1");
+					statisticsManager.addCcdaValidation(ccda_type, false, false, false, false, "r1.1");
 				} else {
-					JSONObject ccdaReport = jsonbody.getJSONObject(
-							"ccdaResults").getJSONObject("report");
+					JSONObject ccdaReport = jsonbody.getJSONObject("ccdaResults").getJSONObject("report");
 					ccdaHasErrors = ccdaReport.getBoolean("hasErrors");
 					ccdaHasWarnings = ccdaReport.getBoolean("hasWarnings");
 					ccdaHasInfo = ccdaReport.getBoolean("hasInfo");
 
-					JSONObject extendedCcdaReport = jsonbody.getJSONObject(
-							"ccdaExtendedResults").getJSONObject("report");
-					extendedCcdaHasErrors = extendedCcdaReport
-							.getBoolean("hasErrors");
-					extendedCcdaHasWarnings = extendedCcdaReport
-							.getBoolean("hasWarnings");
-					extendedCcdaHasInfo = extendedCcdaReport
-							.getBoolean("hasInfo");
+					JSONObject extendedCcdaReport = jsonbody.getJSONObject("ccdaExtendedResults").getJSONObject("report");
+					extendedCcdaHasErrors = extendedCcdaReport.getBoolean("hasErrors");
+					extendedCcdaHasWarnings = extendedCcdaReport.getBoolean("hasWarnings");
+					extendedCcdaHasInfo = extendedCcdaReport.getBoolean("hasInfo");
 
 					boolean hasErrors = ccdaHasErrors || extendedCcdaHasErrors;
-					boolean hasWarnings = ccdaHasWarnings
-							|| extendedCcdaHasWarnings;
+					boolean hasWarnings = ccdaHasWarnings || extendedCcdaHasWarnings;
 					boolean hasInfo = ccdaHasInfo || extendedCcdaHasInfo;
 
 					responseJSON.setJSONResponseBody(jsonbody);
-					statisticsManager.addCcdaValidation(ccda_type, hasErrors,
-							hasWarnings, hasInfo, false, "r1.1");
+					statisticsManager.addCcdaValidation(ccda_type, hasErrors, hasWarnings, hasInfo, false, "r1.1");
 				}
 			}
 
 		} catch (JSONException e) {
-			statisticsManager.addCcdaValidation(ccda_type, false, false, false,
-					true, "r1.1");
+			statisticsManager.addCcdaValidation(ccda_type, false, false, false, true, "r1.1");
 			throw new RuntimeException(e);
 		}
 
 	}
 
 	@ActionMapping(params = "javax.portlet.action=uploadCCDA2.0")
-	public void responseCCDA2_0(MultipartActionRequest request,
-			ActionResponse response) throws IOException {
+	public void responseCCDA2_0(MultipartActionRequest request, ActionResponse response) throws IOException {
 
 		if (props == null) {
 			loadProperties();
@@ -243,8 +221,7 @@ public class CCDAValidatorController extends BaseController {
 
 			MultipartEntity entity = new MultipartEntity();
 			// set the file content
-			entity.addPart("file", new InputStreamBody(file.getInputStream(),
-					file.getOriginalFilename()));
+			entity.addPart("file", new InputStreamBody(file.getInputStream(), file.getOriginalFilename()));
 
 			// set the CCDA type
 			post.setEntity(entity);
@@ -257,8 +234,7 @@ public class CCDAValidatorController extends BaseController {
 
 			if (code != HttpStatus.SC_OK) {
 				// do the error handling.
-				statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false,
-						false, false, true, "R2.0");
+				statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, true, "R2.0");
 			} else {
 				boolean ccdaHasErrors = true, ccdaHasWarnings = true, ccdaHasInfo = true;
 				boolean extendedCcdaHasErrors = true, extendedCcdaHasWarnings = true, extendedCcdaHasInfo = true;
@@ -267,56 +243,44 @@ public class CCDAValidatorController extends BaseController {
 				JSONObject jsonbody = new JSONObject(json);
 
 				if (jsonbody.getJSONObject("ccdaResults").has("error")
-						|| jsonbody.getJSONObject("ccdaExtendedResults").has(
-								"error")) {
+						|| jsonbody.getJSONObject("ccdaExtendedResults").has("error")) {
 					// TODO: Make sure the UI handles this gracefully.
 					responseJSON.setJSONResponseBody(jsonbody);
-					statisticsManager.addCcdaValidation("NonSpecificCCDAR2",
-							false, false, false, false, "R2.0");
+					statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, false, "R2.0");
 				} else {
 
-					JSONObject ccdaReport = jsonbody.getJSONObject(
-							"ccdaResults").getJSONObject("report");
+					JSONObject ccdaReport = jsonbody.getJSONObject("ccdaResults").getJSONObject("report");
 					ccdaHasErrors = ccdaReport.getBoolean("hasErrors");
 					ccdaHasWarnings = ccdaReport.getBoolean("hasWarnings");
 					ccdaHasInfo = ccdaReport.getBoolean("hasInfo");
 
-					JSONObject extendedCcdaReport = jsonbody.getJSONObject(
-							"ccdaExtendedResults").getJSONObject("report");
-					extendedCcdaHasErrors = extendedCcdaReport
-							.getBoolean("hasErrors");
-					extendedCcdaHasWarnings = extendedCcdaReport
-							.getBoolean("hasWarnings");
-					extendedCcdaHasInfo = extendedCcdaReport
-							.getBoolean("hasInfo");
+					JSONObject extendedCcdaReport = jsonbody.getJSONObject("ccdaExtendedResults").getJSONObject("report");
+					extendedCcdaHasErrors = extendedCcdaReport.getBoolean("hasErrors");
+					extendedCcdaHasWarnings = extendedCcdaReport.getBoolean("hasWarnings");
+					extendedCcdaHasInfo = extendedCcdaReport.getBoolean("hasInfo");
 
 					boolean hasErrors = ccdaHasErrors || extendedCcdaHasErrors;
-					boolean hasWarnings = ccdaHasWarnings
-							|| extendedCcdaHasWarnings;
+					boolean hasWarnings = ccdaHasWarnings || extendedCcdaHasWarnings;
 					boolean hasInfo = ccdaHasInfo || extendedCcdaHasInfo;
 
 					responseJSON.setJSONResponseBody(jsonbody);
-					statisticsManager.addCcdaValidation("NonSpecificCCDAR2",
-							hasErrors, hasWarnings, hasInfo, false, "R2.0");
+					statisticsManager.addCcdaValidation("NonSpecificCCDAR2", hasErrors, hasWarnings, hasInfo, false, "R2.0");
 				}
 			}
 
 		} catch (JSONException e) {
-			statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false,
-					false, false, true, "R2.0");
+			statisticsManager.addCcdaValidation("NonSpecificCCDAR2", false, false, false, true, "R2.0");
 			throw new RuntimeException(e);
 		}
 	}
 
 	@ActionMapping(params = "javax.portlet.action=uploadCCDAReconciled")
-	public void responseCCDAReconciled(MultipartActionRequest request,
-			ActionResponse response) throws IOException {
+	public void responseCCDAReconciled(MultipartActionRequest request, ActionResponse response) throws IOException {
 		if (props == null) {
 			loadProperties();
 		}
 
-		response.setRenderParameter("javax.portlet.action",
-				"uploadCCDAReconciled");
+		response.setRenderParameter("javax.portlet.action", "uploadCCDAReconciled");
 		request.getFile("file");
 		request.getFile("ReconciledFile");
 
@@ -330,8 +294,7 @@ public class CCDAValidatorController extends BaseController {
 	}
 
 	@ActionMapping(params = "javax.portlet.action=uploadCCDAReference")
-	public void responseCCDAReference(MultipartActionRequest request,
-			ActionResponse response) throws IOException {
+	public void responseCCDAReference(MultipartActionRequest request, ActionResponse response) throws IOException {
 
 		if (props == null) {
 			loadProperties();
@@ -339,8 +302,7 @@ public class CCDAValidatorController extends BaseController {
 
 		// handle the files:
 
-		response.setRenderParameter("javax.portlet.action",
-				"uploadCCDAReference");
+		response.setRenderParameter("javax.portlet.action", "uploadCCDAReference");
 		request.getFile("file");
 		request.getFile("CEHRTFile");
 
@@ -354,8 +316,7 @@ public class CCDAValidatorController extends BaseController {
 	}
 
 	@ActionMapping(params = "javax.portlet.action=uploadCCDASuper")
-	public void responseCCDASuper(MultipartActionRequest request,
-			ActionResponse response) throws IOException {
+	public void responseCCDASuper(MultipartActionRequest request, ActionResponse response) throws IOException {
 
 		String ccda_type_value = null;
 
@@ -393,8 +354,7 @@ public class CCDAValidatorController extends BaseController {
 
 			MultipartEntity entity = new MultipartEntity();
 			// set the file content
-			entity.addPart("file", new InputStreamBody(file.getInputStream(),
-					file.getOriginalFilename()));
+			entity.addPart("file", new InputStreamBody(file.getInputStream(), file.getOriginalFilename()));
 
 			// set the CCDA type
 			entity.addPart("type_val", new StringBody(ccda_type_value));
@@ -410,8 +370,7 @@ public class CCDAValidatorController extends BaseController {
 
 			if (code != HttpStatus.SC_OK) {
 				// do the error handling.
-				statisticsManager.addCcdaValidation(ccda_type_value, false,
-						false, false, true, "Super");
+				statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true, "Super");
 			} else {
 				boolean ccdaHasErrors = true, ccdaHasWarnings = true, ccdaHasInfo = true;
 				boolean extendedCcdaHasErrors = true, extendedCcdaHasWarnings = true, extendedCcdaHasInfo = true;
@@ -420,43 +379,33 @@ public class CCDAValidatorController extends BaseController {
 				JSONObject jsonbody = new JSONObject(json);
 
 				if (jsonbody.getJSONObject("ccdaResults").has("error")
-						|| jsonbody.getJSONObject("ccdaExtendedResults").has(
-								"error")) {
+						|| jsonbody.getJSONObject("ccdaExtendedResults").has("error")) {
 					// TODO: Make sure the UI handles this gracefully.
 					responseJSON.setJSONResponseBody(jsonbody);
-					statisticsManager.addCcdaValidation(ccda_type_value, false,
-							false, false, false, "r1.1");
+					statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, false, "r1.1");
 				} else {
 
-					JSONObject ccdaReport = jsonbody.getJSONObject(
-							"ccdaResults").getJSONObject("report");
+					JSONObject ccdaReport = jsonbody.getJSONObject("ccdaResults").getJSONObject("report");
 					ccdaHasErrors = ccdaReport.getBoolean("hasErrors");
 					ccdaHasWarnings = ccdaReport.getBoolean("hasWarnings");
 					ccdaHasInfo = ccdaReport.getBoolean("hasInfo");
 
-					JSONObject extendedCcdaReport = jsonbody.getJSONObject(
-							"ccdaExtendedResults").getJSONObject("report");
-					extendedCcdaHasErrors = extendedCcdaReport
-							.getBoolean("hasErrors");
-					extendedCcdaHasWarnings = extendedCcdaReport
-							.getBoolean("hasWarnings");
-					extendedCcdaHasInfo = extendedCcdaReport
-							.getBoolean("hasInfo");
+					JSONObject extendedCcdaReport = jsonbody.getJSONObject("ccdaExtendedResults").getJSONObject("report");
+					extendedCcdaHasErrors = extendedCcdaReport.getBoolean("hasErrors");
+					extendedCcdaHasWarnings = extendedCcdaReport.getBoolean("hasWarnings");
+					extendedCcdaHasInfo = extendedCcdaReport.getBoolean("hasInfo");
 
 					boolean hasErrors = ccdaHasErrors || extendedCcdaHasErrors;
-					boolean hasWarnings = ccdaHasWarnings
-							|| extendedCcdaHasWarnings;
+					boolean hasWarnings = ccdaHasWarnings || extendedCcdaHasWarnings;
 					boolean hasInfo = ccdaHasInfo || extendedCcdaHasInfo;
 
 					responseJSON.setJSONResponseBody(jsonbody);
-					statisticsManager.addCcdaValidation(ccda_type_value,
-							hasErrors, hasWarnings, hasInfo, false, "Super");
+					statisticsManager.addCcdaValidation(ccda_type_value, hasErrors, hasWarnings, hasInfo, false, "Super");
 				}
 			}
 
 		} catch (Exception e) {
-			statisticsManager.addCcdaValidation(ccda_type_value, false, false,
-					false, true, "Super");
+			statisticsManager.addCcdaValidation(ccda_type_value, false, false, false, true, "Super");
 			System.out.println(e.getMessage());
 			throw new RuntimeException(e);
 		}

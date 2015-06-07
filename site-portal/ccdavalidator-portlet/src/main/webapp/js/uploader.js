@@ -1,10 +1,5 @@
-	
-
-
-
-// Set Parsley Options
+	// Set Parsley Options
 var ccdaParsleyOptions  = (function() {
-    
 	var parsleyOptions = {
 	        trigger: 'change',
 	        successClass: "has-success",
@@ -24,21 +19,15 @@ var ccdaParsleyOptions  = (function() {
         	return parsleyOptions;
         }
     };
-
-
 })();
-
-
 
 // Set Parsley Validators
 $(function(){
-	
 	// Parsley validator to validate xml extension.
 	window.ParsleyValidator.addValidator('filetype',function(value,requirement){
 		var ext=value.split('.').pop().toLowerCase();
 		return ext === requirement;	
 	},32).addMessage('en','filetype','The selected C-CDA file must be an xml file(.xml)');
-	
 	
 	// parsley Validator to validate the file size
 	window.ParsleyValidator.addValidator('maxsize',function(value,requirement){
@@ -46,13 +35,11 @@ $(function(){
 		return file_size.size < requirement*1024*1024;
 	},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
 	
-	
 	// parsley Validator to validate the file size
 	window.ParsleyValidator.addValidator('maxsize2',function(value,requirement){
 		var file_size=$('#CCDA2fileupload')[0].files[0];
 		return file_size.size < requirement*1024*1024;
 	},32).addMessage('en','maxsize2','The uploaded file size exceeds the maximum file size of 3 MB.');
-	
 	
 	// parsley Validator to validate the file size
 	window.ParsleyValidator.addValidator('maxsizesuper',function(value,requirement){
@@ -60,13 +47,11 @@ $(function(){
 		return file_size.size < requirement*1024*1024;
 	},32).addMessage('en','maxsizesuper','The uploaded file size exceeds the maximum file size of 3 MB.');
 	
-
 	// parsley Validator to validate CIRI test data file size
 	window.ParsleyValidator.addValidator('testdatamaxsize',function(value,requirement){
 		var file_size=$('#CCDAReconciledTestDataFileupload')[0].files[0];
 		return file_size.size < requirement*1024*1024;
 	},32).addMessage('en','testdatamaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
-	
 	
 	// parsley Validator to validate the reconciled file size
 	window.ParsleyValidator.addValidator('reconciledmaxsize',function(value,requirement){
@@ -74,40 +59,30 @@ $(function(){
 		return file_size.size < requirement*1024*1024;
 	},32).addMessage('en','reconciledmaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');	
 	
-	
 	// parsley Validator
 	window.ParsleyValidator.addValidator('referencemaxsize',function(value,requirement){
 		var file_size=$('#CCDAReferenceFileupload')[0].files[0];
 		return file_size.size < requirement*1024*1024;
 	},32).addMessage('en','referencemaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
 	
-	
 	// parsley Validator to validate generated file
 	window.ParsleyValidator.addValidator('generatedmaxsize',function(value,requirement){
 		var file_size=$('#CCDAReferenceCEHRTFileupload')[0].files[0];
 		return file_size.size < requirement*1024*1024;
 	},32).addMessage('en','generatedmaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');	
-	
 });
 
-
-
-
 function buildCcdaErrorList(data){
-	var errorList = ['<hr/>',
+	var errorList = ['<a name="ccdaErrors"/><b>C-CDA Validation Errors:</b>',
 	                 '<ul>'];
-	
 	var errors = data.result.body.ccdaResults.errors;
-	
 	var nErrors = errors.length;
 	for (var i=0; i < nErrors; i++){
-		
 		var error = errors[i];
 		var message = error.message;
 		var path = error.path;
 		var lineNum = error.lineNumber;
 		var source = error.source;
-		
 		var errorDescription = ['<li> ERROR '+(i+1).toString()+'',
 		                    '<ul>',
 		                    	'<li>Message: '+ message + '</li>',
@@ -127,22 +102,17 @@ function buildCcdaErrorList(data){
 		errorList = errorList.concat(errorDescription);
 	}
 	errorList.push('</ul>');
-	
+	errorList.push('<hr/><div class="pull-right"><a href="#validationResults">top</a></div>');
 	return (errorList.join('\n'));
 }
 
 
 function buildExtendedCcdaErrorList(data){
-	
-	var errorList = ['<hr/>',
+	var errorList = ['<a name="vocabularyErrors"/><b>Vocabulary Validation Errors:</b>',
 	                 '<ul>'];
-	
 	var errors = data.result.body.ccdaExtendedResults.errorList;
-	
-	
 	var nErrors = errors.length;
 	for (var i=0; i < nErrors; i++){
-		
 		var error = errors[i];
 		var message = error.message;
 		var codeSystemName = error.codeSystemName;
@@ -151,7 +121,6 @@ function buildExtendedCcdaErrorList(data){
 		var code = error.code;
 		var displayName = error.displayName;
 		var nodeIndex = error.nodeIndex;
-		
 		var errorDescription = ['<li> ERROR '+(i+1).toString()+'',
 		                    '<ul>',
 		                    	'<li>Message: '+ message + '</li>',
@@ -176,31 +145,24 @@ function buildExtendedCcdaErrorList(data){
             				'</ul>',
                     		'</li>'
 		                    ];
-		
 		errorList = errorList.concat(errorDescription);
 	}
 	errorList.push('</ul>');
-	
+	errorList.push('<hr/><div class="pull-right"><a href="#validationResults">top</a></div>');
 	return (errorList.join('\n'));
 }
 
-
 function buildCcdaWarningList(data){
-	
-		var warningList = ['<hr/>',
+		var warningList = ['<a name="ccdaWarnings"/><b>C-CDA Validation Warnings:</b>',
 		                   '<ul>'];
-		
 		var warnings = data.result.body.ccdaResults.warnings;
-		
 		var nWarnings = warnings.length;
 		for (var i=0; i < nWarnings; i++){
-			
 			var warning = warnings[i];
 			var message = warning.message;
 			var path = warning.path;
 			var lineNum = warning.lineNumber;
 			var source = warning.source;
-			
 			var warningDescription = ['<li> WARNING '+(i+1).toString()+'',
 			                    '<ul>',
 			                    	'<li>Message: '+ message + '</li>',
@@ -216,26 +178,20 @@ function buildCcdaWarningList(data){
 	                    		'</ul>',
 	                    		'</li>'
 			                    ];
-			
 			warningList = warningList.concat(warningDescription);
 		}
 		warningList.push('</ul>');
-
+		warningList.push('<hr/><div class="pull-right"><a href="#validationResults">top</a></div>');
 		return (warningList.join('\n'));
 }
 
-
-
 function buildExtendedCcdaWarningList(data){
 	
-	var warningList = ['<hr/>',
+	var warningList = ['<a name="vocabularyWarnings"/><b>Vocabulary Validation Warnings:</b>',
 	                 '<ul>'];
-	
 	var warnings = data.result.body.ccdaExtendedResults.warningList;
-	
 	var nWarnings = warnings.length;
 	for (var i=0; i < nWarnings; i++){
-		
 		var warning = warnings[i];
 		var message = warning.message;
 		var codeSystemName = warning.codeSystemName;
@@ -244,7 +200,6 @@ function buildExtendedCcdaWarningList(data){
 		var code = warning.code;
 		var displayName = warning.displayName;
 		var nodeIndex = warning.nodeIndex;
-		
 		var warningDescription = ['<li> WARNING '+(i+1).toString()+'',
 		                    '<ul>',
 		                    	'<li>Message: '+ message + '</li>',
@@ -269,32 +224,24 @@ function buildExtendedCcdaWarningList(data){
             				'</ul>',
                     		'</li>'
 		                    ];
-		
 		warningList = warningList.concat(warningDescription);
 	}
 	warningList.push('</ul>');
-	
+	warningList.push('<hr/><div class="pull-right"><a href="#validationResults">top</a></div>');
 	return (warningList.join('\n'));
 }
 
-
-
 function buildCcdaInfoList(data){
-	
-		var infoList = ['<hr/>',
+		var infoList = ['<a name="ccdaInfo"/><b>C-CDA Validation Info:</b>',
 		                '<ul>'];
-		
 		var infos = data.result.body.ccdaResults.info;
-		
 		var nInfos = infos.length;
 		for (var i=0; i < nInfos; i++){
-			
 			var info = infos[i];
 			var message = info.message;
 			var path = info.path;
 			var lineNum = info.lineNumber;
 			var source = info.source;
-			
 			var infoDescription = ['<li> INFO '+(i+1).toString()+'',
 			                    '<ul>',
 			                    	'<li>Message: '+ message + '</li>',
@@ -310,26 +257,19 @@ function buildCcdaInfoList(data){
 	                    		'</ul>',
 	                    		'</li>'
 			                    ];
-			
 			infoList = infoList.concat(infoDescription);
 		}
 		infoList.push('</ul>');
-
+		infoList.push('<hr/><div class="pull-right"><a href="#validationResults">top</a></div>');
 		return (infoList.join('\n'));
 }
 
-
-
 function buildExtendedCcdaInfoList(data){
-	
-	var infoList = ['<hr/>',
+	var infoList = ['<a name="vocabularyInfo"/><b>Vocabulary Validation Info:</b>',
 	                 '<ul>'];
-	
 	var infos = data.result.body.ccdaExtendedResults.informationList;
-	
 	var nInfos = infos.length;
 	for (var i=0; i < nInfos; i++){
-		
 		var info = infos[i];
 		var message = info.message;
 		var codeSystemName = info.codeSystemName;
@@ -338,7 +278,6 @@ function buildExtendedCcdaInfoList(data){
 		var code = info.code;
 		var displayName = info.displayName;
 		var nodeIndex = info.nodeIndex;
-		
 		var infoDescription = ['<li> INFO '+(i+1).toString()+'',
 		                    '<ul>',
 		                    	'<li>Message: '+ message + '</li>',
@@ -363,23 +302,19 @@ function buildExtendedCcdaInfoList(data){
             				'</ul>',
                     		'</li>'
 		                    ];
-		
 		infoList = infoList.concat(infoDescription);
 	}
 	infoList.push('</ul>');
-	
+	infoList.push('<hr/><div class="pull-right"><a href="#validationResults">top</a></div>');
 	return (infoList.join('\n'));
 }
 
 function buildCcdaDataQualityConcernsList(data){
-	
-	var infoList = ['<hr/>',
+	var infoList = ['<a name="dataqualityConcerns"/><b>Data Quality Concerns:</b>',
 	                 '<ul>'];
-	
 	var infos = data.result.body.ccdaDataQualityResults.dataQualityConcerns;
 	var nInfos = infos.length;
 	for (var i=0; i < nInfos; i++){
-		
 		var info = infos[i];
 		var message = info.message;
 		//var codeSystemName = info.codeSystemName;
@@ -388,7 +323,6 @@ function buildCcdaDataQualityConcernsList(data){
 		//var code = info.code;
 		//var displayName = info.displayName;
 		var nodeIndex = info.nodeIndex;
-		
 		var infoDescription = ['<li> CONCERN '+(i+1).toString()+'',
 		                    '<ul>',
 		                    	'<li>Message: '+ message + '</li>',
@@ -404,18 +338,12 @@ function buildCcdaDataQualityConcernsList(data){
             				'</ul>',
                     		'</li>'
 		                    ];
-		
 		infoList = infoList.concat(infoDescription);
 	}
 	infoList.push('</ul>');
-	
+	infoList.push('<hr/><div class="pull-right"><a href="#validationResults">top</a></div>');
 	return (infoList.join('\n'));
 }
-
-
-
-
-
 
 //C-CDA 1.1
 $(function() {
@@ -480,17 +408,12 @@ $(function() {
 									    '<br/>'].join('\n');
 			} else {
 				
-				
-				
 				var ccdaReport = data.result.body.ccdaResults.report;
 				var extendedCcdaReport = data.result.body.ccdaExtendedResults.report;
 				//var dataQualityCcdaReport = data.result.body.ccdaDataQualityResults;
-				
 				var uploadedFileName = data.result.files[0].name;
 				var docTypeSelected = ccdaReport.docTypeSelected;
-				
 				var nonSpecific = "Non-specific C-CDA";
-				
 				var isNonSpecific = (docTypeSelected.lastIndexOf(nonSpecific, 0) === 0);
 				
 				if (isNonSpecific === true){
@@ -500,162 +423,123 @@ $(function() {
 				var ccdaErrorCount = data.result.body.ccdaResults.errors.length;
 				var ccdaWarningCount = data.result.body.ccdaResults.warnings.length;
 				var ccdaInfoCount = data.result.body.ccdaResults.info.length;
-				
 				var extendedErrorCount = data.result.body.ccdaExtendedResults.errorList.length;
 				var extendedWarningCount = data.result.body.ccdaExtendedResults.warningList.length;
 				var extendedInfoCount = data.result.body.ccdaExtendedResults.informationList.length;
-				
 				var dataQualityConcernCount = data.result.body.ccdaDataQualityResults.dataQualityConcerns.length;
 				
-				var CCDARedOrGreen = '<font color="green">';
-				
-				if (ccdaErrorCount > 0) {
-					CCDARedOrGreen = '<font color="red">';
-				}
-				
-				var vocabRedOrGreen = '<font color="green">';
-				
-				if (extendedErrorCount > 0){
-					vocabRedOrGreen = '<font color="red">';
-				}
-				
-				var dataQualityRedOrGreen = '<font color="green">';
-				
-				if (dataQualityConcernCount > 0){
-					dataQualityRedOrGreen = '<font color="red">';
-				}
+				var CCDARedOrGreen = ccdaErrorCount > 0 ? '<font color="red">' : '<font color="green">';
+				var vocabRedOrGreen = extendedErrorCount > 0 ? '<font color="red">' : '<font color="green">';
+				var dataQualityRedOrGreen = dataQualityConcernCount > 0 ? '<font color="red">' : '<font color="green">';
 				
 				var tabHtml1 = '';
+				// ccda validation results header
+				tabHtml1 = 
+					   ['<title>Validation Results</title>',
+					    '<a name="validationResults"/>',
+					    '<div class="row">',
+					    '<b>Upload Results:</b>',
+					    '<br/>'+uploadedFileName+' was uploaded successfully.',
+					    '<b>Document Type Selected: </b>',
+					    '<br/>'+docTypeSelected+'',
+					    '</div>',
+					    '<br/>',
+					    '<div class="row">',
+					    '<div class="panel panel-primary col-md-2 col-lg-2">',
+					    '<div class="panel-heading"><h3 class="panel-title">C-CDA Validation Summary</h3></div>',
+					    '<div>',
+					    '<div class="list-group">',
+					    //'<div class="panel-heading">C-CDA Validation Results</div>',
+					    //'<b>Validation Results: </b>',
+					    '<div class="list-group-item"><span class="badge btn-danger">'+ccdaErrorCount+'</span><a href="#ccdaErrors"> errors</a></div>',
+					    '<div class="list-group-item"><span class="badge btn-warning">'+ccdaWarningCount+'</span><a href="#ccdaWarnings"> warnings</a></div>',
+					    '<div class="list-group-item"><span class="badge btn-info">'+ccdaInfoCount+'</span><a href="#ccdaInfo"> info messages</a></div>',
+					    '</div>',
+					    '</div>',
+					    '</div>',
+					   ].join('\n');
 				
-				
-				
+				// vocabulary validation results header
 				if (showVocabularyValidation){
-					tabHtml1 = 
-						   ['<title>Validation Results</title>',
-						    '<h1 align="center">Validation results for document '+uploadedFileName+' validated against '+docTypeSelected+'</h1>',
-						    '<b>Upload Results:</b>',
-						    '<br/>'+uploadedFileName+' was uploaded successfully.',
-						    '<br/><br/>',
-						    '<b>Document Type Selected: </b>',
-						    '<br/>'+docTypeSelected+'',
-						    '<hr/>',
-						    '<hr/>',
-						    '<br/>',
-						    '<br/>'+CCDARedOrGreen+'',
-						    '<b>Validation Results: </b>',
-						    '<br/>The file has encountered '+ccdaErrorCount+' error(s). The file has encountered '+ccdaWarningCount+' warning(s). The file has encountered '+ccdaInfoCount+' info message(s).',
-						    '</font>',
-						    '<hr/>',
-						    '<hr/>',
-						    '<br/>',
-						    '<br/>'+vocabRedOrGreen+'',
-						    '<b>Vocabulary Validation Results: </b>',
-						    '<br/>The file has encountered '+extendedErrorCount+' error(s). The file has encountered '+extendedWarningCount+' warning(s). The file has encountered '+extendedInfoCount+' info message(s).',
-						    '</font>',
-						    '<br/>',
-						    '<br/>'+dataQualityRedOrGreen+'',
-						    '<b>Data Quality Validation Results: </b>',
-						    '<br/>The file has encountered '+dataQualityConcernCount+' data quality concerns.',
-						    '</font>',
-						    '<hr/>',
-						    '<hr/>',
+					tabHtml1 += 
+						   [
+						    '<div class="panel panel-primary col-md-2 col-lg-2">',
+						    '<div class="panel-heading"><h3 class="panel-title">C-CDA Vocabulary Summary</h3></div>',
+						    '<div>',
+						    '<div class="list-group">',
+						    //'<div class="panel-heading">Vocabulary Validation Results</div>',
+						    '<div class="list-group-item"><span class="badge btn-danger">'+extendedErrorCount+'</span><a href="#vocabularyErrors"> errors</a></div>',
+						    '<div class="list-group-item"><span class="badge btn-warning">'+extendedWarningCount+'</span><a href="#vocabularyWarnings"> warnings</a></div>',
+						    '<div class="list-group-item"><span class="badge btn-info">'+extendedInfoCount+'</span><a href="#vocabularyInfo"> info messages</a></div>',
+						    '</div>',
+						    '</div>',
+						    '</div>',
 						   ].join('\n');
-				} else {
-					tabHtml1 = 
-						   ['<title>Validation Results</title>',
-						    '<h1 align="center">Validation results for document '+uploadedFileName+' validated against '+docTypeSelected+'</h1>',
-						    '<b>Upload Results:</b>',
-						    '<br/>'+uploadedFileName+' was uploaded successfully.',
-						    '<br/><br/>',
-						    '<b>Document Type Selected: </b>',
-						    '<br/>'+docTypeSelected+'',
-						    '<hr/>',
-						    '<hr/>',
-						    '<br/>',
-						    '<br/>'+CCDARedOrGreen+'',
-						    '<b>Validation Results: </b>',
-						    '<br/>The file has encountered '+ccdaErrorCount+' error(s). The file has encountered '+ccdaWarningCount+' warning(s). The file has encountered '+ccdaInfoCount+' info message(s).',
-						    '</font>',
-						    '<hr/>',
-						    '<hr/>',
-						    '<br/>',
-						    '<br/>'
+				} 
+				
+				// data quality vaidation results header
+				if (showDataQualityValidation){
+					tabHtml1 += 
+						   [
+						    '<div class="panel panel-primary col-md-2 col-lg-2">',
+						    '<div class="panel-heading"><h3 class="panel-title">C-CDA Data Quality Summary</h3></div>',
+						    '<div>',
+						    '<div class="list-group">',
+						    //'<div class="panel-heading">Data Quality Validation Results</div>',
+						    '<div class="list-group-item"><span class="badge btn-info">'+dataQualityConcernCount+'</span><a href="#dataqualityConcerns"> info messages</a></div>',
+						    '</div>',
+						    '</div>',
+						    '</div>',
 						   ].join('\n');
-				}
+				} 
 				
+				tabHtml1 += '</div>';
 				
-				
+				//build ccda error lists
 				tabHtml1 += '<font color="red">';
-				
 				if (ccdaErrorCount > 0) {
-					if (showVocabularyValidation){
-						tabHtml1 += '<hr/><b>Validation Results:</b>';
-					}
 					tabHtml1 += buildCcdaErrorList(data);
 				}				
-				
 				if (showVocabularyValidation){
 					if (extendedErrorCount > 0){
-						tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
 						tabHtml1 += buildExtendedCcdaErrorList(data);
 					}
 				}
-				
 				tabHtml1 += '</font>';
+				// end build error lists
 				
-				
-				
-				tabHtml1 += '<font color="blue">';
-				
+				// build warning lists
+				tabHtml1 += '<font color="orange">';
 				if (ccdaWarningCount > 0){
-					if (showVocabularyValidation){
-						tabHtml1 += '<hr/><b>Validation Results:</b>';
-					}
 					tabHtml1 += buildCcdaWarningList(data);
 				}
-				
 				if (showVocabularyValidation){
 					if (extendedWarningCount > 0){
-						tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
 						tabHtml1 += buildExtendedCcdaWarningList(data);
 					}		
 				}
-
-				
 				tabHtml1 += '</font>';
+				// end warning lists
 				
-				
-				
-				tabHtml1 += '<font color="gray">';
-				
+				//build info lists
+				tabHtml1 += '<font color="#5bc0de">';
 				if (ccdaInfoCount > 0){
-					if (showVocabularyValidation){
-						tabHtml1 += '<hr/><b>Validation Results:</b>';
-					}
 					tabHtml1 += buildCcdaInfoList(data);
 				}
-				
 				if (showVocabularyValidation){
 					if (extendedInfoCount > 0){
-						tabHtml1 += '<hr/><b>Vocabulary Validation Results:</b>';
 						tabHtml1 += buildExtendedCcdaInfoList(data);
 					}
 				}
-				
 				if (dataQualityConcernCount > 0) {
-					if (showVocabularyValidation){
-						tabHtml1 += '<hr/><b>Data Quality Validation Results:</b>';
-					}
 					tabHtml1 += buildCcdaDataQualityConcernsList(data);
 				}	
-				
 				tabHtml1 += '</font>';
+				// end info lists
 			}
 			
 			$("#ValidationResult .tab-content #tabs-1").html(tabHtml1);
-			
 			$("#resultModal").modal("show");
-			
 			
 			//disable smart ccda result tab.
 			$("#resultModalTabs a[href='#tabs-1']").tab("show");
@@ -666,7 +550,7 @@ $(function() {
 		    
 		    //clean up the links
 		    /*$("#ValidationResult #tabs #tabs-1 b:first, #ValidationResult #tabs #tabs-1 a:first").remove();*/
-		    $("#ValidationResult .tab-content #tabs-1 hr:lt(4)").remove();
+		    //$("#ValidationResult .tab-content #tabs-1 hr:lt(4)").remove();
 		    
 			if(typeof window.validationpanel != 'undefined')
 				window.validationpanel.unblock();
@@ -705,7 +589,6 @@ $(function() {
 
 			node.appendTo(data.context);
 		});
-
 		
 		data.context = $('#CCDA1formSubmit').click(function(e) {
 				
@@ -750,7 +633,6 @@ $(function() {
 		e.preventDefault();
 	});
 	
-	
 	$('#CCDA1formSubmit').click(function(e) {
 		
 			// unsubscribe callbacks from previous uploads
@@ -766,10 +648,8 @@ $(function() {
 			});
 	});	
 	
-	$('#CCDA1fileupload-btn').bind('click', function(e, data)
-	{
+	$('#CCDA1fileupload-btn').bind('click', function(e, data){
 		//$('#CCDA1ValidationForm .formError').hide(0);
-		
 		var selectedText = $("#CCDA1_type_val :selected").text();
 		$("#CCDA1_type_val option").each(function() {
 			  if($(this).text() == selectedText) {
@@ -778,13 +658,9 @@ $(function() {
 				$(this).removeAttr('selected');
 			  }
 			});
-		
 		$('#CCDA1ValidationForm').trigger('reset');
 		$('#CCDA1formSubmit').unbind("click");
-		
 		$('#CCDA1files').empty();
-		
-		
 	});
 });
 
