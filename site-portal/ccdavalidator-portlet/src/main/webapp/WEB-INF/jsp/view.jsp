@@ -100,13 +100,11 @@
      
       <script type="text/javascript">
       	window.currentContextPath = "<%=request.getContextPath()%>";
-    	
       	var sampleCCDATreeURL = '${sampleCCDATree}';
-    	
       	var showVocab = '${showVocabulary}';
-      	
+      	var showDataQuality = '${showDataQualityValidation}';
     	var showVocabularyValidation = (showVocab === 'true');
-    	
+    	var showDataQualityValidation = (showDataQuality === 'true');
     	var reconciledCCDATreeURL = '${reconciledCCDATree}';
     	var referenceCCDATreeURL = '${referenceCCDATree}'; 
     	var referenceCCDAIncorpTreeURL = '${referenceCCDAIncorpTree}';
