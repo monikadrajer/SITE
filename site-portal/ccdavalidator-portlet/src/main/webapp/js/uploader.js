@@ -371,6 +371,46 @@ function buildExtendedCcdaInfoList(data){
 	return (infoList.join('\n'));
 }
 
+function buildCcdaDataQualityConcernsList(data){
+	
+	var infoList = ['<hr/>',
+	                 '<ul>'];
+	
+	var infos = data.result.body.ccdaDataQualityResults.dataQualityConcerns;
+	var nInfos = infos.length;
+	for (var i=0; i < nInfos; i++){
+		
+		var info = infos[i];
+		var message = info.message;
+		//var codeSystemName = info.codeSystemName;
+		var xpathExpression = info.xpathExpression;
+		var xsiType = info.xsiType;
+		//var code = info.code;
+		//var displayName = info.displayName;
+		var nodeIndex = info.nodeIndex;
+		
+		var infoDescription = ['<li> CONCERN '+(i+1).toString()+'',
+		                    '<ul>',
+		                    	'<li>Message: '+ message + '</li>',
+		                    '</ul>',
+		                    '<ul>',
+	                    		'<li>xsi:type: '+ xsiType + '</li>',
+	                    	'</ul>',
+	                    	'<ul>',
+	                    		'<li>XPath Expression: '+ xpathExpression + '</li>',
+	                    	'</ul>',
+                			'<ul>',
+            					'<li>Node Index: '+ nodeIndex + '</li>',
+            				'</ul>',
+                    		'</li>'
+		                    ];
+		
+		infoList = infoList.concat(infoDescription);
+	}
+	infoList.push('</ul>');
+	
+	return (infoList.join('\n'));
+}
 
 
 
@@ -431,7 +471,9 @@ $(function() {
 				tabHtml1 = ['<title>Validation Results</title>',
 									    '<h1 align="center">Validation Results</h1>',
 									    '<font color="red">',
-									    '<b>An error occurred during validation. Please try again. If this error persists, please contact the system administrator:</b>',
+									    'An error occurred during validation with the following details:</br></br>',
+									    '<b>' + data.result.body.ccdaResults.error + '</b></br></br>',
+									    'If possible, please fix the error and try again. If this error persists, please contact the system administrator',
 									    '</font>',
 									    '<hr/>',
 									    '<hr/>',
@@ -442,6 +484,7 @@ $(function() {
 				
 				var ccdaReport = data.result.body.ccdaResults.report;
 				var extendedCcdaReport = data.result.body.ccdaExtendedResults.report;
+				//var dataQualityCcdaReport = data.result.body.ccdaDataQualityResults;
 				
 				var uploadedFileName = data.result.files[0].name;
 				var docTypeSelected = ccdaReport.docTypeSelected;
@@ -462,6 +505,7 @@ $(function() {
 				var extendedWarningCount = data.result.body.ccdaExtendedResults.warningList.length;
 				var extendedInfoCount = data.result.body.ccdaExtendedResults.informationList.length;
 				
+				var dataQualityConcernCount = data.result.body.ccdaDataQualityResults.dataQualityConcerns.length;
 				
 				var CCDARedOrGreen = '<font color="green">';
 				
@@ -473,6 +517,12 @@ $(function() {
 				
 				if (extendedErrorCount > 0){
 					vocabRedOrGreen = '<font color="red">';
+				}
+				
+				var dataQualityRedOrGreen = '<font color="green">';
+				
+				if (dataQualityConcernCount > 0){
+					dataQualityRedOrGreen = '<font color="red">';
 				}
 				
 				var tabHtml1 = '';
@@ -498,15 +548,17 @@ $(function() {
 						    '<hr/>',
 						    '<hr/>',
 						    '<br/>',
-						    '<br/>',
 						    '<br/>'+vocabRedOrGreen+'',
 						    '<b>Vocabulary Validation Results: </b>',
 						    '<br/>The file has encountered '+extendedErrorCount+' error(s). The file has encountered '+extendedWarningCount+' warning(s). The file has encountered '+extendedInfoCount+' info message(s).',
 						    '</font>',
-						    '<hr/>',
-						    '<hr/>',
 						    '<br/>',
-						    '<br/>'
+						    '<br/>'+dataQualityRedOrGreen+'',
+						    '<b>Data Quality Validation Results: </b>',
+						    '<br/>The file has encountered '+dataQualityConcernCount+' data quality concerns.',
+						    '</font>',
+						    '<hr/>',
+						    '<hr/>',
 						   ].join('\n');
 				} else {
 					tabHtml1 = 
@@ -589,6 +641,13 @@ $(function() {
 						tabHtml1 += buildExtendedCcdaInfoList(data);
 					}
 				}
+				
+				if (dataQualityConcernCount > 0) {
+					if (showVocabularyValidation){
+						tabHtml1 += '<hr/><b>Data Quality Validation Results:</b>';
+					}
+					tabHtml1 += buildCcdaDataQualityConcernsList(data);
+				}	
 				
 				tabHtml1 += '</font>';
 			}
@@ -779,21 +838,18 @@ $(function() {
 			});
 			
 			
-			if (("error" in data.result.body.ccdaResults) || ("error" in data.result.body.ccdaExtendedResults))
-			{
-				
+			if (("error" in data.result.body.ccdaResults) || ("error" in data.result.body.ccdaExtendedResults)){
 				tabHtml1 = ['<title>Validation Results</title>',
 									    '<h1 align="center">Consolidated-CDA R2.0 Validation Results</h1>',
 									    '<font color="red">',
-									    '<b>An error occurred during validation. Please try again. If this error persists, please contact the system administrator:</b>',
+									    'An error occurred during validation with the following details:</br></br>',
+									    '<b>' + data.result.body.ccdaResults.error + '</b></br></br>',
+									    'If possible, please fix the error and try again. If this error persists, please contact the system administrator',
 									    '</font>',
 									    '<hr/>',
 									    '<hr/>',
 									    '<br/>'].join('\n');
 			} else {
-				
-				
-				
 				var ccdaReport = data.result.body.ccdaResults.report;
 				var extendedCcdaReport = data.result.body.ccdaExtendedResults.report;
 				
@@ -809,7 +865,7 @@ $(function() {
 				var extendedErrorCount = data.result.body.ccdaExtendedResults.errorList.length;
 				var extendedWarningCount = data.result.body.ccdaExtendedResults.warningList.length;
 				var extendedInfoCount = data.result.body.ccdaExtendedResults.informationList.length;
-				
+				var dataQualityConcernCount = data.result.body.ccdaDataQualityResults.dataQualityConcerns.length;
 				
 				var CCDARedOrGreen = '<font color="green">';
 				
@@ -821,6 +877,10 @@ $(function() {
 				
 				if (extendedErrorCount > 0){
 					vocabRedOrGreen = '<font color="red">';
+				}
+				
+				if (dataQualityConcernCount > 0){
+					dataQualityRedOrGreen = '<font color="red">';
 				}
 				
 				var tabHtml1 = '';
@@ -847,10 +907,13 @@ $(function() {
 						    '<b>Vocabulary Validation Results: </b>',
 						    '<br/>The file has encountered '+extendedErrorCount+' error(s). The file has encountered '+extendedWarningCount+' warning(s). The file has encountered '+extendedInfoCount+' info message(s).',
 						    '</font>',
-						    '<hr/>',
-						    '<hr/>',
 						    '<br/>',
-						    '<br/>'
+						    '<br/>'+dataQualityRedOrGreen+'',
+						    '<b>Data Quality Validation Results: </b>',
+						    '<br/>The file has encountered '+dataQualityConcernCount+' data quality concerns.',
+						    '</font>',
+						    '<hr/>',
+						    '<hr/>',
 						   ].join('\n');
 				} else {
 					
@@ -932,6 +995,13 @@ $(function() {
 						tabHtml1 += buildExtendedCcdaInfoList(data);
 					}
 				}
+				
+				if (dataQualityConcernCount > 0) {
+					if (showVocabularyValidation){
+						tabHtml1 += '<hr/><b>Data Quality Validation Results:</b>';
+					}
+					tabHtml1 += buildCcdaDataQualityConcernsList(data);
+				}	
 				
 				tabHtml1 += '</font>';
 			}
@@ -1125,7 +1195,9 @@ $(function() {
 				tabHtml1 = ['<title>Validation Results</title>',
 									    '<h1 align="center">Validation Results</h1>',
 									    '<font color="red">',
-									    '<b>An error occurred during validation. Please try again. If this error persists, please contact the system administrator:</b>',
+									    'An error occurred during validation with the following details:</br></br>',
+									    '<b>' + data.result.body.ccdaResults.error + '</b></br></br>',
+									    'If possible, please fix the error and try again. If this error persists, please contact the system administrator',
 									    '</font>',
 									    '<hr/>',
 									    '<hr/>',
