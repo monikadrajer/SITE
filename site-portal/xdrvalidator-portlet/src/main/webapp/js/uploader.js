@@ -172,8 +172,33 @@ $(function() {
 		
 		
 		data.context = $('#formSubmit').click(function(e) {
-			
+			e.preventDefault();
 			var jform = $('#XDRValidationForm');
+			
+			var parsleyForm = jform.parsley(dtParsleyOptions.getOptions());
+			
+			if(parsleyForm.validate() === true)
+			{
+				$('#anchoruploadform .formError').hide(0);
+				
+				BlockPortletUI();
+						
+				data.formData = { };
+				
+				data.formData.wsdlLocation = $("#wsdlLocation").val();
+				data.formData.toDirectAddress = $('#toDirectAddress').val();
+				data.formData.fromDirectAddress = $('#fromDirectAddress').val();
+				
+				if (selectedValue != undefined) {
+					data.formData.messageType = selectedValue;
+				}
+				
+				data.submit();
+				
+				window.lastFilesUploaded = data.files;
+			}
+			
+			/*
 			jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
 			//jform.validationEngine('hideAll');
 			
@@ -206,7 +231,7 @@ $(function() {
 				
 				$('#XDRValidationForm .fileuploadformError').prependTo('#ccdauploaderrorlock');
 			}
-			
+			*/
 			
 			
 		});

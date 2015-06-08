@@ -49,9 +49,10 @@
 <div class="form-group">
 <p>
 	  <label for="endpointUrl">Enter Your Endpoint URL:</label>
-      <input id="endpointUrl" class="form-control" 
-      name="endpointUrl" type="url"  placeholder="Enter your Endpoint URL here. http:// ..." 
+      <input id="endpointUrl" type="text" class="form-control" 
+      name="endpointUrl"  placeholder="Enter your Endpoint URL here. http:// ..." 
       data-parsley-required="URL"
+      data-parsley-wsdlUrl
       data-parsley-trigger="change"  />
       <div id="infoArea1" class="infoArea"></div>
 
