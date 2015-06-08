@@ -29,6 +29,9 @@
 								<li>
 							#end
 								<a href="$nav_child.getURL()" $nav_child.getTarget()  tabindex="1">$nav_child.getName()</a>
+								#if ($nav_child.getName() == "Direct Project Wiki" || $nav_child.getName() == "C-CDA Forum")
+									<span class="external-page"><a href="http://www.hhs.gov/disclaimer.html" title="Web Site Disclaimers" class="ext-icon" target="_blank" tabindex="1"><span class="hiddenText">Web Site Disclaimers</span></a></span>
+								#end
 							</li>
 						#end
 					</ul>
