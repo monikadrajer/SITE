@@ -5,6 +5,7 @@ var extendedErrorCount;
 var extendedWarningCount;
 var extendedInfoCount;
 var dataQualityConcernCount;
+var validationError;
 
 function buildCcdaErrorList(data){
 	var errorList = ['<a name="ccdaErrors"/><b>C-CDA Validation Errors:</b>',
@@ -334,18 +335,18 @@ function buildValidationSummary(data){
 	ccdaErrorCount = data.result.body.ccdaResults.errors.length;
 	ccdaWarningCount = data.result.body.ccdaResults.warnings.length;
 	ccdaInfoCount = data.result.body.ccdaResults.info.length;
-	extendedErrorCount = data.result.body.ccdaExtendedResults.errorList.length;
-	extendedWarningCount = data.result.body.ccdaExtendedResults.warningList.length;
-	extendedInfoCount = data.result.body.ccdaExtendedResults.informationList.length;
-	dataQualityConcernCount = data.result.body.ccdaDataQualityResults.dataQualityConcerns.length;
 	
 	var tabHtml1 = buildValidationResultsHeader(uploadedFileName, docTypeSelected).join('\n');
 	tabHtml1 += ['<br/><div class="row">'];
 	tabHtml1 += buildValidationSummaryDetailHtml(ccdaErrorCount, ccdaWarningCount, ccdaInfoCount, 'ccda', 'C-CDA Validation Summary').join('\n');
 	if (showVocabularyValidation){
+		extendedErrorCount = data.result.body.ccdaExtendedResults.errorList.length;
+		extendedWarningCount = data.result.body.ccdaExtendedResults.warningList.length;
+		extendedInfoCount = data.result.body.ccdaExtendedResults.informationList.length;
 		tabHtml1 += buildValidationSummaryDetailHtml(extendedErrorCount, extendedWarningCount, extendedInfoCount, 'vocabulary', 'C-CDA Vocabulary Summary').join('\n');
 	} 
 	if (showDataQualityValidation){
+		dataQualityConcernCount = data.result.body.ccdaDataQualityResults.dataQualityConcerns.length;
 		tabHtml1 += buildValidationSummaryDetailHtml(null, null, dataQualityConcernCount, 'dataqualityConcerns', 'C-CDA Data Quality Summary').join('\n');
 	} 
 	tabHtml1 += '</div>';
@@ -438,11 +439,16 @@ function showResults(resultsHtml){
 	$("#resultModalTabs a[href='#tabs-1']").tab("show");
     $("#resultModalTabs a[href='#tabs-2']").hide();
     $("#resultModalTabs a[href='#tabs-3']").hide();
+    if(Boolean(validationError)){
+    	$("#smartCCDAValidationBtn").hide();
+        $("#saveResultsBtn").hide();
+    }
 }
 
 function buildResultsHtml(data){
 	var tabHtml1 = "";
 	if (("error" in data.result.body.ccdaResults) || ("error" in data.result.body.ccdaExtendedResults)){
+		validationError = true;
 		tabHtml1 = buildValidationResultErrorHtml(data).join('\n');
 	} else {
 		var tabHtml1 = buildValidationSummary(data);
