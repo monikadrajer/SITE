@@ -163,6 +163,7 @@
 			      <h3 class="panel-title">
 			        <a data-toggle="collapse" data-parent="#CCDAAccordion" href="#collapseCCDA2_0Validator" tabindex="1">
 			          C-CDA R2.0 Validator
+			          
 			        </a>
 			      </h3>
 			    </div>
@@ -220,7 +221,7 @@
 	  								<li>Generate your CCDA file and when you are ready to validate, proceed to Step 3.</li>
 	  							</ol>
 	  							
-	  							<form id="CCDAReferenceValidationForm" action="${urlAction2_0}" method="POST" relay="<%= smartCCDAAction %>" enctype="multipart/form-data">
+	  							<form id="CCDAR2_0ValidationForm" action="${urlAction2_0}" method="POST" relay="<%= smartCCDAAction %>" enctype="multipart/form-data">
 	  							
 	  							<ol start=3>
 									<li>Select a C-CDA Document Type or MU Stage 2 Objective from the list below.
@@ -268,7 +269,7 @@
 												<div class="col-md-12 form-group">
 													<span class="btn btn-success fileinput-button" id="CCDAR2_0Fileupload-btn"> <i
 															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
-															<input id="CCDAR2_0Fileupload" type="file" name="generatedFile"  data-parsley-generatedmaxsize="3" data-parsley-filetype="xml" data-parsley-trigger="change" data-parsley-required data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
+															<input id="CCDAR2_0Fileupload" type="file" name="ccda2_0file"  data-parsley-generatedmaxsize="3" data-parsley-filetype="xml" data-parsley-trigger="change" data-parsley-required data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
 															
 													</span>
 													<div id="CCDAR2_0Files"></div>
@@ -280,7 +281,7 @@
 									</li>
 									<li>Validate.
 										<div>
-											<button id="CCDAR2_0FormSubmit" type="submit" class="btn btn-primary start" onclick="return false;"  tabindex="1">
+											<button id="CCDAR2_0FormSubmit" type="submit" class="btn btn-primary start" tabindex="1">
 												<i class="glyphicon glyphicon-ok"></i> <span>Validate Document</span>
 											</button>
 										</div>
