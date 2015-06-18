@@ -25,9 +25,6 @@
 		<footer-portlet-javascript>/js/ccdaValidationUtils.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/ccda1_1FileUpload.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/ccda2_0FileUpload.js</footer-portlet-javascript>
-		<footer-portlet-javascript>/js/ccdaSuperCompliantFileUpload.js</footer-portlet-javascript>
-		<footer-portlet-javascript>/js/ccdaReferenceFileUpload.js</footer-portlet-javascript>
-		<footer-portlet-javascript>/js/ccdaCiriFileUpload.js</footer-portlet-javascript>
 		
 		<css-class-wrapper>CCDAValidator-portlet</css-class-wrapper>
 	</portlet>
