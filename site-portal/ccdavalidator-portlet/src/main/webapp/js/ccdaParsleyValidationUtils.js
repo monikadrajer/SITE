@@ -35,30 +35,6 @@ $(function(){
 		return file_size.size < requirement*1024*1024;
 	},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
 	
-	// parsley Validator to validate the file size
-	window.ParsleyValidator.addValidator('maxsize2',function(value,requirement){
-		var file_size=$('#CCDA2fileupload')[0].files[0];
-		return file_size.size < requirement*1024*1024;
-	},32).addMessage('en','maxsize2','The uploaded file size exceeds the maximum file size of 3 MB.');
-	
-	// parsley Validator to validate the file size
-	window.ParsleyValidator.addValidator('maxsizesuper',function(value,requirement){
-		var file_size=$('#CCDASuperFileupload')[0].files[0];
-		return file_size.size < requirement*1024*1024;
-	},32).addMessage('en','maxsizesuper','The uploaded file size exceeds the maximum file size of 3 MB.');
-	
-	// parsley Validator to validate CIRI test data file size
-	window.ParsleyValidator.addValidator('testdatamaxsize',function(value,requirement){
-		var file_size=$('#CCDAReconciledTestDataFileupload')[0].files[0];
-		return file_size.size < requirement*1024*1024;
-	},32).addMessage('en','testdatamaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
-	
-	// parsley Validator to validate the reconciled file size
-	window.ParsleyValidator.addValidator('reconciledmaxsize',function(value,requirement){
-		var file_size=$('#CCDAReconciledReconciliationFileupload')[0].files[0];
-		return file_size.size < requirement*1024*1024;
-	},32).addMessage('en','reconciledmaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');	
-	
 	// parsley Validator
 	window.ParsleyValidator.addValidator('referencemaxsize',function(value,requirement){
 		var file_size=$('#CCDAReferenceFileupload')[0].files[0];

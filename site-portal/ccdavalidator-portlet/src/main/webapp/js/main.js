@@ -370,6 +370,10 @@ function incorpRequired(field, rules, i, options){
 function loadSampleTrees(){
 	//loadReferenceCCDAIncorpTree();
 	loadNegativeTestCCDATree();
+	loadReferenceCCDAIncorpTree();
+	loadCCDASamplesFromVendorsTree();
+	loadCIRISampleFileTree();
+	loadCCDAReferenceTree();
 }
 
 function loadNegativeTestCCDATree(){
@@ -487,7 +491,7 @@ function loadNegativeTestCCDATree(){
 			}).bind('loaded.jstree', function(e, data) {
 				isfiletreeloaded = true;
 				
-				loadReferenceCCDAIncorpTree();
+				
 				
 				$('#negTestccdafiletreepanel').find('a').each(function() {
 				    $(this).attr('tabindex', '1');
@@ -612,7 +616,7 @@ function loadReferenceCCDAIncorpTree(){
 			}).bind('loaded.jstree', function(e, data) {
 				isfiletreeloaded = true;
 				//alert("Loaded Incorp Tree");
-				loadCCDASamplesFromVendorsTree();
+				
 				
 				$('#refccdafiletreepanel').find('a').each(function() {
 				    $(this).attr('tabindex', '1');
@@ -743,7 +747,7 @@ function loadCCDASamplesFromVendorsTree(){
 	}).bind('loaded.jstree', function(e, data) {
 		isfiletreeloaded = true;
 		
-		loadCIRISampleFileTree();
+		
 		
 		$('#ccdafiletreepanel').find('a').each(function() {
 		    $(this).attr('tabindex', '1');
@@ -876,7 +880,7 @@ function loadCIRISampleFileTree(){
 	}).bind('loaded.jstree', function(e, data) {
 		isfiletreeloaded = true;
 		
-		loadCCDAReferenceTree();
+		
 		
 		$('#reconciledBundleFileTreePanel').find('a').each(function() {
 		    $(this).attr('tabindex', '1');
