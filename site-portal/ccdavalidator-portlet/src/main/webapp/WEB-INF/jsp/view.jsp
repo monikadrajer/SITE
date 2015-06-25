@@ -245,18 +245,19 @@
 									<noscript><input type="hidden" name="redirect" value="true" /></noscript>
 										<div id="CCDAReferenceUploaderrorlock" style="position: relative;">
 											<div class="dropdown">
-																			<button id="referenceDownloadLabel" data-toggle="dropdown"
+																			<button id="referenceFileUsedLabel" data-toggle="dropdown"
 																				class="treeButton btn btn-success dropdown-toggle" type="button" tabindex="1">
 																				Select file <i class="glyphicon glyphicon-play"></i>
 																			</button>
 									
-																			<ul class="dropdown-menu rightMenu" role="menu" aria-labelledby="referenceDownloadLabel" style=" overflow: scroll; /* position: absolute; */ ">
+																			<ul class="dropdown-menu rightMenu" role="menu" aria-labelledby="referenceFileUsedLabel" style=" overflow: scroll; /* position: absolute; */ ">
 																				<li>
-																					<div id="referenceDownloadFileTreePanel"></div>
+																					<div id="referenceFileUsedTreePanel"></div>
 																				</li>
 																			</ul>
 																		</div>
 																		<div><span id="referenceFileUsed"></span></div>
+																		<input id="referenceFileUsedFilepath" name="referenceFileUsedFilepath" type="hidden">
 										<br/>
 										<br/>
 										</div>
@@ -269,7 +270,7 @@
 												<div class="col-md-12 form-group">
 													<span class="btn btn-success fileinput-button" id="CCDAR2_0Fileupload-btn"> <i
 															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
-															<input id="CCDAR2_0Fileupload" type="file" name="ccda2_0file"  data-parsley-generatedmaxsize="3" data-parsley-filetype="xml" data-parsley-trigger="change" data-parsley-required data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
+															<input id="CCDAR2_0Fileupload" type="file" name="file"  data-parsley-generatedmaxsize="3" data-parsley-filetype="xml" data-parsley-trigger="change" data-parsley-required data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
 															
 													</span>
 													<div id="CCDAR2_0Files"></div>

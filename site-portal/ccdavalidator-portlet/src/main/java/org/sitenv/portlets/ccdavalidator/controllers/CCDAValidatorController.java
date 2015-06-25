@@ -180,13 +180,14 @@ public class CCDAValidatorController extends BaseController {
 	@ActionMapping(params = "javax.portlet.action=uploadCCDA2.0")
 	public void responseCCDA2_0(MultipartActionRequest request, ActionResponse response) throws IOException {
 		String CCDAR2_0_type_val = null;
+		String referenceFileUsedPath = null;
 
 		if (props == null) {
 			loadProperties();
 		}
 
 		response.setRenderParameter("javax.portlet.action", "uploadCCDA2.0");
-		MultipartFile file = request.getFile("ccda2_0file");
+		MultipartFile file = request.getFile("file");
 		responseJSON.setFileJson(new JSONArray());
 		try {
 			JSONObject jsono = new JSONObject();
@@ -197,6 +198,9 @@ public class CCDAValidatorController extends BaseController {
 
 			CCDAR2_0_type_val = request.getParameter("CCDAR2_0_type_val") == null ? "" : request
 					.getParameter("CCDAR2_0_type_val");
+
+			referenceFileUsedPath = request.getParameter("referenceFileUsed") == null ? "" : request
+					.getParameter("referenceFileUsed");
 
 			HttpClient client = new DefaultHttpClient();
 
@@ -211,6 +215,7 @@ public class CCDAValidatorController extends BaseController {
 
 			// set the CCDA type
 			entity.addPart("CCDAR2_0_type_val", new StringBody(CCDAR2_0_type_val));
+			entity.addPart("referenceFileUsed", new StringBody(referenceFileUsedPath));
 
 			post.setEntity(entity);
 
@@ -224,6 +229,7 @@ public class CCDAValidatorController extends BaseController {
 			if (code != HttpStatus.SC_OK) {
 				// do the error handling.
 				statisticsManager.addCcdaValidation(CCDAR2_0_type_val, false, false, false, true, "r2.0");
+				throw new RuntimeException("ERROR: " + code + " details: " + relayResponse.getStatusLine().getReasonPhrase());
 			} else {
 				boolean ccdaHasErrors = true, ccdaHasWarnings = true, ccdaHasInfo = true;
 				boolean extendedCcdaHasErrors = true, extendedCcdaHasWarnings = true, extendedCcdaHasInfo = true;
@@ -235,7 +241,7 @@ public class CCDAValidatorController extends BaseController {
 						|| jsonbody.getJSONObject("ccdaExtendedResults").has("error")) {
 					// TODO: Make sure the UI handles this gracefully.
 					responseJSON.setJSONResponseBody(jsonbody);
-					statisticsManager.addCcdaValidation(CCDAR2_0_type_val, false, false, false, false, "r1.1");
+					statisticsManager.addCcdaValidation(CCDAR2_0_type_val, false, false, false, false, "r2.0");
 				} else {
 					JSONObject ccdaReport = jsonbody.getJSONObject("ccdaResults").getJSONObject("report");
 					ccdaHasErrors = ccdaReport.getBoolean("hasErrors");

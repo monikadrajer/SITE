@@ -35,11 +35,11 @@ public class CcdaValidatorServiceManager {
 			if (ccdaDocumentType.equals(CcdaType.NonSpecificCCDA.toString())) {
 				ccdaJSON = ccdaValidationServiceFactory.getCcdaValidatorService(
 						CcdaValidatorTypes.NonSpecificCCDADocTypeCCDA1_1.toString()).callValidationService(ccdaFileToValidate,
-						ccdaDocumentType);
+								ccdaDocumentType);
 			} else {
 				ccdaJSON = ccdaValidationServiceFactory.getCcdaValidatorService(
 						CcdaValidatorTypes.SpecificCCDADocTypeCCDA1_1.toString()).callValidationService(ccdaFileToValidate,
-						ccdaDocumentType);
+								ccdaDocumentType);
 			}
 			vocabularyJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.Vocabulary.toString())
 					.callValidationService(ccdaFileToValidate, ccdaDocumentType);
@@ -60,11 +60,11 @@ public class CcdaValidatorServiceManager {
 			buildDocumentToCheckForWellFormedXml(ccdaFileToValidate);
 
 			ccdaJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.CCDA2_0.toString())
-					.callValidationService(ccdaFileToValidate, null);
+					.callValidationService(ccdaFileToValidate, cCDAR2_0_type_val, referenceFileNameUsed);
 			vocabularyJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.Vocabulary.toString())
-					.callValidationService(ccdaFileToValidate, null);
+					.callValidationService(ccdaFileToValidate, cCDAR2_0_type_val);
 			dataQualityJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.DataQuality.toString())
-					.callValidationService(ccdaFileToValidate, null);
+					.callValidationService(ccdaFileToValidate, cCDAR2_0_type_val);
 			return buildResponse(ccdaJSON, vocabularyJSON, dataQualityJSON).toString();
 		} catch (SAXException | IOException | ParserConfigurationException e) {
 			return "{ \"ccdaResults\" : {\"error\":" + "\"" + StringEscapeUtils.escapeXml(e.getMessage()) + "\"" + "}}";
@@ -72,7 +72,7 @@ public class CcdaValidatorServiceManager {
 	}
 
 	private void buildDocumentToCheckForWellFormedXml(MultipartFile ccdaFileToValidate) throws SAXException, IOException,
-			ParserConfigurationException {
+	ParserConfigurationException {
 		DocumentBuilder builder;
 		DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
 		builder = domFactory.newDocumentBuilder();

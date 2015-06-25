@@ -37,9 +37,11 @@ $(function() {
 						$( "#ValidationResult [href='#tabs-1']").trigger( "click" );
 						BlockPortletUI();
 						var selectedValue = $("#CCDAR2_0_type_val").val();
+						var selectedReferenceValue = $("#referenceFileUsedFilepath").val();
 						data.formData = { };
 						if (selectedValue != undefined) {
 							data.formData.CCDAR2_0_type_val = selectedValue;
+							data.formData.referenceFileUsed = selectedReferenceValue;
 						}
 						data.submit();
 						window.lastFilesUploaded = data.files;
@@ -69,7 +71,7 @@ $(function() {
 			});
 	});	
 	
-	$('#CCDA1fileupload-btn').bind('click', function(e, data){
+	$('#CCDAR2_0Fileupload-btn').bind('click', function(e, data){
 		//$('#CCDA1ValidationForm .formError').hide(0);
 		var selectedText = $("#CCDAR2_0_type_val :selected").text();
 		$("#CCDAR2_0_type_val option").each(function() {

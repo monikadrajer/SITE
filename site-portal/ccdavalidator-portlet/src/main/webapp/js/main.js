@@ -374,6 +374,7 @@ function loadSampleTrees(){
 	loadCCDASamplesFromVendorsTree();
 	loadCIRISampleFileTree();
 	loadCCDAReferenceTree();
+	loadCCDAReferenceFileUsedTree();
 }
 
 function loadNegativeTestCCDATree(){
@@ -1013,6 +1014,85 @@ function loadCCDAReferenceTree(){
 		});
 	});
 }
+
+function loadCCDAReferenceFileUsedTree(){
+	
+	$("#referenceFileUsedTreePanel").jstree({
+		 "json_data" : {
+			      "ajax" : {
+				      "url" : referenceCCDATreeURL,
+				      "type" : "post",
+				  }
+	      },
+	      
+	      "types" : {
+	    	  "valid_children" : [ "all" ],
+	    	  "type_attr" : "ref",
+	    	  "types" : {
+	    		  "root" : {
+		    	      "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/root.png"
+		    	      },
+		    	      "valid_children" : [ "file","folder" ],
+		    	      "max_depth" : 2,
+		    	      "hover_node" : false,
+		    	      "select_node" : function (e) {
+
+		    	    	  this.toggle_node(e);
+		    	    	  return false;
+		    	      }
+		    	      
+		    	  	},
+		    	  "file" : {
+		    		  "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/file.png"
+		    	      },
+		    		  "valid_children" : [ "none" ],
+		    		  "deselect_node" : function (node,e) {
+		    			$('#referenceDownloadForm .formError').hide(0);
+		  				$('#referenceFileUsed').empty();
+		  				$('#referenceFileUsedFilepath').val('');
+		    		  },
+		    		  "select_node" : function (node,e) {
+		    			  $('#CCDAR2_0ValidationForm .formError').hide(0);
+		    			  //populate the textbox
+		    			  $("#referenceFileUsedFilepath").val(node.data("serverpath"));
+		    			
+		    			  
+		    			  $("#referenceFileUsed").text($("#referenceFileUsedFilepath").val());
+		    			  
+		    	    	  //hide the drop down panel
+		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
+		    			  
+		    			  $('#referenceFileUsedLabel').focus();
+		    			  $('#referenceFileUsedLabel').dropdown("toggle");
+		    		  }
+		    	  },
+		    	  "folder" : {
+		    		  "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/folder.png"
+		    	      },
+		    		  "valid_children" : [ "file" ],
+		    		  "select_node" : function (e) {
+		    	    	  e.find('a:first').focus();
+		    			  this.toggle_node(e);
+		    	    	  return false;
+		    	      }
+		    	  }
+	    	 }
+	    },
+	    "plugins" : [ "themes", "json_data", "ui", "types" ]
+	}).bind('loaded.jstree', function(e, data) {
+		isfiletreeloaded = true;
+		
+		//loadReferenceCCDAIncorpTree();
+		
+		$('#referenceDownloadFileTreePanel').find('a').each(function() {
+		    $(this).attr('tabindex', '1');
+		});
+	});
+}
+
 
 
 
