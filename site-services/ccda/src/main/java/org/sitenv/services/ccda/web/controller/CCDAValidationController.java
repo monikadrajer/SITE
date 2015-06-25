@@ -25,9 +25,9 @@ public class CCDAValidationController {
 
 	@RequestMapping(value = "/r2.0/", headers = "content-type=multipart/*", method = RequestMethod.POST, produces = "application/json; charset=utf-8")
 	public String validater2_0(@RequestParam(value = "CCDAR2_0_type_val", required = false) String CCDAR2_0_type_val,
-			@RequestParam(value = "referenceFileUsed", required = false) String referenceFileNameUsed,
+			@RequestParam(value = "referenceFileUsed", required = false) String referenceFileUsed,
 			@RequestParam(value = "file", required = false) MultipartFile file) {
-		return ccdaValidatorServiceManager.callCcda2_0ValidationServices(file, CCDAR2_0_type_val, referenceFileNameUsed);
+		return ccdaValidatorServiceManager.callCcda2_0ValidationServices(file, CCDAR2_0_type_val, referenceFileUsed);
 	}
 
 }
