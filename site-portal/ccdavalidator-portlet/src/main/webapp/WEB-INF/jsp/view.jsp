@@ -234,8 +234,6 @@
 												<option value="4">VDT Inpatient Summary - MU2 170.315 (e)(1) Inpatient Summary</option> 
 												<option value="5">Data Portability - MU2 170.315(b)(6)</option>
 												<option value="6">Care Plan Documentation - MU2 170.315(b)(9)</option>
-												<option value="7">Inpatient</option>
-												<option value="8">Ambulatory</option>
 											</select>
 										</div>
 										<br/>
