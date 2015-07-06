@@ -33,35 +33,46 @@ public class CcdaValidatorServiceManager {
 			buildDocumentToCheckForWellFormedXml(ccdaFileToValidate);
 
 			if (ccdaDocumentType.equals(CcdaType.NonSpecificCCDA.toString())) {
-				ccdaJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.NonSpecificCCDADocTypeCCDA1_1.toString()).callValidationService(ccdaFileToValidate, ccdaDocumentType);
+				ccdaJSON = ccdaValidationServiceFactory.getCcdaValidatorService(
+						CcdaValidatorTypes.NonSpecificCCDADocTypeCCDA1_1.toString()).callValidationService(ccdaFileToValidate,
+								ccdaDocumentType);
 			} else {
-				ccdaJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.SpecificCCDADocTypeCCDA1_1.toString()).callValidationService(ccdaFileToValidate, ccdaDocumentType);
+				ccdaJSON = ccdaValidationServiceFactory.getCcdaValidatorService(
+						CcdaValidatorTypes.SpecificCCDADocTypeCCDA1_1.toString()).callValidationService(ccdaFileToValidate,
+								ccdaDocumentType);
 			}
-			vocabularyJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.Vocabulary.toString()).callValidationService(ccdaFileToValidate, ccdaDocumentType);		
-			dataQualityJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.DataQuality.toString()).callValidationService(ccdaFileToValidate, ccdaDocumentType);
+			vocabularyJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.Vocabulary.toString())
+					.callValidationService(ccdaFileToValidate, ccdaDocumentType);
+			dataQualityJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.DataQuality.toString())
+					.callValidationService(ccdaFileToValidate, ccdaDocumentType);
 			return buildResponse(ccdaJSON, vocabularyJSON, dataQualityJSON).toString();
 		} catch (SAXException | IOException | ParserConfigurationException e) {
-			return "{ \"ccdaResults\" : {\"error\":"+"\"" + StringEscapeUtils.escapeHtml4(e.getMessage()) + "\""+"}}";
+			return "{ \"ccdaResults\" : {\"error\":" + "\"" + StringEscapeUtils.escapeHtml4(e.getMessage()) + "\"" + "}}";
 		}
 	}
 
-	public String callCcda2_0ValidationServices(MultipartFile ccdaFileToValidate) {
+	public String callCcda2_0ValidationServices(MultipartFile ccdaFileToValidate, String cCDAR2_0_type_val,
+			String referenceFileNameUsed) {
 		JSONObject ccdaJSON = null;
 		JSONObject vocabularyJSON = null;
 		JSONObject dataQualityJSON = null;
 		try {
 			buildDocumentToCheckForWellFormedXml(ccdaFileToValidate);
 
-			ccdaJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.CCDA2_0.toString()).callValidationService(ccdaFileToValidate, null);
-			vocabularyJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.Vocabulary.toString()).callValidationService(ccdaFileToValidate, null);		
-			dataQualityJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.DataQuality.toString()).callValidationService(ccdaFileToValidate, null);
+			ccdaJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.CCDA2_0.toString())
+					.callValidationService(ccdaFileToValidate, cCDAR2_0_type_val, referenceFileNameUsed);
+			vocabularyJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.Vocabulary.toString())
+					.callValidationService(ccdaFileToValidate, cCDAR2_0_type_val);
+			dataQualityJSON = ccdaValidationServiceFactory.getCcdaValidatorService(CcdaValidatorTypes.DataQuality.toString())
+					.callValidationService(ccdaFileToValidate, cCDAR2_0_type_val);
 			return buildResponse(ccdaJSON, vocabularyJSON, dataQualityJSON).toString();
 		} catch (SAXException | IOException | ParserConfigurationException e) {
-			return "{ \"ccdaResults\" : {\"error\":"+"\"" + StringEscapeUtils.escapeXml(e.getMessage()) + "\""+"}}";
+			return "{ \"ccdaResults\" : {\"error\":" + "\"" + StringEscapeUtils.escapeXml(e.getMessage()) + "\"" + "}}";
 		}
 	}
 
-	private void buildDocumentToCheckForWellFormedXml(MultipartFile ccdaFileToValidate) throws SAXException, IOException, ParserConfigurationException {
+	private void buildDocumentToCheckForWellFormedXml(MultipartFile ccdaFileToValidate) throws SAXException, IOException,
+	ParserConfigurationException {
 		DocumentBuilder builder;
 		DocumentBuilderFactory domFactory = DocumentBuilderFactory.newInstance();
 		builder = domFactory.newDocumentBuilder();
@@ -71,18 +82,18 @@ public class CcdaValidatorServiceManager {
 	private JSONObject buildResponse(JSONObject ccdaJSON, JSONObject extendedCcdaJSON, JSONObject dataQualityCcdaJSON) {
 		JSONObject json = new JSONObject();
 		try {
-			if (!json.has("error")){
+			if (!json.has("error")) {
 				json.put("ccdaResults", ccdaJSON);
 				json.put("ccdaExtendedResults", extendedCcdaJSON);
 				json.put("ccdaDataQualityResults", dataQualityCcdaJSON);
 			}
 
 		} catch (JSONException e) {
-			logger.error("Error while accessing CCDA service: ",  e);
+			logger.error("Error while accessing CCDA service: ", e);
 			try {
-				json = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
+				json = new JSONObject("{ \"error\" : {\"message\":" + "\"" + e.getMessage() + "\"" + "}}");
 			} catch (JSONException e1) {
-				logger.error("Error while creating error JSON output: ",  e1);
+				logger.error("Error while creating error JSON output: ", e1);
 			}
 		}
 		return json;
