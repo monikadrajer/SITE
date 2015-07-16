@@ -319,7 +319,7 @@
 
 			      <h3 class="panel-title">
 			        <a data-toggle="collapse" data-parent="#IncorporationAccordion" href="#collapseReference1" tabindex="1">
-			          ccda2_0 C-CDAs for Incorporation
+			          CCDA R2.0 C-CDAs for Incorporation
 			        </a>
 			      </h3>
 			    </div>
