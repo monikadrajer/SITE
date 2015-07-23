@@ -31,15 +31,15 @@ import org.sitenv.services.ccda.enums.CcdaValidationCategories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 
-public abstract class BaseCCDAValidationService implements ValidationService{
-	private Logger logger = LogManager.getLogger(BaseCCDAValidationService.class.getName());
+public abstract class BaseCCDAValidationService implements ValidationService {
+	private final Logger logger = LogManager.getLogger(BaseCCDAValidationService.class.getName());
 	private static final String NO_DATA_FOUND = "no_data_found";
 	protected String validatorId;
 	@Autowired
 	private StatisticsManager statisticsManager;
 
 	private static final Map<String, String> typeOfCCDAValueMap;
-	
+
 	static {
 		typeOfCCDAValueMap = Collections.unmodifiableMap(buildServiceValidatorTypeLookupMap());
 	}
@@ -60,49 +60,58 @@ public abstract class BaseCCDAValidationService implements ValidationService{
 		tpMap.put("NonSpecificCCDA", "NonSpecificCCDA");
 		return tpMap;
 	}
-	
+
 	@Override
-	public JSONObject callValidationService(MultipartFile ccdaFileToValidate, String ccdaDocumentType) {
+	public JSONObject callValidationService(MultipartFile ccdaFileToValidate, String ccdaDocumentType, Object... validationParams) {
 		JSONObject json = null;
 		try {
-			if (typeOfCCDAValueMap.containsKey(ccdaDocumentType)){
+			if (typeOfCCDAValueMap.containsKey(ccdaDocumentType)) {
 				ccdaDocumentType = typeOfCCDAValueMap.get(ccdaDocumentType);
 			}
 			HttpClient client = new DefaultHttpClient();
-			HttpPost post = setupHttpPost(ccdaFileToValidate, ccdaDocumentType);
+			HttpPost post = setupHttpPost(ccdaFileToValidate, ccdaDocumentType, validationParams);
 			HttpResponse relayResponse = client.execute(post);
 			json = handleCCDAValidationResponse(relayResponse);
 		} catch (IOException | JSONException e) {
 			try {
-				json = new JSONObject("{ \"error\" : {\"message\":"+"\""+e.getMessage()+"\""+"}}");
+				json = new JSONObject("{ \"error\" : {\"message\":" + "\"" + e.getMessage() + "\"" + "}}");
 			} catch (JSONException e1) {
-				throw new RuntimeException("Error creating JSON response in " +  this.getClass().getName() + " with error: " + e.getMessage());
+				throw new RuntimeException("Error creating JSON response in " + this.getClass().getName() + " with error: "
+						+ e.getMessage());
 			}
 		}
 		return json;
 	}
 
-	private HttpPost setupHttpPost(MultipartFile ccdaFileToValidate, String ccdaDocumentType) throws IOException, UnsupportedEncodingException {
+	private HttpPost setupHttpPost(MultipartFile ccdaFileToValidate, String ccdaDocumentType, Object[] validationParams)
+			throws IOException, UnsupportedEncodingException {
 		HttpPost post = new HttpPost(getServiceLocation());
 
 		MultipartEntity entity = new MultipartEntity();
-		entity.addPart("file", new InputStreamBody(ccdaFileToValidate.getInputStream(), 
-				ccdaFileToValidate.getName()));
-		entity.addPart("ccda_type",new StringBody(ccdaDocumentType == null ? "" : ccdaDocumentType));
+		entity.addPart("file", new InputStreamBody(ccdaFileToValidate.getInputStream(), ccdaFileToValidate.getName()));
+		entity.addPart("ccda_type", new StringBody(ccdaDocumentType == null ? "" : ccdaDocumentType));
 		entity.addPart("return_json_param", new StringBody("true"));
 		entity.addPart("debug_mode", new StringBody("true"));
+		if (validationParams.length > 0) {
+			for (Object param : validationParams) {
+				if (param instanceof String) {
+					entity.addPart("referenceFile", new StringBody((String) param));
+				}
+			}
+		}
 		post.setEntity(entity);
 		return post;
 	}
 
-	protected JSONObject handleCCDAValidationResponse(HttpResponse relayResponse) throws JSONException, ClientProtocolException, IOException {
+	protected JSONObject handleCCDAValidationResponse(HttpResponse relayResponse) throws JSONException, ClientProtocolException,
+	IOException {
 		ResponseHandler<String> handler = new BasicResponseHandler();
 		int code = relayResponse.getStatusLine().getStatusCode();
 		JSONObject jsonbody = null;
 
-		if(code != HttpStatus.SC_OK){
+		if (code != HttpStatus.SC_OK) {
 			jsonbody = handleBadServiceResponse(relayResponse, code);
-		}else{
+		} else {
 			jsonbody = handleServiceResponse(relayResponse, handler);
 		}
 		return jsonbody;
@@ -112,34 +121,34 @@ public abstract class BaseCCDAValidationService implements ValidationService{
 		logHttpError(relayResponse, code);
 		return createJsonResponseForHttpError(relayResponse, code);
 	}
-	
+
 	private void logHttpError(HttpResponse relayResponse, int code) {
-		logger.log(Level.ERROR, "Error while accessing CCDA service: "
-				+ code + ": "
+		logger.log(Level.ERROR, "Error while accessing CCDA service: " + code + ": "
 				+ relayResponse.getStatusLine().getReasonPhrase());
 	}
-	
+
 	private JSONObject createJsonResponseForHttpError(HttpResponse relayResponse, int code) throws JSONException {
 		JSONObject jsonbody;
-		jsonbody = new JSONObject("{ \"error\" : {\"message\": Error while accessing CCDA service - "
-				+"\""+code +"-"+relayResponse.getStatusLine().getReasonPhrase() +"\""+"}}");
+		jsonbody = new JSONObject("{ \"error\" : {\"message\": Error while accessing CCDA service - " + "\"" + code + "-"
+				+ relayResponse.getStatusLine().getReasonPhrase() + "\"" + "}}");
 		return jsonbody;
 	}
-	
-	private JSONObject handleServiceResponse(HttpResponse relayResponse,
-			ResponseHandler<String> handler) throws ClientProtocolException,
-			IOException, JSONException {
+
+	private JSONObject handleServiceResponse(HttpResponse relayResponse, ResponseHandler<String> handler)
+			throws ClientProtocolException, IOException, JSONException {
 		JSONObject jsonbody;
 		String body = handler.handleResponse(relayResponse);
 		Document doc = Jsoup.parseBodyFragment(body);
 		org.jsoup.nodes.Element json = doc.select("pre").first();
 
-		if (json == null){
-			if (relayResponse.getHeaders("error_message").length > 0){
+		if (json == null) {
+			if (relayResponse.getHeaders("error_message").length > 0) {
 				org.apache.http.Header[] errorHeaders = relayResponse.getHeaders("error_message");
-				jsonbody = new JSONObject("{ \"error\" : {\"message\": "+errorHeaders[0].getValue()+"\""+"}}");
+				jsonbody = new JSONObject("{ \"error\" : {\"message\": " + errorHeaders[0].getValue() + "\"" + "}}");
 			} else {
-				jsonbody = new JSONObject("{ \"error\" : {\"message\": \"The web service has encountered an unknown error. Please try again. If this issue persists, please contact the SITE team."+"\""+"}}");
+				jsonbody = new JSONObject(
+						"{ \"error\" : {\"message\": \"The web service has encountered an unknown error. Please try again. If this issue persists, please contact the SITE team."
+								+ "\"" + "}}");
 			}
 		} else {
 			jsonbody = new JSONObject(json.text());
@@ -150,27 +159,31 @@ public abstract class BaseCCDAValidationService implements ValidationService{
 		}
 		return jsonbody;
 	}
-	
-	private void handleReturnedValidationResultsForValidationCategory(JSONObject jsonbody, CcdaValidationCategories category) throws JSONException {
+
+	private void handleReturnedValidationResultsForValidationCategory(JSONObject jsonbody, CcdaValidationCategories category)
+			throws JSONException {
 		String validationCategory = category.getValidationCategory();
-		if (jsonbody.has(validationCategory)){
+		if (jsonbody.has(validationCategory)) {
 			JSONArray result = jsonbody.getJSONArray(validationCategory);
-			JSONObject firstElement = result.getJSONObject(0);
-			if (firstElement.has("message")){
-				String message = firstElement.getString("message");
-				if (message.equals(NO_DATA_FOUND)){
-					jsonbody.remove(validationCategory);
-					jsonbody.put(validationCategory, new ArrayList<Object>());
+			if (result.length() > 0) {
+				JSONObject firstElement = result.getJSONObject(0);
+				if (firstElement.has("message")) {
+					String message = firstElement.getString("message");
+					if (message.equals(NO_DATA_FOUND)) {
+						jsonbody.remove(validationCategory);
+						jsonbody.put(validationCategory, new ArrayList<Object>());
+					}
 				}
 			}
+
 		}
 	}
-	
+
 	private void addPerformance(HttpResponse relayResponse, JSONObject jsonbody) throws JSONException {
 		org.apache.http.Header[] timeAndDateHeaders = relayResponse.getHeaders("response_time_and_date");
 		String timeAndDate = "";
-		
-		if (timeAndDateHeaders.length > 0){
+
+		if (timeAndDateHeaders.length > 0) {
 			org.apache.http.Header timeAndDateHeader = timeAndDateHeaders[0];
 			timeAndDate = timeAndDateHeader.getValue();
 		}
@@ -178,7 +191,7 @@ public abstract class BaseCCDAValidationService implements ValidationService{
 		org.apache.http.Header[] processingTimeHeaders = relayResponse.getHeaders("round_trip_response_time");
 		String processingTime = "";
 
-		if (timeAndDateHeaders.length > 0){
+		if (timeAndDateHeaders.length > 0) {
 			org.apache.http.Header processingTimeHeader = processingTimeHeaders[0];
 			processingTime = processingTimeHeader.getValue();
 		}
@@ -187,8 +200,6 @@ public abstract class BaseCCDAValidationService implements ValidationService{
 		performance_object.put("processingTime", processingTime);
 		jsonbody.put("performance", performance_object);
 	}
-
-	
 
 	protected abstract String getServiceLocation();
 
