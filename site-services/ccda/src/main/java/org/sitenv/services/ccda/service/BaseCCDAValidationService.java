@@ -7,8 +7,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import javassist.expr.Instanceof;
-
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.client.ClientProtocolException;
@@ -106,7 +104,7 @@ public abstract class BaseCCDAValidationService implements ValidationService {
 	}
 
 	protected JSONObject handleCCDAValidationResponse(HttpResponse relayResponse) throws JSONException, ClientProtocolException,
-			IOException {
+	IOException {
 		ResponseHandler<String> handler = new BasicResponseHandler();
 		int code = relayResponse.getStatusLine().getStatusCode();
 		JSONObject jsonbody = null;
@@ -167,14 +165,17 @@ public abstract class BaseCCDAValidationService implements ValidationService {
 		String validationCategory = category.getValidationCategory();
 		if (jsonbody.has(validationCategory)) {
 			JSONArray result = jsonbody.getJSONArray(validationCategory);
-			JSONObject firstElement = result.getJSONObject(0);
-			if (firstElement.has("message")) {
-				String message = firstElement.getString("message");
-				if (message.equals(NO_DATA_FOUND)) {
-					jsonbody.remove(validationCategory);
-					jsonbody.put(validationCategory, new ArrayList<Object>());
+			if (result.length() > 0) {
+				JSONObject firstElement = result.getJSONObject(0);
+				if (firstElement.has("message")) {
+					String message = firstElement.getString("message");
+					if (message.equals(NO_DATA_FOUND)) {
+						jsonbody.remove(validationCategory);
+						jsonbody.put(validationCategory, new ArrayList<Object>());
+					}
 				}
 			}
+
 		}
 	}
 
