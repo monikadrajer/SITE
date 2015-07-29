@@ -58,12 +58,13 @@ public abstract class BaseCCDAValidationService implements ValidationService {
 		tpMap.put("VDTAmbulatorySummary", "VDTAmbulatorySummary");
 		tpMap.put("VDTInpatientSummary", "VDTInpatientSummary");
 		tpMap.put("NonSpecificCCDA", "NonSpecificCCDA");
+		tpMap.put("NonSpecificCCDAR2", "NonSpecificCCDAR2");
 		return tpMap;
 	}
 
 	@Override
 	public JSONObject callValidationService(MultipartFile ccdaFileToValidate, String ccdaDocumentType, Object... validationParams) {
-		JSONObject json = null;
+		JSONObject json = new JSONObject();
 		try {
 			if (typeOfCCDAValueMap.containsKey(ccdaDocumentType)) {
 				ccdaDocumentType = typeOfCCDAValueMap.get(ccdaDocumentType);
@@ -74,7 +75,7 @@ public abstract class BaseCCDAValidationService implements ValidationService {
 			json = handleCCDAValidationResponse(relayResponse);
 		} catch (IOException | JSONException e) {
 			try {
-				json = new JSONObject("{ \"error\" : {\"message\":" + "\"" + e.getMessage() + "\"" + "}}");
+				json.put("error", "callValidationService caught the following exception: " + e.getMessage());
 			} catch (JSONException e1) {
 				throw new RuntimeException("Error creating JSON response in " + this.getClass().getName() + " with error: "
 						+ e.getMessage());
@@ -104,7 +105,7 @@ public abstract class BaseCCDAValidationService implements ValidationService {
 	}
 
 	protected JSONObject handleCCDAValidationResponse(HttpResponse relayResponse) throws JSONException, ClientProtocolException,
-	IOException {
+			IOException {
 		ResponseHandler<String> handler = new BasicResponseHandler();
 		int code = relayResponse.getStatusLine().getStatusCode();
 		JSONObject jsonbody = null;
@@ -128,15 +129,15 @@ public abstract class BaseCCDAValidationService implements ValidationService {
 	}
 
 	private JSONObject createJsonResponseForHttpError(HttpResponse relayResponse, int code) throws JSONException {
-		JSONObject jsonbody;
-		jsonbody = new JSONObject("{ \"error\" : {\"message\": Error while accessing CCDA service - " + "\"" + code + "-"
-				+ relayResponse.getStatusLine().getReasonPhrase() + "\"" + "}}");
+		JSONObject jsonbody = new JSONObject();
+		jsonbody.put("error", " Error while accessing CCDA service -" + code + "-"
+				+ relayResponse.getStatusLine().getReasonPhrase());
 		return jsonbody;
 	}
 
 	private JSONObject handleServiceResponse(HttpResponse relayResponse, ResponseHandler<String> handler)
 			throws ClientProtocolException, IOException, JSONException {
-		JSONObject jsonbody;
+		JSONObject jsonbody = new JSONObject();
 		String body = handler.handleResponse(relayResponse);
 		Document doc = Jsoup.parseBodyFragment(body);
 		org.jsoup.nodes.Element json = doc.select("pre").first();
@@ -144,11 +145,10 @@ public abstract class BaseCCDAValidationService implements ValidationService {
 		if (json == null) {
 			if (relayResponse.getHeaders("error_message").length > 0) {
 				org.apache.http.Header[] errorHeaders = relayResponse.getHeaders("error_message");
-				jsonbody = new JSONObject("{ \"error\" : {\"message\": " + errorHeaders[0].getValue() + "\"" + "}}");
+				jsonbody.put("error", errorHeaders);
 			} else {
-				jsonbody = new JSONObject(
-						"{ \"error\" : {\"message\": \"The web service has encountered an unknown error. Please try again. If this issue persists, please contact the SITE team."
-								+ "\"" + "}}");
+				jsonbody.put("error",
+						"The web service has encountered an unknown error. Please try again. If this issue persists, please contact the SITE team.");
 			}
 		} else {
 			jsonbody = new JSONObject(json.text());

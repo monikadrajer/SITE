@@ -226,15 +226,14 @@
 	  							<ol start=3>
 									<li>Select a C-CDA Document Type or MU Stage 2 Objective from the list below.
 											<div id="CCDAR2_0_type_radioboxgroup" class="btn-group-vertical">
-							      			
 							      			<select id="CCDAR2_0_type_val" name="CCDAR2_0_type_val" class="form-control" tabindex="1" data-parsley-id="0462"> 
-												<option value="1">Transitions Of Care Inpatient Summary - MU2 170.315(b)(1) Transition of Care Receive - For Ambulatory Care</option> 
-												<option value="2">Transitions Of Care Inpatient Summary - MU2 170.315(b)(1) Transition of Care Receive - For Inpatient Care</option> 
-												<option value="3">VDT Ambulatory Summary - MU2 170.315 (e)(1) Ambulatory Summary</option> 
-												<option value="4">VDT Inpatient Summary - MU2 170.315 (e)(1) Inpatient Summary</option> 
-												<option value="5">Data Portability - MU2 170.315(b)(6)</option>
-												<option value="6">Care Plan Documentation - MU2 170.315(b)(9)</option>
-											</select>
+												<option value="NonSpecificCCDAR2">Transitions Of Care Inpatient Summary - MU2 170.315(b)(1) Transition of Care Receive - For Ambulatory Care</option> 
+												<option value="NonSpecificCCDAR2">Transitions Of Care Inpatient Summary - MU2 170.315(b)(1) Transition of Care Receive - For Inpatient Care</option> 
+												<option value="NonSpecificCCDAR2">VDT Ambulatory Summary - MU2 170.315 (e)(1) Ambulatory Summary</option> 
+												<option value="NonSpecificCCDAR2">VDT Inpatient Summary - MU2 170.315 (e)(1) Inpatient Summary</option> 
+												<option value="NonSpecificCCDAR2">Data Portability - MU2 170.315(b)(6)</option>
+												<option value="NonSpecificCCDAR2">Care Plan Documentation - MU2 170.315(b)(9)</option>
+											</select> 
 										</div>
 										<br/>
 										<br/>
