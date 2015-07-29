@@ -5,10 +5,10 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
-@Component(value="CCDA2_0")
+@Component(value = "CCDA2_0")
 public class CCDA2_0ValidationService extends BaseCCDAValidationService {
-	Logger logger = LogManager.getLogger(CCDA2_0ValidationService.class.getName());	 
-	@Value( "${CCDAValidationServiceURL}" )
+	Logger logger = LogManager.getLogger(CCDA2_0ValidationService.class.getName());
+	@Value("${CCDAv2ValidationServiceURL}")
 	private String ccdaValidationServiceURL;
 
 	@Override
@@ -21,5 +21,3 @@ public class CCDA2_0ValidationService extends BaseCCDAValidationService {
 		this.validatorId = "2.0";
 	}
 }
-
-	
