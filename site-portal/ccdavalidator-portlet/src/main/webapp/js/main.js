@@ -274,8 +274,8 @@ function smartCCDAValidation()
 	//TODO: Make one of these for each C-CDA Validator 
 	if ($('#collapseCCDA1_1').hasClass('in')){
 		selector = '#CCDA1ValidationForm';
-	} else if ($('#collapseCCDA2_0').hasClass('in')){
-		selector = '#CCDA2ValidationForm';
+	} else if ($('#collapseCCDA2_0Validator').hasClass('in')){
+		selector = '#CCDAR2_0ValidationForm';
 	//} else if ($('#collapseReconciledValidator').hasClass('in')){
 	//	selector = '#CCDAReconciledValidationForm';
 	//} else if ($('#collapseReferenceValidator').hasClass('in')){
