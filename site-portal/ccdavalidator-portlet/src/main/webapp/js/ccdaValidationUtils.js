@@ -329,6 +329,10 @@ function buildValidationSummary(data){
 	ccdaWarningCount = data.result.body.ccdaResults.warnings.length;
 	ccdaInfoCount = data.result.body.ccdaResults.info.length;
 	
+	if(documentTypeIsNonSpecific(docTypeSelected)){
+		docTypeSelected = buildValidationHeaderForNonSpecificDocumentType(docTypeSelected);
+	}
+	
 	var tabHtml1 = buildValidationResultsHeader(uploadedFileName, docTypeSelected).join('\n');
 	tabHtml1 += ['<br/><div class="row">'];
 	tabHtml1 += buildValidationSummaryDetailHtml(ccdaErrorCount, ccdaWarningCount, ccdaInfoCount, 'ccda', 'C-CDA Validation Summary').join('\n');
@@ -344,6 +348,20 @@ function buildValidationSummary(data){
 	} 
 	tabHtml1 += '</div>';
 	return tabHtml1;
+}
+
+function buildValidationHeaderForNonSpecificDocumentType(docTypeSelected){
+	docTypeSelected = docTypeSelected.replace("Non-specific", "");
+	if(docTypeSelected.lastIndexOf('R2') === -1){
+		docTypeSelected = docTypeSelected.trim();
+		docTypeSelected = docTypeSelected.slice(5);
+		docTypeSelected = 'CCDA R1.1 ' + docTypeSelected;
+	}
+	return docTypeSelected;
+}
+
+function documentTypeIsNonSpecific(documentType){
+	return(documentType.lastIndexOf('Non-specific') !== -1);
 }
 
 function buildValidationSummaryDetailHtml(errorCount, warningCount, infoCount, summaryType, summaryHeading){
