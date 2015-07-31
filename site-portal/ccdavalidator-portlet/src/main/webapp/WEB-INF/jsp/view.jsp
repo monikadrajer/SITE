@@ -267,7 +267,7 @@
 												<div class="col-md-12 form-group">
 													<span class="btn btn-success fileinput-button" id="CCDAR2_0Fileupload-btn"> <i
 															class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload a C-CDA File...</span>
-															<input id="CCDAR2_0Fileupload" type="file" name="file"  data-parsley-generatedmaxsize="3" data-parsley-filetype="xml" data-parsley-trigger="change" data-parsley-required data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
+															<input id="CCDAR2_0Fileupload" type="file" name="file"  data-parsley-r2maxsize="3" data-parsley-filetype="xml" data-parsley-trigger="change" data-parsley-required data-parsley-required-message="Please select a C-CDA file." tabindex="1"/>
 															
 													</span>
 													<div id="CCDAR2_0Files"></div>
