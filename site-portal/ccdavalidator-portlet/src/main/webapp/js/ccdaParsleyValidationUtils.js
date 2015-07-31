@@ -36,10 +36,10 @@ $(function(){
 	},32).addMessage('en','maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
 	
 	// parsley Validator
-	window.ParsleyValidator.addValidator('referencemaxsize',function(value,requirement){
-		var file_size=$('#CCDAReferenceFileupload')[0].files[0];
+	window.ParsleyValidator.addValidator('r2maxsize',function(value,requirement){
+		var file_size=$('#CCDAR2_0Fileupload')[0].files[0];
 		return file_size.size < requirement*1024*1024;
-	},32).addMessage('en','referencemaxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
+	},32).addMessage('en','r2maxsize','The uploaded file size exceeds the maximum file size of 3 MB.');
 	
 	// parsley Validator to validate generated file
 	window.ParsleyValidator.addValidator('generatedmaxsize',function(value,requirement){
