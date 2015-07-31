@@ -276,12 +276,6 @@ function smartCCDAValidation()
 		selector = '#CCDA1ValidationForm';
 	} else if ($('#collapseCCDA2_0Validator').hasClass('in')){
 		selector = '#CCDAR2_0ValidationForm';
-	//} else if ($('#collapseReconciledValidator').hasClass('in')){
-	//	selector = '#CCDAReconciledValidationForm';
-	//} else if ($('#collapseReferenceValidator').hasClass('in')){
-	//	selector = '#CCDAReferenceValidationForm';
-	//} else if ($('#collapseSuperValidator').hasClass('in')){
-	//	selector = '#CCDASuperValidationForm';
 	} else {
 		
 	}
@@ -372,7 +366,6 @@ function loadSampleTrees(){
 	loadNegativeTestCCDATree();
 	loadReferenceCCDAIncorpTree();
 	loadCCDASamplesFromVendorsTree();
-	loadCIRISampleFileTree();
 	loadCCDAReferenceTree();
 	loadCCDAReferenceFileUsedTree();
 }
@@ -439,39 +432,6 @@ function loadNegativeTestCCDATree(){
 		    			  
 		    			  $('#dLabel2').focus();
 		    			  $('#dLabel2').dropdown("toggle");
-		    			  
-		    			  $("#negTestCCDAsubmit").click(function(e) {
-		    				  
-		    				  var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
-		    				  	$.blockUI({ css: { 
-		    				        border: 'none', 
-		    				        padding: '15px', 
-		    				        backgroundColor: '#000', 
-		    				        '-webkit-border-radius': '10px', 
-		    				        '-moz-border-radius': '10px', 
-		    				        opacity: .5, 
-		    				        color: '#fff' 
-		    			    	},
-		    			    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
-		    					          '<div class="lbl">Preparing your download...</div></div>' });
-		    				  	
-		    						$('#negTestForm .formError').hide(0);
-		    						
-		    						$.fileDownload($('#negTestForm').attr('action'), {
-		    							
-		    							successCallback: function (url) {
-		    								$.unblockUI(); 
-		    				            },
-		    				            failCallback: function (responseHtml, url) {
-		    				            	alert("Server error:" + responseHtml);
-		    				            	alert(url);
-		    				            	$.unblockUI(); 
-		    				            },
-		    					        httpMethod: "POST",
-		    					        data: $('#negTestForm').serialize()
-		    					    });
-		    					return false;
-		    			  });
 		    			  }
 		    			  
 		    		  },
@@ -500,6 +460,39 @@ function loadNegativeTestCCDATree(){
 			});
 	
 }
+
+$("#negTestCCDAsubmit").click(function(e) {
+	  
+	  var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+	  	$.blockUI({ css: { 
+	        border: 'none', 
+	        padding: '15px', 
+	        backgroundColor: '#000', 
+	        '-webkit-border-radius': '10px', 
+	        '-moz-border-radius': '10px', 
+	        opacity: .5, 
+	        color: '#fff' 
+  	},
+  	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+		          '<div class="lbl">Preparing your download...</div></div>' });
+	  	
+			$('#negTestForm .formError').hide(0);
+			
+			$.fileDownload($('#negTestForm').attr('action'), {
+				
+				successCallback: function (url) {
+					$.unblockUI(); 
+	            },
+	            failCallback: function (responseHtml, url) {
+	            	alert("Server error:" + responseHtml);
+	            	alert(url);
+	            	$.unblockUI(); 
+	            },
+		        httpMethod: "POST",
+		        data: $('#negTestForm').serialize()
+		    });
+		return false;
+});
 
 function loadReferenceCCDAIncorpTree(){
 	
@@ -563,40 +556,6 @@ function loadReferenceCCDAIncorpTree(){
 		    			  
 		    			  $('#dLabel1').focus();
 		    			  $('#dLabel1').dropdown("toggle");
-		    			  
-		    			  $("#refIncorpCCDAsubmit").click(function(e) {
-		    				  
-		    				  var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
-		    				  	$.blockUI({ css: { 
-		    				        border: 'none', 
-		    				        padding: '15px', 
-		    				        backgroundColor: '#000', 
-		    				        '-webkit-border-radius': '10px', 
-		    				        '-moz-border-radius': '10px', 
-		    				        opacity: .5, 
-		    				        color: '#fff' 
-		    			    	},
-		    			    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
-		    					          '<div class="lbl">Preparing your download...</div></div>' });
-		    				  	
-		    						$('#refIncorpForm .formError').hide(0);
-		    						
-		    					    
-		    						$.fileDownload($('#refIncorpForm').attr('action'), {
-		    							
-		    							successCallback: function (url) {
-		    								$.unblockUI(); 
-		    				            },
-		    				            failCallback: function (responseHtml, url) {
-		    				            	alert("Server error:" + responseHtml);
-		    				            	alert(url);
-		    				            	$.unblockUI(); 
-		    				            },
-		    					        httpMethod: "POST",
-		    					        data: $('#refIncorpForm').serialize()
-		    					    });
-		    					return false;
-		    			  });
 		    			  }
 		    			  
 		    		  },
@@ -626,9 +585,41 @@ function loadReferenceCCDAIncorpTree(){
 	
 }
 
+$("#refIncorpCCDAsubmit").click(function(e) {
+	  
+	  var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+	  	$.blockUI({ css: { 
+	        border: 'none', 
+	        padding: '15px', 
+	        backgroundColor: '#000', 
+	        '-webkit-border-radius': '10px', 
+	        '-moz-border-radius': '10px', 
+	        opacity: .5, 
+	        color: '#fff' 
+  	},
+  	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+		          '<div class="lbl">Preparing your download...</div></div>' });
+	  	
+			$('#refIncorpForm .formError').hide(0);
+			
+		    
+			$.fileDownload($('#refIncorpForm').attr('action'), {
+				
+				successCallback: function (url) {
+					$.unblockUI(); 
+	            },
+	            failCallback: function (responseHtml, url) {
+	            	alert("Server error:" + responseHtml);
+	            	alert(url);
+	            	$.unblockUI(); 
+	            },
+		        httpMethod: "POST",
+		        data: $('#refIncorpForm').serialize()
+		    });
+		return false;
+});
+
 function loadCCDASamplesFromVendorsTree(){
-	
-	
 	$("#ccdafiletreepanel").jstree({
 		 "json_data" : {
 			      "ajax" : {
@@ -692,43 +683,6 @@ function loadCCDASamplesFromVendorsTree(){
 		    			  
 		    			  $('#dLabel').focus();
 		    			  $('#dLabel').dropdown("toggle");
-		    			  
-		    			  $("#incorpCCDAsubmit").click(function(e){
-		    				    
-		    				  	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
-		    				  	$.blockUI({ css: { 
-		    				        border: 'none', 
-		    				        padding: '15px', 
-		    				        backgroundColor: '#000', 
-		    				        '-webkit-border-radius': '10px', 
-		    				        '-moz-border-radius': '10px', 
-		    				        opacity: .5, 
-		    				        color: '#fff' 
-		    			    	},
-		    			    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
-		    					          '<div class="lbl">Preparing your download...</div></div>' });
-		    				  	
-		    				  
-		    						$('#incorpForm .formError').hide(0);
-		    						
-		    					    
-		    						$.fileDownload($('#incorpForm').attr('action'), {
-		    							
-		    							successCallback: function (url) {
-		    								$.unblockUI(); 
-		    				            },
-		    				            failCallback: function (responseHtml, url) {
-		    				            	alert("Server error:" + responseHtml);
-		    				            	alert(url);
-		    				            	$.unblockUI(); 
-		    				            },
-		    					        httpMethod: "POST",
-		    					        data: $('#incorpForm').serialize()
-		    					    });
-		    						
-		    					return false;
-		    				});
-		    			  
 		    		  }
 		    	  },
 		    	  "folder" : {
@@ -747,154 +701,55 @@ function loadCCDASamplesFromVendorsTree(){
 	    "plugins" : [ "themes", "json_data", "ui", "types" ]
 	}).bind('loaded.jstree', function(e, data) {
 		isfiletreeloaded = true;
-		
-		
-		
 		$('#ccdafiletreepanel').find('a').each(function() {
 		    $(this).attr('tabindex', '1');
 		});
 	});
-	
-	
 }
 
-
-
-function loadCIRISampleFileTree(){
-	
-	
-	$("#reconciledBundleFileTreePanel").jstree({
-		 "json_data" : {
-			      "ajax" : {
-				      "url" : reconciledCCDATreeURL,
-				      "type" : "post",
-				  }
-	      },
-	      
-	      "types" : {
-	    	  "valid_children" : [ "all" ],
-	    	  "type_attr" : "ref",
-	    	  "types" : {
-	    		  "root" : {
-		    	      "icon" : {
-		    	    	  "image" : window.currentContextPath + "/images/root.png"
-		    	      },
-		    	      "valid_children" : [ "file","folder" ],
-		    	      "max_depth" : 2,
-		    	      "hover_node" : false,
-		    	      "select_node" : function (e) {
-
-		    	    	  this.toggle_node(e);
-		    	    	  return false;
-		    	      }
-		    	      
-		    	  	},
-		    	  "file" : {
-		    		  "icon" : {
-		    	    	  "image" : window.currentContextPath + "/images/file.png"
-		    	      },
-		    		  "valid_children" : [ "none" ],
-		    		  "deselect_node" : function (node,e) {
-		    			  //var jform = $('#incorpForm');
-		    			$('#reconciledBundleForm .formError').hide(0);
-		    				
-		    			  
-		    			//var textValue = $('#incorpemail').val();
-		  				$('#reconciledBundleForm').trigger('reset');
-		  				$('#reconciledBundleFormCCDAsubmit').unbind("click");
-		  				
-		  				$('#reconciledBundleFilePathOutput').empty();
-		  				$('#reconciledBundleFilepath').val('');
-		  				
-		  				//$('#incorpemail').val(textValue);
-		    			  
-		    		  },
-		    		  "select_node" : function (node,e) {
-		    			  
-		    			  $('#reconciledBundleForm .formError').hide(0);
-		    			  //populate the textbox
-		    			  $("#reconciledBundleFilepath").val(node.data("serverpath"));
-		    			
-		    			  
-		    			  $("#reconciledBundleFilePathOutput").text($("#reconciledBundleFilepath").val());
-		    			 
-		    			  
-		    	    	  //hide the drop down panel
-		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
-		    			  
-		    			  $('#reconciledBundledLabel').focus();
-		    			  $('#reconciledBundledLabel').dropdown("toggle");
-		    			  
-		    			  $("#reconciledBundleCCDAsubmit").click(function(e){
-		    				    
-		    				  	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
-		    				  	$.blockUI({ css: { 
-		    				        border: 'none', 
-		    				        padding: '15px', 
-		    				        backgroundColor: '#000', 
-		    				        '-webkit-border-radius': '10px', 
-		    				        '-moz-border-radius': '10px', 
-		    				        opacity: .5, 
-		    				        color: '#fff' 
-		    			    	},
-		    			    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
-		    					          '<div class="lbl">Preparing your download...</div></div>' });
-		    				  	
-		    				  
-		    						$('#reconciledBundleForm .formError').hide(0);
-		    						
-		    					    
-		    						$.fileDownload($('#reconciledBundleForm').attr('action'), {
-		    							
-		    							successCallback: function (url) {
-		    								$.unblockUI(); 
-		    				            },
-		    				            failCallback: function (responseHtml, url) {
-		    				            	alert("Server error:" + responseHtml);
-		    				            	alert(url);
-		    				            	$.unblockUI(); 
-		    				            },
-		    					        httpMethod: "POST",
-		    					        data: $('#reconciledBundleForm').serialize()
-		    					    });
-		    						
-		    					
-		    					return false;
-		    				});
-		    			  
-		    		  }
-		    	  },
-		    	  "folder" : {
-		    		  "icon" : {
-		    	    	  "image" : window.currentContextPath + "/images/folder.png"
-		    	      },
-		    		  "valid_children" : [ "file" ],
-		    		  "select_node" : function (e) {
-		    	    	  e.find('a:first').focus();
-		    			  this.toggle_node(e);
-		    	    	  return false;
-		    	      }
-		    	  }
-	    	 }
-	    },
-	    "plugins" : [ "themes", "json_data", "ui", "types" ]
-	}).bind('loaded.jstree', function(e, data) {
-		isfiletreeloaded = true;
+$("#incorpCCDAsubmit").click(function(e){
+    
+  	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+  	$.blockUI({ css: { 
+        border: 'none', 
+        padding: '15px', 
+        backgroundColor: '#000', 
+        '-webkit-border-radius': '10px', 
+        '-moz-border-radius': '10px', 
+        opacity: .5, 
+        color: '#fff' 
+	},
+	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+	          '<div class="lbl">Preparing your download...</div></div>' });
+  	
+  
+		$('#incorpForm .formError').hide(0);
 		
+	    
+		$.fileDownload($('#incorpForm').attr('action'), {
+			
+			successCallback: function (url) {
+				$.unblockUI(); 
+            },
+            failCallback: function (responseHtml, url) {
+            	alert("Server error:" + responseHtml);
+            	alert(url);
+            	$.unblockUI(); 
+            },
+	        httpMethod: "POST",
+	        data: $('#incorpForm').serialize()
+	    });
 		
-		
-		$('#reconciledBundleFileTreePanel').find('a').each(function() {
-		    $(this).attr('tabindex', '1');
-		});
-	});
-}
-
-
-
+	return false;
+});
 
 function loadCCDAReferenceTree(){
 	
 	$("#referenceDownloadFileTreePanel").jstree({
+		"core" : {
+		    "multiple" : false,
+		    "animation" : 0
+		  },
 		 "json_data" : {
 			      "ajax" : {
 				      "url" : referenceCCDATreeURL,
@@ -906,114 +761,77 @@ function loadCCDAReferenceTree(){
 	    	  "valid_children" : [ "all" ],
 	    	  "type_attr" : "ref",
 	    	  "types" : {
-	    		  "root" : {
-		    	      "icon" : {
-		    	    	  "image" : window.currentContextPath + "/images/root.png"
-		    	      },
-		    	      "valid_children" : [ "file","folder" ],
-		    	      "max_depth" : 2,
-		    	      "hover_node" : false,
-		    	      "select_node" : function (e) {
-
-		    	    	  this.toggle_node(e);
-		    	    	  return false;
-		    	      }
-		    	      
-		    	  	},
 		    	  "file" : {
 		    		  "icon" : {
 		    	    	  "image" : window.currentContextPath + "/images/file.png"
 		    	      },
 		    		  "valid_children" : [ "none" ],
 		    		  "deselect_node" : function (node,e) {
-		    			
-		    			  
 		    			$('#referenceDownloadForm .formError').hide(0);
 		  				$('#referenceDownloadForm').trigger('reset');
 		  				$('#referenceDownloadFormCCDAsubmit').unbind("click");
-		  				
 		  				$('#referenceDownloadFilePathOutput').empty();
 		  				$('#referenceDownloadFilepath').val('');
-		  				
-		    			  
 		    		  },
 		    		  "select_node" : function (node,e) {
 		    			  $('#referenceDownloadForm .formError').hide(0);
 		    			  //populate the textbox
 		    			  $("#referenceDownloadFilepath").val(node.data("serverpath"));
-		    			
 		    			  
 		    			  $("#referenceDownloadFilePathOutput").text($("#referenceDownloadFilepath").val());
 		    			  
 		    	    	  //hide the drop down panel
 		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
-		    			  
 		    			  $('#referenceDownloaddLabel').focus();
 		    			  $('#referenceDownloaddLabel').dropdown("toggle");
-		    			  
-		    			  $("#referenceDownloadCCDAsubmit").click(function(e){
-		    				    
-		    				  	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
-		    				  	$.blockUI({ css: { 
-		    				        border: 'none', 
-		    				        padding: '15px', 
-		    				        backgroundColor: '#000', 
-		    				        '-webkit-border-radius': '10px', 
-		    				        '-moz-border-radius': '10px', 
-		    				        opacity: .5, 
-		    				        color: '#fff' 
-		    			    	},
-		    			    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
-		    					          '<div class="lbl">Preparing your download...</div></div>' });
-		    				  	
-		    					{
-		    						$('#referenceDownloadForm .formError').hide(0);
-		    						
-		    					    
-		    						$.fileDownload($('#referenceDownloadForm').attr('action'), {
-		    							
-		    							successCallback: function (url) {
-		    								$.unblockUI(); 
-		    				            },
-		    				            failCallback: function (responseHtml, url) {
-		    				            	alert("Server error:" + responseHtml);
-		    				            	alert(url);
-		    				            	$.unblockUI();
-		    				            },
-		    					        httpMethod: "POST",
-		    					        data: $('#referenceDownloadForm').serialize()
-		    					    });
-		    						
-		    					}
-		    					return false;
-		    				});
-		    			  
 		    		  }
-		    	  },
-		    	  "folder" : {
-		    		  "icon" : {
-		    	    	  "image" : window.currentContextPath + "/images/folder.png"
-		    	      },
-		    		  "valid_children" : [ "file" ],
-		    		  "select_node" : function (e) {
-		    	    	  e.find('a:first').focus();
-		    			  this.toggle_node(e);
-		    	    	  return false;
-		    	      }
 		    	  }
 	    	 }
 	    },
 	    "plugins" : [ "themes", "json_data", "ui", "types" ]
 	}).bind('loaded.jstree', function(e, data) {
 		isfiletreeloaded = true;
-		
-		//loadReferenceCCDAIncorpTree();
-		
 		$('#referenceDownloadFileTreePanel').find('a').each(function() {
 		    $(this).attr('tabindex', '1');
 		});
 	});
 }
+
+$("#referenceDownloadCCDAsubmit").click(function(e){
+  	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+  	$.blockUI({ css: { 
+        border: 'none', 
+        padding: '15px', 
+        backgroundColor: '#000', 
+        '-webkit-border-radius': '10px', 
+        '-moz-border-radius': '10px', 
+        opacity: .5, 
+        color: '#fff' 
+	},
+	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+	          '<div class="lbl">Preparing your download...</div></div>' });
+  	
+	{
+		$('#referenceDownloadForm .formError').hide(0);
+		
+	    
+		$.fileDownload($('#referenceDownloadForm').attr('action'), {
+			
+			successCallback: function (url) {
+				$.unblockUI(); 
+            },
+            failCallback: function (responseHtml, url) {
+            	alert("Server error:" + responseHtml);
+            	alert(url);
+            	$.unblockUI();
+            },
+	        httpMethod: "POST",
+	        data: $('#referenceDownloadForm').serialize()
+	    });
+		
+	}
+	return false;
+});
 
 function loadCCDAReferenceFileUsedTree(){
 	
@@ -1094,12 +912,7 @@ function loadCCDAReferenceFileUsedTree(){
 }
 
 
-
-
-
 $(function(){
-	
-		
 	$('#smartCCDAValidationBtn').bind('click', function(e, data) {
 		smartCCDAValidation();
 	});
@@ -1147,15 +960,5 @@ $(function(){
 	    });
 		
 	});
-	
-	
-	/*
-	// Spring MVC is choking on our 3 Ajax requests at the same time, so we spread them out a bit.
-	loadCCDASampleTree();
-	setTimeout(function () { loadCCDAReferenceTree(); }, 100);
-	setTimeout(function () { loadCIRISampleFileTree(); }, 200);
-	*/
 	loadSampleTrees();
-	
-
 });
