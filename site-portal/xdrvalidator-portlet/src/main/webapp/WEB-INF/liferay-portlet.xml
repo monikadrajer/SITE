@@ -22,8 +22,6 @@
 		
 		<footer-portlet-javascript>/js/main.js</footer-portlet-javascript>
 		<footer-portlet-javascript>/js/uploader.js</footer-portlet-javascript>
-		<footer-portlet-javascript>/js/jquery.validationEngine-en.js</footer-portlet-javascript>
-		<footer-portlet-javascript>/js/jquery.validationEngine.js</footer-portlet-javascript>
 		
 	</portlet>
 	<role-mapper>

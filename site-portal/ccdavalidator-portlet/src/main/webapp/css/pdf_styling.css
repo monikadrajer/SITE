@@ -1,0 +1,35 @@
+.small {font-size: 15px;}
+.line{border-bottom: 1px;
+	border-style:double;
+	}
+
+#page-header {
+   display: block;
+   padding-bottom:2px;
+}
+#page-footer{
+   text-align: right;
+   padding-top:2px;
+}
+@page {
+  size:letter;
+  @top-center {
+    content: element(current);
+  }
+  
+  @bottom-right {
+    content: element(footer);
+  }
+}
+ 
+.page-start { -fs-page-sequence: start; page-break-before: auto;}
+table {-fs-table-paginate: paginate;page-break-inside: avoid;}
+/* forces a page break */
+.break {page-break-after:always}
+ 
+span.page:before { content: counter(page); }
+span.pagecount:before { content: counter(pages); }
+
+.head{
+	font-size:1.5em;
+}

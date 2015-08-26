@@ -24,14 +24,12 @@ public class CCDAValidatorJsonView extends AbstractView {
 	@Override
     protected void renderMergedOutputModel(Map map, HttpServletRequest request, HttpServletResponse response)
             throws Exception {
-    logger.info("Resolving ajax request view - " + map);
+    //logger.info("Resolving ajax request view - " + map);
     
     JSONObject jsonObj = new JSONObject();
     
     jsonObj.put("files", map.get("files"));
     jsonObj.put("body", map.get("body"));
-    
-    logger.info(jsonObj.toString());
     
     logger.info("content Type = " + getContentType());
     response.setContentType("text/plain");
