@@ -12,7 +12,7 @@ $(function() {
 			handleFileUploadError();
         },
 		done : function(e, data) {
-			doCcdaValidation(data);
+			showValidationResults(data);
 		},
 		progressall : function(e, data) {
 			showFileValidationProgress(data);

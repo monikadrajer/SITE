@@ -456,6 +456,17 @@ function showResults(resultsHtml){
     }
 }
 
+function showResultsTable(){
+	$("#resultTableModal").modal("show");
+	$("#resultsModalTabs a[href='#resultsTab1']").tab("show");
+    $("#resultsModalTabs a[href='#resultsTab2']").hide();
+    $("#resultsModalTabs a[href='#resultsTab3']").hide();
+    if(Boolean(validationError)){
+    	$("#smartCCDAValidationBtn").hide();
+        $("#saveResultsBtn").hide();
+    }
+}
+
 function buildResultsHtml(data){
 	var tabHtml1 = "";
 	if (("error" in data.result.body.ccdaResults) || ("error" in data.result.body.ccdaExtendedResults)){
@@ -494,6 +505,27 @@ function removeProgressModal(){
 function doCcdaValidation(data){
 	var tabHtml1 = buildResultsHtml(data);
 	showResults(tabHtml1);
+    updateStatisticCount();
+    removeProgressModal();
+}
+
+function showValidationResultsInDataTable(data){
+	$('#resultsTable').DataTable( {
+		data: data.result.body,
+		columns: [
+		          { data: 'errorDescription' },
+		          { data: 'errorType' },
+		          { data: 'xPath' },
+		          { data: 'expectedCodeSystem' },
+		          { data: 'actualCodeSystem' },
+		          { data: 'expectedCode' },
+		          { data: 'actualCode' },
+		          { data: 'expectedDisplayName' },
+		          { data: 'actualDisplayName' },
+		          { data: 'expectedValueSet' },
+		      ]
+    } );
+	showResultsTable();
     updateStatisticCount();
     removeProgressModal();
 }

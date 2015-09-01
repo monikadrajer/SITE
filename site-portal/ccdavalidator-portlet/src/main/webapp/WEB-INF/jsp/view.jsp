@@ -532,6 +532,68 @@
 			</div>
 			</div>
 			</div>
+			
+			<div class="modal modal-wide fade" id="resultTableModal" tabindex="-1" role="dialog" aria-labelledby="resultTableModalLabel" aria-hidden="true">
+	      	<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">&times;</button>
+					<ul class="nav nav-tabs" id="resultsModalTabs">
+					  <li><a href="#resultsTab1" data-toggle="tab">Validation Result</a></li>
+					  <li><a href="#resultsTab2" data-toggle="tab">Original C-CDA</a></li>
+					  <li><a href="#resultsTab3" data-toggle="tab">Smart C-CDA Result</a></li>
+					</ul>
+				</div>
+				<div class="modal-body">
+					<div id="validationResults">
+						<div class="tab-content" id="resultsTabContent">
+							<div class="tab-pane" id="resultsTab1">
+							<table id="resultsTable" class="table table-striped table-bordered" cellspacing="0" width="100%" style="table-layout: fixed">
+								<thead>
+									<tr>
+										<th style="width: 30%">Error Description</th>
+										<th style="width: 5%">Error Type</th>
+										<th style="width: 30%">xPath</th>
+										<th style="width: 5%">Expected Code System</th>
+										<th style="width: 5%">Actual Code System</th>
+										<th style="width: 5%">Expected Code</th>
+										<th style="width: 5%">Actual Code</th>
+										<th style="width: 5%">Expected Display Name</th>
+										<th style="width: 5%">Actual Display Name</th>
+										<th style="width: 5%">Expected Value Set</th>
+									</tr>
+								</thead>
+								<tfoot>
+									<tr>
+										<th style="width: 30%">Error Description</th>
+										<th style="width: 5%">Error Type</th>
+										<th style="width: 30%">xPath</th>
+										<th style="width: 5%">Expected Code System</th>
+										<th style="width: 5%">Actual Code System</th>
+										<th style="width: 5%">Expected Code</th>
+										<th style="width: 5%">Actual Code</th>
+										<th style="width: 5%">Expected Display Name</th>
+										<th style="width: 5%">Actual Display Name</th>
+										<th style="width: 5%">Expected Value Set</th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+							<div class="tab-pane" id="resultsTab2">
+							</div>
+							<div class="tab-pane" id="resultsTab3"></div>
+						</div>
+					</div>
+				</div>
+				<!-- <div class="modal-footer">
+					<button type="button" class="btn btn-primary" id="smartCCDAValidationBtn">Smart C-CDA Validation</button>
+					<button type="button" class="btn btn-primary" id="saveResultsBtn">Save Results</button>
+			        <button type="button" class="btn btn-default" id="closeResultsBtn" data-dismiss="modal">Close Results</button>
+				</div> -->
+			</div>
+			</div>
+			</div>
 
 			<div id="reportSaveAsQuestion" style="display: none; cursor: default">
 				
