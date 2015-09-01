@@ -20,38 +20,63 @@ public class ReferenceCCDAValidationService {
 
 	public ValidationResultsDto validateCCDA(String validationObjective, String referenceFileName, MultipartFile ccdaFile) {
 		ValidationResultsDto resultsDto = new ValidationResultsDto();
-		Map<String, List<RefCCDAValidationResult>> validationResults = new HashMap<>();
+		ValidationResultsMetaData resultsMetaData = new ValidationResultsMetaData();
+		Map<String, List<RefCCDAValidationResult>> processedResults = new HashMap<>();
+		List<RefCCDAValidationResult> validatorResults = getValidationResults(validationObjective, referenceFileName, ccdaFile);
+		processValidationResults(processedResults, resultsMetaData, validatorResults);
+		resultsDto.setResultsMetaData(resultsMetaData);
+		resultsDto.setCcdaValidationResults(processedResults);
+		return resultsDto;
+	}
+
+	private List<RefCCDAValidationResult> getValidationResults(String validationObjective, String referenceFileName,
+			MultipartFile ccdaFile) {
+		List<RefCCDAValidationResult> validatorResults = new ArrayList<RefCCDAValidationResult>();
 		String ccdaFileContents;
 		InputStream fileIs = null;
 		try {
-			ValidationResultsMetaData resultsMetaData = new ValidationResultsMetaData();
 			fileIs = ccdaFile.getInputStream();
 			ccdaFileContents = IOUtils.toString(ccdaFile.getInputStream());
-			List<RefCCDAValidationResult> validatorResults = ReferenceCCDAValidator.validateCCDAWithReferenceFileName(
-					validationObjective, referenceFileName, ccdaFileContents);
-			for (RefCCDAValidationResult result : validatorResults) {
-				if (validationResults.containsKey(result.getErrorType().getErrorTypePrettyName())) {
-					validationResults.get(result.getErrorType().getErrorTypePrettyName()).add(result);
-					resultsMetaData.addCount(result.getErrorType());
-				} else {
-					ArrayList<RefCCDAValidationResult> resultList = new ArrayList<>();
-					validationResults.put(result.getErrorType().getErrorTypePrettyName(), resultList);
-					resultsMetaData.addCount(result.getErrorType());
-				}
-			}
-			resultsDto.setResultsMetaData(resultsMetaData);
-			resultsDto.setCcdaValidationResults(validationResults);
+			validatorResults = ReferenceCCDAValidator.validateCCDAWithReferenceFileName(validationObjective, referenceFileName,
+					ccdaFileContents);
 		} catch (IOException e) {
 			throw new RuntimeException("Error getting CCDA contents from provided file", e);
 		} finally {
-			if (fileIs != null) {
-				try {
-					fileIs.close();
-				} catch (IOException e) {
-					throw new RuntimeException("Error closing CCDA file input stream", e);
-				}
+			closeFileInputStream(fileIs);
+		}
+		return validatorResults;
+	}
+
+	private void processValidationResults(Map<String, List<RefCCDAValidationResult>> processedResults,
+			ValidationResultsMetaData resultsMetaData, List<RefCCDAValidationResult> validatorResults) {
+		for (RefCCDAValidationResult result : validatorResults) {
+			addResultToErrorTypeMap(processedResults, resultsMetaData, result);
+			resultsMetaData.addCount(result.getErrorType());
+		}
+	}
+
+	private void addResultToErrorTypeMap(Map<String, List<RefCCDAValidationResult>> validationResults,
+			ValidationResultsMetaData resultsMetaData, RefCCDAValidationResult result) {
+		if (validationResults.containsKey(result.getErrorType().getErrorTypePrettyName())) {
+			validationResults.get(result.getErrorType().getErrorTypePrettyName()).add(result);
+		} else {
+			addNewErrorTypeListToMap(validationResults, result);
+		}
+	}
+
+	private void addNewErrorTypeListToMap(Map<String, List<RefCCDAValidationResult>> validationResults,
+			RefCCDAValidationResult result) {
+		ArrayList<RefCCDAValidationResult> resultList = new ArrayList<>();
+		validationResults.put(result.getErrorType().getErrorTypePrettyName(), resultList);
+	}
+
+	private void closeFileInputStream(InputStream fileIs) {
+		if (fileIs != null) {
+			try {
+				fileIs.close();
+			} catch (IOException e) {
+				throw new RuntimeException("Error closing CCDA file input stream", e);
 			}
 		}
-		return resultsDto;
 	}
 }
