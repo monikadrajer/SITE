@@ -1,8 +1,6 @@
 package org.sitenv.services.reference.ccda.controllers;
 
-import java.util.ArrayList;
-
-import org.sitenv.referenceccda.validator.RefCCDAValidationResult;
+import org.sitenv.services.reference.ccda.dto.ValidationResultsDto;
 import org.sitenv.services.reference.ccda.services.ReferenceCCDAValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +16,7 @@ public class ReferenceCCDAValidationController {
 	ReferenceCCDAValidationService referenceCcdaValidationService;
 
 	@RequestMapping(value = "/", headers = "content-type=multipart/*", method = RequestMethod.POST)
-	public ArrayList<RefCCDAValidationResult> doValidation(
+	public ValidationResultsDto doValidation(
 			@RequestParam(value = "validationObjective", required = true) String validationObjective,
 			@RequestParam(value = "referenceFileName", required = true) String referenceFileName,
 			@RequestParam(value = "ccdaFile", required = true) MultipartFile ccdaFile) {
