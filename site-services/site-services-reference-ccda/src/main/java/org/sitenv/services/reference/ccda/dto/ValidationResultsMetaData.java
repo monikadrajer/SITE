@@ -3,15 +3,18 @@ package org.sitenv.services.reference.ccda.dto;
 import org.sitenv.referenceccda.validator.enums.ErrorType;
 
 public class ValidationResultsMetaData {
-	int ccdaIgInfoCount;
-	int ccdaIgWarningCount;
-	int ccdaIgErrorCount;
-	int ccdaVocabInfoCount;
-	int ccdaVocabWarningCount;
-	int ccdaVocabErrorCount;
-	int ccdaRefInfoCount;
-	int ccdaRefWarningCount;
-	int ccdaRefErrorCount;
+	private int ccdaIgInfoCount;
+	private int ccdaIgWarningCount;
+	private int ccdaIgErrorCount;
+	private int ccdaVocabInfoCount;
+	private int ccdaVocabWarningCount;
+	private int ccdaVocabErrorCount;
+	private int ccdaRefInfoCount;
+	private int ccdaRefWarningCount;
+	private int ccdaRefErrorCount;
+	private String ccdaDocumentType;
+	private boolean serviceError;
+	private String serviceErrorMessage;
 
 	public int getCcdaIgInfoCount() {
 		return ccdaIgInfoCount;
@@ -119,7 +122,30 @@ public class ValidationResultsMetaData {
 
 	public boolean hasCcdaRefErrors() {
 		return ccdaRefErrorCount > 0;
+	}
 
+	public String getCcdaDocumentType() {
+		return ccdaDocumentType;
+	}
+
+	public void setCcdaDocumentType(String ccdaDocumentType) {
+		this.ccdaDocumentType = ccdaDocumentType;
+	}
+
+	public boolean isServiceError() {
+		return serviceError;
+	}
+
+	public void setServiceError(boolean serviceError) {
+		this.serviceError = serviceError;
+	}
+
+	public String getServiceErrorMessage() {
+		return serviceErrorMessage;
+	}
+
+	public void setServiceErrorMessage(String serviceErrorMessage) {
+		this.serviceErrorMessage = serviceErrorMessage;
 	}
 
 	public void addCount(ErrorType errorType) {

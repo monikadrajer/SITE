@@ -7,6 +7,27 @@ var extendedInfoCount;
 var dataQualityConcernCount;
 var validationError;
 
+function buildCcdaValidationResults(data){
+	resultList = [];
+	$.each(data.result.body.ccdaValidationResults, function(errors,error){
+		if(error.errorType.toLowerCase().indexOf("error") >= 0){
+			resultList.push('<font color="red">');
+		}else if(error.errorType.toLowerCase().indexOf("warn") >= 0){
+			resultList.push('<font color="orange">');
+		}else{
+			resultList.push('<font color="#5bc0de">');
+		}
+		var errorDescription = ['<li>' + error.errorType + '<ul class="">',
+				                    	'<li class="">Description: '+ error.errorDescription + '</li>',
+			                    		'<li class="">xPath: '+ error.xPath + '</li>',
+		                    		'</ul></li>'];
+		resultList = resultList.concat(errorDescription);
+		resultList.push('</font>');
+		resultList.push('<hr/><div class="pull-right"><a href="#validationResults" title="top">^</a></div>');
+	});
+	return (resultList.join('\n'));
+}
+
 function buildCcdaErrorList(data){
 	var errorList = ['<a name="ccdaErrors"/><b>C-CDA Validation Errors:</b>',
 	                 '<ul>'];
@@ -309,6 +330,7 @@ function buildValidationResultErrorHtml(data){
 	    '<br/>'];
 	return errorHtml;
 }
+
 function buildValidationResultsHeader(uploadedFileName, docTypeSelected){
 	var header =  ['<title>Validation Results</title>',
 				    '<a name="validationResults"/>',
@@ -340,6 +362,35 @@ function buildValidationSummary(data){
 		extendedErrorCount = data.result.body.ccdaExtendedResults.errorList.length;
 		extendedWarningCount = data.result.body.ccdaExtendedResults.warningList.length;
 		extendedInfoCount = data.result.body.ccdaExtendedResults.informationList.length;
+		tabHtml1 += buildValidationSummaryDetailHtml(extendedErrorCount, extendedWarningCount, extendedInfoCount, 'vocabulary', 'C-CDA Vocabulary Summary').join('\n');
+	} 
+	if (showDataQualityValidation){
+		dataQualityConcernCount = data.result.body.ccdaDataQualityResults.dataQualityConcerns.length;
+		tabHtml1 += buildValidationSummaryDetailHtml(null, null, dataQualityConcernCount, 'dataqualityConcerns', 'C-CDA Data Quality Summary').join('\n');
+	} 
+	tabHtml1 += '</div>';
+	return tabHtml1;
+}
+
+function buildCcdaValidationSummary(data){
+	var validationMetaData = data.result.body.resultsMetaData;
+	var uploadedFileName = data.result.files[0].name;
+	var docTypeSelected = data.result.body.resultsMetaData.ccdaDocumentType;
+	ccdaErrorCount =  data.result.body.resultsMetaData.ccdaIgErrorCount;
+	ccdaWarningCount = data.result.body.resultsMetaData.ccdaIgWarningCount;
+	ccdaInfoCount = data.result.body.resultsMetaData.ccdaIgInfoCount;
+	
+	if(documentTypeIsNonSpecific(docTypeSelected)){
+		docTypeSelected = buildValidationHeaderForNonSpecificDocumentType(docTypeSelected);
+	}
+	
+	var tabHtml1 = buildValidationResultsHeader(uploadedFileName, docTypeSelected).join('\n');
+	tabHtml1 += ['<br/><div class="row">'];
+	tabHtml1 += buildValidationSummaryDetailHtml(ccdaErrorCount, ccdaWarningCount, ccdaInfoCount, 'ccda', 'C-CDA Validation Summary').join('\n');
+	if (showVocabularyValidation){
+		extendedErrorCount = data.result.body.resultsMetaData.ccdaVocabErrorCount;
+		extendedWarningCount = data.result.body.resultsMetaData.ccdaVocabWarningCount;
+		extendedInfoCount = data.result.body.resultsMetaData.ccdaVocabInfoCount;
 		tabHtml1 += buildValidationSummaryDetailHtml(extendedErrorCount, extendedWarningCount, extendedInfoCount, 'vocabulary', 'C-CDA Vocabulary Summary').join('\n');
 	} 
 	if (showDataQualityValidation){
@@ -384,6 +435,10 @@ function buildValidationResultDetailsHtml(data){
 	validationResultDetails += buildCcdaValidationWarningsListHtml(data);
 	validationResultDetails += buildCcdaValidationInfoListHtml(data);
 	return validationResultDetails;
+}
+
+function buildCcdaValidationResultDetailsHtml(data){
+	return buildCcdaValidationResults(data);
 }
 
 function buildCcdaValidationErrorsListHtml(data){
@@ -479,6 +534,13 @@ function buildResultsHtml(data){
 	return tabHtml1;
 }
 
+function buildCcdaValidationResultsHtml(data){
+	var tabHtml1 = buildCcdaValidationSummary(data);
+	tabHtml1 += buildCcdaValidationResultDetailsHtml(data);
+	
+	return tabHtml1;
+}
+
 function showFileValidationProgress(data){
 	var progressval = parseInt(data.loaded / data.total * 100, 10);
 	if(progressval < 99){
@@ -509,23 +571,9 @@ function doCcdaValidation(data){
     removeProgressModal();
 }
 
-function showValidationResultsInDataTable(data){
-	$('#resultsTable').DataTable( {
-		data: data.result.body,
-		columns: [
-		          { data: 'errorDescription' },
-		          { data: 'errorType' },
-		          { data: 'xPath' },
-		          { data: 'expectedCodeSystem' },
-		          { data: 'actualCodeSystem' },
-		          { data: 'expectedCode' },
-		          { data: 'actualCode' },
-		          { data: 'expectedDisplayName' },
-		          { data: 'actualDisplayName' },
-		          { data: 'expectedValueSet' },
-		      ]
-    } );
-	showResultsTable();
+function showValidationResults(data){
+	var tabHtml1 = buildCcdaValidationResultsHtml(data);
+	showResults(tabHtml1);
     updateStatisticCount();
     removeProgressModal();
 }

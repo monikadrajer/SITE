@@ -3,7 +3,7 @@ package org.sitenv.services.reference.ccda.services;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -21,11 +21,12 @@ public class ReferenceCCDAValidationService {
 	public ValidationResultsDto validateCCDA(String validationObjective, String referenceFileName, MultipartFile ccdaFile) {
 		ValidationResultsDto resultsDto = new ValidationResultsDto();
 		ValidationResultsMetaData resultsMetaData = new ValidationResultsMetaData();
-		Map<String, List<RefCCDAValidationResult>> processedResults = new HashMap<>();
+		resultsMetaData.setCcdaDocumentType(validationObjective);
+		Map<String, List<RefCCDAValidationResult>> processedResults = new LinkedHashMap<>();
 		List<RefCCDAValidationResult> validatorResults = getValidationResults(validationObjective, referenceFileName, ccdaFile);
 		processValidationResults(processedResults, resultsMetaData, validatorResults);
 		resultsDto.setResultsMetaData(resultsMetaData);
-		resultsDto.setCcdaValidationResults(processedResults);
+		resultsDto.setCcdaValidationResults(validatorResults);
 		return resultsDto;
 	}
 
@@ -50,17 +51,9 @@ public class ReferenceCCDAValidationService {
 	private void processValidationResults(Map<String, List<RefCCDAValidationResult>> processedResults,
 			ValidationResultsMetaData resultsMetaData, List<RefCCDAValidationResult> validatorResults) {
 		for (RefCCDAValidationResult result : validatorResults) {
-			addResultToErrorTypeMap(processedResults, resultsMetaData, result);
+			// addResultToErrorTypeMap(processedResults, resultsMetaData,
+			// result);
 			resultsMetaData.addCount(result.getErrorType());
-		}
-	}
-
-	private void addResultToErrorTypeMap(Map<String, List<RefCCDAValidationResult>> validationResults,
-			ValidationResultsMetaData resultsMetaData, RefCCDAValidationResult result) {
-		if (validationResults.containsKey(result.getErrorType().getErrorTypePrettyName())) {
-			validationResults.get(result.getErrorType().getErrorTypePrettyName()).add(result);
-		} else {
-			addNewErrorTypeListToMap(validationResults, result);
 		}
 	}
 

@@ -51,11 +51,7 @@ public class CCDAValidatorController extends BaseController {
 	private Map<String, Object> getResultMap() {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("files", responseJSON.getFileJson());
-		if (responseJSON.getJSONResponseBody() != null) {
-			map.put("body", responseJSON.getJSONResponseBody());
-		} else {
-			map.put("body", responseJSON.getJSONValidationResults());
-		}
+		map.put("body", responseJSON.getJSONResponseBody());
 		return map;
 
 	}
@@ -224,7 +220,9 @@ public class CCDAValidatorController extends BaseController {
 				throw new RuntimeException("ERROR: " + code + " details: " + relayResponse.getStatusLine().getReasonPhrase());
 			} else {
 				String json = handler.handleResponse(relayResponse);
-				responseJSON.setJSONValidationResults(new JSONArray(json));
+				JSONObject jsonbody = new JSONObject(json);
+
+				responseJSON.setJSONResponseBody(jsonbody);
 				statisticsManager.addCcdaValidation(CCDAR2_0_type_val, true, true, true, false, "r2.0");
 			}
 
