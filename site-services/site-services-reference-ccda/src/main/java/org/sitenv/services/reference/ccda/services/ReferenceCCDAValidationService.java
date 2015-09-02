@@ -3,9 +3,7 @@ package org.sitenv.services.reference.ccda.services;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.sitenv.referenceccda.validator.RefCCDAValidationResult;
@@ -20,11 +18,10 @@ public class ReferenceCCDAValidationService {
 
 	public ValidationResultsDto validateCCDA(String validationObjective, String referenceFileName, MultipartFile ccdaFile) {
 		ValidationResultsDto resultsDto = new ValidationResultsDto();
-		ValidationResultsMetaData resultsMetaData = new ValidationResultsMetaData();
-		resultsMetaData.setCcdaDocumentType(validationObjective);
-		Map<String, List<RefCCDAValidationResult>> processedResults = new LinkedHashMap<>();
+
 		List<RefCCDAValidationResult> validatorResults = getValidationResults(validationObjective, referenceFileName, ccdaFile);
-		processValidationResults(processedResults, resultsMetaData, validatorResults);
+		ValidationResultsMetaData resultsMetaData = buildValidationMedata(validatorResults, validationObjective);
+
 		resultsDto.setResultsMetaData(resultsMetaData);
 		resultsDto.setCcdaValidationResults(validatorResults);
 		return resultsDto;
@@ -48,19 +45,13 @@ public class ReferenceCCDAValidationService {
 		return validatorResults;
 	}
 
-	private void processValidationResults(Map<String, List<RefCCDAValidationResult>> processedResults,
-			ValidationResultsMetaData resultsMetaData, List<RefCCDAValidationResult> validatorResults) {
+	private ValidationResultsMetaData buildValidationMedata(List<RefCCDAValidationResult> validatorResults, String ccdaDocType) {
+		ValidationResultsMetaData resultsMetaData = new ValidationResultsMetaData();
 		for (RefCCDAValidationResult result : validatorResults) {
-			// addResultToErrorTypeMap(processedResults, resultsMetaData,
-			// result);
 			resultsMetaData.addCount(result.getErrorType());
 		}
-	}
-
-	private void addNewErrorTypeListToMap(Map<String, List<RefCCDAValidationResult>> validationResults,
-			RefCCDAValidationResult result) {
-		ArrayList<RefCCDAValidationResult> resultList = new ArrayList<>();
-		validationResults.put(result.getErrorType().getErrorTypePrettyName(), resultList);
+		resultsMetaData.setCcdaDocumentType(ccdaDocType);
+		return resultsMetaData;
 	}
 
 	private void closeFileInputStream(InputStream fileIs) {
