@@ -9,6 +9,7 @@ var validationError;
 
 function buildCcdaValidationResults(data){
 	resultList = [];
+	var currentErrorType;
 	$.each(data.result.body.ccdaValidationResults, function(errors,error){
 		if(error.errorType.toLowerCase().indexOf("error") >= 0){
 			resultList.push('<font color="red">');
@@ -17,6 +18,11 @@ function buildCcdaValidationResults(data){
 		}else{
 			resultList.push('<font color="#5bc0de">');
 		}
+		
+		if(currentErrorType != error.errorType.toLowerCase()){
+			resultList.push('<a href="#" name="'+ error.errorType.toLowerCase() + '"></a>');
+		}
+		
 		var errorDescription = ['<li>' + error.errorType + '<ul class="">',
 				                    	'<li class="">Description: '+ error.errorDescription + '</li>',
 			                    		'<li class="">xPath: '+ error.xPath + '</li>',
@@ -24,6 +30,7 @@ function buildCcdaValidationResults(data){
 		resultList = resultList.concat(errorDescription);
 		resultList.push('</font>');
 		resultList.push('<hr/><div class="pull-right"><a href="#validationResults" title="top">^</a></div>');
+		currentErrorType = error.errorType.toLowerCase();
 	});
 	return (resultList.join('\n'));
 }
@@ -386,7 +393,7 @@ function buildCcdaValidationSummary(data){
 	
 	var tabHtml1 = buildValidationResultsHeader(uploadedFileName, docTypeSelected).join('\n');
 	tabHtml1 += ['<br/><div class="row">'];
-	tabHtml1 += buildValidationSummaryDetailHtml(ccdaErrorCount, ccdaWarningCount, ccdaInfoCount, 'ccda', 'C-CDA Validation Summary').join('\n');
+	tabHtml1 += buildValidationSummaryDetailHtml(ccdaErrorCount, ccdaWarningCount, ccdaInfoCount, 'ccda_ig', 'C-CDA Validation Summary').join('\n');
 	if (showVocabularyValidation){
 		extendedErrorCount = data.result.body.resultsMetaData.ccdaVocabErrorCount;
 		extendedWarningCount = data.result.body.resultsMetaData.ccdaVocabWarningCount;
