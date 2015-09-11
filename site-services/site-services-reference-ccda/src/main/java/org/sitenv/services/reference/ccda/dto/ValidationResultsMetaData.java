@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.sitenv.referenceccda.validator.enums.ErrorType;
+import org.sitenv.referenceccda.validator.enums.ValidationResultType;
 
 public class ValidationResultsMetaData {
 	private String ccdaDocumentType;
 	private boolean serviceError;
 	private String serviceErrorMessage;
 	private final Map<String, AtomicInteger> errorCounts = new LinkedHashMap<String, AtomicInteger>();
-	private List<ErrorMetaData> errorMetaData;
+	private List<ResultMetaData> resultMetaData;
 
 	public String getCcdaDocumentType() {
 		return ccdaDocumentType;
@@ -39,19 +39,19 @@ public class ValidationResultsMetaData {
 		this.serviceErrorMessage = serviceErrorMessage;
 	}
 
-	public List<ErrorMetaData> getErrorMetaData() {
-		errorMetaData = new ArrayList<ErrorMetaData>();
+	public List<ResultMetaData> getResultMetaData() {
+		resultMetaData = new ArrayList<ResultMetaData>();
 		for (Map.Entry<String, AtomicInteger> entry : errorCounts.entrySet()) {
-			errorMetaData.add(new ErrorMetaData(entry.getKey(), entry.getValue().intValue()));
+			resultMetaData.add(new ResultMetaData(entry.getKey(), entry.getValue().intValue()));
 		}
-		return errorMetaData;
+		return resultMetaData;
 	}
 
-	public void addCount(ErrorType errorType) {
-		if (errorCounts.containsKey(errorType.getErrorTypePrettyName())) {
-			errorCounts.get(errorType.getErrorTypePrettyName()).addAndGet(1);
+	public void addCount(ValidationResultType resultType) {
+		if (errorCounts.containsKey(resultType.getTypePrettyName())) {
+			errorCounts.get(resultType.getTypePrettyName()).addAndGet(1);
 		} else {
-			errorCounts.put(errorType.getErrorTypePrettyName(), new AtomicInteger(1));
+			errorCounts.put(resultType.getTypePrettyName(), new AtomicInteger(1));
 		}
 	}
 }
