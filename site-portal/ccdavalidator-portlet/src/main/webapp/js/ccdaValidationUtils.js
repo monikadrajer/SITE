@@ -25,11 +25,11 @@ function buildCcdaValidationSummary(data){
 	var uploadedFileName = data.result.files[0].name;
 	var docTypeSelected = data.result.body.resultsMetaData.ccdaDocumentType;
 	var numberOfTypesOfErrorsPerGroup = 3; //error, warning, info
-	var errorTypeCount = 0;
-	var errorGroup = '';
-	var errorCountBadgeColorClass = '';
-	var errorGroupHTMLHeader = '<div class="panel panel-primary col-md-2 col-lg-2"><div><div class="list-group">';
-	var errorGroupHTMLEnd = '</div></div></div>';
+	var resultTypeCount = 0;
+	var resultGroup = '';
+	var resultCountBadgeColorClass = '';
+	var resultGroupHTMLHeader = '<div class="panel panel-primary col-md-2 col-lg-2"><div><div class="list-group">';
+	var resultGroupHTMLEnd = '</div></div></div>';
 	if(documentTypeIsNonSpecific(docTypeSelected)){
 		docTypeSelected = buildValidationHeaderForNonSpecificDocumentType(docTypeSelected);
 	}
@@ -37,19 +37,19 @@ function buildCcdaValidationSummary(data){
 	var tabHtml1 = buildValidationResultsHeader(uploadedFileName, docTypeSelected).join('\n');
 	tabHtml1 += '<br/><div class="row">';
 	
-	$.each(data.result.body.resultsMetaData.errorMetaData, function(errorMetaDataList, errorMetaData){
-		if(errorMetaData.errorType.toLowerCase().indexOf("error") >= 0){
-			errorCountBadgeColorClass = 'btn-danger';
-		}else if(errorMetaData.errorType.toLowerCase().indexOf("warn") >= 0){
-			errorCountBadgeColorClass = ' btn-warning';
+	$.each(data.result.body.resultsMetaData.resultMetaData, function(resultMetaData, metaData){
+		if(metaData.type.toLowerCase().indexOf("error") >= 0){
+			resultCountBadgeColorClass = 'btn-danger';
+		}else if(metaData.type.toLowerCase().indexOf("warn") >= 0){
+			resultCountBadgeColorClass = ' btn-warning';
 		}else{
-			errorCountBadgeColorClass = 'btn-info';
+			resultCountBadgeColorClass = 'btn-info';
 		}
-		errorGroup += '<div class="list-group-item"><span class="badge ' + errorCountBadgeColorClass + '">'+errorMetaData.errorCount+'</span><a href="#'+errorMetaData.errorType+'">' + errorMetaData.errorType + '</a></div>';
-		errorTypeCount++;
-		if(errorTypeCount % numberOfTypesOfErrorsPerGroup === 0){
-			tabHtml1 += errorGroupHTMLHeader + errorGroup + errorGroupHTMLEnd;
-			errorGroup = "";
+		resultGroup += '<div class="list-group-item"><span class="badge ' + resultCountBadgeColorClass + '">'+metaData.count+'</span><a href="#'+metaData.type+'">' + metaData.type + '</a></div>';
+		resultTypeCount++;
+		if(resultTypeCount % numberOfTypesOfErrorsPerGroup === 0){
+			tabHtml1 += resultGroupHTMLHeader + resultGroup + resultGroupHTMLEnd;
+			resultGroup = "";
 		}
 	});
 	tabHtml1 += '</div>';
@@ -58,28 +58,29 @@ function buildCcdaValidationSummary(data){
 
 function buildCcdaValidationResults(data){
 	resultList = [];
-	var currentErrorType;
-	$.each(data.result.body.ccdaValidationResults, function(errors,error){
-		if(error.errorType.toLowerCase().indexOf("error") >= 0){
+	var currentResultType;
+	$.each(data.result.body.ccdaValidationResults, function(ccdaValidationResults,result){
+		if(result.type.toLowerCase().indexOf("error") >= 0){
 			resultList.push('<font color="red">');
-		}else if(error.errorType.toLowerCase().indexOf("warn") >= 0){
+		}else if(result.type.toLowerCase().indexOf("warn") >= 0){
 			resultList.push('<font color="orange">');
 		}else{
 			resultList.push('<font color="#5bc0de">');
 		}
 		
-		if(currentErrorType != error.errorType.toLowerCase()){
-			resultList.push('<a href="#" name="'+ error.errorType + '"></a>');
+		if(currentResultType != result.type.toLowerCase()){
+			resultList.push('<a href="#" name="'+ result.type + '"></a>');
 		}
 		
-		var errorDescription = ['<li>' + error.errorType + '<ul class="">',
-				                    	'<li class="">Description: '+ error.errorDescription + '</li>',
-			                    		'<li class="">xPath: '+ error.xPath + '</li>',
+		var errorDescription = ['<li>' + result.type + '<ul class="">',
+				                    	'<li class="">Description: '+ result.description + '</li>',
+			                    		'<li class="">xPath: '+ result.xPath + '</li>',
+			                    		'<li class="">Document Line Number: '+ result.documentLineNumber + '</li>',
 		                    		'</ul></li>'];
 		resultList = resultList.concat(errorDescription);
 		resultList.push('</font>');
 		resultList.push('<hr/><div class="pull-right"><a href="#validationResults" title="top">^</a></div>');
-		currentErrorType = error.errorType.toLowerCase();
+		currentResultType = result.type.toLowerCase();
 	});
 	return (resultList.join('\n'));
 }
