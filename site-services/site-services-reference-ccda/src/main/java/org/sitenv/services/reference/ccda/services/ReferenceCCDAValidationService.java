@@ -48,7 +48,7 @@ public class ReferenceCCDAValidationService {
 	private ValidationResultsMetaData buildValidationMedata(List<RefCCDAValidationResult> validatorResults, String ccdaDocType) {
 		ValidationResultsMetaData resultsMetaData = new ValidationResultsMetaData();
 		for (RefCCDAValidationResult result : validatorResults) {
-			resultsMetaData.addCount(result.getErrorType());
+			resultsMetaData.addCount(result.getType());
 		}
 		resultsMetaData.setCcdaDocumentType(ccdaDocType);
 		return resultsMetaData;
