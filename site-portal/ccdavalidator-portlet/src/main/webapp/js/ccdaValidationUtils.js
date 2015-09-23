@@ -12,6 +12,8 @@ function showValidationResults(data){
 	showResults(tabHtml1);
     updateStatisticCount();
     removeProgressModal();
+    
+    hideSummaryHeadersOfNotYetImplementedValidators();
 }
 
 function buildCcdaValidationResultsHtml(data){
@@ -48,7 +50,7 @@ function buildCcdaValidationSummary(data){
 		resultGroup += '<div class="list-group-item"><span class="badge ' + resultCountBadgeColorClass + '">'+metaData.count+'</span><a href="#'+metaData.type+'">' + metaData.type + '</a></div>';
 		resultTypeCount++;
 		if(resultTypeCount % numberOfTypesOfErrorsPerGroup === 0){
-			tabHtml1 += resultGroupHTMLHeader + resultGroup + resultGroupHTMLEnd;
+			tabHtml1 += '<div id="'+metaData.type.substr(0, +metaData.type.lastIndexOf("_"))+'_SUMMARY">' + resultGroupHTMLHeader + resultGroup + resultGroupHTMLEnd + '</div>';
 			resultGroup = "";
 		}
 	});
@@ -85,6 +87,10 @@ function buildCcdaValidationResults(data){
 	return (resultList.join('\n'));
 }
 
+function hideSummaryHeadersOfNotYetImplementedValidators(){
+	$("#CCDA_VOCAB_SUMMARY").hide();
+	$("#REF_CCDA_SUMMARY").hide();
+}
 
 function buildCcdaErrorList(data){
 	var errorList = ['<a name="ccdaErrors"/><b>C-CDA Validation Errors:</b>',
