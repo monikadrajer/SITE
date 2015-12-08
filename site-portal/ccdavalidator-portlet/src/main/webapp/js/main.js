@@ -104,43 +104,136 @@ function floorFigure(figure, decimals){
 
 function writeSmartCCDAResultHTML(data){
 	var results = JSON.parse(data);
+	
 	if(results.IsSuccess)
 	{
 		try{
-    		var tablehtml = [];
+			
+			
     		var rubricLookup = results.RubricLookup;
     		var rowtmp = '<tr><td>{label}</td><td>{score}</td><td>{scoreexplain}</td><td>{detail}</td></tr>';
-    		
-    		tablehtml.push('<table class="bordered">');
-    		tablehtml.push('<colgroup>');
-    		tablehtml.push('<col span="1" style="width: 15%;">');
-    		tablehtml.push('<col span="1" style="width: 50px;">');
-    		tablehtml.push('<col span="1" style="width: 15%;">');
-    		tablehtml.push('<col span="1" style="width: 67%;">');
-    		tablehtml.push('</colgroup>');
-    		
-    		tablehtml.push('<thead><tr>');
-    		tablehtml.push('<th>Rubric</th>');
-    		tablehtml.push('<th>Score</th>');
-    		tablehtml.push('<th>Comment</th>');
-    		tablehtml.push('<th>Details</th>');
-    		tablehtml.push('</tr></thead>');
-    		
-    		tablehtml.push('<tbody>');
+			resultsByCategory = {};
 
+			
     		$.each(results.Results, function(i, result) {
     			//look up the label
     			var rowcache = rowtmp;
     			var label = rubricLookup[result.rubric].description;
+    			var category = rubricLookup[result.rubric].category[0];
+    			
+    			var score = 'N/A'
+    			if ("score" in result){
+    				score = result.score;
+    			}
+    			
+    			
+    			var scoreInt = null;
+    			var maxPts = null;	
+    			
+    			if (score !== 'N/A'){
+        			scoreInt = parseInt(score, 10);
+        			maxPts = parseInt(rubricLookup[result.rubric].maxPoints, 10);
+        			score = scoreInt.toString() + '/' + maxPts.toString();	
+    			}
+    			
+    			
     			rowcache = rowcache.replace(/{label}/g, label?label:'N/A');
-    			rowcache = rowcache.replace(/{score}/g, result.score?result.score:'N/A');
-    			var scoreexplaination = (rubricLookup[result.rubric])?(rubricLookup[result.rubric].points)?rubricLookup[result.rubric].points[result.score]:'N/A':'N/A';
-    			rowcache = rowcache.replace(/{scoreexplain}/g, scoreexplaination?scoreexplaination:'N/A');
+    			rowcache = rowcache.replace(/{score}/g, score);
+    			var scoreexplanation = (rubricLookup[result.rubric])?(rubricLookup[result.rubric].points)?rubricLookup[result.rubric].points[result.score]:'N/A':'N/A';
+    			rowcache = rowcache.replace(/{scoreexplain}/g, scoreexplanation?scoreexplanation:'N/A');
     			rowcache = rowcache.replace(/{detail}/g, result.detail?result.detail:'');
-    			tablehtml.push(rowcache);
+    			
+    			var rowResult = {
+    					row : rowcache,
+    					points : scoreInt,
+    					maxPoints : maxPts
+    			};
+    			
+    			
+    			if (category in resultsByCategory){
+    				resultsByCategory[category].push(rowResult);
+    			} else {
+    				resultsByCategory[category] = [];
+    				resultsByCategory[category].push(rowResult);
+    			}
+    			
             });
     		
-    		tablehtml.push('</tbody></table>');
+    		var tablehtml = [];
+    		var totalPoints = 0;
+    		var totalPossiblePoints = 0;
+    			
+    		for (var category in resultsByCategory) {
+    		    if (resultsByCategory.hasOwnProperty(category)) {
+    		        
+    		    	var totalPointsForCategory = 0;
+    		    	var possiblePointsForCategory = 0;
+    		    	
+    		    	var results = resultsByCategory[category];
+    		    	var resultRows = [];
+    		    	
+    		    	$.each(results, function(i, result) {
+    		    	
+    		    		var row = result.row;
+    		    		var points = result.points;
+    		    		var possiblePoints = result.maxPoints;
+    		    		
+    		    		if (points !== null) {
+    		    			
+    		    			totalPointsForCategory += points;
+    		    			possiblePointsForCategory += possiblePoints;
+    		    			
+    		    		}
+    		    		
+    		    		resultRows.push(row);
+    		    	});
+    		    	
+    		    	totalPoints += totalPointsForCategory;
+    		    	totalPossiblePoints += possiblePointsForCategory;
+    		    	var scoreForCategory = totalPointsForCategory / possiblePointsForCategory;
+    		    	
+    		    	tablehtml.push('<h2>');
+    		    	tablehtml.push('<span style="float: left;" >'+ category +'</span>');
+    		    	
+    		    	if (isNaN(scoreForCategory)){
+    		    		tablehtml.push('<span style="float: right;"> N/A </span></h2>');
+    		    	} else {
+    		    		tablehtml.push('<span style="float: right;">'+ Number((scoreForCategory * 100).toFixed(1)) +'% </span></h2>');
+    		    	}
+    		    	
+    		    	tablehtml.push('</h2>');
+    		    	
+            		tablehtml.push('<table class="bordered">');
+            		tablehtml.push('<colgroup>');
+            		tablehtml.push('<col span="1" style="width: 15%;">');
+            		tablehtml.push('<col span="1" style="width: 50px;">');
+            		tablehtml.push('<col span="1" style="width: 15%;">');
+            		tablehtml.push('<col span="1" style="width: 67%;">');
+            		tablehtml.push('</colgroup>');
+            		
+            		tablehtml.push('<thead><tr>');
+            		tablehtml.push('<th>Rubric</th>');
+            		tablehtml.push('<th>Score</th>');
+            		tablehtml.push('<th>Comment</th>');
+            		tablehtml.push('<th>Details</th>');
+            		tablehtml.push('</tr></thead>');
+            		
+            		tablehtml.push('<tbody>');
+            		
+            		for (row in resultRows){
+            			tablehtml.push(resultRows[row]);
+            		}
+            		
+            		tablehtml.push('</tbody></table>');
+            		
+    		    }
+    		}
+    		
+    		
+    		var totalScore = totalPoints / totalPossiblePoints;
+    		var heading = '<h1>Your C-CDA\'s overall score: ' + Number((totalScore * 100).toFixed(1)) + '% </h1>';
+    		tablehtml.unshift(heading);
+    		
     		
     		$("#resultModalTabs a[href='#tabs-3']").show();
     		
@@ -172,8 +265,6 @@ function writeSmartCCDAResultHTML(data){
 
 
 
-
-
 function smartCCDAValidation()
 {
 	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
@@ -183,14 +274,8 @@ function smartCCDAValidation()
 	//TODO: Make one of these for each C-CDA Validator 
 	if ($('#collapseCCDA1_1').hasClass('in')){
 		selector = '#CCDA1ValidationForm';
-	} else if ($('#collapseCCDA2_0').hasClass('in')){
-		selector = '#CCDA2ValidationForm';
-	//} else if ($('#collapseReconciledValidator').hasClass('in')){
-	//	selector = '#CCDAReconciledValidationForm';
-	//} else if ($('#collapseReferenceValidator').hasClass('in')){
-	//	selector = '#CCDAReferenceValidationForm';
-	//} else if ($('#collapseSuperValidator').hasClass('in')){
-	//	selector = '#CCDASuperValidationForm';
+	} else if ($('#collapseCCDA2_0Validator').hasClass('in')){
+		selector = '#CCDAR2_0ValidationForm';
 	} else {
 		
 	}
@@ -274,10 +359,560 @@ function incorpRequired(field, rules, i, options){
 }
 
 
+
+
+function loadSampleTrees(){
+	//loadReferenceCCDAIncorpTree();
+	loadNegativeTestCCDATree();
+	loadReferenceCCDAIncorpTree();
+	loadCCDASamplesFromVendorsTree();
+	loadCCDAReferenceTree();
+	loadCCDAReferenceFileUsedTree();
+}
+
+function loadNegativeTestCCDATree(){
+	
+	$("#negTestccdafiletreepanel").jstree({
+		"json_data" : {
+			"ajax" : {
+				"url" : negativeTestCCDATreeURL,
+				"type" : "post",
+			}
+		},
+		
+		"types" : {
+			
+			"valid_children" : ["all"],
+			"type_attr" : "ref",
+			"types" : {
+				"root" : {
+					"icon" : {
+						"image" : window.currentContextPath + "/images/root.png"
+					},
+					"valid_children" : [ "file","folder" ],
+					"max_depth" : 2,
+					"hover_node" : false,
+					"select_node" : function(e) {
+						this.toggle_node(e);
+						return false;
+					}
+				},
+				"file" : {
+					"icon" : {
+						"image" : window.currentContextPath + "/images/file.png"
+					},
+					"valid_children" : [ "none" ],
+		    		"deselect_node" : function (node,e) {
+		    			  
+		    			 $('#negTestForm .formError').hide(0);
+		    			 
+		    			// var textValue = $('#incorpemail').val();
+			  				$('#negTestForm').trigger('reset');
+			  				$('#negTestCCDAsubmit').unbind("click");
+			  				
+			  				$('#negTestfilePathOutput').empty();
+			  				$('#negTestfilepath').val('');
+			  				
+			  				//$('#incorpemail').val(textValue);
+			  				
+		    		  },
+		    		  
+		    		  "select_node" : function (node,e) {
+		    			  
+		    			  $('#negTestForm .formError').hide(0);
+		    			  //populate the textbox
+		    			  $("#negTestfilepath").val(node.data("serverpath"));
+		    			  
+		    			  $("#negTestfilePathOutput").text($("#negTestfilepath").val());
+		    			 
+		    			  
+		    	    	  //hide the drop down panel
+		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
+		    			  
+		    			  
+		    			  $('#dLabel2').focus();
+		    			  $('#dLabel2').dropdown("toggle");
+		    			  }
+		    			  
+		    		  },
+		    		  "folder" : {
+			    		  "icon" : {
+			    	    	  "image" : window.currentContextPath + "/images/folder.png"
+			    	      },
+			    		  "valid_children" : [ "file" ],
+			    		  "select_node" : function (e) {
+			    	    	  e.find('a:first').focus();
+			    			  this.toggle_node(e);
+			    	    	  return false;
+			    	      }
+			    	  }
+				}
+			},
+			"plugins" : [ "themes", "json_data", "ui", "types" ]
+			}).bind('loaded.jstree', function(e, data) {
+				isfiletreeloaded = true;
+				
+				
+				
+				$('#negTestccdafiletreepanel').find('a').each(function() {
+				    $(this).attr('tabindex', '1');
+				});
+			});
+	
+}
+
+$("#negTestCCDAsubmit").click(function(e) {
+	  
+	  var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+	  	$.blockUI({ css: { 
+	        border: 'none', 
+	        padding: '15px', 
+	        backgroundColor: '#000', 
+	        '-webkit-border-radius': '10px', 
+	        '-moz-border-radius': '10px', 
+	        opacity: .5, 
+	        color: '#fff' 
+  	},
+  	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+		          '<div class="lbl">Preparing your download...</div></div>' });
+	  	
+			$('#negTestForm .formError').hide(0);
+			
+			$.fileDownload($('#negTestForm').attr('action'), {
+				
+				successCallback: function (url) {
+					$.unblockUI(); 
+	            },
+	            failCallback: function (responseHtml, url) {
+	            	alert("Server error:" + responseHtml);
+	            	alert(url);
+	            	$.unblockUI(); 
+	            },
+		        httpMethod: "POST",
+		        data: $('#negTestForm').serialize()
+		    });
+		return false;
+});
+
+function loadReferenceCCDAIncorpTree(){
+	
+	$("#refccdafiletreepanel").jstree({
+		"json_data" : {
+			"ajax" : {
+				"url" : referenceCCDAIncorpTreeURL,
+				"type" : "post",
+			}
+		},
+		
+		"types" : {
+			
+			"valid_children" : ["all"],
+			"type_attr" : "ref",
+			"types" : {
+				"root" : {
+					"icon" : {
+						"image" : window.currentContextPath + "/images/root.png"
+					},
+					"valid_children" : [ "file","folder" ],
+					"max_depth" : 2,
+					"hover_node" : false,
+					"select_node" : function(e) {
+						this.toggle_node(e);
+						return false;
+					}
+				},
+				"file" : {
+					"icon" : {
+						"image" : window.currentContextPath + "/images/file.png"
+					},
+					"valid_children" : [ "none" ],
+		    		"deselect_node" : function (node,e) {
+		    			  
+		    			 $('#refIncorpForm .formError').hide(0);
+		    			 
+		    			// var textValue = $('#incorpemail').val();
+			  				$('#refIncorpForm').trigger('reset');
+			  				$('#refIncorpCCDAsubmit').unbind("click");
+			  				
+			  				$('#refIncorpfilePathOutput').empty();
+			  				$('#refIncorpfilepath').val('');
+			  				
+			  				//$('#incorpemail').val(textValue);
+			  				
+		    		  },
+		    		  
+		    		  "select_node" : function (node,e) {
+		    			  
+		    			  $('#refIncorpForm .formError').hide(0);
+		    			  //populate the textbox
+		    			  $("#refIncorpfilepath").val(node.data("serverpath"));
+		    			  
+		    			  $("#refIncorpfilePathOutput").text($("#refIncorpfilepath").val());
+		    			 
+		    			  
+		    	    	  //hide the drop down panel
+		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
+		    			  
+		    			  
+		    			  $('#dLabel1').focus();
+		    			  $('#dLabel1').dropdown("toggle");
+		    			  }
+		    			  
+		    		  },
+		    		  "folder" : {
+			    		  "icon" : {
+			    	    	  "image" : window.currentContextPath + "/images/folder.png"
+			    	      },
+			    		  "valid_children" : [ "file" ],
+			    		  "select_node" : function (e) {
+			    	    	  e.find('a:first').focus();
+			    			  this.toggle_node(e);
+			    	    	  return false;
+			    	      }
+			    	  }
+				}
+			},
+			"plugins" : [ "themes", "json_data", "ui", "types" ]
+			}).bind('loaded.jstree', function(e, data) {
+				isfiletreeloaded = true;
+				//alert("Loaded Incorp Tree");
+				
+				
+				$('#refccdafiletreepanel').find('a').each(function() {
+				    $(this).attr('tabindex', '1');
+				});
+			});
+	
+}
+
+$("#refIncorpCCDAsubmit").click(function(e) {
+	  
+	  var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+	  	$.blockUI({ css: { 
+	        border: 'none', 
+	        padding: '15px', 
+	        backgroundColor: '#000', 
+	        '-webkit-border-radius': '10px', 
+	        '-moz-border-radius': '10px', 
+	        opacity: .5, 
+	        color: '#fff' 
+  	},
+  	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+		          '<div class="lbl">Preparing your download...</div></div>' });
+	  	
+			$('#refIncorpForm .formError').hide(0);
+			
+		    
+			$.fileDownload($('#refIncorpForm').attr('action'), {
+				
+				successCallback: function (url) {
+					$.unblockUI(); 
+	            },
+	            failCallback: function (responseHtml, url) {
+	            	alert("Server error:" + responseHtml);
+	            	alert(url);
+	            	$.unblockUI(); 
+	            },
+		        httpMethod: "POST",
+		        data: $('#refIncorpForm').serialize()
+		    });
+		return false;
+});
+
+function loadCCDASamplesFromVendorsTree(){
+	$("#ccdafiletreepanel").jstree({
+		 "json_data" : {
+			      "ajax" : {
+				      "url" : sampleCCDATreeURL,
+				      "type" : "post",
+				      /*"data" : function (n) {
+				    	 return { id : n.attr ? n.attr("id") : 0 };
+				      }*/
+				  }
+	      },
+	      
+	      "types" : {
+	    	  "valid_children" : [ "all" ],
+	    	  "type_attr" : "ref",
+	    	  "types" : {
+	    		  "root" : {
+		    	      "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/root.png"
+		    	      },
+		    	      "valid_children" : [ "file","folder" ],
+		    	      "max_depth" : 2,
+		    	      "hover_node" : false,
+		    	      "select_node" : function (e) {
+
+		    	    	  this.toggle_node(e);
+		    	    	  return false;
+		    	      }
+		    	      
+		    	  	},
+		    	  "file" : {
+		    		  "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/file.png"
+		    	      },
+		    		  "valid_children" : [ "none" ],
+		    		  "deselect_node" : function (node,e) {
+		    			  
+		    			  $('#incorpForm .formError').hide(0);
+		    				
+		    			  
+		    			var textValue = $('#incorpemail').val();
+		  				$('#incorpForm').trigger('reset');
+		  				$('#incorpCCDAsubmit').unbind("click");
+		  				
+		  				$('#incorpfilePathOutput').empty();
+		  				$('#incorpfilepath').val('');
+		  				
+		  				$('#incorpemail').val(textValue);
+		    			  
+		    		  },
+		    		  "select_node" : function (node,e) {
+		    			  
+		    			  $('#incorpForm .formError').hide(0);
+		    			  //populate the textbox
+		    			  $("#incorpfilepath").val(node.data("serverpath"));
+		    			  
+		    			  $("#incorpfilePathOutput").text($("#incorpfilepath").val());
+		    			 
+		    			  
+		    	    	  //hide the drop down panel
+		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
+		    			  
+		    			  $('#dLabel').focus();
+		    			  $('#dLabel').dropdown("toggle");
+		    		  }
+		    	  },
+		    	  "folder" : {
+		    		  "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/folder.png"
+		    	      },
+		    		  "valid_children" : [ "file" ],
+		    		  "select_node" : function (e) {
+		    	    	  e.find('a:first').focus();
+		    			  this.toggle_node(e);
+		    	    	  return false;
+		    	      }
+		    	  }
+	    	 }
+	    },
+	    "plugins" : [ "themes", "json_data", "ui", "types" ]
+	}).bind('loaded.jstree', function(e, data) {
+		isfiletreeloaded = true;
+		$('#ccdafiletreepanel').find('a').each(function() {
+		    $(this).attr('tabindex', '1');
+		});
+	});
+}
+
+$("#incorpCCDAsubmit").click(function(e){
+    
+  	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+  	$.blockUI({ css: { 
+        border: 'none', 
+        padding: '15px', 
+        backgroundColor: '#000', 
+        '-webkit-border-radius': '10px', 
+        '-moz-border-radius': '10px', 
+        opacity: .5, 
+        color: '#fff' 
+	},
+	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+	          '<div class="lbl">Preparing your download...</div></div>' });
+  	
+  
+		$('#incorpForm .formError').hide(0);
+		
+	    
+		$.fileDownload($('#incorpForm').attr('action'), {
+			
+			successCallback: function (url) {
+				$.unblockUI(); 
+            },
+            failCallback: function (responseHtml, url) {
+            	alert("Server error:" + responseHtml);
+            	alert(url);
+            	$.unblockUI(); 
+            },
+	        httpMethod: "POST",
+	        data: $('#incorpForm').serialize()
+	    });
+		
+	return false;
+});
+
+function loadCCDAReferenceTree(){
+	
+	$("#referenceDownloadFileTreePanel").jstree({
+		"core" : {
+		    "multiple" : false,
+		    "animation" : 0
+		  },
+		 "json_data" : {
+			      "ajax" : {
+				      "url" : referenceCCDATreeURL,
+				      "type" : "post",
+				  }
+	      },
+	      
+	      "types" : {
+	    	  "valid_children" : [ "all" ],
+	    	  "type_attr" : "ref",
+	    	  "types" : {
+		    	  "file" : {
+		    		  "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/file.png"
+		    	      },
+		    		  "valid_children" : [ "none" ],
+		    		  "deselect_node" : function (node,e) {
+		    			$('#referenceDownloadForm .formError').hide(0);
+		  				$('#referenceDownloadForm').trigger('reset');
+		  				$('#referenceDownloadFormCCDAsubmit').unbind("click");
+		  				$('#referenceDownloadFilePathOutput').empty();
+		  				$('#referenceDownloadFilepath').val('');
+		    		  },
+		    		  "select_node" : function (node,e) {
+		    			  $('#referenceDownloadForm .formError').hide(0);
+		    			  //populate the textbox
+		    			  $("#referenceDownloadFilepath").val(node.data("serverpath"));
+		    			  
+		    			  $("#referenceDownloadFilePathOutput").text($("#referenceDownloadFilepath").val());
+		    			  
+		    	    	  //hide the drop down panel
+		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
+		    			  $('#referenceDownloaddLabel').focus();
+		    			  $('#referenceDownloaddLabel').dropdown("toggle");
+		    		  }
+		    	  }
+	    	 }
+	    },
+	    "plugins" : [ "themes", "json_data", "ui", "types" ]
+	}).bind('loaded.jstree', function(e, data) {
+		isfiletreeloaded = true;
+		$('#referenceDownloadFileTreePanel').find('a').each(function() {
+		    $(this).attr('tabindex', '1');
+		});
+	});
+}
+
+$("#referenceDownloadCCDAsubmit").click(function(e){
+  	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
+  	$.blockUI({ css: { 
+        border: 'none', 
+        padding: '15px', 
+        backgroundColor: '#000', 
+        '-webkit-border-radius': '10px', 
+        '-moz-border-radius': '10px', 
+        opacity: .5, 
+        color: '#fff' 
+	},
+	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
+	          '<div class="lbl">Preparing your download...</div></div>' });
+  	
+	{
+		$('#referenceDownloadForm .formError').hide(0);
+		
+	    
+		$.fileDownload($('#referenceDownloadForm').attr('action'), {
+			
+			successCallback: function (url) {
+				$.unblockUI(); 
+            },
+            failCallback: function (responseHtml, url) {
+            	alert("Server error:" + responseHtml);
+            	alert(url);
+            	$.unblockUI();
+            },
+	        httpMethod: "POST",
+	        data: $('#referenceDownloadForm').serialize()
+	    });
+		
+	}
+	return false;
+});
+
+function loadCCDAReferenceFileUsedTree(){
+	
+	$("#referenceFileUsedTreePanel").jstree({
+		 "json_data" : {
+			      "ajax" : {
+				      "url" : referenceCCDATreeURL,
+				      "type" : "post",
+				  }
+	      },
+	      
+	      "types" : {
+	    	  "valid_children" : [ "all" ],
+	    	  "type_attr" : "ref",
+	    	  "types" : {
+	    		  "root" : {
+		    	      "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/root.png"
+		    	      },
+		    	      "valid_children" : [ "file","folder" ],
+		    	      "max_depth" : 2,
+		    	      "hover_node" : false,
+		    	      "select_node" : function (e) {
+
+		    	    	  this.toggle_node(e);
+		    	    	  return false;
+		    	      }
+		    	      
+		    	  	},
+		    	  "file" : {
+		    		  "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/file.png"
+		    	      },
+		    		  "valid_children" : [ "none" ],
+		    		  "deselect_node" : function (node,e) {
+		    			$('#referenceDownloadForm .formError').hide(0);
+		  				$('#referenceFileUsed').empty();
+		  				$('#referenceFileUsedFilepath').val('');
+		    		  },
+		    		  "select_node" : function (node,e) {
+		    			  $('#CCDAR2_0ValidationForm .formError').hide(0);
+		    			  //populate the textbox
+		    			  $("#referenceFileUsedFilepath").val(node.data("serverpath"));
+		    			
+		    			  
+		    			  $("#referenceFileUsed").text($("#referenceFileUsedFilepath").val());
+		    			  
+		    	    	  //hide the drop down panel
+		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
+		    			  
+		    			  $('#referenceFileUsedLabel').focus();
+		    			  $('#referenceFileUsedLabel').dropdown("toggle");
+		    		  }
+		    	  },
+		    	  "folder" : {
+		    		  "icon" : {
+		    	    	  "image" : window.currentContextPath + "/images/folder.png"
+		    	      },
+		    		  "valid_children" : [ "file" ],
+		    		  "select_node" : function (e) {
+		    	    	  e.find('a:first').focus();
+		    			  this.toggle_node(e);
+		    	    	  return false;
+		    	      }
+		    	  }
+	    	 }
+	    },
+	    "plugins" : [ "themes", "json_data", "ui", "types" ]
+	}).bind('loaded.jstree', function(e, data) {
+		isfiletreeloaded = true;
+		
+		//loadReferenceCCDAIncorpTree();
+		
+		$('#referenceDownloadFileTreePanel').find('a').each(function() {
+		    $(this).attr('tabindex', '1');
+		});
+	});
+}
+
+
 $(function(){
-	
-	
-	
 	$('#smartCCDAValidationBtn').bind('click', function(e, data) {
 		smartCCDAValidation();
 	});
@@ -325,146 +960,5 @@ $(function(){
 	    });
 		
 	});
-	
-	$("#ccdafiletreepanel").jstree({
-		 "json_data" : {
-			      "ajax" : {
-				      "url" : sampleCCDATreeURL,
-				      "type" : "post",
-				      /*"data" : function (n) {
-				    	 return { id : n.attr ? n.attr("id") : 0 };
-				      }*/
-				  }
-	      },
-	      
-	      "types" : {
-	    	  "valid_children" : [ "all" ],
-	    	  "type_attr" : "ref",
-	    	  "types" : {
-	    		  "root" : {
-		    	      "icon" : {
-		    	    	  "image" : window.currentContextPath + "/images/root.png"
-		    	      },
-		    	      "valid_children" : [ "file","folder" ],
-		    	      "max_depth" : 2,
-		    	      "hover_node" : false,
-		    	      "select_node" : function (e) {
-
-		    	    	  this.toggle_node(e);
-		    	    	  return false;
-		    	      }
-		    	      
-		    	  	},
-		    	  "file" : {
-		    		  "icon" : {
-		    	    	  "image" : window.currentContextPath + "/images/file.png"
-		    	      },
-		    		  "valid_children" : [ "none" ],
-		    		  "deselect_node" : function (node,e) {
-		    			  var jform = $('#incorpForm');
-		    			  $('#incorpForm .formError').hide(0);
-		    				
-		    			  
-		    			var textValue = $('#incorpemail').val();
-		  				$('#incorpForm').trigger('reset');
-		  				$('#incorpCCDAsubmit').unbind("click");
-		  				
-		  				$('#incorpfilePathOutput').empty();
-		  				$('#incorpfilepath').val('');
-		  				
-		  				$('#incorpemail').val(textValue);
-		    			  
-		    		  },
-		    		  "select_node" : function (node,e) {
-		    			  //var jform = $('#incorpForm');
-		    			  //jform.validationEngine('hideAll');
-		    			  $('#incorpForm .formError').hide(0);
-		    			  //populate the textbox
-		    			  $("#incorpfilepath").val(node.data("serverpath"));
-		    			
-		    			  
-		    			  $("#incorpfilePathOutput").text($("#incorpfilepath").val());
-		    			 
-		    			  
-		    	    	  //hide the drop down panel
-		    			  $('[data-toggle="dropdown"]').parent().removeClass('open');
-		    			  //hide all the errors
-		    			  //$('#incorpCCDAsubmit').validationEngine('hideAll');
-		    			  
-		    			  $('#dLabel').focus();
-		    			  $('#dLabel').dropdown("toggle");
-		    			  
-		    			  $("#incorpCCDAsubmit").click(function(e){
-		    				    
-		    				  	var ajaximgpath = window.currentContextPath + "/css/ajax-loader.gif";
-		    				  	$.blockUI({ css: { 
-		    				        border: 'none', 
-		    				        padding: '15px', 
-		    				        backgroundColor: '#000', 
-		    				        '-webkit-border-radius': '10px', 
-		    				        '-moz-border-radius': '10px', 
-		    				        opacity: .5, 
-		    				        color: '#fff' 
-		    			    	},
-		    			    	message: '<div class="progressorpanel"><img src="'+ ajaximgpath + '" alt="loading">'+
-		    					          '<div class="lbl">Preparing your download...</div></div>' });
-		    				  	
-		    				  
-		    					var jform = $('#incorpForm');
-		    					jform.validationEngine({promptPosition:"centerRight", validateNonVisibleFields: true, updatePromptsPosition:true});
-		    					if(jform.validationEngine('validate'))
-		    					{
-		    						$('#incorpForm .formError').hide(0);
-		    						
-		    					    
-		    						$.fileDownload($('#incorpForm').attr('action'), {
-		    							
-		    							successCallback: function (url) {
-		    								$.unblockUI(); 
-		    				            },
-		    				            failCallback: function (responseHtml, url) {
-		    				            	alert("Server error:" + responseHtml);
-		    				            	alert(url);
-		    				            	$.unblockUI(); 
-		    				            },
-		    					        httpMethod: "POST",
-		    					        data: $('#incorpForm').serialize()
-		    					    });
-		    						
-		    					}
-		    					else
-		    					{
-		    						$('#incorpForm .formError').show(0);
-		    						
-		    						$('#incorpform .incorpfilepathformError').prependTo('#incorperrorlock');
-		    					}
-		    					
-		    					return false;
-		    				});
-		    			  
-		    		  }
-		    	  },
-		    	  "folder" : {
-		    		  "icon" : {
-		    	    	  "image" : window.currentContextPath + "/images/folder.png"
-		    	      },
-		    		  "valid_children" : [ "file" ],
-		    		  "select_node" : function (e) {
-		    	    	  e.find('a:first').focus();
-		    			  this.toggle_node(e);
-		    	    	  return false;
-		    	      }
-		    	  }
-	    	 }
-	    },
-	    "plugins" : [ "themes", "json_data", "ui", "types" ]
-	}).bind('loaded.jstree', function(e, data) {
-		isfiletreeloaded = true;
-		
-		$('#ccdafiletreepanel').find('a').each(function() {
-		    $(this).attr('tabindex', '1');
-		});
-	});
-	
-	
+	loadSampleTrees();
 });

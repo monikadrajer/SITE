@@ -83,9 +83,15 @@
 		<br/>
 		<div class="well">
 			<form id="XDRSendGetRequestList"  action="${xdrSendGetRequestList}" method="POST">
-			<label for="requestListGrouping">Enter Message Lookup Key:</label>
-				<input type="text" name="requestListGrouping" id="requestListGrouping" class="validate[required,custom[emailOrIp]] form-control" tabindex="1"/>
+				<div class="form-group">
+					<label for="requestListGrouping">Enter Message Lookup Key:</label>
+					<input type="text" name="requestListGrouping" id="requestListGrouping"  tabindex="1" placeholder="Enter your From Address (or IP Address) here." 
+      								data-parsley-required="Message Lookup Key"
+      								data-parsley-ipOrEmail
+									data-parsley-required-message="Message Lookup Key is required." tabindex="1"/>
 				
+					<div id="requestListInfoArea" class="infoArea"></div>
+				</div>
 			<hr />
 				<button id="xdrSendSearchSubmit" type="submit"
 					class="btn btn-primary start" onclick="return false;"  tabindex="1">
@@ -143,10 +149,17 @@
   			<div class="tab-pane active" id="precanned">
   				<div id="precannedFormWrapper">
 			<form id="XDRPrecannedForm"  action="${precannedXDR}" method="POST">
-				
-				<label for="precannedWsdlLocation">Enter Your Endpoint URL:</label>
-				<input type="text" name="precannedWsdlLocation" id="precannedWsdlLocation" class="validate[required,custom[url]] form-control" tabindex="1"/>
-				
+				<div class="form-group">	
+					<label for="precannedWsdlLocation">Enter Your Endpoint URL:</label>
+					<input type="text" class="form-control" name="precannedWsdlLocation" id="precannedWsdlLocation" 
+									placeholder="Enter your Endpoint URL here. http:// ..." 
+      								data-parsley-required="URL"
+      								data-parsley-wsdlUrl
+									data-parsley-required-message="End point is required." tabindex="1" required/>
+					
+					<div id="precannedXdrInfoArea" class="infoArea"></div>
+							
+				</div>
 				<br />
 				
 				<div class="panel-group" id="precannedOptional" role="tablist" aria-multiselectable="true">
@@ -161,19 +174,33 @@
 				    </div>
 				    <div id="precannedOptionalOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="precannedOptionalHeadingOne">
 				      <div class="panel-body">
-				        <label for="precannedFromDirectAddress">Enter Your From Direct Address:</label>
-								<input type="text" name="precannedFromDirectAddress" id="precannedFromDirectAddress" class="validate[custom[email]] form-control" tabindex="1"/>
+								<div class="form-group">
+				        			<label for="precannedFromDirectAddress">Enter Your From Direct Address:</label>
+									<input type="email" name="precannedFromDirectAddress" id="precannedFromDirectAddress" class="form-control"  
+										data-parsley-email 
+										data-parsley-type-message="Direct address format is invalid (hint:example@test.org)" tabindex="1"/>
 								
+									<div id="precannedFromDirectArea" class="infoArea"></div>
+								</div>
 								<br />
-								<label for="precannedToDirectAddress">Enter Your To Direct Address:</label>
-								<input type="text" name="precannedToDirectAddress" id="precannedToDirectAddress" class="validate[custom[email]] form-control" tabindex="1"/>
+								<div class="form-group">
+								
+									<label for="precannedToDirectAddress">Enter Your To Direct Address:</label>
+									<input type="email" name="precannedToDirectAddress" id="precannedToDirectAddress" class="form-control" 
+										data-parsley-email 
+										data-parsley-type-message="Direct address format is invalid (hint:example@test.org)" tabindex="1"/>
 							
+									<div id="precannedToDirectArea" class="infoArea"></div>
+								</div>	
 								<br/>
-								<label for="precannedMessageType">Select an XDR Message Type:</label><br/>
+								<div class="form-group">
+									<label for="precannedMessageType">Select an XDR Message Type:</label><br/>
 									<select id="precannedMessageType" name="precannedMessageType" class="form-control" tabindex="1">
 										<option value="minimal">Minimal XDR Message</option>
 									    <option value="full">Full XDR Message</option>
-						  			</select></div>
+						  			</select>
+						  		</div>
+						  	</div>
 				    </div>
 				  </div>
 				</div>
@@ -190,7 +217,7 @@
 					<div  style="display: inline-block; margin-bottom: 5px; font-weight: bold;">Select a Precanned Sample C-CDA File to Send:</div><br/>
 									<div class="dropdown">
 										<button id="dLabel" data-toggle="dropdown"
-											class="btn btn-success dropdown-toggle validate[funcCall[precannedRequired]]" type="button" 	tabindex="1">
+											class="btn btn-success dropdown-toggle" type="button" 	tabindex="1">
 											Pick Sample <i class="glyphicon glyphicon-play"></i>
 										</button>
 
@@ -203,6 +230,7 @@
 									<div>
 									<span id="precannedfilePathOutput"></span>
 									</div>
+									<div id="precannedInfoArea" class="infoArea"></div>
 					</div>
 					</div>
 				</div>
@@ -221,10 +249,19 @@
   			<div id="uploadFormWrapper">
 			<form id="XDRValidationForm" action="${urlAction}" method="POST" enctype="multipart/form-data">
       	
-			
+				<div class="form-group">
 				<label for="wsdlLocation">Enter Your Endpoint URL:</label>
-				<input type="text" name="wsdlLocation" id="wsdlLocation" class="validate[required,custom[url]] form-control" tabindex="1"/>
+				<input type="text" name="wsdlLocation" id="wsdlLocation" class="form-control" 
+									placeholder="Enter your Endpoint URL here. http:// ..." 
+      								data-parsley-required="URL"
+      								data-parsley-wsdlUrl
+									data-parsley-required-message="End point is required." 
+								    tabindex="1" required/>
+				
+				<div id="uploadedXdrInfoArea" class="infoArea"></div>
+				</div>
 				<br/>
+
 				<div class="panel-group" id="uploadOptional" role="tablist" aria-multiselectable="true">
 				  <div class="panel panel-default">
 				    <div class="panel-heading" role="tab" id="uploadOptionalHeadingOne">
@@ -237,25 +274,37 @@
 				    </div>
 				    <div id="uploadOptionalOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="precannedOptionalHeadingOne">
 				      <div class="panel-body">
-				       <label for="fromDirectAddress">Enter Your From Direct Address:</label>
-						<input type="text" name="fromDirectAddress" id="fromDirectAddress" class="validate[custom[email]] form-control" tabindex="1"/>
+				       <div class="form-group">
+				       		<label for="fromDirectAddress">Enter Your From Direct Address:</label>
+							<input type="email" name="fromDirectAddress" id="fromDirectAddress" 
+										data-parsley-email 
+										data-parsley-type-message="Direct address format is invalid (hint:example@test.org)" tabindex="1"/>
+							<div id="uploadedFromDirectArea" class="infoArea"></div>
+						</div>	
 						
 						<br />
-						<label for="toDirectAddress">Enter Your To Direct Address:</label>
-						<input type="text" name="toDirectAddress" id="toDirectAddress" class="validate[custom[email]] form-control" tabindex="1"/>
-					
+						<div class="form-group">
+							<label for="toDirectAddress">Enter Your To Direct Address:</label>
+							<input type="email" name="toDirectAddress" id="toDirectAddress" 
+										data-parsley-email 
+										data-parsley-type-message="Direct address format is invalid (hint:example@test.org)" tabindex="1"/>
+							<div id="uploadedToDirectArea" class="infoArea"></div>
+						</div>
+									
 						<br/>
+						<div class="form-group">
 						<label for="messageType">Select an XDR Message Type:</label><br/>
 						<select id="messageType" name="messageType" class="form-control" tabindex="1">
 							<option value="minimal">Minimal XDR Message</option>
 						    <option value="full">Full XDR Message</option>
 			  			</select>
+			  			
+			  			</div>
 		  				</div>
 				    </div>
 				  </div>
 				</div>
-				
-			
+
 				
 				<br/><br/>
 			
@@ -263,13 +312,20 @@
 			<div id="ccdauploaderrorlock" style="position: relative;">
 				<div class="row">
 					<div class="col-md-12">
+						<div class="form-group">
 						<label for="fileupload">Select a Local C-CDA File to Send:</label><br/>
 						<span class="btn btn-success fileinput-button" id="fileupload-btn"> <i
 								class="glyphicon glyphicon-plus"></i>&nbsp;<span>Upload C-CDA...</span>
-								<input id="fileupload" type="file" name="file"  class="validate[required, custom[xmlfileextension[xml|XML]], custom[maxCCDAFileSize]]"  tabindex="1"/>
+								<input id="fileupload" type="file" name="file" data-parsley-required 
+											data-parsley-trigger="change" 
+											data-parsley-required-message="Please select a C-CDA file."
+											data-parsley-ccdamaxsize="3" 
+											data-parsley-filetype="xml"
+											tabindex="1"/>
 						</span>
 						<div id="files"></div>
-						
+						<div id="fileuploadInfoArea" class="infoArea"></div>
+						</div>
 					</div>
 					
 					

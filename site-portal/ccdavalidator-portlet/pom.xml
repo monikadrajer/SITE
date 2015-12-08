@@ -232,7 +232,16 @@
 			<artifactId>jsoup</artifactId>
 			<version>1.7.2</version>
 		</dependency>
-		<dependency>
+		<!--  Flying Saucer Dependency Flying-Saucer -> 9.0.7 
+							   ITEXT -> 2.1.7
+							    -->
+	   	<dependency>
+			<groupId>org.xhtmlrenderer</groupId>
+			<artifactId>flying-saucer-pdf</artifactId>
+			<version>9.0.7</version>
+		</dependency> 
+		
+		<!--<dependency>
 			<groupId>com.lowagie</groupId>
 			<artifactId>itext</artifactId>
 			<version>2.0.8</version>
@@ -241,7 +250,7 @@
 			<groupId>org.xhtmlrenderer</groupId>
 			<artifactId>core-renderer</artifactId>
 			<version>R8</version>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>

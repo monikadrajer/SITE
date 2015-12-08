@@ -119,5 +119,5 @@ public class SampleCCDATreeController extends BaseController {
 
 		return new ModelAndView("sampleCCDATreeJsonView", map);
 	}
-
 }
+
